@@ -1,0 +1,36 @@
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1rem 2rem;
+	font-family: var(--font-heading);
+	font-weight: 600;
+	font-size: 1rem;
+	line-height: 1.2;
+	border-radius: var(--radius-xl);
+	text-decoration: none;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	border: 2px solid transparent;
+
+	&--primary {
+		background-color: var(--color-primary);
+		color: var(--color-white);
+
+		&:hover, &:focus-visible {
+			background-color: darken(#007063, 10%); // Note: ideally use CSS color mix or var
+			transform: translateY(-2px);
+			color: var(--color-white);
+		}
+	}
+
+	&--secondary {
+		background-color: var(--color-secondary);
+		color: var(--color-primary);
+
+		&:hover, &:focus-visible {
+			background-color: darken(#F2F6F2, 5%);
+			transform: translateY(-2px);
+		}
+	}
+}

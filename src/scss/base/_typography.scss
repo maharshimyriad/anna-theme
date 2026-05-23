@@ -1,0 +1,29 @@
+@use '../abstracts/mixins' as *;
+
+body {
+	font-family: var(--font-body);
+	color: var(--color-text);
+	line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: var(--font-heading);
+	color: var(--color-primary);
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: var(--space-sm);
+}
+
+h1 {
+	@include fluid-type(40px, 80px);
+	letter-spacing: -0.02em;
+}
+
+h2 {
+	@include fluid-type(32px, 56px);
+	letter-spacing: -0.01em;
+}
+
+p {
+	margin-bottom: var(--space-sm);
+}
