@@ -1,0 +1,186 @@
+/**
+ * Forms Component
+ *
+ * Accessible, premium form styles for all input types.
+ *
+ * @package Anna_Baylis
+ * @since   1.0.0
+ */
+
+/* ── Form group ───────────────────────────────────────────────────────────── */
+.anna-form__group {
+  display:        flex;
+  flex-direction: column;
+  gap:            var(--space-2);
+  margin-bottom:  var(--space-6);
+}
+
+.anna-form__label {
+  font-size:   var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  color:       var(--color-heading);
+  line-height: var(--leading-snug);
+}
+
+.anna-form__label--required::after {
+  content: ' *';
+  color:   var(--color-primary);
+}
+
+/* ── Input base ───────────────────────────────────────────────────────────── */
+.anna-input,
+.anna-textarea,
+.anna-select {
+  width:           100%;
+  padding:         var(--space-3-5) var(--space-5);
+  font-family:     var(--font-body);
+  font-size:       var(--text-base);
+  font-weight:     var(--font-weight-regular);
+  color:           var(--color-text);
+  background:      var(--color-white);
+  border:          1.5px solid var(--color-border);
+  border-radius:   var(--radius-md);
+  line-height:     var(--leading-normal);
+  transition:      border-color var(--transition-fast),
+                   box-shadow   var(--transition-fast),
+                   background   var(--transition-fast);
+  appearance:      none;
+  -webkit-appearance: none;
+}
+
+.anna-input::placeholder,
+.anna-textarea::placeholder {
+  color: var(--color-text-light);
+}
+
+.anna-input:hover,
+.anna-textarea:hover,
+.anna-select:hover {
+  border-color: var(--color-accent);
+}
+
+.anna-input:focus,
+.anna-textarea:focus,
+.anna-select:focus {
+  outline:      none;
+  border-color: var(--color-primary);
+  box-shadow:   0 0 0 3px rgba(0, 112, 99, 0.12);
+  background:   var(--color-off-white);
+}
+
+/* ── Textarea ─────────────────────────────────────────────────────────────── */
+.anna-textarea {
+  min-height:  140px;
+  resize:      vertical;
+  line-height: var(--leading-relaxed);
+}
+
+/* ── Select ───────────────────────────────────────────────────────────────── */
+.anna-select {
+  cursor:              pointer;
+  background-image:    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23007063' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
+  background-repeat:   no-repeat;
+  background-position: right var(--space-5) center;
+  padding-right:       var(--space-10);
+}
+
+/* ── Form hint & error ────────────────────────────────────────────────────── */
+.anna-form__hint {
+  font-size: var(--text-xs);
+  color:     var(--color-text-light);
+}
+
+.anna-form__error {
+  font-size:   var(--text-xs);
+  font-weight: var(--font-weight-medium);
+  color:       #C0392B;
+  display:     flex;
+  align-items: center;
+  gap:         var(--space-1-5);
+}
+
+.anna-input--error,
+.anna-textarea--error {
+  border-color: #C0392B;
+}
+
+.anna-input--error:focus,
+.anna-textarea--error:focus {
+  box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.12);
+}
+
+/* ── Newsletter form inline layout ───────────────────────────────────────── */
+.anna-form--newsletter {
+  display:   flex;
+  gap:       var(--space-3);
+  flex-wrap: wrap;
+}
+
+.anna-form--newsletter .anna-input {
+  flex: 1;
+  min-width: 200px;
+}
+
+/* ── Checkbox & radio ─────────────────────────────────────────────────────── */
+.anna-form__check {
+  display:     flex;
+  align-items: flex-start;
+  gap:         var(--space-3);
+  cursor:      pointer;
+}
+
+.anna-form__check-input {
+  appearance:    none;
+  -webkit-appearance: none;
+  width:         20px;
+  height:        20px;
+  border:        2px solid var(--color-border);
+  border-radius: var(--radius-xs);
+  background:    var(--color-white);
+  flex-shrink:   0;
+  margin-top:    0.15em;
+  cursor:        pointer;
+  transition:    border-color var(--transition-fast),
+                 background   var(--transition-fast);
+  position:      relative;
+}
+
+.anna-form__check-input:checked {
+  background:   var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.anna-form__check-input:checked::after {
+  content:     '';
+  position:    absolute;
+  inset:       3px;
+  background:  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 9'%3E%3Cpath d='M1 4L4.5 7.5L11 1' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E") no-repeat center;
+  background-size: contain;
+}
+
+.anna-form__check-input[type="radio"] {
+  border-radius: var(--radius-full);
+}
+
+.anna-form__check-input[type="radio"]:checked::after {
+  background:    var(--color-white);
+  border-radius: var(--radius-full);
+  inset:         4px;
+}
+
+.anna-form__check-input:focus-visible {
+  outline:        var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.anna-form__check-label {
+  font-size:   var(--text-sm);
+  color:       var(--color-text-muted);
+  line-height: var(--leading-normal);
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .anna-form--newsletter { flex-direction: column; }
+  .anna-form--newsletter .anna-input { width: 100%; }
+}

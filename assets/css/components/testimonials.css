@@ -1,0 +1,178 @@
+/**
+ * Testimonial Component
+ *
+ * Individual testimonial/review card styles.
+ * Section-level carousel styles are in sections/testimonials-section.css
+ *
+ * @package Anna_Baylis
+ * @since   1.0.0
+ */
+
+/* ── Testimonial card ─────────────────────────────────────────────────────── */
+.anna-testimonial {
+  position:        relative;
+  background:      var(--color-white);
+  border-radius:   var(--radius-xl);
+  padding:         var(--space-10) var(--space-8);
+  box-shadow:      var(--shadow-sm);
+  border:          1px solid var(--color-border-soft);
+  display:         flex;
+  flex-direction:  column;
+  gap:             var(--space-6);
+  transition:      box-shadow  var(--transition-slow),
+                   transform   var(--transition-slow),
+                   border-color var(--transition-slow);
+  overflow:        hidden;
+}
+
+.anna-testimonial:hover {
+  box-shadow:   var(--shadow-lg);
+  transform:    translateY(-5px);
+  border-color: rgba(0, 112, 99, 0.15);
+}
+
+/* Decorative quote mark */
+.anna-testimonial::before {
+  content:     '\201C';
+  position:    absolute;
+  top:         var(--space-6);
+  right:       var(--space-8);
+  font-family: var(--font-heading);
+  font-size:   6rem;
+  line-height: 1;
+  color:       rgba(0, 112, 99, 0.07);
+  font-weight: var(--font-weight-bold);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── Rating ───────────────────────────────────────────────────────────────── */
+.anna-testimonial__rating {
+  display: flex;
+}
+
+/* ── Quote text ───────────────────────────────────────────────────────────── */
+.anna-testimonial__quote {
+  font-family:  var(--font-heading);
+  font-size:    var(--text-lg);
+  font-weight:  var(--font-weight-light);
+  font-style:   italic;
+  line-height:  var(--leading-relaxed);
+  color:        var(--color-heading);
+  margin:       0;
+  padding:      0;
+  border:       none;
+  flex:         1;
+  position:     relative;
+  z-index:      1;
+}
+
+/* ── Author block ─────────────────────────────────────────────────────────── */
+.anna-testimonial__author {
+  display:     flex;
+  align-items: center;
+  gap:         var(--space-4);
+  margin-top:  auto;
+}
+
+.anna-testimonial__avatar {
+  width:         56px;
+  height:        56px;
+  border-radius: var(--radius-full);
+  object-fit:    cover;
+  flex-shrink:   0;
+  border:        2px solid var(--color-bg-muted);
+}
+
+.anna-testimonial__avatar--placeholder {
+  background:      var(--color-bg-soft);
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  font-family:     var(--font-heading);
+  font-size:       var(--text-lg);
+  font-weight:     var(--font-weight-semibold);
+  color:           var(--color-primary);
+}
+
+.anna-testimonial__name {
+  font-family: var(--font-heading);
+  font-size:   var(--text-base);
+  font-weight: var(--font-weight-semibold);
+  color:       var(--color-heading);
+  margin:      0;
+  line-height: var(--leading-snug);
+}
+
+.anna-testimonial__role {
+  font-size:  var(--text-xs);
+  color:      var(--color-text-light);
+  margin-top: var(--space-1);
+  display:    block;
+}
+
+/* ── Platform badge ───────────────────────────────────────────────────────── */
+.anna-testimonial__platform {
+  margin-left:  auto;
+  display:      flex;
+  align-items:  center;
+  flex-shrink:  0;
+  opacity:      0.4;
+  transition:   opacity var(--transition-fast);
+}
+
+.anna-testimonial:hover .anna-testimonial__platform {
+  opacity: 0.8;
+}
+
+.anna-testimonial__platform svg {
+  width:  20px;
+  height: 20px;
+}
+
+/* ── Featured (large) variant ─────────────────────────────────────────────── */
+.anna-testimonial--featured {
+  background:     var(--color-bg-soft);
+  padding:        var(--space-12) var(--space-10);
+  border:         none;
+  box-shadow:     none;
+}
+
+.anna-testimonial--featured .anna-testimonial__quote {
+  font-size: var(--text-2xl);
+}
+
+.anna-testimonial--featured:hover {
+  background: var(--color-white);
+  box-shadow: var(--shadow-md);
+}
+
+/* ── Minimal variant ──────────────────────────────────────────────────────── */
+.anna-testimonial--minimal {
+  background:     transparent;
+  box-shadow:     none;
+  border:         none;
+  padding:        var(--space-6) 0;
+  border-top:     1px solid var(--color-border-soft);
+}
+
+.anna-testimonial--minimal:hover {
+  box-shadow:  none;
+  transform:   none;
+  border-color: var(--color-border);
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .anna-testimonial {
+    padding: var(--space-8) var(--space-6);
+  }
+
+  .anna-testimonial--featured {
+    padding: var(--space-8) var(--space-6);
+  }
+
+  .anna-testimonial--featured .anna-testimonial__quote {
+    font-size: var(--text-xl);
+  }
+}

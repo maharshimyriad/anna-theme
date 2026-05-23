@@ -1,0 +1,227 @@
+/**
+ * CSS Design System — Variables
+ *
+ * The single source of truth for all design tokens.
+ * Every value in the theme derives from these properties.
+ * Override any token via the WordPress admin settings panel.
+ *
+ * @package Anna_Baylis
+ * @since   1.0.0
+ */
+
+:root {
+
+  /* ── Brand Colors ─────────────────────────────────────────────────────── */
+  --color-primary:        #007063;
+  --color-primary-dark:   #005549;
+  --color-primary-light:  #009480;
+  --color-accent:         #4CA591;
+  --color-accent-light:   #7DC4B4;
+  --color-white:          #ffffff;
+  --color-off-white:      #fafbfa;
+  --color-bg-soft:        #F2F6F2;
+  --color-bg-muted:       #E8EFEA;
+  --color-surface:        #ffffff;
+  --color-surface-raised: #F8FAF8;
+
+  /* ── Text Colors ──────────────────────────────────────────────────────── */
+  --color-text:           #1A2B25;
+  --color-text-muted:     #4A6460;
+  --color-text-light:     #7A9A95;
+  --color-heading:        #0F1F1B;
+  --color-link:           var(--color-primary);
+  --color-link-hover:     var(--color-primary-dark);
+
+  /* ── UI Colors ────────────────────────────────────────────────────────── */
+  --color-border:         rgba(0, 112, 99, 0.12);
+  --color-border-soft:    rgba(0, 112, 99, 0.06);
+  --color-overlay:        rgba(15, 31, 27, 0.5);
+  --color-focus:          var(--color-accent);
+
+  /* ── Typography ───────────────────────────────────────────────────────── */
+  --font-heading:    'Lexend', system-ui, sans-serif;
+  --font-body:       'Mulish', system-ui, sans-serif;
+  --font-mono:       'Courier New', monospace;
+
+  --font-weight-light:    300;
+  --font-weight-regular:  400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:     700;
+
+  --leading-tight:    1.1;
+  --leading-snug:     1.3;
+  --leading-normal:   1.5;
+  --leading-relaxed:  1.7;
+  --leading-loose:    1.9;
+
+  --tracking-tight:  -0.03em;
+  --tracking-snug:   -0.02em;
+  --tracking-normal:  0;
+  --tracking-wide:    0.04em;
+  --tracking-wider:   0.08em;
+  --tracking-caps:    0.12em;
+
+  /* ── Fluid Type Scale ─────────────────────────────────────────────────── */
+  --text-xs:    clamp(0.70rem,  0.65rem + 0.25vw,  0.80rem);
+  --text-sm:    clamp(0.85rem,  0.80rem + 0.30vw,  0.95rem);
+  --text-base:  clamp(1.00rem,  0.95rem + 0.25vw,  1.10rem);
+  --text-md:    clamp(1.10rem,  1.00rem + 0.50vw,  1.25rem);
+  --text-lg:    clamp(1.20rem,  1.05rem + 0.75vw,  1.50rem);
+  --text-xl:    clamp(1.40rem,  1.15rem + 1.25vw,  1.875rem);
+  --text-2xl:   clamp(1.70rem,  1.35rem + 1.75vw,  2.50rem);
+  --text-3xl:   clamp(2.10rem,  1.60rem + 2.50vw,  3.25rem);
+  --text-4xl:   clamp(2.60rem,  1.90rem + 3.50vw,  4.25rem);
+  --text-5xl:   clamp(3.20rem,  2.20rem + 5.00vw,  5.75rem);
+  --text-6xl:   clamp(3.80rem,  2.50rem + 6.50vw,  7.00rem);
+
+  /* ── Spacing Scale ────────────────────────────────────────────────────── */
+  --space-px:   1px;
+  --space-0-5:  0.125rem;
+  --space-1:    0.25rem;
+  --space-1-5:  0.375rem;
+  --space-2:    0.5rem;
+  --space-2-5:  0.625rem;
+  --space-3:    0.75rem;
+  --space-3-5:  0.875rem;
+  --space-4:    1rem;
+  --space-5:    1.25rem;
+  --space-6:    1.5rem;
+  --space-7:    1.75rem;
+  --space-8:    2rem;
+  --space-9:    2.25rem;
+  --space-10:   2.5rem;
+  --space-11:   2.75rem;
+  --space-12:   3rem;
+  --space-14:   3.5rem;
+  --space-16:   4rem;
+  --space-20:   5rem;
+  --space-24:   6rem;
+  --space-28:   7rem;
+  --space-32:   8rem;
+  --space-36:   9rem;
+  --space-40:   10rem;
+  --space-48:   12rem;
+  --space-56:   14rem;
+  --space-64:   16rem;
+
+  /* ── Fluid Section Padding ────────────────────────────────────────────── */
+  --section-padding-xs:   clamp(2rem,   3.5vw, 3.5rem);
+  --section-padding-sm:   clamp(3rem,   5vw,   5rem);
+  --section-padding-md:   clamp(5rem,   8vw,   8rem);
+  --section-padding-lg:   clamp(6.5rem, 10vw,  11rem);
+  --section-padding-xl:   clamp(8rem,   13vw,  14rem);
+
+  /* ── Container System ─────────────────────────────────────────────────── */
+  --container-max:        1320px;
+  --container-wide:       1440px;
+  --container-narrow:     860px;
+  --container-xs:         640px;
+  --container-padding:    clamp(1.25rem, 5vw, 3rem);
+
+  /* ── Grid ─────────────────────────────────────────────────────────────── */
+  --grid-cols:    12;
+  --grid-gap-sm:  clamp(1rem,   2vw,  1.5rem);
+  --grid-gap-md:  clamp(1.5rem, 3vw,  2.5rem);
+  --grid-gap-lg:  clamp(2rem,   4vw,  4rem);
+
+  /* ── Border Radius ────────────────────────────────────────────────────── */
+  --radius-xs:    0.25rem;
+  --radius-sm:    0.5rem;
+  --radius-md:    0.875rem;
+  --radius-lg:    1.5rem;
+  --radius-xl:    2.5rem;
+  --radius-2xl:   4rem;
+  --radius-full:  9999px;
+
+  /* ── Shadow System ────────────────────────────────────────────────────── */
+  --shadow-xs:    0 1px 3px  rgba(0, 112, 99, 0.06), 0 1px 2px  rgba(0,0,0,0.04);
+  --shadow-sm:    0 2px 8px  rgba(0, 112, 99, 0.07), 0 2px 4px  rgba(0,0,0,0.05);
+  --shadow-md:    0 8px 24px rgba(0, 112, 99, 0.10), 0 4px 8px  rgba(0,0,0,0.06);
+  --shadow-lg:    0 16px 48px rgba(0, 112, 99, 0.13), 0 8px 16px rgba(0,0,0,0.06);
+  --shadow-xl:    0 24px 64px rgba(0, 112, 99, 0.16), 0 12px 24px rgba(0,0,0,0.08);
+  --shadow-2xl:   0 40px 96px rgba(0, 112, 99, 0.20), 0 16px 32px rgba(0,0,0,0.10);
+  --shadow-inset: inset 0 2px 8px rgba(0, 112, 99, 0.08);
+  --shadow-glow:  0 0 40px rgba(76, 165, 145, 0.25);
+
+  /* ── Z-Index Layers ───────────────────────────────────────────────────── */
+  --z-below:   -1;
+  --z-base:     0;
+  --z-raised:   1;
+  --z-above:    10;
+  --z-float:    50;
+  --z-header:   100;
+  --z-dropdown: 150;
+  --z-overlay:  200;
+  --z-modal:    300;
+  --z-toast:    400;
+  --z-max:      999;
+
+  /* ── Transition System ────────────────────────────────────────────────── */
+  --ease-in:       cubic-bezier(0.4, 0, 1, 1);
+  --ease-out:      cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out:   cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth:   cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  --transition-fast:    150ms var(--ease-out);
+  --transition-base:    300ms var(--ease-out);
+  --transition-slow:    500ms var(--ease-in-out);
+  --transition-spring:  600ms var(--ease-spring);
+  --transition-smooth:  400ms var(--ease-smooth);
+
+  /* ── Animation Timing ─────────────────────────────────────────────────── */
+  --anim-duration-fast:   0.35s;
+  --anim-duration-base:   0.65s;
+  --anim-duration-slow:   1.00s;
+  --anim-duration-slower: 1.40s;
+  --anim-stagger:         0.08s;
+  --anim-stagger-slow:    0.15s;
+
+  /* ── Button System ────────────────────────────────────────────────────── */
+  --btn-padding-x-sm:  var(--space-5);
+  --btn-padding-y-sm:  var(--space-2-5);
+  --btn-padding-x-md:  var(--space-8);
+  --btn-padding-y-md:  var(--space-3-5);
+  --btn-padding-x-lg:  var(--space-10);
+  --btn-padding-y-lg:  var(--space-4);
+  --btn-radius:        var(--radius-full);
+  --btn-font-weight:   var(--font-weight-semibold);
+  --btn-font-size:     var(--text-sm);
+  --btn-letter-spacing: 0.02em;
+  --btn-transition:    var(--transition-base);
+
+  /* ── Header ───────────────────────────────────────────────────────────── */
+  --header-height:        5rem;
+  --header-height-scroll: 4rem;
+  --header-bg-transparent: transparent;
+  --header-bg-scrolled:   rgba(255, 255, 255, 0.97);
+  --header-shadow-scrolled: 0 4px 24px rgba(0, 112, 99, 0.08);
+
+  /* ── Card System ──────────────────────────────────────────────────────── */
+  --card-radius:   var(--radius-lg);
+  --card-padding:  var(--space-8);
+  --card-shadow:   var(--shadow-sm);
+  --card-shadow-hover: var(--shadow-lg);
+  --card-transition: var(--transition-slow);
+
+  /* ── Focus Ring ───────────────────────────────────────────────────────── */
+  --focus-ring-width:  3px;
+  --focus-ring-offset: 3px;
+  --focus-ring-color:  var(--color-accent);
+}
+
+/* ── Dark mode readiness (future) ─────────────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Uncomment when dark mode is implemented */
+  }
+}
+
+/* ── High contrast accessibility ─────────────────────────────────────────── */
+@media (prefers-contrast: high) {
+  :root {
+    --color-border: rgba(0, 112, 99, 0.4);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
+  }
+}

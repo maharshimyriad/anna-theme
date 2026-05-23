@@ -1,0 +1,176 @@
+/**
+ * Media Component
+ *
+ * Image figures, video embeds, image compositions,
+ * and media-related patterns.
+ *
+ * @package Anna_Baylis
+ * @since   1.0.0
+ */
+
+/* ── Base figure ──────────────────────────────────────────────────────────── */
+.anna-figure {
+  position: relative;
+  margin:   0;
+  overflow: hidden;
+}
+
+.anna-figure img {
+  display:    block;
+  width:      100%;
+  height:     100%;
+  object-fit: cover;
+}
+
+/* ── Rounded image ────────────────────────────────────────────────────────── */
+.anna-figure--rounded { border-radius: var(--radius-lg); }
+.anna-figure--circle  { border-radius: var(--radius-full); }
+
+/* ── Image with shadow ────────────────────────────────────────────────────── */
+.anna-figure--shadow {
+  box-shadow: var(--shadow-xl);
+}
+
+/* ── Aspect ratio wrappers ────────────────────────────────────────────────── */
+.anna-figure--portrait  { aspect-ratio: 3 / 4; }
+.anna-figure--landscape { aspect-ratio: 16 / 9; }
+.anna-figure--square    { aspect-ratio: 1 / 1; }
+.anna-figure--golden    { aspect-ratio: 1 / 1.618; }
+
+/* ── Hero image composition ───────────────────────────────────────────────── */
+.anna-image-composition {
+  position: relative;
+  display:  grid;
+}
+
+.anna-image-composition__primary {
+  position:      relative;
+  border-radius: var(--radius-xl);
+  overflow:      hidden;
+  box-shadow:    var(--shadow-xl);
+  aspect-ratio:  3 / 4;
+}
+
+.anna-image-composition__primary img {
+  width:       100%;
+  height:      100%;
+  object-fit:  cover;
+  object-position: center top;
+  transition:  transform 0.8s var(--ease-smooth);
+  will-change: transform;
+}
+
+.anna-image-composition:hover .anna-image-composition__primary img {
+  transform: scale(1.03);
+}
+
+/* Floating secondary image */
+.anna-image-composition__secondary {
+  position:      absolute;
+  bottom:        -var(--space-8);
+  left:          -var(--space-8);
+  width:         45%;
+  border-radius: var(--radius-lg);
+  overflow:      hidden;
+  box-shadow:    var(--shadow-lg);
+  border:        4px solid var(--color-white);
+  aspect-ratio:  1;
+  z-index:       var(--z-raised);
+}
+
+.anna-image-composition__secondary img {
+  width:      100%;
+  height:     100%;
+  object-fit: cover;
+}
+
+/* Decorative badge on image */
+.anna-image-composition__badge {
+  position:        absolute;
+  top:             var(--space-6);
+  right:           calc(-1 * var(--space-6));
+  background:      var(--color-white);
+  border-radius:   var(--radius-lg);
+  padding:         var(--space-4) var(--space-6);
+  box-shadow:      var(--shadow-md);
+  text-align:      center;
+  z-index:         var(--z-raised);
+  min-width:       100px;
+}
+
+.anna-image-composition__badge-value {
+  font-family:    var(--font-heading);
+  font-size:      var(--text-3xl);
+  font-weight:    var(--font-weight-bold);
+  color:          var(--color-primary);
+  display:        block;
+  line-height:    1;
+}
+
+.anna-image-composition__badge-label {
+  font-size:   var(--text-xs);
+  color:       var(--color-text-muted);
+  font-weight: var(--font-weight-medium);
+  display:     block;
+  margin-top:  var(--space-1);
+  line-height: var(--leading-snug);
+}
+
+/* ── Decorative background shape ──────────────────────────────────────────── */
+.anna-image-composition__shape {
+  position:      absolute;
+  bottom:        -var(--space-6);
+  right:         -var(--space-6);
+  width:         60%;
+  aspect-ratio:  1;
+  border-radius: var(--radius-full);
+  background:    rgba(0, 112, 99, 0.06);
+  z-index:       var(--z-below);
+}
+
+/* ── Social proof overlay ─────────────────────────────────────────────────── */
+.anna-figure__overlay {
+  position:   absolute;
+  inset:      0;
+  background: linear-gradient(180deg, transparent 50%, rgba(15, 31, 27, 0.5) 100%);
+  border-radius: inherit;
+}
+
+/* ── Figcaption ───────────────────────────────────────────────────────────── */
+.anna-figure figcaption {
+  padding:     var(--space-3) var(--space-4);
+  font-size:   var(--text-xs);
+  color:       var(--color-text-light);
+  font-style:  italic;
+  line-height: var(--leading-relaxed);
+}
+
+/* ── Video embed ──────────────────────────────────────────────────────────── */
+.anna-video-embed {
+  position:      relative;
+  aspect-ratio:  16 / 9;
+  border-radius: var(--radius-lg);
+  overflow:      hidden;
+  background:    var(--color-heading);
+}
+
+.anna-video-embed iframe {
+  position: absolute;
+  inset:    0;
+  width:    100%;
+  height:   100%;
+  border:   none;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .anna-image-composition__secondary {
+    left:   -var(--space-4);
+    bottom: -var(--space-4);
+  }
+
+  .anna-image-composition__badge {
+    right: -var(--space-3);
+    top:   var(--space-4);
+  }
+}

@@ -1,0 +1,172 @@
+/**
+ * Services Section Styles
+ *
+ * @package Anna_Baylis
+ * @since   1.0.0
+ */
+
+/* ── Services section ─────────────────────────────────────────────────────── */
+.anna-services {
+  background: var(--color-white);
+}
+
+.anna-services__header {
+  text-align:    center;
+  max-width:     640px;
+  margin:        0 auto var(--space-16);
+}
+
+.anna-services__heading {
+  font-size:      var(--text-4xl);
+  font-weight:    var(--font-weight-semibold);
+  color:          var(--color-heading);
+  margin:         var(--space-4) 0;
+  letter-spacing: var(--tracking-snug);
+  line-height:    var(--leading-tight);
+}
+
+.anna-services__description {
+  font-size:   var(--text-lg);
+  color:       var(--color-text-muted);
+  line-height: var(--leading-relaxed);
+}
+
+/* ── Category filter ──────────────────────────────────────────────────────── */
+.anna-services__filter {
+  display:         flex;
+  justify-content: center;
+  flex-wrap:       wrap;
+  gap:             var(--space-3);
+  margin-bottom:   var(--space-12);
+  list-style:      none;
+  padding:         0;
+}
+
+.anna-services__filter-btn {
+  padding:        var(--space-2) var(--space-5);
+  border-radius:  var(--radius-full);
+  border:         1.5px solid var(--color-border);
+  background:     transparent;
+  color:          var(--color-text-muted);
+  font-size:      var(--text-sm);
+  font-weight:    var(--font-weight-medium);
+  cursor:         pointer;
+  transition:     all var(--transition-fast);
+  font-family:    var(--font-body);
+}
+
+.anna-services__filter-btn:hover,
+.anna-services__filter-btn.is-active {
+  background:   var(--color-primary);
+  border-color: var(--color-primary);
+  color:        var(--color-white);
+}
+
+.anna-services__filter-btn:focus-visible {
+  outline:        var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* ── Services grid ────────────────────────────────────────────────────────── */
+.anna-services__grid {
+  display:               grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap:                   var(--grid-gap-md);
+}
+
+/* ── Service card (extends .anna-card) ───────────────────────────────────── */
+.anna-service-card {
+  display:        flex;
+  flex-direction: column;
+}
+
+.anna-service-card__icon-wrap {
+  width:           52px;
+  height:          52px;
+  border-radius:   var(--radius-md);
+  background:      rgba(0, 112, 99, 0.08);
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  color:           var(--color-primary);
+  margin-bottom:   var(--space-5);
+  transition:      background var(--transition-base),
+                   transform  var(--transition-spring),
+                   color      var(--transition-base);
+  flex-shrink:     0;
+}
+
+.anna-service-card:hover .anna-service-card__icon-wrap {
+  background: var(--color-primary);
+  color:      var(--color-white);
+  transform:  scale(1.08) rotate(-4deg);
+}
+
+.anna-service-card__icon-wrap svg {
+  width:  26px;
+  height: 26px;
+}
+
+.anna-service-card__title {
+  font-family:  var(--font-heading);
+  font-size:    var(--text-xl);
+  font-weight:  var(--font-weight-semibold);
+  color:        var(--color-heading);
+  margin:       0 0 var(--space-3);
+  line-height:  var(--leading-snug);
+  transition:   color var(--transition-fast);
+}
+
+.anna-service-card:hover .anna-service-card__title { color: var(--color-primary); }
+
+.anna-service-card__excerpt {
+  font-size:    var(--text-base);
+  line-height:  var(--leading-relaxed);
+  color:        var(--color-text-muted);
+  flex:         1;
+  margin:       0 0 var(--space-6);
+}
+
+.anna-service-card__link {
+  display:      inline-flex;
+  align-items:  center;
+  gap:          var(--space-2);
+  font-size:    var(--text-sm);
+  font-weight:  var(--font-weight-semibold);
+  color:        var(--color-primary);
+  text-decoration: none;
+  margin-top:   auto;
+  transition:   gap var(--transition-base),
+                color var(--transition-fast);
+}
+
+.anna-service-card__link:hover {
+  gap:   var(--space-3);
+  color: var(--color-primary-dark);
+}
+
+.anna-service-card__link svg {
+  width:      16px;
+  height:     16px;
+  transition: transform var(--transition-base);
+}
+
+.anna-service-card__link:hover svg { transform: translateX(4px); }
+
+/* Hidden filtered items */
+.anna-service-card.is-hidden {
+  display: none;
+}
+
+/* ── Services footer CTA ──────────────────────────────────────────────────── */
+.anna-services__footer {
+  text-align:  center;
+  margin-top:  var(--space-16);
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .anna-services__grid     { grid-template-columns: 1fr; }
+  .anna-services__heading  { font-size: var(--text-3xl); }
+  .anna-services__header   { margin-bottom: var(--space-10); }
+}

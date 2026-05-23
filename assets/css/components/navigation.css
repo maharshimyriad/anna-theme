@@ -1,0 +1,277 @@
+/**
+ * Navigation Component
+ *
+ * Primary header nav, dropdown menus, mobile nav,
+ * and all navigation sub-patterns.
+ *
+ * @package Anna_Baylis
+ * @since   1.0.0
+ */
+
+/* ── Primary nav ──────────────────────────────────────────────────────────── */
+.anna-nav {
+  display:     flex;
+  align-items: center;
+}
+
+.anna-nav__list {
+  display:     flex;
+  align-items: center;
+  gap:         var(--space-1);
+  list-style:  none;
+  margin:      0;
+  padding:     0;
+}
+
+.anna-nav__item {
+  position: relative;
+}
+
+.anna-nav__link {
+  display:         inline-flex;
+  align-items:     center;
+  gap:             var(--space-1-5);
+  padding:         var(--space-2) var(--space-3-5);
+  font-family:     var(--font-body);
+  font-size:       var(--text-sm);
+  font-weight:     var(--font-weight-medium);
+  color:           var(--color-text);
+  text-decoration: none;
+  border-radius:   var(--radius-sm);
+  white-space:     nowrap;
+  transition:      color      var(--transition-fast),
+                   background var(--transition-fast);
+  position:        relative;
+}
+
+/* Animated underline */
+.anna-nav__link::after {
+  content:          '';
+  position:         absolute;
+  bottom:           4px;
+  left:             var(--space-3-5);
+  right:            var(--space-3-5);
+  height:           2px;
+  background:       var(--color-primary);
+  border-radius:    var(--radius-full);
+  transform:        scaleX(0);
+  transform-origin: center;
+  transition:       transform var(--transition-base);
+}
+
+.anna-nav__link:hover,
+.anna-nav__link:focus-visible {
+  color: var(--color-primary);
+}
+
+.anna-nav__link:hover::after,
+.anna-nav__link:focus-visible::after,
+.anna-nav__item--active > .anna-nav__link::after {
+  transform: scaleX(1);
+}
+
+.anna-nav__item--active > .anna-nav__link {
+  color:       var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.anna-nav__link:focus-visible {
+  outline:        var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* ── Dropdown chevron ─────────────────────────────────────────────────────── */
+.anna-nav__chevron {
+  display:     inline-flex;
+  transition:  transform var(--transition-base);
+  color:       var(--color-text-light);
+  flex-shrink: 0;
+}
+
+.anna-nav__item--has-children:hover > .anna-nav__link .anna-nav__chevron,
+.anna-nav__item--has-children.is-open > .anna-nav__link .anna-nav__chevron {
+  transform: rotate(180deg);
+  color:     var(--color-primary);
+}
+
+/* ── Dropdown menu ────────────────────────────────────────────────────────── */
+.anna-nav__dropdown {
+  position:         absolute;
+  top:              calc(100% + var(--space-3));
+  left:             50%;
+  transform:        translateX(-50%) translateY(8px);
+  min-width:        220px;
+  background:       var(--color-white);
+  border-radius:    var(--radius-lg);
+  box-shadow:       var(--shadow-lg);
+  border:           1px solid var(--color-border-soft);
+  padding:          var(--space-2);
+  list-style:       none;
+  opacity:          0;
+  pointer-events:   none;
+  transition:       opacity   var(--transition-base),
+                    transform var(--transition-base);
+  z-index:          var(--z-dropdown);
+}
+
+.anna-nav__item--has-children:hover > .anna-nav__dropdown,
+.anna-nav__item--has-children.is-open > .anna-nav__dropdown {
+  opacity:        1;
+  pointer-events: auto;
+  transform:      translateX(-50%) translateY(0);
+}
+
+.anna-nav__dropdown .anna-nav__link {
+  display:       block;
+  width:         100%;
+  padding:       var(--space-2-5) var(--space-4);
+  border-radius: var(--radius-sm);
+  font-size:     var(--text-sm);
+}
+
+.anna-nav__dropdown .anna-nav__link::after {
+  display: none;
+}
+
+.anna-nav__dropdown .anna-nav__link:hover {
+  background: var(--color-bg-soft);
+}
+
+/* ── Transparent header nav colors ───────────────────────────────────────────*/
+.anna-header--transparent:not(.is-scrolled) .anna-nav__link {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.anna-header--transparent:not(.is-scrolled) .anna-nav__link:hover,
+.anna-header--transparent:not(.is-scrolled) .anna-nav__item--active > .anna-nav__link {
+  color: var(--color-white);
+}
+
+.anna-header--transparent:not(.is-scrolled) .anna-nav__link::after {
+  background: var(--color-white);
+}
+
+/* ── Mobile menu toggle ───────────────────────────────────────────────────── */
+.anna-mobile-toggle {
+  display:         none;
+  flex-direction:  column;
+  justify-content: center;
+  align-items:     center;
+  width:           44px;
+  height:          44px;
+  border:          none;
+  background:      transparent;
+  cursor:          pointer;
+  padding:         var(--space-2);
+  border-radius:   var(--radius-sm);
+  gap:             6px;
+  transition:      background var(--transition-fast);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.anna-mobile-toggle:hover {
+  background: rgba(0, 112, 99, 0.06);
+}
+
+.anna-mobile-toggle:focus-visible {
+  outline:        var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.anna-mobile-toggle__bar {
+  display:       block;
+  width:         24px;
+  height:        2px;
+  background:    var(--color-heading);
+  border-radius: var(--radius-full);
+  transform-origin: center;
+  transition:    transform var(--transition-base),
+                 opacity   var(--transition-fast),
+                 width     var(--transition-base);
+}
+
+/* Open state (X icon) */
+.anna-mobile-toggle[aria-expanded="true"] .anna-mobile-toggle__bar:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+.anna-mobile-toggle[aria-expanded="true"] .anna-mobile-toggle__bar:nth-child(2) {
+  opacity: 0;
+  width:   0;
+}
+.anna-mobile-toggle[aria-expanded="true"] .anna-mobile-toggle__bar:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Transparent header toggle bars */
+.anna-header--transparent:not(.is-scrolled) .anna-mobile-toggle__bar {
+  background: var(--color-white);
+}
+
+/* ── Mobile nav panel ─────────────────────────────────────────────────────── */
+.anna-mobile-nav {
+  position:         fixed;
+  inset:            0;
+  background:       var(--color-white);
+  z-index:          var(--z-overlay);
+  display:          flex;
+  flex-direction:   column;
+  padding:          var(--space-6) var(--container-padding);
+  padding-top:      calc(var(--header-height) + var(--space-8));
+  overflow-y:       auto;
+  transform:        translateX(100%);
+  transition:       transform var(--transition-slow);
+  visibility:       hidden;
+}
+
+.anna-mobile-nav.is-open {
+  transform:  translateX(0);
+  visibility: visible;
+}
+
+.anna-mobile-nav__list {
+  list-style: none;
+  padding:    0;
+  margin:     0;
+}
+
+.anna-mobile-nav__item {
+  border-bottom: 1px solid var(--color-border-soft);
+}
+
+.anna-mobile-nav__link {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  padding:         var(--space-5) 0;
+  font-family:     var(--font-heading);
+  font-size:       var(--text-xl);
+  font-weight:     var(--font-weight-medium);
+  color:           var(--color-heading);
+  text-decoration: none;
+  transition:      color var(--transition-fast);
+}
+
+.anna-mobile-nav__link:hover,
+.anna-mobile-nav__item--active .anna-mobile-nav__link {
+  color: var(--color-primary);
+}
+
+.anna-mobile-nav__cta {
+  margin-top: var(--space-8);
+}
+
+.anna-mobile-nav__social {
+  margin-top:  auto;
+  padding-top: var(--space-8);
+}
+
+/* ── Show/hide responsive ─────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .anna-nav__list     { display: none; }
+  .anna-mobile-toggle { display: flex; }
+}
+
+@media (min-width: 1025px) {
+  .anna-mobile-nav    { display: none; }
+  .anna-mobile-toggle { display: none; }
+}

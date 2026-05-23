@@ -1,0 +1,229 @@
+/**
+ * Animation System
+ *
+ * CSS-driven animations for elements that don't need GSAP.
+ * All JS-driven GSAP animations start from these initial states.
+ * Respects prefers-reduced-motion at the CSS level.
+ *
+ * @package Anna_Baylis
+ * @since   1.0.0
+ */
+
+/* ── Keyframe definitions ─────────────────────────────────────────────────── */
+
+@keyframes anna-fade-up {
+  from {
+    opacity:   0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity:   1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes anna-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes anna-slide-in-left {
+  from {
+    opacity:   0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity:   1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes anna-slide-in-right {
+  from {
+    opacity:   0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity:   1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes anna-scale-in {
+  from {
+    opacity:   0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity:   1;
+    transform: scale(1);
+  }
+}
+
+@keyframes anna-float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-14px); }
+}
+
+@keyframes anna-float-slow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-8px) rotate(1.5deg); }
+  66%       { transform: translateY(-4px) rotate(-1deg); }
+}
+
+@keyframes anna-pulse-ring {
+  0%   { transform: scale(1);   opacity: 0.6; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+@keyframes anna-shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes anna-spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes anna-gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes anna-line-reveal {
+  from { transform: scaleX(0); transform-origin: left; }
+  to   { transform: scaleX(1); transform-origin: left; }
+}
+
+/* ── Reveal utilities (initial states for GSAP to animate from) ───────────── */
+
+.anna-reveal {
+  opacity:   0;
+  transform: translateY(28px);
+  transition: opacity var(--anim-duration-base) var(--ease-out),
+              transform var(--anim-duration-base) var(--ease-out);
+}
+
+.anna-reveal.is-visible {
+  opacity:   1;
+  transform: translateY(0);
+}
+
+.anna-reveal--left {
+  opacity:   0;
+  transform: translateX(-32px);
+}
+
+.anna-reveal--left.is-visible {
+  opacity:   1;
+  transform: translateX(0);
+}
+
+.anna-reveal--right {
+  opacity:   0;
+  transform: translateX(32px);
+}
+
+.anna-reveal--right.is-visible {
+  opacity:   1;
+  transform: translateX(0);
+}
+
+.anna-reveal--scale {
+  opacity:   0;
+  transform: scale(0.94);
+}
+
+.anna-reveal--scale.is-visible {
+  opacity:   1;
+  transform: scale(1);
+}
+
+/* ── Stagger children ─────────────────────────────────────────────────────── */
+.anna-stagger > * {
+  opacity:   0;
+  transform: translateY(24px);
+  transition: opacity var(--anim-duration-base) var(--ease-out),
+              transform var(--anim-duration-base) var(--ease-out);
+}
+
+.anna-stagger.is-visible > *:nth-child(1)  { transition-delay: calc(0 * var(--anim-stagger));     opacity: 1; transform: none; }
+.anna-stagger.is-visible > *:nth-child(2)  { transition-delay: calc(1 * var(--anim-stagger));     opacity: 1; transform: none; }
+.anna-stagger.is-visible > *:nth-child(3)  { transition-delay: calc(2 * var(--anim-stagger));     opacity: 1; transform: none; }
+.anna-stagger.is-visible > *:nth-child(4)  { transition-delay: calc(3 * var(--anim-stagger));     opacity: 1; transform: none; }
+.anna-stagger.is-visible > *:nth-child(5)  { transition-delay: calc(4 * var(--anim-stagger));     opacity: 1; transform: none; }
+.anna-stagger.is-visible > *:nth-child(6)  { transition-delay: calc(5 * var(--anim-stagger));     opacity: 1; transform: none; }
+.anna-stagger.is-visible > *:nth-child(7)  { transition-delay: calc(6 * var(--anim-stagger));     opacity: 1; transform: none; }
+.anna-stagger.is-visible > *:nth-child(8)  { transition-delay: calc(7 * var(--anim-stagger));     opacity: 1; transform: none; }
+
+/* ── Floating elements ────────────────────────────────────────────────────── */
+.anna-float {
+  animation: anna-float 5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.anna-float--slow {
+  animation: anna-float-slow 8s ease-in-out infinite;
+  will-change: transform;
+}
+
+.anna-float--delayed {
+  animation-delay: 1.5s;
+}
+
+/* ── Shimmer loading placeholder ──────────────────────────────────────────── */
+.anna-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-soft) 25%,
+    var(--color-bg-muted) 50%,
+    var(--color-bg-soft) 75%
+  );
+  background-size: 200% auto;
+  animation: anna-shimmer 1.5s linear infinite;
+}
+
+/* ── Gradient animated background ────────────────────────────────────────── */
+.anna-bg-animated {
+  background: linear-gradient(
+    135deg,
+    var(--color-bg-soft),
+    var(--color-bg-muted),
+    rgba(76, 165, 145, 0.08),
+    var(--color-bg-soft)
+  );
+  background-size: 300% 300%;
+  animation: anna-gradient-shift 12s ease infinite;
+}
+
+/* ── Pulsing ring ─────────────────────────────────────────────────────────── */
+.anna-pulse-ring::before {
+  content:    '';
+  position:   absolute;
+  inset:      -8px;
+  border-radius: inherit;
+  border:     2px solid var(--color-primary);
+  animation:  anna-pulse-ring 2s ease-out infinite;
+}
+
+/* ── Prefers-reduced-motion override ─────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .anna-reveal,
+  .anna-reveal--left,
+  .anna-reveal--right,
+  .anna-reveal--scale,
+  .anna-stagger > * {
+    opacity:    1 !important;
+    transform:  none !important;
+    transition: none !important;
+  }
+
+  .anna-float,
+  .anna-float--slow,
+  .anna-bg-animated,
+  .anna-shimmer {
+    animation: none !important;
+  }
+}

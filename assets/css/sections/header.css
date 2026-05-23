@@ -1,0 +1,126 @@
+/**
+ * Header Section Styles
+ *
+ * Sticky transparent-to-solid header with smooth
+ * scroll transition, accessible focus management.
+ *
+ * @package Anna_Baylis
+ * @since   1.0.0
+ */
+
+/* ── Site header ──────────────────────────────────────────────────────────── */
+.anna-header {
+  position:         fixed;
+  top:              0;
+  left:             0;
+  right:            0;
+  z-index:          var(--z-header);
+  height:           var(--header-height);
+  display:          flex;
+  align-items:      center;
+  background:       var(--header-bg-transparent);
+  transition:       background     0.4s var(--ease-smooth),
+                    box-shadow     0.4s var(--ease-smooth),
+                    height         0.4s var(--ease-smooth),
+                    backdrop-filter 0.4s var(--ease-smooth);
+  will-change:      background, box-shadow;
+}
+
+/* Scrolled state */
+.anna-header.is-scrolled {
+  height:            var(--header-height-scroll);
+  background:        var(--header-bg-scrolled);
+  box-shadow:        var(--header-shadow-scrolled);
+  backdrop-filter:   saturate(1.8) blur(20px);
+  -webkit-backdrop-filter: saturate(1.8) blur(20px);
+}
+
+/* ── Header inner ─────────────────────────────────────────────────────────── */
+.anna-header__inner {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  width:           100%;
+  gap:             var(--space-6);
+}
+
+/* ── Logo area ────────────────────────────────────────────────────────────── */
+.anna-logo {
+  display:         flex;
+  align-items:     center;
+  text-decoration: none;
+  flex-shrink:     0;
+}
+
+.anna-logo__img {
+  height:     2.5rem;
+  width:      auto;
+  transition: opacity var(--transition-fast);
+}
+
+.anna-logo:hover .anna-logo__img {
+  opacity: 0.85;
+}
+
+.anna-logo--text {
+  font-family:    var(--font-heading);
+  font-size:      var(--text-xl);
+  font-weight:    var(--font-weight-bold);
+  color:          var(--color-heading);
+  letter-spacing: var(--tracking-snug);
+  transition:     color var(--transition-fast);
+}
+
+.anna-logo--text:hover {
+  color: var(--color-primary);
+}
+
+/* Transparent header logo color */
+.anna-header--transparent:not(.is-scrolled) .anna-logo--text {
+  color: var(--color-white);
+}
+
+.anna-header--transparent:not(.is-scrolled) .anna-logo--text:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ── Header right side ────────────────────────────────────────────────────── */
+.anna-header__actions {
+  display:     flex;
+  align-items: center;
+  gap:         var(--space-3);
+  flex-shrink: 0;
+}
+
+/* Transparent header CTA */
+.anna-header--transparent:not(.is-scrolled) .anna-header__actions .anna-btn--primary {
+  background:   rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+  color:        var(--color-white);
+  box-shadow:   none;
+  backdrop-filter: blur(8px);
+}
+
+.anna-header--transparent:not(.is-scrolled) .anna-header__actions .anna-btn--primary:hover {
+  background:   rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+/* ── Header placeholder (prevents content jump) ───────────────────────────── */
+.anna-header-placeholder {
+  height: var(--header-height);
+  display: block;
+}
+
+/* When header is transparent over hero, no placeholder needed */
+.anna-is-homepage .anna-header-placeholder {
+  display: none;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .anna-header { height: 4rem; }
+  .anna-header.is-scrolled { height: 3.5rem; }
+  .anna-header-placeholder { height: 4rem; }
+  .anna-logo__img { height: 2rem; }
+}

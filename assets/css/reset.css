@@ -1,0 +1,132 @@
+/**
+ * Modern CSS Reset
+ *
+ * A carefully considered reset that removes browser
+ * inconsistencies while preserving useful defaults.
+ *
+ * @package Anna_Baylis
+ * @since   1.0.0
+ */
+
+/* ── Box sizing ───────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Root & body ──────────────────────────────────────────────────────────── */
+html {
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  hanging-punctuation: first last;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  min-height: 100svh;
+  line-height: var(--leading-normal, 1.5);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ── Media elements ───────────────────────────────────────────────────────── */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+/* ── Form elements ────────────────────────────────────────────────────────── */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+/* ── Typography ───────────────────────────────────────────────────────────── */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* ── Lists ────────────────────────────────────────────────────────────────── */
+ul,
+ol {
+  list-style: none;
+}
+
+/* ── Links ────────────────────────────────────────────────────────────────── */
+a {
+  text-decoration-skip-ink: auto;
+}
+
+/* ── Tables ───────────────────────────────────────────────────────────────── */
+table {
+  border-collapse: collapse;
+}
+
+/* ── Embedded content ─────────────────────────────────────────────────────── */
+iframe {
+  border: none;
+}
+
+/* ── Hidden content ───────────────────────────────────────────────────────── */
+[hidden] {
+  display: none !important;
+}
+
+/* ── Reduce motion globally ───────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

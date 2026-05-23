@@ -1,0 +1,141 @@
+/**
+ * About Section Styles
+ *
+ * @package Anna_Baylis
+ * @since   1.0.0
+ */
+
+.anna-about {
+  background: var(--color-bg-soft);
+  overflow:   hidden;
+}
+
+.anna-about__inner {
+  display:     grid;
+  grid-template-columns: 1fr 1fr;
+  gap:         var(--grid-gap-lg);
+  align-items: center;
+}
+
+/* ── About image side ─────────────────────────────────────────────────────── */
+.anna-about__visual {
+  position: relative;
+}
+
+.anna-about__image-wrap {
+  position:      relative;
+  border-radius: var(--radius-xl);
+  overflow:      hidden;
+  aspect-ratio:  4 / 5;
+  box-shadow:    var(--shadow-xl);
+}
+
+.anna-about__image-wrap img {
+  width:       100%;
+  height:      100%;
+  object-fit:  cover;
+  object-position: center top;
+  transition:  transform 0.9s var(--ease-smooth);
+  will-change: transform;
+}
+
+.anna-about__visual:hover .anna-about__image-wrap img {
+  transform: scale(1.04);
+}
+
+/* Floating accent shape behind image */
+.anna-about__shape {
+  position:       absolute;
+  bottom:         -var(--space-8);
+  left:           -var(--space-8);
+  width:          60%;
+  aspect-ratio:   1;
+  border-radius:  40% 60% 70% 30% / 40% 50% 60% 50%;
+  background:     rgba(0, 112, 99, 0.07);
+  z-index:        var(--z-below);
+  animation:      anna-float-slow 10s ease-in-out infinite;
+}
+
+/* Experience badge overlaid on image */
+.anna-about__badge {
+  position:        absolute;
+  bottom:          var(--space-6);
+  right:           calc(-1 * var(--space-8));
+  background:      var(--color-white);
+  border-radius:   var(--radius-lg);
+  padding:         var(--space-5) var(--space-6);
+  box-shadow:      var(--shadow-lg);
+  text-align:      center;
+  z-index:         var(--z-raised);
+  min-width:       110px;
+}
+
+.anna-about__badge-number {
+  display:        block;
+  font-family:    var(--font-heading);
+  font-size:      var(--text-4xl);
+  font-weight:    var(--font-weight-bold);
+  color:          var(--color-primary);
+  line-height:    1;
+  letter-spacing: var(--tracking-tight);
+}
+
+.anna-about__badge-text {
+  display:     block;
+  font-size:   var(--text-xs);
+  color:       var(--color-text-muted);
+  font-weight: var(--font-weight-medium);
+  margin-top:  var(--space-1);
+  line-height: var(--leading-snug);
+}
+
+/* ── About content side ───────────────────────────────────────────────────── */
+.anna-about__content {
+  display:        flex;
+  flex-direction: column;
+  gap:            var(--space-8);
+}
+
+.anna-about__heading {
+  font-size:      var(--text-4xl);
+  font-weight:    var(--font-weight-semibold);
+  line-height:    var(--leading-tight);
+  color:          var(--color-heading);
+  letter-spacing: var(--tracking-snug);
+  margin:         0;
+}
+
+.anna-about__body {
+  font-size:   var(--text-lg);
+  line-height: var(--leading-loose);
+  color:       var(--color-text-muted);
+}
+
+.anna-about__quote {
+  font-family:  var(--font-heading);
+  font-size:    var(--text-xl);
+  font-style:   italic;
+  font-weight:  var(--font-weight-light);
+  color:        var(--color-primary);
+  padding-left: var(--space-6);
+  border-left:  3px solid var(--color-primary);
+  margin:       0;
+  line-height:  var(--leading-snug);
+}
+
+/* ── Expertise tags ───────────────────────────────────────────────────────── */
+.anna-about__expertise-label {
+  font-size:      var(--text-xs);
+  font-weight:    var(--font-weight-semibold);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color:          var(--color-text-light);
+  margin-bottom:  var(--space-3);
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .anna-about__inner   { grid-template-columns: 1fr; }
+  .anna-about__visual  { display: none; }
+  .anna-about__heading { font-size: var(--text-3xl); }
+}

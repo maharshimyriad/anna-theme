@@ -1,0 +1,141 @@
+/**
+ * Testimonials Section Styles
+ *
+ * @package Anna_Baylis
+ * @since   1.0.0
+ */
+
+.anna-testimonials-section {
+  background:  var(--color-bg-soft);
+  overflow:    hidden;
+}
+
+.anna-testimonials-section__header {
+  display:         flex;
+  align-items:     flex-end;
+  justify-content: space-between;
+  gap:             var(--space-8);
+  margin-bottom:   var(--space-14);
+  flex-wrap:       wrap;
+}
+
+.anna-testimonials-section__heading {
+  font-size:      var(--text-4xl);
+  font-weight:    var(--font-weight-semibold);
+  color:          var(--color-heading);
+  letter-spacing: var(--tracking-snug);
+  line-height:    var(--leading-tight);
+  margin:         0;
+  max-width:      480px;
+}
+
+.anna-testimonials-section__controls {
+  display:     flex;
+  align-items: center;
+  gap:         var(--space-3);
+  flex-shrink: 0;
+}
+
+/* ── Carousel nav buttons ─────────────────────────────────────────────────── */
+.anna-carousel-btn {
+  width:           48px;
+  height:          48px;
+  border-radius:   var(--radius-full);
+  border:          1.5px solid var(--color-border);
+  background:      var(--color-white);
+  color:           var(--color-text-muted);
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  cursor:          pointer;
+  transition:      background   var(--transition-fast),
+                   border-color var(--transition-fast),
+                   color        var(--transition-fast),
+                   transform    var(--transition-spring);
+  flex-shrink:     0;
+}
+
+.anna-carousel-btn:hover {
+  background:   var(--color-primary);
+  border-color: var(--color-primary);
+  color:        var(--color-white);
+  transform:    scale(1.08);
+}
+
+.anna-carousel-btn:focus-visible {
+  outline:        var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.anna-carousel-btn:disabled {
+  opacity:        0.4;
+  cursor:         not-allowed;
+  pointer-events: none;
+}
+
+.anna-carousel-btn svg { width: 20px; height: 20px; }
+
+/* ── Carousel track ───────────────────────────────────────────────────────── */
+.anna-testimonials-track {
+  overflow:    hidden;
+  position:    relative;
+}
+
+.anna-testimonials-inner {
+  display:     flex;
+  gap:         var(--grid-gap-md);
+  transition:  transform 0.6s var(--ease-smooth);
+  will-change: transform;
+}
+
+.anna-testimonials-inner .anna-testimonial {
+  flex:         0 0 calc(33.333% - var(--grid-gap-md) * 2/3);
+  min-width:    0;
+}
+
+/* ── Pagination dots ──────────────────────────────────────────────────────── */
+.anna-carousel-dots {
+  display:         flex;
+  justify-content: center;
+  gap:             var(--space-2);
+  margin-top:      var(--space-10);
+  list-style:      none;
+  padding:         0;
+}
+
+.anna-carousel-dot {
+  width:         8px;
+  height:        8px;
+  border-radius: var(--radius-full);
+  background:    var(--color-border);
+  cursor:        pointer;
+  border:        none;
+  padding:       0;
+  transition:    background var(--transition-base),
+                 width      var(--transition-base),
+                 transform  var(--transition-spring);
+}
+
+.anna-carousel-dot.is-active,
+.anna-carousel-dot:hover {
+  background: var(--color-primary);
+  width:      24px;
+}
+
+.anna-carousel-dot:focus-visible {
+  outline:        var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .anna-testimonials-inner .anna-testimonial {
+    flex-basis: calc(50% - var(--grid-gap-md) / 2);
+  }
+  .anna-testimonials-section__heading { font-size: var(--text-3xl); }
+}
+
+@media (max-width: 768px) {
+  .anna-testimonials-inner .anna-testimonial { flex-basis: 100%; }
+  .anna-testimonials-section__header         { flex-direction: column; align-items: flex-start; }
+}
