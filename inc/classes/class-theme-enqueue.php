@@ -19,11 +19,11 @@ class Anna_Theme_Enqueue {
 			wp_enqueue_script( 'anna-main-js', 'http://localhost:3000/src/js/main.js', array(), null, array('in_footer' => true, 'strategy' => 'defer') );
 		} else {
 			// Production
-			$css_path = get_template_directory_uri() . '/assets/css/main.css';
+			$css_path = get_template_directory_uri() . '/assets/css/style.css';
 			$js_path  = get_template_directory_uri() . '/assets/js/main.js';
 
-			if ( file_exists( get_template_directory() . '/assets/css/main.css' ) ) {
-				wp_enqueue_style( 'anna-style', $css_path, array(), filemtime( get_template_directory() . '/assets/css/main.css' ) );
+			if ( file_exists( get_template_directory() . '/assets/css/style.css' ) ) {
+				wp_enqueue_style( 'anna-style', $css_path, array(), filemtime( get_template_directory() . '/assets/css/style.css' ) );
 			}
 			if ( file_exists( get_template_directory() . '/assets/js/main.js' ) ) {
 				wp_enqueue_script( 'anna-main-js', $js_path, array(), filemtime( get_template_directory() . '/assets/js/main.js' ), array('in_footer' => true, 'strategy' => 'defer') );
