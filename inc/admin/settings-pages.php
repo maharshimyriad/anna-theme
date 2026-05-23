@@ -3,6 +3,8 @@
  * Admin Settings — Pages Registration
  *
  * Registers admin menu pages and renders tab-based settings UI.
+ * Each tab submits a hidden _anna_active_tab field so the sanitizer
+ * knows which fields to update (preserving all other tabs).
  *
  * @package Anna_Baylis
  * @since   1.0.0
@@ -78,6 +80,9 @@ function anna_render_settings_page() {
 		<form method="post" action="options.php" class="anna-admin-form">
 			<?php settings_fields( 'anna_theme_options_group' ); ?>
 
+			<!-- Hidden field: tells the sanitizer which tab was submitted -->
+			<input type="hidden" name="anna_theme_options[_anna_active_tab]" value="<?php echo esc_attr( $active_tab ); ?>">
+
 			<table class="form-table anna-admin-table">
 
 			<?php if ( 'brand' === $active_tab ) : ?>
@@ -112,11 +117,11 @@ function anna_render_settings_page() {
 			<?php elseif ( 'hero' === $active_tab ) : ?>
 				<?php anna_field_heading( __( 'Hero Section', 'anna-baylis' ) ); ?>
 				<?php anna_field_text( 'hero_eyebrow', __( 'Eyebrow Text', 'anna-baylis' ) ); ?>
-				<?php anna_field_textarea( 'hero_heading', __( 'Main Heading', 'anna-baylis' ), __( 'HTML allowed: <em> for emphasis', 'anna-baylis' ) ); ?>
+				<?php anna_field_textarea( 'hero_heading', __( 'Main Heading', 'anna-baylis' ), __( 'HTML allowed: use &lt;em&gt; for gradient emphasis', 'anna-baylis' ) ); ?>
 				<?php anna_field_textarea( 'hero_description', __( 'Description', 'anna-baylis' ) ); ?>
 				<?php anna_field_text( 'hero_trust_text', __( 'Trust Text', 'anna-baylis' ) ); ?>
-				<?php anna_field_media( 'hero_image_id', __( 'Hero Image', 'anna-baylis' ) ); ?>
-				<?php anna_field_heading( __( 'Statistics Cards', 'anna-baylis' ) ); ?>
+				<?php anna_field_media( 'hero_image_id', __( 'Hero Image', 'anna-baylis' ), __( 'Main portrait image shown on the right side of the hero section. Recommended: 800×1000px or larger.', 'anna-baylis' ) ); ?>
+				<?php anna_field_heading( __( 'Statistics Cards', 'anna-baylis' ), __( 'Floating stat cards displayed over the hero image.', 'anna-baylis' ) ); ?>
 				<?php anna_field_text( 'stat_1_value', __( 'Stat 1 Value', 'anna-baylis' ), '', 'text', '500+' ); ?>
 				<?php anna_field_text( 'stat_1_label', __( 'Stat 1 Label', 'anna-baylis' ) ); ?>
 				<?php anna_field_text( 'stat_2_value', __( 'Stat 2 Value', 'anna-baylis' ) ); ?>
@@ -135,30 +140,47 @@ function anna_render_settings_page() {
 				<?php anna_field_toggle( 'section_cta_enabled', __( 'CTA Section', 'anna-baylis' ) ); ?>
 
 			<?php elseif ( 'content' === $active_tab ) : ?>
-				<?php anna_field_heading( __( 'Intro Section', 'anna-baylis' ) ); ?>
+				<?php anna_field_heading( __( 'Intro / Approach Section', 'anna-baylis' ) ); ?>
 				<?php anna_field_text( 'intro_eyebrow', __( 'Eyebrow', 'anna-baylis' ) ); ?>
 				<?php anna_field_textarea( 'intro_quote', __( 'Pull Quote', 'anna-baylis' ) ); ?>
 				<?php anna_field_text( 'intro_quote_cite', __( 'Quote Citation', 'anna-baylis' ) ); ?>
+				<?php anna_field_media( 'intro_image_id', __( 'Intro Section Image', 'anna-baylis' ), __( 'Optional image for the intro section. Recommended: 600×800px.', 'anna-baylis' ) ); ?>
+
+				<?php anna_field_heading( __( 'Recognition Section', 'anna-baylis' ) ); ?>
+				<?php anna_field_text( 'recognition_eyebrow', __( 'Eyebrow', 'anna-baylis' ) ); ?>
+				<?php anna_field_text( 'recognition_heading', __( 'Heading', 'anna-baylis' ) ); ?>
+				<?php anna_field_textarea( 'recognition_description', __( 'Description', 'anna-baylis' ) ); ?>
+				<?php anna_field_media( 'recognition_image_id', __( 'Recognition Section Image', 'anna-baylis' ), __( 'Optional background or accent image. Recommended: 600×600px.', 'anna-baylis' ) ); ?>
+
 				<?php anna_field_heading( __( 'Services Section', 'anna-baylis' ) ); ?>
 				<?php anna_field_text( 'services_eyebrow', __( 'Eyebrow', 'anna-baylis' ) ); ?>
 				<?php anna_field_text( 'services_heading', __( 'Heading', 'anna-baylis' ) ); ?>
 				<?php anna_field_textarea( 'services_description', __( 'Description', 'anna-baylis' ) ); ?>
+				<?php anna_field_text( 'services_cta_text', __( 'CTA Button Text', 'anna-baylis' ) ); ?>
+				<?php anna_field_text( 'services_cta_url', __( 'CTA Button URL', 'anna-baylis' ), '', 'url' ); ?>
+
 				<?php anna_field_heading( __( 'About Section', 'anna-baylis' ) ); ?>
 				<?php anna_field_text( 'about_eyebrow', __( 'Eyebrow', 'anna-baylis' ) ); ?>
-				<?php anna_field_textarea( 'about_heading', __( 'Heading', 'anna-baylis' ), __( 'HTML allowed: <em>', 'anna-baylis' ) ); ?>
-				<?php anna_field_media( 'about_image_id', __( 'About Portrait Image', 'anna-baylis' ) ); ?>
-				<?php anna_field_text( 'about_badge_number', __( 'Badge Number', 'anna-baylis' ), '', 'text', '12+' ); ?>
-				<?php anna_field_text( 'about_badge_text', __( 'Badge Text', 'anna-baylis' ) ); ?>
+				<?php anna_field_textarea( 'about_heading', __( 'Heading', 'anna-baylis' ), __( 'HTML allowed: use &lt;em&gt; for emphasis', 'anna-baylis' ) ); ?>
+				<?php anna_field_textarea( 'about_body', __( 'Body Text', 'anna-baylis' ), __( 'HTML allowed: paragraphs with &lt;p&gt; tags', 'anna-baylis' ), 6 ); ?>
+				<?php anna_field_media( 'about_image_id', __( 'About Portrait Image', 'anna-baylis' ), __( 'Portrait photo shown in the About section. Recommended: 800×1000px.', 'anna-baylis' ) ); ?>
+				<?php anna_field_text( 'about_badge_number', __( 'Experience Badge Number', 'anna-baylis' ), __( 'e.g. "12+" — shown in the floating badge on the image', 'anna-baylis' ), 'text', '12+' ); ?>
+				<?php anna_field_text( 'about_badge_text', __( 'Experience Badge Text', 'anna-baylis' ), '', 'text', 'Years Experience' ); ?>
+				<?php anna_field_textarea( 'about_quote', __( 'Pull Quote', 'anna-baylis' ) ); ?>
+				<?php anna_field_text( 'about_cta_text', __( 'CTA Button Text', 'anna-baylis' ) ); ?>
+				<?php anna_field_text( 'about_cta_url', __( 'CTA Button URL', 'anna-baylis' ), '', 'url' ); ?>
+
 				<?php anna_field_heading( __( 'Testimonials Section', 'anna-baylis' ) ); ?>
 				<?php anna_field_text( 'testimonials_eyebrow', __( 'Eyebrow', 'anna-baylis' ) ); ?>
 				<?php anna_field_text( 'testimonials_heading', __( 'Heading', 'anna-baylis' ) ); ?>
 
 			<?php elseif ( 'cta' === $active_tab ) : ?>
-				<?php anna_field_heading( __( 'Global CTA', 'anna-baylis' ) ); ?>
+				<?php anna_field_heading( __( 'Final CTA Section', 'anna-baylis' ) ); ?>
 				<?php anna_field_text( 'cta_eyebrow', __( 'Eyebrow', 'anna-baylis' ) ); ?>
 				<?php anna_field_text( 'cta_heading', __( 'Heading', 'anna-baylis' ) ); ?>
 				<?php anna_field_textarea( 'cta_description', __( 'Description', 'anna-baylis' ) ); ?>
 				<?php anna_field_text( 'cta_trust', __( 'Trust Text', 'anna-baylis' ) ); ?>
+				<?php anna_field_media( 'cta_image_id', __( 'CTA Background Image', 'anna-baylis' ), __( 'Optional background image for the CTA section. Will overlay the gradient.', 'anna-baylis' ) ); ?>
 				<?php anna_field_heading( __( 'Primary CTA Button', 'anna-baylis' ) ); ?>
 				<?php anna_field_text( 'cta_primary_text', __( 'Button Text', 'anna-baylis' ) ); ?>
 				<?php anna_field_text( 'cta_primary_url', __( 'Button URL', 'anna-baylis' ), '', 'url' ); ?>

@@ -228,9 +228,12 @@ add_action( 'wp_enqueue_scripts', 'anna_enqueue_scripts' );
  */
 function anna_admin_enqueue( $hook ) {
 	// Only load on our theme settings pages.
-	if ( strpos( $hook, 'anna-' ) === false ) {
+	if ( 'toplevel_page_anna-theme-settings' !== $hook ) {
 		return;
 	}
+
+	// Required for the media upload fields.
+	wp_enqueue_media();
 
 	wp_enqueue_style(
 		'anna-admin-settings',

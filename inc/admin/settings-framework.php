@@ -72,6 +72,12 @@ function anna_get_default_options() {
 		'hero_trust_text'      => 'Trusted by 500+ clients worldwide',
 		'hero_image_id'        => '',
 
+		// Intro section image
+		'intro_image_id'       => '',
+
+		// Recognition section image
+		'recognition_image_id' => '',
+
 		// Stats
 		'stat_1_value'         => '500+',
 		'stat_1_label'         => 'Clients Transformed',
@@ -122,6 +128,7 @@ function anna_get_default_options() {
 		'cta_primary_url'      => '#',
 		'cta_secondary_text'   => 'Learn More',
 		'cta_secondary_url'    => '#',
+		'cta_image_id'         => '',
 
 		// Footer
 		'footer_description'   => 'Empowering individuals to discover their true potential through transformative coaching.',
