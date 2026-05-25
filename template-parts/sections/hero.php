@@ -50,12 +50,12 @@ if ( empty( $cta_second['url'] ) || '#' === $cta_second['url'] ) {
 				<?php endif; ?>
 
 				<div class="anna-hero__ctas">
-					<a href="<?php echo esc_url( $cta_primary['url'] ); ?>" class="anna-btn anna-btn--primary anna-btn--lg">
+					<a href="<?php echo esc_url( $cta_primary['url'] ); ?>" class="anna-btn anna-btn--hero-primary anna-btn--lg">
 						<?php echo esc_html( $cta_primary['text'] ); ?>
 					</a>
 					<a href="<?php echo esc_url( $cta_second['url'] ); ?>" class="anna-btn anna-btn--hero-link anna-btn--lg">
 						<?php echo esc_html( $cta_second['text'] ); ?>
-						<span class="anna-btn__icon" aria-hidden="true">-></span>
+						<span class="anna-btn__icon" aria-hidden="true">&rarr;</span>
 					</a>
 				</div>
 
