@@ -10,12 +10,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$heading     = anna_get_option( 'hero_heading', 'You know what to do. <br>You\'re just not doing it.' );
-$description = anna_get_option( 'hero_description', '' );
-$cta_primary = anna_get_cta( 'primary' );
-$cta_second  = anna_get_cta( 'secondary' );
-$hero_image  = anna_get_option( 'hero_image_id', '' );
-$stats       = anna_get_stats();
+$hero_content = anna_get_homepage_hero_content();
+$heading      = $hero_content['heading'];
+$description  = $hero_content['description'];
+$cta_primary  = $hero_content['primary_cta'];
+$cta_second   = $hero_content['secondary_cta'];
+$hero_image   = $hero_content['image_id'];
+$stats        = $hero_content['stats'];
+$hero_eyebrow = $hero_content['eyebrow'];
+$hero_trust   = $hero_content['trust_text'];
 
 if ( empty( $cta_second['text'] ) ) {
 	$cta_second['text'] = __( 'Learn about my approach', 'anna-baylis' );
@@ -37,9 +40,9 @@ if ( empty( $cta_second['url'] ) || '#' === $cta_second['url'] ) {
 	<div class="anna-container anna-container--wide">
 		<div class="anna-hero__inner">
 			<div class="anna-hero__content anna-reveal">
-				<?php if ( anna_get_option( 'hero_eyebrow', '' ) ) : ?>
+				<?php if ( $hero_eyebrow ) : ?>
 					<span class="anna-hero__overline">
-						<?php echo esc_html( anna_get_option( 'hero_eyebrow', '' ) ); ?>
+						<?php echo esc_html( $hero_eyebrow ); ?>
 					</span>
 				<?php endif; ?>
 
@@ -70,8 +73,8 @@ if ( empty( $cta_second['url'] ) || '#' === $cta_second['url'] ) {
 					</ul>
 				<?php endif; ?>
 
-				<?php if ( anna_get_option( 'hero_trust_text', '' ) ) : ?>
-					<p class="anna-hero__trust"><?php echo esc_html( anna_get_option( 'hero_trust_text', '' ) ); ?></p>
+				<?php if ( $hero_trust ) : ?>
+					<p class="anna-hero__trust"><?php echo esc_html( $hero_trust ); ?></p>
 				<?php endif; ?>
 			</div>
 		</div>

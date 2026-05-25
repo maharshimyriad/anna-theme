@@ -25,6 +25,101 @@ function anna_get_option( $key, $default = '' ) {
 }
 
 /**
+ * Get the current page ID used for dynamic content lookup.
+ *
+ * @return int
+ */
+function anna_get_current_page_content_id() {
+	if ( is_front_page() ) {
+		return (int) get_queried_object_id();
+	}
+
+	if ( is_page() || is_singular() ) {
+		return (int) get_queried_object_id();
+	}
+
+	return 0;
+}
+
+/**
+ * Get homepage hero content from page data, falling back to theme options.
+ *
+ * @return array
+ */
+function anna_get_homepage_hero_content() {
+	$defaults = anna_get_default_options();
+	$content  = array(
+		'eyebrow'     => anna_get_option( 'hero_eyebrow', $defaults['hero_eyebrow'] ),
+		'heading'     => anna_get_option( 'hero_heading', $defaults['hero_heading'] ),
+		'description' => anna_get_option( 'hero_description', $defaults['hero_description'] ),
+		'trust_text'  => anna_get_option( 'hero_trust_text', $defaults['hero_trust_text'] ),
+		'image_id'    => absint( anna_get_option( 'hero_image_id', $defaults['hero_image_id'] ) ),
+		'stats'       => anna_get_stats(),
+		'primary_cta' => anna_get_cta( 'primary' ),
+		'secondary_cta' => anna_get_cta( 'secondary' ),
+	);
+
+	$post_id = anna_get_current_page_content_id();
+	if ( $post_id && function_exists( 'anna_content_get_page_section' ) ) {
+		$hero = anna_content_get_page_section( $post_id, 'hero' );
+
+		if ( ! empty( $hero['eyebrow'] ) ) {
+			$content['eyebrow'] = $hero['eyebrow'];
+		}
+
+		if ( ! empty( $hero['heading'] ) ) {
+			$content['heading'] = nl2br( $hero['heading'] );
+		}
+
+		if ( ! empty( $hero['description'] ) ) {
+			$content['description'] = $hero['description'];
+		}
+
+		if ( ! empty( $hero['trust_text'] ) ) {
+			$content['trust_text'] = $hero['trust_text'];
+		}
+
+		if ( ! empty( $hero['image_id'] ) ) {
+			$content['image_id'] = absint( $hero['image_id'] );
+		}
+
+		if ( ! empty( $hero['primary_button_text'] ) ) {
+			$content['primary_cta']['text'] = $hero['primary_button_text'];
+		}
+
+		if ( ! empty( $hero['primary_button_url'] ) ) {
+			$content['primary_cta']['url'] = $hero['primary_button_url'];
+		}
+
+		if ( ! empty( $hero['secondary_button_text'] ) ) {
+			$content['secondary_cta']['text'] = $hero['secondary_button_text'];
+		}
+
+		if ( ! empty( $hero['secondary_button_url'] ) ) {
+			$content['secondary_cta']['url'] = $hero['secondary_button_url'];
+		}
+
+		$stats = array();
+		for ( $i = 1; $i <= 3; $i++ ) {
+			$value = $hero[ 'stat_' . $i . '_value' ] ?? '';
+			$label = $hero[ 'stat_' . $i . '_label' ] ?? '';
+			if ( '' !== $value || '' !== $label ) {
+				$stats[] = array(
+					'value' => $value,
+					'label' => $label,
+				);
+			}
+		}
+
+		if ( ! empty( $stats ) ) {
+			$content['stats'] = $stats;
+		}
+	}
+
+	return $content;
+}
+
+/**
  * Get a newline-separated option as an array of trimmed lines.
  *
  * @param string $key     Option key.
