@@ -17,7 +17,7 @@ $hours   = anna_get_option( 'contact_hours', '' );
 $copy    = anna_get_option( 'copyright_text', '' );
 
 if ( ! $copy ) {
-	$copy = sprintf( '© Copyright %s ABN: 62834308042 Anna Baylis', date( 'Y' ) );
+	$copy = sprintf( 'Copyright %s ABN: 62834308042 Anna Baylis', date( 'Y' ) );
 }
 ?>
 

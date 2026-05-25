@@ -11,6 +11,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $testimonials = anna_get_homepage_testimonials( 3 );
+$heading      = anna_get_option( 'testimonials_heading', '102 five-star Google reviews' );
+$heading_main = $heading;
+$heading_sub  = '';
+
+if ( false !== stripos( $heading, ' Google reviews' ) ) {
+	$heading_main = trim( str_ireplace( 'Google reviews', '', $heading ) );
+	$heading_sub  = 'Google reviews';
+}
+
 $static       = array(
 	array(
 		'quote'  => 'Working with Anna has been profoundly healing. She has helped me build my own inner support system by reconnecting with my younger self and learning how to meet myself with love, compassion and understanding.',
@@ -40,7 +49,12 @@ $static       = array(
 				<?php if ( anna_get_option( 'testimonials_eyebrow', '' ) ) : ?>
 					<span class="anna-eyebrow"><?php echo esc_html( anna_get_option( 'testimonials_eyebrow', '' ) ); ?></span>
 				<?php endif; ?>
-				<h2 class="anna-testimonials-section__heading" id="testimonials-heading"><?php echo esc_html( anna_get_option( 'testimonials_heading', '102 five-star Google reviews' ) ); ?></h2>
+				<h2 class="anna-testimonials-section__heading" id="testimonials-heading">
+					<span class="anna-testimonials-section__heading-main"><?php echo esc_html( $heading_main ); ?></span>
+					<?php if ( $heading_sub ) : ?>
+						<span class="anna-testimonials-section__heading-sub"><?php echo esc_html( $heading_sub ); ?></span>
+					<?php endif; ?>
+				</h2>
 				<?php if ( anna_get_option( 'testimonials_summary', '' ) ) : ?>
 					<p class="anna-testimonials-section__summary"><?php echo esc_html( anna_get_option( 'testimonials_summary', '' ) ); ?></p>
 				<?php endif; ?>

@@ -33,12 +33,16 @@ $cta_s   = anna_get_cta( 'secondary' );
 				<p class="anna-cta__trust"><?php echo esc_html( anna_get_option( 'cta_trust', '' ) ); ?></p>
 			<?php endif; ?>
 
-			<div class="anna-cta__actions">
-				<a href="<?php echo esc_url( $cta_p['url'] ); ?>" class="anna-btn anna-btn--primary anna-btn--lg"><?php echo esc_html( $cta_p['text'] ); ?></a>
-				<?php if ( ! empty( $cta_s['text'] ) ) : ?>
-					<a href="<?php echo esc_url( $cta_s['url'] ); ?>" class="anna-btn anna-btn--ghost anna-btn--lg"><?php echo esc_html( $cta_s['text'] ); ?></a>
-				<?php endif; ?>
-			</div>
+			<?php if ( ! empty( $cta_p['text'] ) || ! empty( $cta_s['text'] ) ) : ?>
+				<div class="anna-cta__actions">
+					<?php if ( ! empty( $cta_p['text'] ) ) : ?>
+						<a href="<?php echo esc_url( $cta_p['url'] ); ?>" class="anna-btn anna-btn--primary anna-btn--lg"><?php echo esc_html( $cta_p['text'] ); ?></a>
+					<?php endif; ?>
+					<?php if ( ! empty( $cta_s['text'] ) ) : ?>
+						<a href="<?php echo esc_url( $cta_s['url'] ); ?>" class="anna-btn anna-btn--ghost anna-btn--lg"><?php echo esc_html( $cta_s['text'] ); ?></a>
+					<?php endif; ?>
+				</div>
+			<?php endif; ?>
 		</div>
 	</div>
 </section>
