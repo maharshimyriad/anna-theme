@@ -23,6 +23,17 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.anna-services__grid > li {
+  min-width: 0;
+}
+
+.anna-services__grid > li .anna-service-card--feature {
+  height: 100%;
 }
 
 .anna-service-card--feature {

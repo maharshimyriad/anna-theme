@@ -48,14 +48,14 @@ $static_services = array(
 			<?php endif; ?>
 		</header>
 
-		<ul class="anna-services__grid anna-stagger" role="list">
+		<ul class="anna-services__grid" role="list">
 			<?php if ( $services->have_posts() ) : ?>
 				<?php
 				$service_index = 1;
 				while ( $services->have_posts() ) :
 					$services->the_post();
 					?>
-					<li>
+					<li class="anna-reveal--scale">
 						<article class="anna-service-card anna-service-card--feature">
 							<span class="anna-service-card__number"><?php echo esc_html( str_pad( (string) $service_index, 2, '0', STR_PAD_LEFT ) ); ?></span>
 							<h3 class="anna-service-card__title"><?php the_title(); ?></h3>
@@ -70,7 +70,7 @@ $static_services = array(
 				?>
 			<?php else : ?>
 				<?php foreach ( $static_services as $service ) : ?>
-					<li>
+					<li class="anna-reveal--scale">
 						<article class="anna-service-card anna-service-card--feature">
 							<span class="anna-service-card__number"><?php echo esc_html( $service['number'] ); ?></span>
 							<h3 class="anna-service-card__title"><?php echo esc_html( $service['title'] ); ?></h3>
