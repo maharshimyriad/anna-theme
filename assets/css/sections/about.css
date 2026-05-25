@@ -111,6 +111,10 @@
   color:       #59656f;
 }
 
+.anna-about__quote{
+  border-left-width: thick;
+}
+
 .anna-about__quote p{
   font-family:  var(--font-heading);
   font-size:    var(--text-xl);
@@ -118,7 +122,6 @@
   font-weight:  var(--font-weight-regular);
   color:        #63b5a8;
   padding-left: var(--space-6);
-  border-left:  3px solid #0b7f74;
   margin:       0;
   line-height:  var(--leading-snug);
 }
