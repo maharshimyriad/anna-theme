@@ -36,6 +36,7 @@ add_action( 'admin_init', 'anna_register_settings' );
  */
 function anna_get_default_options() {
 	return array(
+		'site_logo_id'        => '',
 		'color_primary'       => '#007063',
 		'color_accent'        => '#4CA591',
 		'color_bg_soft'       => '#F2F6F2',

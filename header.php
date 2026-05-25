@@ -82,6 +82,18 @@ if ( anna_has_transparent_header() ) {
 
 	<!-- Mobile Navigation Panel -->
 	<nav class="anna-mobile-nav" id="mobile-navigation" role="navigation" aria-label="<?php esc_attr_e( 'Mobile Navigation', 'anna-baylis' ); ?>" aria-hidden="true">
+		<div class="anna-mobile-nav__header">
+			<?php anna_site_logo( 'header' ); ?>
+			<button
+				type="button"
+				class="anna-mobile-nav__close"
+				id="mobile-menu-close"
+				aria-label="<?php esc_attr_e( 'Close menu', 'anna-baylis' ); ?>"
+			>
+				<span class="anna-mobile-nav__close-line"></span>
+				<span class="anna-mobile-nav__close-line"></span>
+			</button>
+		</div>
 		<?php
 		if ( has_nav_menu( 'mobile' ) ) {
 			wp_nav_menu(

@@ -85,12 +85,27 @@ function anna_body_classes( $classes ) {
 add_filter( 'body_class', 'anna_body_classes' );
 
 /**
+ * Resolve the preferred site logo attachment ID.
+ *
+ * @return int
+ */
+function anna_get_site_logo_id() {
+	$theme_logo_id = absint( anna_get_option( 'site_logo_id', 0 ) );
+
+	if ( $theme_logo_id ) {
+		return $theme_logo_id;
+	}
+
+	return absint( get_theme_mod( 'custom_logo' ) );
+}
+
+/**
  * Outputs the correct logo markup — custom logo or site title.
  *
  * @param string $context 'header' or 'footer'.
  */
 function anna_site_logo( $context = 'header' ) {
-	$custom_logo_id = get_theme_mod( 'custom_logo' );
+	$custom_logo_id = anna_get_site_logo_id();
 
 	if ( $custom_logo_id ) {
 		$logo_src = wp_get_attachment_image_src( $custom_logo_id, 'full' );

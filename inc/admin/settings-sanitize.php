@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function anna_get_tab_fields_map() {
 	return array(
 		'brand' => array(
+			'site_logo_id',
 			'color_primary', 'color_accent', 'color_bg_soft', 'color_text', 'color_heading',
 		),
 		'typography' => array(
@@ -97,7 +98,7 @@ function anna_sanitize_single_option( $key, $value ) {
 		return sanitize_textarea_field( $value );
 	}
 
-	$int_fields = array( 'hero_image_id', 'about_image_id', 'intro_image_id', 'recognition_image_id', 'cta_image_id', 'seo_og_image_id' );
+	$int_fields = array( 'site_logo_id', 'hero_image_id', 'about_image_id', 'intro_image_id', 'recognition_image_id', 'cta_image_id', 'seo_og_image_id' );
 	if ( in_array( $key, $int_fields, true ) ) {
 		return absint( $value );
 	}
@@ -140,7 +141,7 @@ function anna_sanitize_options( $input ) {
 	$tab_fields_map = anna_get_tab_fields_map();
 	$active_tab     = isset( $input['_anna_active_tab'] ) ? sanitize_key( $input['_anna_active_tab'] ) : '';
 	$sanitized      = wp_parse_args( $existing, $defaults );
-	$int_fields     = array( 'hero_image_id', 'about_image_id', 'intro_image_id', 'recognition_image_id', 'cta_image_id', 'seo_og_image_id' );
+	$int_fields     = array( 'site_logo_id', 'hero_image_id', 'about_image_id', 'intro_image_id', 'recognition_image_id', 'cta_image_id', 'seo_og_image_id' );
 	$bool_fields    = array(
 		'animations_enabled',
 		'section_hero_enabled', 'section_intro_enabled', 'section_recognition_enabled',

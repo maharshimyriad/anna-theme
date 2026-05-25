@@ -12,6 +12,7 @@
 
   var toggle  = document.getElementById('mobile-menu-toggle');
   var nav     = document.getElementById('mobile-navigation');
+  var closeBtn = document.getElementById('mobile-menu-close');
   var isOpen  = false;
 
   if (!toggle || !nav) return;
@@ -42,6 +43,12 @@
   toggle.addEventListener('click', function () {
     isOpen ? closeMenu() : openMenu();
   });
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', function () {
+      closeMenu();
+    });
+  }
 
   // Close on Escape.
   document.addEventListener('keydown', function (e) {

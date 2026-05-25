@@ -145,6 +145,8 @@ function anna_render_settings_page() {
 
 			<table class="form-table anna-admin-table">
 				<?php if ( 'brand' === $active_tab ) : ?>
+					<?php anna_field_heading( __( 'Brand Identity', 'anna-baylis' ) ); ?>
+					<?php anna_field_media( 'site_logo_id', __( 'Site Logo', 'anna-baylis' ), __( 'Used across the header, mobile menu, and footer. Falls back to the WordPress custom logo if left empty.', 'anna-baylis' ) ); ?>
 					<?php anna_field_heading( __( 'Brand Colors', 'anna-baylis' ) ); ?>
 					<?php anna_field_color( 'color_primary', __( 'Primary Deep Green', 'anna-baylis' ), '#007063' ); ?>
 					<?php anna_field_color( 'color_accent', __( 'Accent Green', 'anna-baylis' ), '#4CA591' ); ?>
