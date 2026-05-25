@@ -9,6 +9,37 @@
   max-width: 1200px;
 }
 
+.anna-admin-toast {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 9999;
+  min-width: 260px;
+  max-width: 420px;
+  padding: 14px 18px;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14);
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.anna-admin-toast.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.anna-admin-toast--success {
+  background: #007063;
+}
+
+.anna-admin-toast--error {
+  background: #b42318;
+}
+
 .anna-admin-title {
   display:     flex;
   align-items: center;

@@ -111,8 +111,29 @@ function anna_render_settings_page() {
 	$tabs       = anna_get_settings_tabs();
 	$active_tab = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : 'brand';
 	$social     = anna_get_social_links();
+	$toast_type = '';
+	$toast_text = '';
+
+	if ( isset( $_GET['settings-updated'] ) && 'true' === sanitize_text_field( wp_unslash( $_GET['settings-updated'] ) ) ) {
+		$toast_type = 'success';
+		$toast_text = __( 'Theme settings saved successfully.', 'anna-baylis' );
+	}
+
+	$settings_messages = get_settings_errors( 'anna_theme_options' );
+	if ( ! empty( $settings_messages ) ) {
+		$last_message = end( $settings_messages );
+		if ( ! empty( $last_message['message'] ) ) {
+			$toast_type = 'error' === $last_message['type'] ? 'error' : 'success';
+			$toast_text = wp_strip_all_tags( $last_message['message'] );
+		}
+	}
 	?>
 	<div class="wrap anna-admin-wrap">
+		<?php if ( $toast_text ) : ?>
+			<div class="anna-admin-toast anna-admin-toast--<?php echo esc_attr( $toast_type ); ?>" data-anna-toast="true" role="status" aria-live="polite">
+				<?php echo esc_html( $toast_text ); ?>
+			</div>
+		<?php endif; ?>
 		<h1 class="anna-admin-title">
 			<span class="anna-admin-logo">*</span>
 			<?php esc_html_e( 'Anna Baylis - Theme Settings', 'anna-baylis' ); ?>

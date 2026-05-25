@@ -196,27 +196,7 @@ final class Anna_Content_Manager {
 	public function render_hero_meta_box( $post ) {
 		wp_nonce_field( 'anna_content_save_page', 'anna_content_page_nonce' );
 
-		$data = $this->get_page_section( $post->ID, 'hero' );
-		$data = wp_parse_args(
-			$data,
-			array(
-				'eyebrow'               => '',
-				'heading'               => '',
-				'description'           => '',
-				'trust_text'            => '',
-				'image_id'              => 0,
-				'primary_button_text'   => '',
-				'primary_button_url'    => '',
-				'secondary_button_text' => '',
-				'secondary_button_url'  => '',
-				'stat_1_value'          => '',
-				'stat_1_label'          => '',
-				'stat_2_value'          => '',
-				'stat_2_label'          => '',
-				'stat_3_value'          => '',
-				'stat_3_label'          => '',
-			)
-		);
+		$data = $this->get_section_with_legacy_defaults( $post->ID, 'hero' );
 
 		$image_url = ! empty( $data['image_id'] ) ? wp_get_attachment_image_url( absint( $data['image_id'] ), 'medium' ) : '';
 		?>
@@ -301,20 +281,7 @@ final class Anna_Content_Manager {
 	 * @param WP_Post $post Post object.
 	 */
 	public function render_intro_meta_box( $post ) {
-		$data = wp_parse_args(
-			$this->get_page_section( $post->ID, 'intro' ),
-			array(
-				'intro_eyebrow'            => '',
-				'intro_heading'            => '',
-				'intro_body'               => '',
-				'intro_quote'              => '',
-				'intro_quote_cite'         => '',
-				'recognition_eyebrow'      => '',
-				'recognition_heading'      => '',
-				'recognition_description'  => '',
-				'recognition_items_text'   => '',
-			)
-		);
+		$data = $this->get_section_with_legacy_defaults( $post->ID, 'intro' );
 		?>
 		<table class="form-table">
 			<tr><th scope="row"><label for="anna-content-intro-eyebrow"><?php esc_html_e( 'Intro Eyebrow', 'anna-baylis' ); ?></label></th><td><input type="text" id="anna-content-intro-eyebrow" name="anna_content_intro[intro_eyebrow]" value="<?php echo esc_attr( $data['intro_eyebrow'] ); ?>" class="regular-text"></td></tr>
@@ -339,16 +306,7 @@ final class Anna_Content_Manager {
 	 * @param WP_Post $post Post object.
 	 */
 	public function render_services_meta_box( $post ) {
-		$data = wp_parse_args(
-			$this->get_page_section( $post->ID, 'services' ),
-			array(
-				'eyebrow'  => '',
-				'heading'  => '',
-				'description' => '',
-				'cta_text' => '',
-				'cta_url'  => '',
-			)
-		);
+		$data = $this->get_section_with_legacy_defaults( $post->ID, 'services' );
 		?>
 		<table class="form-table">
 			<tr><th scope="row"><label for="anna-content-services-eyebrow"><?php esc_html_e( 'Eyebrow', 'anna-baylis' ); ?></label></th><td><input type="text" id="anna-content-services-eyebrow" name="anna_content_services[eyebrow]" value="<?php echo esc_attr( $data['eyebrow'] ); ?>" class="regular-text"></td></tr>
@@ -367,21 +325,7 @@ final class Anna_Content_Manager {
 	 * @param WP_Post $post Post object.
 	 */
 	public function render_about_meta_box( $post ) {
-		$data = wp_parse_args(
-			$this->get_page_section( $post->ID, 'about' ),
-			array(
-				'eyebrow'        => '',
-				'heading'        => '',
-				'body'           => '',
-				'quote'          => '',
-				'image_id'       => 0,
-				'badge_number'   => '',
-				'badge_text'     => '',
-				'expertise_text' => '',
-				'cta_text'       => '',
-				'cta_url'        => '',
-			)
-		);
+		$data = $this->get_section_with_legacy_defaults( $post->ID, 'about' );
 		$image_url = ! empty( $data['image_id'] ) ? wp_get_attachment_image_url( absint( $data['image_id'] ), 'medium' ) : '';
 		?>
 		<table class="form-table">
@@ -405,16 +349,7 @@ final class Anna_Content_Manager {
 	 * @param WP_Post $post Post object.
 	 */
 	public function render_testimonials_meta_box( $post ) {
-		$data = wp_parse_args(
-			$this->get_page_section( $post->ID, 'testimonials' ),
-			array(
-				'eyebrow'     => '',
-				'heading'     => '',
-				'summary'     => '',
-				'cta_text'    => '',
-				'cta_url'     => '',
-			)
-		);
+		$data = $this->get_section_with_legacy_defaults( $post->ID, 'testimonials' );
 		?>
 		<table class="form-table">
 			<tr><th scope="row"><label for="anna-content-testimonials-eyebrow"><?php esc_html_e( 'Eyebrow', 'anna-baylis' ); ?></label></th><td><input type="text" id="anna-content-testimonials-eyebrow" name="anna_content_testimonials[eyebrow]" value="<?php echo esc_attr( $data['eyebrow'] ); ?>" class="regular-text"></td></tr>
@@ -433,19 +368,7 @@ final class Anna_Content_Manager {
 	 * @param WP_Post $post Post object.
 	 */
 	public function render_cta_meta_box( $post ) {
-		$data = wp_parse_args(
-			$this->get_page_section( $post->ID, 'cta' ),
-			array(
-				'eyebrow'               => '',
-				'heading'               => '',
-				'description'           => '',
-				'trust_text'            => '',
-				'primary_button_text'   => '',
-				'primary_button_url'    => '',
-				'secondary_button_text' => '',
-				'secondary_button_url'  => '',
-			)
-		);
+		$data = $this->get_section_with_legacy_defaults( $post->ID, 'cta' );
 		?>
 		<table class="form-table">
 			<tr><th scope="row"><label for="anna-content-cta-eyebrow"><?php esc_html_e( 'Eyebrow', 'anna-baylis' ); ?></label></th><td><input type="text" id="anna-content-cta-eyebrow" name="anna_content_cta[eyebrow]" value="<?php echo esc_attr( $data['eyebrow'] ); ?>" class="regular-text"></td></tr>
@@ -605,6 +528,106 @@ final class Anna_Content_Manager {
 
 		$data = get_post_meta( $post_id, '_anna_content_' . sanitize_key( $section ), true );
 		return is_array( $data ) ? $data : array();
+	}
+
+	/**
+	 * Get page section data with legacy theme option fallback.
+	 *
+	 * @param int    $post_id Post ID.
+	 * @param string $section Section key.
+	 * @return array
+	 */
+	private function get_section_with_legacy_defaults( $post_id, $section ) {
+		$stored = $this->get_page_section( $post_id, $section );
+		$legacy = $this->get_legacy_section_defaults( $section );
+
+		return wp_parse_args( $stored, $legacy );
+	}
+
+	/**
+	 * Get legacy theme-option defaults for a section.
+	 *
+	 * @param string $section Section key.
+	 * @return array
+	 */
+	private function get_legacy_section_defaults( $section ) {
+		$options = get_option( 'anna_theme_options', array() );
+		$options = is_array( $options ) ? $options : array();
+
+		switch ( $section ) {
+			case 'hero':
+				return array(
+					'eyebrow'               => $options['hero_eyebrow'] ?? '',
+					'heading'               => isset( $options['hero_heading'] ) ? wp_strip_all_tags( str_replace( '<br>', "\n", (string) $options['hero_heading'] ) ) : '',
+					'description'           => $options['hero_description'] ?? '',
+					'trust_text'            => $options['hero_trust_text'] ?? '',
+					'image_id'              => absint( $options['hero_image_id'] ?? 0 ),
+					'primary_button_text'   => $options['cta_primary_text'] ?? '',
+					'primary_button_url'    => $options['cta_primary_url'] ?? '',
+					'secondary_button_text' => $options['cta_secondary_text'] ?? '',
+					'secondary_button_url'  => $options['cta_secondary_url'] ?? '',
+					'stat_1_value'          => $options['stat_1_value'] ?? '',
+					'stat_1_label'          => $options['stat_1_label'] ?? '',
+					'stat_2_value'          => $options['stat_2_value'] ?? '',
+					'stat_2_label'          => $options['stat_2_label'] ?? '',
+					'stat_3_value'          => $options['stat_3_value'] ?? '',
+					'stat_3_label'          => $options['stat_3_label'] ?? '',
+				);
+			case 'intro':
+				return array(
+					'intro_eyebrow'           => $options['intro_eyebrow'] ?? '',
+					'intro_heading'           => isset( $options['intro_heading'] ) ? wp_strip_all_tags( (string) $options['intro_heading'] ) : '',
+					'intro_body'              => $options['intro_body'] ?? '',
+					'intro_quote'             => $options['intro_quote'] ?? '',
+					'intro_quote_cite'        => $options['intro_quote_cite'] ?? '',
+					'recognition_eyebrow'     => $options['recognition_eyebrow'] ?? '',
+					'recognition_heading'     => $options['recognition_heading'] ?? '',
+					'recognition_description' => $options['recognition_description'] ?? '',
+					'recognition_items_text'  => $options['recognition_items_text'] ?? '',
+				);
+			case 'services':
+				return array(
+					'eyebrow'     => $options['services_eyebrow'] ?? '',
+					'heading'     => $options['services_heading'] ?? '',
+					'description' => $options['services_description'] ?? '',
+					'cta_text'    => $options['services_cta_text'] ?? '',
+					'cta_url'     => $options['services_cta_url'] ?? '',
+				);
+			case 'about':
+				return array(
+					'eyebrow'        => $options['about_eyebrow'] ?? '',
+					'heading'        => isset( $options['about_heading'] ) ? wp_strip_all_tags( (string) $options['about_heading'] ) : '',
+					'body'           => $options['about_body'] ?? '',
+					'quote'          => $options['about_quote'] ?? '',
+					'image_id'       => absint( $options['about_image_id'] ?? 0 ),
+					'badge_number'   => $options['about_badge_number'] ?? '',
+					'badge_text'     => $options['about_badge_text'] ?? '',
+					'expertise_text' => $options['about_expertise_text'] ?? '',
+					'cta_text'       => $options['about_cta_text'] ?? '',
+					'cta_url'        => $options['about_cta_url'] ?? '',
+				);
+			case 'testimonials':
+				return array(
+					'eyebrow'  => $options['testimonials_eyebrow'] ?? '',
+					'heading'  => $options['testimonials_heading'] ?? '',
+					'summary'  => $options['testimonials_summary'] ?? '',
+					'cta_text' => $options['testimonials_cta_text'] ?? '',
+					'cta_url'  => $options['testimonials_cta_url'] ?? '',
+				);
+			case 'cta':
+				return array(
+					'eyebrow'               => $options['cta_eyebrow'] ?? '',
+					'heading'               => isset( $options['cta_heading'] ) ? wp_strip_all_tags( (string) $options['cta_heading'] ) : '',
+					'description'           => $options['cta_description'] ?? '',
+					'trust_text'            => $options['cta_trust'] ?? '',
+					'primary_button_text'   => $options['cta_primary_text'] ?? '',
+					'primary_button_url'    => $options['cta_primary_url'] ?? '',
+					'secondary_button_text' => $options['cta_secondary_text'] ?? '',
+					'secondary_button_url'  => $options['cta_secondary_url'] ?? '',
+				);
+			default:
+				return array();
+		}
 	}
 }
 

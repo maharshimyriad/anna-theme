@@ -11,6 +11,18 @@
   'use strict';
 
   $(document).ready(function () {
+    var toast = $('[data-anna-toast="true"]');
+
+    if (toast.length) {
+      window.setTimeout(function () {
+        toast.addClass('is-visible');
+      }, 80);
+
+      window.setTimeout(function () {
+        toast.removeClass('is-visible');
+      }, 3600);
+    }
+
     // Init color pickers.
     if ($.fn.wpColorPicker) {
       $('.anna-color-picker').wpColorPicker();
