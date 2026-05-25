@@ -100,8 +100,8 @@
 /* ── Reveal utilities (initial states for GSAP to animate from) ───────────── */
 
 .anna-reveal {
-  opacity:   0;
-  transform: translateY(28px);
+  opacity:   1;
+  transform: none;
   transition: opacity var(--anim-duration-base) var(--ease-out),
               transform var(--anim-duration-base) var(--ease-out);
 }
@@ -112,8 +112,8 @@
 }
 
 .anna-reveal--left {
-  opacity:   0;
-  transform: translateX(-32px);
+  opacity:   1;
+  transform: none;
 }
 
 .anna-reveal--left.is-visible {
@@ -122,8 +122,8 @@
 }
 
 .anna-reveal--right {
-  opacity:   0;
-  transform: translateX(32px);
+  opacity:   1;
+  transform: none;
 }
 
 .anna-reveal--right.is-visible {
@@ -132,8 +132,8 @@
 }
 
 .anna-reveal--scale {
-  opacity:   0;
-  transform: scale(0.94);
+  opacity:   1;
+  transform: none;
 }
 
 .anna-reveal--scale.is-visible {
@@ -143,8 +143,8 @@
 
 /* ── Stagger children ─────────────────────────────────────────────────────── */
 .anna-stagger > * {
-  opacity:   0;
-  transform: translateY(24px);
+  opacity:   1;
+  transform: none;
   transition: opacity var(--anim-duration-base) var(--ease-out),
               transform var(--anim-duration-base) var(--ease-out);
 }

@@ -36,14 +36,21 @@
 
   // Initialize all animation modules.
   function init() {
-    if (typeof window.annaHeroInit === 'function') {
-      window.annaHeroInit();
-    }
-    if (typeof window.annaScrollTriggersInit === 'function') {
-      window.annaScrollTriggersInit();
-    }
-    if (typeof window.annaParallaxInit === 'function') {
-      window.annaParallaxInit();
+    try {
+      if (typeof window.annaHeroInit === 'function') {
+        window.annaHeroInit();
+      }
+      if (typeof window.annaScrollTriggersInit === 'function') {
+        window.annaScrollTriggersInit();
+      }
+      if (typeof window.annaParallaxInit === 'function') {
+        window.annaParallaxInit();
+      }
+    } catch (error) {
+      document.querySelectorAll('.anna-reveal, .anna-reveal--left, .anna-reveal--right, .anna-reveal--scale, .anna-stagger').forEach(function (el) {
+        el.classList.add('is-visible');
+      });
+      console.error('Anna animation init failed:', error);
     }
   }
 

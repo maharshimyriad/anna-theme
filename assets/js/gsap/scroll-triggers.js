@@ -15,88 +15,54 @@
 
   gsap.registerPlugin(ScrollTrigger);
 
+  function createReveal(selector, fromVars) {
+    gsap.utils.toArray(selector).forEach(function (el) {
+      gsap.set(el, fromVars);
+      gsap.to(el, {
+        x: typeof fromVars.x === 'number' ? 0 : undefined,
+        y: typeof fromVars.y === 'number' ? 0 : undefined,
+        scale: typeof fromVars.scale === 'number' ? 1 : undefined,
+        autoAlpha: 1,
+        duration: fromVars.duration || 0.8,
+        ease: fromVars.ease || 'power2.out',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 85%',
+          once: true,
+        },
+      });
+    });
+  }
+
   window.annaScrollTriggersInit = function () {
+    createReveal('.anna-reveal', { y: 40, autoAlpha: 0, duration: 0.8, ease: 'power2.out' });
+    createReveal('.anna-reveal--left', { x: -40, autoAlpha: 0, duration: 0.8, ease: 'power2.out' });
+    createReveal('.anna-reveal--right', { x: 40, autoAlpha: 0, duration: 0.8, ease: 'power2.out' });
+    createReveal('.anna-reveal--scale', { scale: 0.92, autoAlpha: 0, duration: 0.7, ease: 'power2.out' });
 
-    // ── Fade-up reveals ──────────────────────────────────────────────────
-    gsap.utils.toArray('.anna-reveal').forEach(function (el) {
-      gsap.from(el, {
-        y:       40,
-        opacity: 0,
-        duration: 0.8,
-        ease:    'power2.out',
-        scrollTrigger: {
-          trigger: el,
-          start:   'top 85%',
-          once:    true,
-        },
-      });
-    });
-
-    // ── Left reveals ─────────────────────────────────────────────────────
-    gsap.utils.toArray('.anna-reveal--left').forEach(function (el) {
-      gsap.from(el, {
-        x:       -40,
-        opacity: 0,
-        duration: 0.8,
-        ease:    'power2.out',
-        scrollTrigger: {
-          trigger: el,
-          start:   'top 85%',
-          once:    true,
-        },
-      });
-    });
-
-    // ── Right reveals ────────────────────────────────────────────────────
-    gsap.utils.toArray('.anna-reveal--right').forEach(function (el) {
-      gsap.from(el, {
-        x:       40,
-        opacity: 0,
-        duration: 0.8,
-        ease:    'power2.out',
-        scrollTrigger: {
-          trigger: el,
-          start:   'top 85%',
-          once:    true,
-        },
-      });
-    });
-
-    // ── Scale reveals ────────────────────────────────────────────────────
-    gsap.utils.toArray('.anna-reveal--scale').forEach(function (el) {
-      gsap.from(el, {
-        scale:   0.92,
-        opacity: 0,
-        duration: 0.7,
-        ease:    'power2.out',
-        scrollTrigger: {
-          trigger: el,
-          start:   'top 85%',
-          once:    true,
-        },
-      });
-    });
-
-    // ── Stagger children ─────────────────────────────────────────────────
     gsap.utils.toArray('.anna-stagger').forEach(function (container) {
       var children = container.children;
       if (!children.length) return;
 
-      gsap.from(children, {
-        y:       30,
-        opacity: 0,
+      gsap.set(children, {
+        y: 30,
+        autoAlpha: 0,
+      });
+
+      gsap.to(children, {
+        y: 0,
+        autoAlpha: 1,
         duration: 0.6,
         stagger: 0.1,
-        ease:    'power2.out',
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: container,
-          start:   'top 85%',
-          once:    true,
+          start: 'top 85%',
+          once: true,
         },
       });
     });
 
-    // ── Service cards hover motion ───────────────────────────────────────
     document.querySelectorAll('.anna-card--service').forEach(function (card) {
       card.addEventListener('mouseenter', function () {
         gsap.to(card, { y: -8, duration: 0.3, ease: 'power2.out' });
@@ -106,35 +72,25 @@
       });
     });
 
-    // ── Recognition items stagger ────────────────────────────────────────
     var recItems = document.querySelectorAll('.anna-recognition__item');
     if (recItems.length) {
-      gsap.from(recItems, {
-        x:       -20,
-        opacity: 0,
+      gsap.set(recItems, {
+        x: -20,
+        autoAlpha: 0,
+      });
+
+      gsap.to(recItems, {
+        x: 0,
+        autoAlpha: 1,
         duration: 0.5,
         stagger: 0.08,
-        ease:    'power2.out',
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: '.anna-recognition__list',
-          start:   'top 80%',
-          once:    true,
+          start: 'top 80%',
+          once: true,
         },
       });
     }
-
-    // ── Eyebrow line animation ───────────────────────────────────────────
-    gsap.utils.toArray('.anna-eyebrow::before').forEach(function (line) {
-      gsap.from(line, {
-        scaleX:  0,
-        duration: 0.6,
-        ease:    'power2.out',
-        scrollTrigger: {
-          trigger: line.parentElement,
-          start:   'top 85%',
-          once:    true,
-        },
-      });
-    });
   };
 })();
