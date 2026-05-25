@@ -29,6 +29,56 @@ function anna_add_admin_menu() {
 add_action( 'admin_menu', 'anna_add_admin_menu' );
 
 /**
+ * Apply the homepage design preset to saved theme settings.
+ */
+function anna_apply_homepage_preset_action() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( esc_html__( 'You do not have permission to do that.', 'anna-baylis' ) );
+	}
+
+	check_admin_referer( 'anna_apply_homepage_preset' );
+
+	$defaults = anna_get_default_options();
+	$existing = get_option( 'anna_theme_options', array() );
+	$existing = is_array( $existing ) ? $existing : array();
+
+	$preset_keys = array(
+		'header_cta_text', 'header_cta_url',
+		'hero_eyebrow', 'hero_heading', 'hero_description', 'hero_trust_text',
+		'stat_1_value', 'stat_1_label', 'stat_2_value', 'stat_2_label', 'stat_3_value', 'stat_3_label',
+		'intro_eyebrow', 'intro_heading', 'intro_body', 'intro_quote', 'intro_quote_cite',
+		'recognition_eyebrow', 'recognition_heading', 'recognition_description', 'recognition_items_text',
+		'services_eyebrow', 'services_heading', 'services_description', 'services_cta_text', 'services_cta_url',
+		'about_eyebrow', 'about_heading', 'about_body', 'about_quote', 'about_badge_number', 'about_badge_text', 'about_expertise_text', 'about_cta_text', 'about_cta_url',
+		'testimonials_eyebrow', 'testimonials_heading', 'testimonials_summary', 'testimonials_cta_text', 'testimonials_cta_url',
+		'cta_eyebrow', 'cta_heading', 'cta_description', 'cta_trust', 'cta_primary_text', 'cta_primary_url', 'cta_secondary_text', 'cta_secondary_url',
+		'footer_description', 'contact_email', 'contact_phone', 'contact_address', 'contact_hours',
+		'newsletter_heading', 'newsletter_text', 'newsletter_name_placeholder', 'newsletter_email_placeholder', 'newsletter_button_text', 'copyright_text',
+	);
+
+	foreach ( $preset_keys as $key ) {
+		if ( array_key_exists( $key, $defaults ) ) {
+			$existing[ $key ] = $defaults[ $key ];
+		}
+	}
+
+	update_option( 'anna_theme_options', $existing );
+
+	wp_safe_redirect(
+		add_query_arg(
+			array(
+				'page'          => 'anna-theme-settings',
+				'tab'           => 'content',
+				'anna_preset'   => 'applied',
+			),
+			admin_url( 'admin.php' )
+		)
+	);
+	exit;
+}
+add_action( 'admin_post_anna_apply_homepage_preset', 'anna_apply_homepage_preset_action' );
+
+/**
  * Define settings tabs.
  *
  * @return array
@@ -67,6 +117,19 @@ function anna_render_settings_page() {
 			<span class="anna-admin-logo">*</span>
 			<?php esc_html_e( 'Anna Baylis - Theme Settings', 'anna-baylis' ); ?>
 		</h1>
+
+		<?php if ( isset( $_GET['anna_preset'] ) && 'applied' === sanitize_key( wp_unslash( $_GET['anna_preset'] ) ) ) : ?>
+			<div class="notice notice-success is-dismissible"><p><?php esc_html_e( 'Homepage preset applied. Recheck Hero, Content, CTA, Footer, logo, menu, and image selections.', 'anna-baylis' ); ?></p></div>
+		<?php endif; ?>
+
+		<div style="margin:16px 0 20px;">
+			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+				<input type="hidden" name="action" value="anna_apply_homepage_preset">
+				<?php wp_nonce_field( 'anna_apply_homepage_preset' ); ?>
+				<button type="submit" class="button button-secondary"><?php esc_html_e( 'Apply Homepage Design Preset', 'anna-baylis' ); ?></button>
+				<p class="description" style="margin-top:8px;"><?php esc_html_e( 'This overwrites saved homepage text/settings with the current design preset. It does not assign menus, logo, or media images.', 'anna-baylis' ); ?></p>
+			</form>
+		</div>
 
 		<nav class="nav-tab-wrapper anna-admin-tabs" aria-label="<?php esc_attr_e( 'Settings tabs', 'anna-baylis' ); ?>">
 			<?php foreach ( $tabs as $slug => $label ) : ?>
