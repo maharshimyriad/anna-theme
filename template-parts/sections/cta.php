@@ -10,17 +10,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$heading = anna_get_option( 'cta_heading', '' );
-$desc    = anna_get_option( 'cta_description', '' );
-$cta_p   = anna_get_cta( 'primary' );
-$cta_s   = anna_get_cta( 'secondary' );
+$section_data = anna_get_final_cta_section_content();
+$heading      = $section_data['heading'];
+$desc         = $section_data['description'];
+$cta_p        = $section_data['primary_cta'];
+$cta_s        = $section_data['secondary_cta'];
 ?>
 
 <section class="anna-cta anna-section anna-section--xl" id="final-cta" aria-labelledby="cta-heading">
 	<div class="anna-container">
 		<div class="anna-cta__inner anna-reveal">
-			<?php if ( anna_get_option( 'cta_eyebrow', '' ) ) : ?>
-				<span class="anna-eyebrow"><?php echo esc_html( anna_get_option( 'cta_eyebrow', '' ) ); ?></span>
+			<?php if ( $section_data['eyebrow'] ) : ?>
+				<span class="anna-eyebrow"><?php echo esc_html( $section_data['eyebrow'] ); ?></span>
 			<?php endif; ?>
 
 			<h2 class="anna-cta__heading" id="cta-heading"><?php echo wp_kses_post( $heading ); ?></h2>
@@ -29,8 +30,8 @@ $cta_s   = anna_get_cta( 'secondary' );
 				<p class="anna-cta__description"><?php echo esc_html( $desc ); ?></p>
 			<?php endif; ?>
 
-			<?php if ( anna_get_option( 'cta_trust', '' ) ) : ?>
-				<p class="anna-cta__trust"><?php echo esc_html( anna_get_option( 'cta_trust', '' ) ); ?></p>
+			<?php if ( $section_data['trust_text'] ) : ?>
+				<p class="anna-cta__trust"><?php echo esc_html( $section_data['trust_text'] ); ?></p>
 			<?php endif; ?>
 
 			<?php if ( ! empty( $cta_p['text'] ) || ! empty( $cta_s['text'] ) ) : ?>

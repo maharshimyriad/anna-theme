@@ -121,7 +121,6 @@
   font-style:   italic;
   font-weight:  var(--font-weight-regular);
   color:        #63b5a8;
-  padding-left: var(--space-6);
   margin:       0;
   line-height:  var(--leading-snug);
 }

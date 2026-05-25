@@ -11,7 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $testimonials = anna_get_homepage_testimonials( 3 );
-$heading      = anna_get_option( 'testimonials_heading', '102 five-star Google reviews' );
+$section_data = anna_get_testimonials_section_content();
+$heading      = $section_data['heading'];
 $heading_main = $heading;
 $heading_sub  = '';
 
@@ -46,8 +47,8 @@ $static       = array(
 	<div class="anna-container anna-container--wide">
 		<div class="anna-testimonials-section__header anna-reveal">
 			<div>
-				<?php if ( anna_get_option( 'testimonials_eyebrow', '' ) ) : ?>
-					<span class="anna-eyebrow"><?php echo esc_html( anna_get_option( 'testimonials_eyebrow', '' ) ); ?></span>
+				<?php if ( $section_data['eyebrow'] ) : ?>
+					<span class="anna-eyebrow"><?php echo esc_html( $section_data['eyebrow'] ); ?></span>
 				<?php endif; ?>
 				<h2 class="anna-testimonials-section__heading" id="testimonials-heading">
 					<span class="anna-testimonials-section__heading-main"><?php echo esc_html( $heading_main ); ?></span>
@@ -55,8 +56,8 @@ $static       = array(
 						<span class="anna-testimonials-section__heading-sub"><?php echo esc_html( $heading_sub ); ?></span>
 					<?php endif; ?>
 				</h2>
-				<?php if ( anna_get_option( 'testimonials_summary', '' ) ) : ?>
-					<p class="anna-testimonials-section__summary"><?php echo esc_html( anna_get_option( 'testimonials_summary', '' ) ); ?></p>
+				<?php if ( $section_data['summary'] ) : ?>
+					<p class="anna-testimonials-section__summary"><?php echo esc_html( $section_data['summary'] ); ?></p>
 				<?php endif; ?>
 			</div>
 		</div>
@@ -93,10 +94,10 @@ $static       = array(
 			<?php endif; ?>
 		</div>
 
-		<?php if ( anna_get_option( 'testimonials_cta_text', '' ) ) : ?>
+		<?php if ( $section_data['cta_text'] ) : ?>
 			<div class="anna-testimonials-section__footer anna-reveal">
-				<a href="<?php echo esc_url( anna_get_option( 'testimonials_cta_url', '#' ) ); ?>" class="anna-btn anna-btn--ghost anna-btn--lg anna-testimonials-section__link">
-					<?php echo esc_html( anna_get_option( 'testimonials_cta_text', '' ) ); ?>
+				<a href="<?php echo esc_url( $section_data['cta_url'] ); ?>" class="anna-btn anna-btn--ghost anna-btn--lg anna-testimonials-section__link">
+					<?php echo esc_html( $section_data['cta_text'] ); ?>
 				</a>
 			</div>
 		<?php endif; ?>

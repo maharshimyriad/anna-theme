@@ -10,15 +10,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$heading    = anna_get_option( 'about_heading', 'Olympian. Life Coach. Motivational Speaker.' );
-$body       = anna_get_option( 'about_body', '' );
-$quote      = anna_get_option( 'about_quote', '' );
-$image_id   = anna_get_option( 'about_image_id', '' );
-$badge_num  = anna_get_option( 'about_badge_number', '' );
-$badge_text = anna_get_option( 'about_badge_text', '' );
-$expertise  = anna_get_lines_option( 'about_expertise_text', array() );
-$cta_text   = anna_get_option( 'about_cta_text', '' );
-$cta_url    = anna_get_option( 'about_cta_url', '#' );
+$section_data = anna_get_about_section_content();
+$heading      = $section_data['heading'];
+$body         = $section_data['body'];
+$quote        = $section_data['quote'];
+$image_id     = $section_data['image_id'];
+$badge_num    = $section_data['badge_number'];
+$badge_text   = $section_data['badge_text'];
+$expertise    = $section_data['expertise'];
+$cta_text     = $section_data['cta_text'];
+$cta_url      = $section_data['cta_url'];
 ?>
 
 <section class="anna-about anna-section anna-section--lg" id="about" aria-labelledby="about-heading">
@@ -39,8 +40,8 @@ $cta_url    = anna_get_option( 'about_cta_url', '#' );
 			</div>
 
 			<div class="anna-about__content anna-reveal">
-				<?php if ( anna_get_option( 'about_eyebrow', '' ) ) : ?>
-					<span class="anna-eyebrow"><?php echo esc_html( anna_get_option( 'about_eyebrow', '' ) ); ?></span>
+				<?php if ( $section_data['eyebrow'] ) : ?>
+					<span class="anna-eyebrow"><?php echo esc_html( $section_data['eyebrow'] ); ?></span>
 				<?php endif; ?>
 				<h2 class="anna-about__heading" id="about-heading"><?php echo wp_kses_post( $heading ); ?></h2>
 

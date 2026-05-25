@@ -120,6 +120,203 @@ function anna_get_homepage_hero_content() {
 }
 
 /**
+ * Get intro/recognition content from page data, with legacy fallback.
+ *
+ * @return array
+ */
+function anna_get_intro_section_content() {
+	$content = array(
+		'intro_eyebrow'           => anna_get_option( 'intro_eyebrow', '' ),
+		'intro_heading'           => anna_get_option( 'intro_heading', 'Real change. From the inside out.' ),
+		'intro_body'              => anna_get_option( 'intro_body', '' ),
+		'intro_quote'             => anna_get_option( 'intro_quote', '' ),
+		'intro_quote_cite'        => anna_get_option( 'intro_quote_cite', '' ),
+		'recognition_eyebrow'     => anna_get_option( 'recognition_eyebrow', '' ),
+		'recognition_heading'     => anna_get_option( 'recognition_heading', 'You might recognise yourself here' ),
+		'recognition_description' => anna_get_option( 'recognition_description', '' ),
+		'recognition_items'       => anna_get_lines_option(
+			'recognition_items_text',
+			array(
+				'You feel stuck, disconnected or like you\'re going through the motions',
+				'You know what you need to do but you\'re not doing it',
+				'You\'ve tried therapy, programs and self-help and something still feels missing',
+				'You put everyone else first and run on empty',
+				'You sense there\'s more available to you but don\'t know how to access it',
+				'You want to feel genuinely well, not just functional',
+			)
+		),
+	);
+
+	$post_id = anna_get_current_page_content_id();
+	if ( $post_id && function_exists( 'anna_content_get_page_section' ) ) {
+		$data = anna_content_get_page_section( $post_id, 'intro' );
+		if ( ! empty( $data['intro_eyebrow'] ) ) {
+			$content['intro_eyebrow'] = $data['intro_eyebrow'];
+		}
+		if ( ! empty( $data['intro_heading'] ) ) {
+			$content['intro_heading'] = $data['intro_heading'];
+		}
+		if ( ! empty( $data['intro_body'] ) ) {
+			$content['intro_body'] = $data['intro_body'];
+		}
+		if ( ! empty( $data['intro_quote'] ) ) {
+			$content['intro_quote'] = $data['intro_quote'];
+		}
+		if ( ! empty( $data['intro_quote_cite'] ) ) {
+			$content['intro_quote_cite'] = $data['intro_quote_cite'];
+		}
+		if ( ! empty( $data['recognition_eyebrow'] ) ) {
+			$content['recognition_eyebrow'] = $data['recognition_eyebrow'];
+		}
+		if ( ! empty( $data['recognition_heading'] ) ) {
+			$content['recognition_heading'] = $data['recognition_heading'];
+		}
+		if ( ! empty( $data['recognition_description'] ) ) {
+			$content['recognition_description'] = $data['recognition_description'];
+		}
+		if ( ! empty( $data['recognition_items_text'] ) ) {
+			$content['recognition_items'] = preg_split( '/\r\n|\r|\n/', $data['recognition_items_text'] );
+			$content['recognition_items'] = array_values( array_filter( array_map( 'trim', $content['recognition_items'] ) ) );
+		}
+	}
+
+	return $content;
+}
+
+/**
+ * Get services section content from page data, with legacy fallback.
+ *
+ * @return array
+ */
+function anna_get_services_section_content() {
+	$content = array(
+		'eyebrow'     => anna_get_option( 'services_eyebrow', '' ),
+		'heading'     => anna_get_option( 'services_heading', 'What\'s the change you\'re needing?' ),
+		'description' => anna_get_option( 'services_description', '' ),
+		'cta_text'    => anna_get_option( 'services_cta_text', '' ),
+		'cta_url'     => anna_get_option( 'services_cta_url', '#' ),
+	);
+
+	$post_id = anna_get_current_page_content_id();
+	if ( $post_id && function_exists( 'anna_content_get_page_section' ) ) {
+		$data = anna_content_get_page_section( $post_id, 'services' );
+		foreach ( array( 'eyebrow', 'heading', 'description', 'cta_text', 'cta_url' ) as $key ) {
+			if ( ! empty( $data[ $key ] ) ) {
+				$content[ $key ] = $data[ $key ];
+			}
+		}
+	}
+
+	return $content;
+}
+
+/**
+ * Get about section content from page data, with legacy fallback.
+ *
+ * @return array
+ */
+function anna_get_about_section_content() {
+	$content = array(
+		'eyebrow'        => anna_get_option( 'about_eyebrow', '' ),
+		'heading'        => anna_get_option( 'about_heading', 'Olympian. Life Coach. Motivational Speaker.' ),
+		'body'           => anna_get_option( 'about_body', '' ),
+		'quote'          => anna_get_option( 'about_quote', '' ),
+		'image_id'       => anna_get_option( 'about_image_id', '' ),
+		'badge_number'   => anna_get_option( 'about_badge_number', '' ),
+		'badge_text'     => anna_get_option( 'about_badge_text', '' ),
+		'expertise'      => anna_get_lines_option( 'about_expertise_text', array() ),
+		'cta_text'       => anna_get_option( 'about_cta_text', '' ),
+		'cta_url'        => anna_get_option( 'about_cta_url', '#' ),
+	);
+
+	$post_id = anna_get_current_page_content_id();
+	if ( $post_id && function_exists( 'anna_content_get_page_section' ) ) {
+		$data = anna_content_get_page_section( $post_id, 'about' );
+		foreach ( array( 'eyebrow', 'heading', 'body', 'quote', 'badge_number', 'badge_text', 'cta_text', 'cta_url' ) as $key ) {
+			if ( ! empty( $data[ $key ] ) ) {
+				$content[ $key ] = $data[ $key ];
+			}
+		}
+		if ( ! empty( $data['image_id'] ) ) {
+			$content['image_id'] = absint( $data['image_id'] );
+		}
+		if ( ! empty( $data['expertise_text'] ) ) {
+			$content['expertise'] = preg_split( '/\r\n|\r|\n/', $data['expertise_text'] );
+			$content['expertise'] = array_values( array_filter( array_map( 'trim', $content['expertise'] ) ) );
+		}
+	}
+
+	return $content;
+}
+
+/**
+ * Get testimonials section content from page data, with legacy fallback.
+ *
+ * @return array
+ */
+function anna_get_testimonials_section_content() {
+	$content = array(
+		'eyebrow'  => anna_get_option( 'testimonials_eyebrow', '' ),
+		'heading'  => anna_get_option( 'testimonials_heading', '102 five-star Google reviews' ),
+		'summary'  => anna_get_option( 'testimonials_summary', '' ),
+		'cta_text' => anna_get_option( 'testimonials_cta_text', '' ),
+		'cta_url'  => anna_get_option( 'testimonials_cta_url', '#' ),
+	);
+
+	$post_id = anna_get_current_page_content_id();
+	if ( $post_id && function_exists( 'anna_content_get_page_section' ) ) {
+		$data = anna_content_get_page_section( $post_id, 'testimonials' );
+		foreach ( array( 'eyebrow', 'heading', 'summary', 'cta_text', 'cta_url' ) as $key ) {
+			if ( ! empty( $data[ $key ] ) ) {
+				$content[ $key ] = $data[ $key ];
+			}
+		}
+	}
+
+	return $content;
+}
+
+/**
+ * Get final CTA section content from page data, with legacy fallback.
+ *
+ * @return array
+ */
+function anna_get_final_cta_section_content() {
+	$content = array(
+		'eyebrow'       => anna_get_option( 'cta_eyebrow', '' ),
+		'heading'       => anna_get_option( 'cta_heading', '' ),
+		'description'   => anna_get_option( 'cta_description', '' ),
+		'trust_text'    => anna_get_option( 'cta_trust', '' ),
+		'primary_cta'   => anna_get_cta( 'primary' ),
+		'secondary_cta' => anna_get_cta( 'secondary' ),
+	);
+
+	$post_id = anna_get_current_page_content_id();
+	if ( $post_id && function_exists( 'anna_content_get_page_section' ) ) {
+		$data = anna_content_get_page_section( $post_id, 'cta' );
+		foreach ( array( 'eyebrow', 'heading', 'description', 'trust_text' ) as $key ) {
+			if ( ! empty( $data[ $key ] ) ) {
+				$content[ $key ] = $data[ $key ];
+			}
+		}
+		if ( ! empty( $data['primary_button_text'] ) ) {
+			$content['primary_cta']['text'] = $data['primary_button_text'];
+		}
+		if ( ! empty( $data['primary_button_url'] ) ) {
+			$content['primary_cta']['url'] = $data['primary_button_url'];
+		}
+		if ( ! empty( $data['secondary_button_text'] ) ) {
+			$content['secondary_cta']['text'] = $data['secondary_button_text'];
+		}
+		if ( ! empty( $data['secondary_button_url'] ) ) {
+			$content['secondary_cta']['url'] = $data['secondary_button_url'];
+		}
+	}
+
+	return $content;
+}
+
+/**
  * Get a newline-separated option as an array of trimmed lines.
  *
  * @param string $key     Option key.

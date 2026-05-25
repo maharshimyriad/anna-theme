@@ -10,9 +10,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$services = anna_get_homepage_services( 3 );
-$heading  = anna_get_option( 'services_heading', 'What\'s the change you\'re needing?' );
-$desc     = anna_get_option( 'services_description', '' );
+$services      = anna_get_homepage_services( 3 );
+$section_data  = anna_get_services_section_content();
+$heading       = $section_data['heading'];
+$desc          = $section_data['description'];
 
 $static_services = array(
 	array(
@@ -39,8 +40,8 @@ $static_services = array(
 <section class="anna-services anna-section anna-section--lg" id="services" aria-labelledby="services-heading">
 	<div class="anna-container">
 		<header class="anna-services__header anna-reveal">
-			<?php if ( anna_get_option( 'services_eyebrow', '' ) ) : ?>
-				<span class="anna-eyebrow"><?php echo esc_html( anna_get_option( 'services_eyebrow', '' ) ); ?></span>
+			<?php if ( $section_data['eyebrow'] ) : ?>
+				<span class="anna-eyebrow"><?php echo esc_html( $section_data['eyebrow'] ); ?></span>
 			<?php endif; ?>
 			<h2 class="anna-services__heading" id="services-heading"><?php echo esc_html( $heading ); ?></h2>
 			<?php if ( $desc ) : ?>
@@ -82,10 +83,10 @@ $static_services = array(
 			<?php endif; ?>
 		</ul>
 
-		<?php if ( anna_get_option( 'services_cta_text', '' ) ) : ?>
+		<?php if ( $section_data['cta_text'] ) : ?>
 			<footer class="anna-services__footer anna-reveal">
-				<a href="<?php echo esc_url( anna_get_option( 'services_cta_url', '#' ) ); ?>" class="anna-btn anna-btn--secondary anna-btn--lg">
-					<?php echo esc_html( anna_get_option( 'services_cta_text', '' ) ); ?>
+				<a href="<?php echo esc_url( $section_data['cta_url'] ); ?>" class="anna-btn anna-btn--secondary anna-btn--lg">
+					<?php echo esc_html( $section_data['cta_text'] ); ?>
 				</a>
 			</footer>
 		<?php endif; ?>
