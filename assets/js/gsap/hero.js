@@ -35,10 +35,10 @@
       var words = text.split(/(\s+)/);
       heading.innerHTML = words.map(function (word) {
         if (word.trim() === '') return word;
-        return '<span class="anna-hero__word" style="display:inline-block;overflow:hidden;"><span style="display:inline-block;">' + word + '</span></span>';
+        return '<span class="anna-hero__word"><span class="anna-hero__word-inner">' + word + '</span></span>';
       }).join('');
 
-      var wordSpans = heading.querySelectorAll('.anna-hero__word > span');
+      var wordSpans = heading.querySelectorAll('.anna-hero__word-inner');
       tl.from(wordSpans, {
         y:        '100%',
         opacity:  0,

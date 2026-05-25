@@ -21,8 +21,8 @@
 .anna-intro__heading {
   margin: 0;
   color: var(--color-primary);
-  font-size: clamp(2.2rem, 5vw, 4.2rem);
-  line-height: 0.98;
+  font-size: clamp(2.625rem, 2.28rem + 1.15vw, 3.25rem);
+  line-height: 1.02;
 }
 
 .anna-intro__copy p {
@@ -63,7 +63,7 @@
 .anna-recognition__heading {
   margin: 0 0 1.25rem;
   color: var(--color-primary);
-  font-size: 1.6rem;
+  font-size: clamp(1.5rem, 1.36rem + 0.45vw, 1.75rem);
   line-height: 1.2;
 }
 
