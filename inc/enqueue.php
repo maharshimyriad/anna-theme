@@ -14,74 +14,100 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Build an asset version from the file modified time.
+ *
+ * @param string $relative_path Asset path relative to the theme root.
+ * @return string
+ */
+function anna_asset_version( $relative_path ) {
+	$path = ANNA_DIR . '/' . ltrim( $relative_path, '/' );
+
+	if ( file_exists( $path ) ) {
+		return (string) filemtime( $path );
+	}
+
+	return ANNA_VERSION;
+}
+
+/**
  * Enqueue front-end styles.
  */
 function anna_enqueue_styles() {
-	$ver = ANNA_VERSION;
-
-	// ── Design System ───────────────────────────────────────────────────────
 	wp_enqueue_style(
 		'anna-variables',
 		ANNA_CSS . '/variables.css',
 		array(),
-		$ver
+		anna_asset_version( 'assets/css/variables.css' )
 	);
 
 	wp_enqueue_style(
 		'anna-reset',
 		ANNA_CSS . '/reset.css',
 		array( 'anna-variables' ),
-		$ver
+		anna_asset_version( 'assets/css/reset.css' )
 	);
 
 	wp_enqueue_style(
 		'anna-base',
 		ANNA_CSS . '/base.css',
 		array( 'anna-reset' ),
-		$ver
+		anna_asset_version( 'assets/css/base.css' )
 	);
 
 	wp_enqueue_style(
 		'anna-layout',
 		ANNA_CSS . '/layout.css',
 		array( 'anna-base' ),
-		$ver
+		anna_asset_version( 'assets/css/layout.css' )
 	);
 
 	wp_enqueue_style(
 		'anna-utilities',
 		ANNA_CSS . '/utilities.css',
 		array( 'anna-layout' ),
-		$ver
+		anna_asset_version( 'assets/css/utilities.css' )
 	);
 
 	wp_enqueue_style(
 		'anna-animations',
 		ANNA_CSS . '/animations.css',
 		array( 'anna-utilities' ),
-		$ver
+		anna_asset_version( 'assets/css/animations.css' )
 	);
 
-	// ── Components ──────────────────────────────────────────────────────────
 	$components = array( 'buttons', 'cards', 'badges', 'navigation', 'forms', 'testimonials', 'media' );
 	$prev_dep   = 'anna-animations';
 
 	foreach ( $components as $component ) {
 		$handle = 'anna-' . $component;
-		wp_enqueue_style( $handle, ANNA_CSS . '/components/' . $component . '.css', array( $prev_dep ), $ver );
+		$file   = 'assets/css/components/' . $component . '.css';
+
+		wp_enqueue_style(
+			$handle,
+			ANNA_CSS . '/components/' . $component . '.css',
+			array( $prev_dep ),
+			anna_asset_version( $file )
+		);
+
 		$prev_dep = $handle;
 	}
 
-	// ── Sections ────────────────────────────────────────────────────────────
 	$sections = array( 'header', 'hero', 'intro', 'recognition', 'services', 'about', 'testimonials-section', 'cta', 'footer' );
 
 	foreach ( $sections as $section ) {
 		$handle = 'anna-section-' . $section;
-		wp_enqueue_style( $handle, ANNA_CSS . '/sections/' . $section . '.css', array( $prev_dep ), $ver );
+		$file   = 'assets/css/sections/' . $section . '.css';
+
+		wp_enqueue_style(
+			$handle,
+			ANNA_CSS . '/sections/' . $section . '.css',
+			array( $prev_dep ),
+			anna_asset_version( $file )
+		);
+
 		$prev_dep = $handle;
 	}
 
-	// ── Google Fonts ─────────────────────────────────────────────────────────
 	wp_enqueue_style(
 		'anna-google-fonts',
 		'https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Mulish:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap',
@@ -95,9 +121,6 @@ add_action( 'wp_enqueue_scripts', 'anna_enqueue_styles' );
  * Enqueue front-end scripts.
  */
 function anna_enqueue_scripts() {
-	$ver = ANNA_VERSION;
-
-	// ── GSAP (CDN) ─────────────────────────────────────────────────────────
 	$animations_enabled = anna_get_option( 'animations_enabled', true );
 
 	if ( $animations_enabled ) {
@@ -117,12 +140,11 @@ function anna_enqueue_scripts() {
 			array( 'strategy' => 'defer' )
 		);
 
-		// ── GSAP Animation Modules ─────────────────────────────────────────
 		wp_enqueue_script(
 			'anna-parallax',
 			ANNA_JS . '/gsap/parallax.js',
 			array( 'gsap-scroll-trigger' ),
-			$ver,
+			anna_asset_version( 'assets/js/gsap/parallax.js' ),
 			array( 'strategy' => 'defer' )
 		);
 
@@ -130,7 +152,7 @@ function anna_enqueue_scripts() {
 			'anna-scroll-triggers',
 			ANNA_JS . '/gsap/scroll-triggers.js',
 			array( 'gsap-scroll-trigger' ),
-			$ver,
+			anna_asset_version( 'assets/js/gsap/scroll-triggers.js' ),
 			array( 'strategy' => 'defer' )
 		);
 
@@ -138,7 +160,7 @@ function anna_enqueue_scripts() {
 			'anna-hero-anim',
 			ANNA_JS . '/gsap/hero.js',
 			array( 'gsap-scroll-trigger' ),
-			$ver,
+			anna_asset_version( 'assets/js/gsap/hero.js' ),
 			array( 'strategy' => 'defer' )
 		);
 
@@ -146,17 +168,16 @@ function anna_enqueue_scripts() {
 			'anna-animations',
 			ANNA_JS . '/gsap/animations.js',
 			array( 'anna-hero-anim', 'anna-scroll-triggers', 'anna-parallax' ),
-			$ver,
+			anna_asset_version( 'assets/js/gsap/animations.js' ),
 			array( 'strategy' => 'defer' )
 		);
 	}
 
-	// ── Components JS ───────────────────────────────────────────────────────
 	wp_enqueue_script(
 		'anna-header-js',
 		ANNA_JS . '/components/header.js',
 		array(),
-		$ver,
+		anna_asset_version( 'assets/js/components/header.js' ),
 		array( 'strategy' => 'defer' )
 	);
 
@@ -164,7 +185,7 @@ function anna_enqueue_scripts() {
 		'anna-mobile-menu',
 		ANNA_JS . '/components/mobile-menu.js',
 		array( 'anna-header-js' ),
-		$ver,
+		anna_asset_version( 'assets/js/components/mobile-menu.js' ),
 		array( 'strategy' => 'defer' )
 	);
 
@@ -172,7 +193,7 @@ function anna_enqueue_scripts() {
 		'anna-testimonials-js',
 		ANNA_JS . '/components/testimonials.js',
 		array(),
-		$ver,
+		anna_asset_version( 'assets/js/components/testimonials.js' ),
 		array( 'strategy' => 'defer' )
 	);
 
@@ -180,7 +201,7 @@ function anna_enqueue_scripts() {
 		'anna-stats-counter',
 		ANNA_JS . '/components/stats-counter.js',
 		array(),
-		$ver,
+		anna_asset_version( 'assets/js/components/stats-counter.js' ),
 		array( 'strategy' => 'defer' )
 	);
 
@@ -188,11 +209,10 @@ function anna_enqueue_scripts() {
 		'anna-scroll-reveal',
 		ANNA_JS . '/components/scroll-reveal.js',
 		array(),
-		$ver,
+		anna_asset_version( 'assets/js/components/scroll-reveal.js' ),
 		array( 'strategy' => 'defer' )
 	);
 
-	// ── Main Theme JS (Entry point) ─────────────────────────────────────────
 	$deps = array( 'anna-header-js', 'anna-mobile-menu', 'anna-testimonials-js', 'anna-stats-counter', 'anna-scroll-reveal' );
 	if ( $animations_enabled ) {
 		$deps[] = 'anna-animations';
@@ -202,11 +222,10 @@ function anna_enqueue_scripts() {
 		'anna-theme',
 		ANNA_JS . '/theme.js',
 		$deps,
-		$ver,
+		anna_asset_version( 'assets/js/theme.js' ),
 		array( 'strategy' => 'defer' )
 	);
 
-	// ── Pass data to JS ─────────────────────────────────────────────────────
 	wp_localize_script(
 		'anna-theme',
 		'annaTheme',
@@ -217,7 +236,7 @@ function anna_enqueue_scripts() {
 			'animationSpeed'    => anna_get_option( 'animation_speed', 'normal' ),
 			'themeUri'          => ANNA_URI,
 			'isHome'            => is_front_page(),
-			'reducedMotion'     => false, // overridden by JS prefers-reduced-motion check
+			'reducedMotion'     => false,
 		)
 	);
 }
@@ -225,21 +244,21 @@ add_action( 'wp_enqueue_scripts', 'anna_enqueue_scripts' );
 
 /**
  * Enqueue admin styles and scripts.
+ *
+ * @param string $hook Current admin page hook.
  */
 function anna_admin_enqueue( $hook ) {
-	// Only load on our theme settings pages.
 	if ( 'toplevel_page_anna-theme-settings' !== $hook ) {
 		return;
 	}
 
-	// Required for the media upload fields.
 	wp_enqueue_media();
 
 	wp_enqueue_style(
 		'anna-admin-settings',
 		ANNA_CSS . '/admin/admin-settings.css',
 		array(),
-		ANNA_VERSION
+		anna_asset_version( 'assets/css/admin/admin-settings.css' )
 	);
 
 	wp_enqueue_style( 'wp-color-picker' );
@@ -248,7 +267,7 @@ function anna_admin_enqueue( $hook ) {
 		'anna-admin-settings',
 		ANNA_JS . '/admin/settings-admin.js',
 		array( 'wp-color-picker', 'jquery', 'jquery-ui-sortable' ),
-		ANNA_VERSION,
+		anna_asset_version( 'assets/js/admin/settings-admin.js' ),
 		true
 	);
 }
