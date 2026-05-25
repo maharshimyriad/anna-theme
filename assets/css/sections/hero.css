@@ -15,6 +15,8 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(90deg, rgba(22, 43, 37, 0.58) 0%, rgba(22, 43, 37, 0.42) 35%, rgba(22, 43, 37, 0.08) 72%, rgba(22, 43, 37, 0.02) 100%);
+  background-size: 120% 120%;
+  animation: annaHeroOverlayShift 14s ease-in-out infinite alternate;
 }
 
 .anna-hero::after {
@@ -52,6 +54,7 @@
 .anna-hero__overline {
   color: rgba(255, 255, 255, 0.78);
   letter-spacing: 0.12em;
+  animation: annaHeroOverlineDrift 7s ease-in-out infinite;
 }
 
 .anna-hero__heading {
@@ -170,6 +173,28 @@
   }
 }
 
+@keyframes annaHeroOverlayShift {
+  0% {
+    background-position: 0% 50%;
+    opacity: 0.92;
+  }
+  100% {
+    background-position: 100% 50%;
+    opacity: 1;
+  }
+}
+
+@keyframes annaHeroOverlineDrift {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.72;
+  }
+  50% {
+    transform: translate3d(0, -3px, 0);
+    opacity: 1;
+  }
+}
+
 @keyframes annaHeroStatFloat {
   0%, 100% {
     transform: translate3d(0, 0, 0);
@@ -196,7 +221,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .anna-hero::before,
   .anna-hero::after,
+  .anna-hero__overline,
   .anna-hero__stats .anna-hero__stat {
     animation: none !important;
   }

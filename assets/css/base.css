@@ -97,7 +97,7 @@ a {
   transition:      color var(--transition-fast);
 }
 
-a:hover {
+a:not(.anna-btn):hover {
   color: var(--color-link-hover);
 }
 
