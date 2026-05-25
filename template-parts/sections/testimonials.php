@@ -95,7 +95,7 @@ $static       = array(
 
 		<?php if ( anna_get_option( 'testimonials_cta_text', '' ) ) : ?>
 			<div class="anna-testimonials-section__footer anna-reveal">
-				<a href="<?php echo esc_url( anna_get_option( 'testimonials_cta_url', '#' ) ); ?>" class="anna-testimonials-section__link">
+				<a href="<?php echo esc_url( anna_get_option( 'testimonials_cta_url', '#' ) ); ?>" class="anna-btn anna-btn--ghost anna-btn--lg anna-testimonials-section__link">
 					<?php echo esc_html( anna_get_option( 'testimonials_cta_text', '' ) ); ?>
 				</a>
 			</div>

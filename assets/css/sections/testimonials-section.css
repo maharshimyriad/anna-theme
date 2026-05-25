@@ -102,10 +102,15 @@
 }
 
 .anna-testimonials-section__link {
+  min-width: 13.5rem;
   color: var(--color-white);
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 0.88rem;
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+.anna-testimonials-section__link:hover {
+  color: var(--color-white);
+  border-color: var(--color-white);
+  background: rgba(255, 255, 255, 0.14);
 }
 
 @media (max-width: 980px) {

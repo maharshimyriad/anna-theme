@@ -63,7 +63,7 @@
       });
     });
 
-    document.querySelectorAll('.anna-card--service').forEach(function (card) {
+    document.querySelectorAll('.anna-service-card').forEach(function (card) {
       card.addEventListener('mouseenter', function () {
         gsap.to(card, { y: -8, duration: 0.3, ease: 'power2.out' });
       });
