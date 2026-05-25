@@ -5,47 +5,84 @@
 }
 
 .anna-cta .anna-container {
-  max-width: 1020px;
+  max-width: 1100px;
 }
 
 .anna-cta__inner {
-  max-width: 52rem;
+  max-width: 980px;
   margin: 0 auto;
   display: grid;
-  gap: 0.95rem;
+  gap: 1.15rem;
 }
 
 .anna-cta .anna-eyebrow {
-  color: #7fb8aa;
+  color: #73b8aa;
+  font-size: 0.92rem;
+  letter-spacing: 0.14em;
+  line-height: 1;
 }
 
 .anna-cta__heading {
-  margin: 0;
+  max-width: 980px;
+  margin: 0 auto;
   color: var(--color-primary);
-  font-size: clamp(2rem, 4.2vw, 3.55rem);
-  line-height: 1.02;
-  letter-spacing: -0.03em;
+  font-size: clamp(2.6rem, 5vw, 4.55rem);
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
 }
 
 .anna-cta__description {
-  margin: 0;
-  color: #3d7065;
-  font-size: 1.25rem;
-  line-height: 1.45;
+  max-width: 760px;
+  margin: 1.25rem auto 0;
+  color: #0a7a6f;
+  font-size: clamp(1.4rem, 2.2vw, 2rem);
+  font-weight: 500;
+  line-height: 1.25;
 }
 
 .anna-cta__trust {
-  max-width: 42rem;
-  margin: 0.15rem auto 0;
-  color: #79a89d;
-  line-height: 1.75;
-  font-size: 0.95rem;
+  max-width: 720px;
+  margin: 0.95rem auto 0;
+  color: #0a7a6f;
+  line-height: 1.7;
+  font-size: 0.98rem;
 }
 
 .anna-cta__actions {
-  margin-top: 0.9rem;
+  margin-top: 1rem;
 }
 
 .anna-cta__actions .anna-btn {
-  min-width: 14rem;
+  min-width: 234px;
+  min-height: 58px;
+  padding: 0.95rem 1.8rem;
+  border-radius: 0.45rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  box-shadow: none;
+}
+
+@media (max-width: 768px) {
+  .anna-cta__inner {
+    max-width: 100%;
+  }
+
+  .anna-cta__heading {
+    font-size: clamp(2.15rem, 8vw, 3.1rem);
+  }
+
+  .anna-cta__description {
+    font-size: 1.2rem;
+  }
+
+  .anna-cta__trust {
+    font-size: 0.92rem;
+  }
+
+  .anna-cta__actions .anna-btn {
+    min-width: 210px;
+    min-height: 52px;
+  }
 }
