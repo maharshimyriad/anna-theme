@@ -111,7 +111,7 @@
   color:       #59656f;
 }
 
-.anna-about__quote {
+.anna-about__quote p{
   font-family:  var(--font-heading);
   font-size:    var(--text-xl);
   font-style:   italic;
