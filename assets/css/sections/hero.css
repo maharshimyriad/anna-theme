@@ -7,7 +7,7 @@
   background-color: var(--color-bg-soft);
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center;
+  background-position: top;
 }
 
 .anna-hero::before {
