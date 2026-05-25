@@ -9,6 +9,8 @@
  * @since   1.0.0
  */
 
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+
 :root {
 
   /* ── Brand Colors ─────────────────────────────────────────────────────── */
@@ -63,16 +65,16 @@
   --tracking-caps:    0.12em;
 
   /* ── Fluid Type Scale ─────────────────────────────────────────────────── */
-  --text-xs:    clamp(0.70rem,  0.65rem + 0.25vw,  0.80rem);
-  --text-sm:    clamp(0.85rem,  0.80rem + 0.30vw,  0.95rem);
-  --text-base:  clamp(1.00rem,  0.95rem + 0.25vw,  1.10rem);
-  --text-md:    clamp(1.10rem,  1.00rem + 0.50vw,  1.25rem);
-  --text-lg:    clamp(1.20rem,  1.05rem + 0.75vw,  1.50rem);
-  --text-xl:    clamp(1.40rem,  1.15rem + 1.25vw,  1.875rem);
-  --text-2xl:   clamp(1.70rem,  1.35rem + 1.75vw,  2.50rem);
-  --text-3xl:   clamp(2.10rem,  1.60rem + 2.50vw,  3.25rem);
-  --text-4xl:   clamp(2.60rem,  1.90rem + 3.50vw,  4.25rem);
-  --text-5xl:   clamp(3.20rem,  2.20rem + 5.00vw,  5.75rem);
+  --text-xs:    clamp(0.70rem, 0.68rem + 0.10vw, 0.75rem);   /* 11px → 12px */
+  --text-sm:    clamp(0.85rem, 0.82rem + 0.15vw, 0.95rem);   /* 13.6px → 15.2px */
+  --text-base:  clamp(1rem,    0.96rem + 0.20vw, 1.125rem);  /* 16px → 18px */
+  --text-md:    clamp(1.125rem,1.05rem + 0.30vw, 1.25rem);   /* 18px → 20px */
+  --text-lg:    clamp(1.25rem, 1.10rem + 0.50vw, 1.5rem);    /* 20px → 24px */
+  --text-xl:    clamp(1.5rem,  1.20rem + 0.90vw, 1.875rem);  /* 24px → 30px */
+  --text-2xl:   clamp(1.875rem,1.45rem + 1.30vw, 2.5rem);    /* 30px → 40px */
+  --text-3xl:   clamp(2.25rem, 1.70rem + 1.80vw, 3rem);      /* 36px → 48px */
+  --text-4xl:   clamp(2.75rem, 2rem + 2.40vw, 3.375rem);     /* 44px → 54px */
+  --text-5xl:   clamp(3rem,    2.20rem + 3vw, 3.75rem);      /* 48px → 60px */
   --text-6xl:   clamp(3.80rem,  2.50rem + 6.50vw,  7.00rem);
 
   /* ── Spacing Scale ────────────────────────────────────────────────────── */
@@ -196,7 +198,7 @@
   --header-height-scroll: 4rem;
   --header-bg-transparent: transparent;
   --header-bg-scrolled:   rgba(255, 255, 255, 0.97);
-  --header-shadow-scrolled: 0 4px 24px rgba(0, 112, 99, 0.08);
+  --header-shadow-scrolled: 0 4px 24px rgba(0, 112, 99, 0.1);
 
   /* ── Card System ──────────────────────────────────────────────────────── */
   --card-radius:   var(--radius-lg);

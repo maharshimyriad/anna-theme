@@ -80,6 +80,14 @@ function anna_responsive_image( $attachment_id, $size = 'large', $class = '', $l
 	echo wp_get_attachment_image( $attachment_id, $size, false, $attrs );
 }
 
+function anna_responsive_image_url( $attachment_id, $size = 'full' ) {
+	if ( ! $attachment_id ) {
+		return '';
+	}
+
+	return wp_get_attachment_image_url( $attachment_id, $size );
+}
+
 /**
  * Outputs a service icon SVG by slug.
  *

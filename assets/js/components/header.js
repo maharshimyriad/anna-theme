@@ -12,7 +12,7 @@
 
   var header    = document.getElementById('site-header');
   var scrolled  = false;
-  var threshold = 80;
+  var threshold = 420;
   var ticking   = false;
 
   if (!header) return;

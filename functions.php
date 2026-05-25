@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // ─── Theme Constants ─────────────────────────────────────────────────────────
-define( 'ANNA_VERSION', '1.0.0' );
+define( 'ANNA_VERSION', '3.1.14' );
 define( 'ANNA_DIR', get_template_directory() );
 define( 'ANNA_URI', get_template_directory_uri() );
 define( 'ANNA_ASSETS', ANNA_URI . '/assets' );

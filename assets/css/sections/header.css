@@ -10,31 +10,71 @@
 
 /* ── Site header ──────────────────────────────────────────────────────────── */
 .anna-header {
-  position:         fixed;
-  top:              0;
-  left:             0;
-  right:            0;
-  z-index:          var(--z-header);
-  height:           var(--header-height);
-  display:          flex;
-  align-items:      center;
-  background:       var(--header-bg-transparent);
-  transition:       background     0.4s var(--ease-smooth),
-                    box-shadow     0.4s var(--ease-smooth),
-                    height         0.4s var(--ease-smooth),
-                    backdrop-filter 0.4s var(--ease-smooth);
-  will-change:      background, box-shadow;
+  position: relative;
+  z-index: var(--z-header);
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  background: transparent;
+
+  transition:
+    height 0.4s var(--ease-smooth),
+    background 0.4s var(--ease-smooth),
+    box-shadow 0.4s var(--ease-smooth),
+    backdrop-filter 0.4s var(--ease-smooth),
+    transform 0.45s var(--ease-smooth),
+    opacity 0.35s var(--ease-smooth);
+
+  will-change: transform, opacity;
 }
 
-/* Scrolled state */
+/* Fixed header state */
 .anna-header.is-scrolled {
-  height:            var(--header-height-scroll);
-  background:        var(--header-bg-scrolled);
-  box-shadow:        var(--header-shadow-scrolled);
-  backdrop-filter:   saturate(1.8) blur(20px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: var(--header-height-scroll);
+
+  background: var(--header-bg-scrolled);
+  box-shadow: var(--header-shadow-scrolled);
+
+  backdrop-filter: saturate(1.8) blur(20px);
   -webkit-backdrop-filter: saturate(1.8) blur(20px);
+
+  animation: annaHeaderSlideIn 0.45s var(--ease-smooth) forwards;
 }
 
+/* Slide in */
+@keyframes annaHeaderSlideIn {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Optional slide out state */
+.anna-header.is-hiding {
+  animation: annaHeaderSlideOut 0.35s var(--ease-smooth) forwards;
+}
+
+@keyframes annaHeaderSlideOut {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
 /* ── Header inner ─────────────────────────────────────────────────────────── */
 .anna-header__inner {
   display:         flex;
