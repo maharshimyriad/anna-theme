@@ -1,103 +1,73 @@
 /**
  * Header Section Styles
  *
- * Sticky transparent-to-solid header with smooth
- * scroll transition, accessible focus management.
+ * Fixed transparent-to-solid header with scroll hide/show behavior.
  *
  * @package Anna_Baylis
  * @since   1.0.0
  */
 
-/* ── Site header ──────────────────────────────────────────────────────────── */
 .anna-header {
-  position: relative;
-  z-index: var(--z-header);
-  height: var(--header-height);
-  display: flex;
-  align-items: center;
-  background: transparent;
-
-  transition:
-    height 0.4s var(--ease-smooth),
-    background 0.4s var(--ease-smooth),
-    box-shadow 0.4s var(--ease-smooth),
-    backdrop-filter 0.4s var(--ease-smooth),
-    transform 0.45s var(--ease-smooth),
-    opacity 0.35s var(--ease-smooth);
-
-  will-change: transform, opacity;
-	
-	padding: 2.5rem 0;
-}
-
-/* Fixed header state */
-.anna-header.is-scrolled {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
+  z-index: var(--z-header);
+  min-height: var(--header-height);
+  display: flex;
+  align-items: center;
+  padding: 1.35rem 0;
+  background: transparent;
+  transition:
+    min-height 0.35s var(--ease-smooth),
+    padding 0.35s var(--ease-smooth),
+    background 0.35s var(--ease-smooth),
+    box-shadow 0.35s var(--ease-smooth),
+    backdrop-filter 0.35s var(--ease-smooth),
+    transform 0.4s var(--ease-smooth),
+    opacity 0.3s var(--ease-smooth);
+  will-change: transform, opacity, background;
+}
 
-  height: var(--header-height-scroll);
-
+.anna-header.is-scrolled,
+.anna-header:not(.anna-header--transparent) {
+  min-height: var(--header-height-scroll);
+  padding: 0.8rem 0;
   background: var(--header-bg-scrolled);
   box-shadow: var(--header-shadow-scrolled);
-
   backdrop-filter: saturate(1.8) blur(20px);
   -webkit-backdrop-filter: saturate(1.8) blur(20px);
-
-  animation: annaHeaderSlideIn 0.45s var(--ease-smooth) forwards;
 }
 
-/* Slide in */
-@keyframes annaHeaderSlideIn {
-  from {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-/* Optional slide out state */
 .anna-header.is-hiding {
-  animation: annaHeaderSlideOut 0.35s var(--ease-smooth) forwards;
+  transform: translateY(-100%);
+  opacity: 0;
 }
 
-@keyframes annaHeaderSlideOut {
-  from {
-    transform: translateY(0);
-    opacity: 1;
-  }
-
-  to {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-}
-/* ── Header inner ─────────────────────────────────────────────────────────── */
 .anna-header__inner {
-  display:         flex;
-  align-items:     center;
+  display: flex;
+  align-items: center;
   justify-content: space-between;
-  width:           100%;
-  gap:             var(--space-6);
+  width: 100%;
+  gap: var(--space-6);
 }
 
-/* ── Logo area ────────────────────────────────────────────────────────────── */
 .anna-logo {
-  display:         flex;
-  align-items:     center;
+  display: flex;
+  align-items: center;
   text-decoration: none;
-  flex-shrink:     0;
+  flex-shrink: 0;
 }
 
 .anna-logo__img {
-  height:     3.8rem;
-  width:      auto;
-  transition: opacity var(--transition-fast);
+  height: 3.8rem;
+  width: auto;
+  transition: opacity var(--transition-fast), height 0.35s var(--ease-smooth);
+}
+
+.anna-header.is-scrolled .anna-logo__img,
+.anna-header:not(.anna-header--transparent) .anna-logo__img {
+  height: 3.05rem;
 }
 
 .anna-logo:hover .anna-logo__img {
@@ -105,64 +75,77 @@
 }
 
 .anna-logo--text {
-  font-family:    var(--font-heading);
-  font-size:      var(--text-xl);
-  font-weight:    var(--font-weight-bold);
-  color:          var(--color-heading);
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-heading);
   letter-spacing: var(--tracking-snug);
-  transition:     color var(--transition-fast);
+  transition: color var(--transition-fast);
 }
 
 .anna-logo--text:hover {
   color: var(--color-primary);
 }
 
-/* Transparent header logo color */
 .anna-header--transparent:not(.is-scrolled) .anna-logo--text {
   color: var(--color-white);
 }
 
 .anna-header--transparent:not(.is-scrolled) .anna-logo--text:hover {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.84);
 }
 
-/* ── Header right side ────────────────────────────────────────────────────── */
 .anna-header__actions {
-  display:     flex;
+  display: flex;
   align-items: center;
-  gap:         var(--space-3);
+  gap: var(--space-3);
   flex-shrink: 0;
 }
 
-/* Transparent header CTA */
 .anna-header--transparent:not(.is-scrolled) .anna-header__actions .anna-btn--primary {
-  background:   rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.15);
   border-color: rgba(255, 255, 255, 0.4);
-  color:        var(--color-white);
-  box-shadow:   none;
+  color: var(--color-white);
+  box-shadow: none;
   backdrop-filter: blur(8px);
 }
 
 .anna-header--transparent:not(.is-scrolled) .anna-header__actions .anna-btn--primary:hover {
-  background:   rgba(255, 255, 255, 0.25);
-  border-color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.72);
 }
 
-/* ── Header placeholder (prevents content jump) ───────────────────────────── */
 .anna-header-placeholder {
-  height: var(--header-height);
+  height: calc(var(--header-height) + 2.7rem);
   display: block;
 }
 
-/* When header is transparent over hero, no placeholder needed */
 .anna-is-homepage .anna-header-placeholder {
   display: none;
 }
 
-/* ── Responsive ───────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .anna-header { height: 4rem; }
-  .anna-header.is-scrolled { height: 3.5rem; }
-  .anna-header-placeholder { height: 4rem; }
-  .anna-logo__img { height: 2rem; }
+  .anna-header {
+    min-height: 4rem;
+    padding: 0.7rem 0;
+  }
+
+  .anna-header.is-scrolled,
+  .anna-header:not(.anna-header--transparent) {
+    min-height: 3.5rem;
+    padding: 0.55rem 0;
+  }
+
+  .anna-header-placeholder {
+    height: 4rem;
+  }
+
+  .anna-logo__img {
+    height: 2rem;
+  }
+
+  .anna-header.is-scrolled .anna-logo__img,
+  .anna-header:not(.anna-header--transparent) .anna-logo__img {
+    height: 1.85rem;
+  }
 }
