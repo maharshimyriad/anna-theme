@@ -38,7 +38,7 @@ if ( empty( $cta_second['url'] ) || '#' === $cta_second['url'] ) {
 		<div class="anna-hero__inner">
 			<div class="anna-hero__content anna-reveal">
 				<?php if ( anna_get_option( 'hero_eyebrow', '' ) ) : ?>
-					<span class="anna-eyebrow anna-hero__overline">
+					<span class="anna-hero__overline">
 						<?php echo esc_html( anna_get_option( 'hero_eyebrow', '' ) ); ?>
 					</span>
 				<?php endif; ?>

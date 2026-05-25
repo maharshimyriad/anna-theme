@@ -26,6 +26,8 @@
     opacity 0.35s var(--ease-smooth);
 
   will-change: transform, opacity;
+	
+	padding: 2.5rem 0;
 }
 
 /* Fixed header state */
@@ -93,7 +95,7 @@
 }
 
 .anna-logo__img {
-  height:     2.5rem;
+  height:     3.8rem;
   width:      auto;
   transition: opacity var(--transition-fast);
 }

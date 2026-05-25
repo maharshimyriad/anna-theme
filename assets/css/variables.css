@@ -187,7 +187,7 @@
   --btn-padding-y-md:  var(--space-3-5);
   --btn-padding-x-lg:  var(--space-10);
   --btn-padding-y-lg:  var(--space-4);
-  --btn-radius:        var(--radius-full);
+  --btn-radius:        6px;
   --btn-font-weight:   var(--font-weight-semibold);
   --btn-font-size:     var(--text-sm);
   --btn-letter-spacing: 0.02em;

@@ -52,7 +52,7 @@
 }
 
 .anna-hero__overline {
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(255, 255, 255);
   letter-spacing: 0.12em;
   animation: annaHeroOverlineDrift 7s ease-in-out infinite;
 }
@@ -83,7 +83,7 @@
 }
 
 .anna-hero__description {
-  max-width: 34rem;
+  max-width: 35rem;
   margin: 0;
   font-size: 1.1rem;
   line-height: 1.7;

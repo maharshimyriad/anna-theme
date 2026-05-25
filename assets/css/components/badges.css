@@ -99,6 +99,7 @@
   background: var(--color-primary);
   color:      var(--color-white);
   transform:  translateY(-2px);
+  cursor:pointer;
 }
 
 /* ── Star rating ──────────────────────────────────────────────────────────── */
