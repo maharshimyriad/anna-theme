@@ -16,6 +16,14 @@ $cta_primary = anna_get_cta( 'primary' );
 $cta_second  = anna_get_cta( 'secondary' );
 $hero_image  = anna_get_option( 'hero_image_id', '' );
 $stats       = anna_get_stats();
+
+if ( empty( $cta_second['text'] ) ) {
+	$cta_second['text'] = __( 'Learn about my approach', 'anna-baylis' );
+}
+
+if ( empty( $cta_second['url'] ) || '#' === $cta_second['url'] ) {
+	$cta_second['url'] = '#intro';
+}
 ?>
 
 <section
@@ -45,11 +53,10 @@ $stats       = anna_get_stats();
 					<a href="<?php echo esc_url( $cta_primary['url'] ); ?>" class="anna-btn anna-btn--primary anna-btn--lg">
 						<?php echo esc_html( $cta_primary['text'] ); ?>
 					</a>
-					<?php if ( ! empty( $cta_second['text'] ) ) : ?>
-						<a href="<?php echo esc_url( $cta_second['url'] ); ?>" class="anna-btn anna-btn--link anna-btn--lg">
-							<?php echo esc_html( $cta_second['text'] ); ?>
-						</a>
-					<?php endif; ?>
+					<a href="<?php echo esc_url( $cta_second['url'] ); ?>" class="anna-btn anna-btn--hero-link anna-btn--lg">
+						<?php echo esc_html( $cta_second['text'] ); ?>
+						<span class="anna-btn__icon" aria-hidden="true">-></span>
+					</a>
 				</div>
 
 				<?php if ( ! empty( $stats ) ) : ?>

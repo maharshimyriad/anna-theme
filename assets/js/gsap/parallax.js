@@ -17,21 +17,6 @@
 
   window.annaParallaxInit = function () {
 
-    // About image parallax
-    var aboutImg = document.querySelector('.anna-about__image-wrap img');
-    if (aboutImg) {
-      gsap.to(aboutImg, {
-        y:    -40,
-        ease: 'none',
-        scrollTrigger: {
-          trigger:  '.anna-about',
-          start:    'top bottom',
-          end:      'bottom top',
-          scrub:    1,
-        },
-      });
-    }
-
     // Hero image subtle parallax
     var heroImg = document.querySelector('.anna-image-composition__primary img');
     if (heroImg) {
