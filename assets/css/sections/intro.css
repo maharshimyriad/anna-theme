@@ -1,198 +1,106 @@
-/**
- * Intro / Approach Section
- * Recognition Section
- * Services Section
- * About Section
- * CTA Section
- * Footer Section
- *
- * @package Anna_Baylis
- * @since   1.0.0
- */
-
-/* ════════════════════════════════════════════════════════════════════════════
-   INTRO / APPROACH SECTION
-   ════════════════════════════════════════════════════════════════════════════ */
-
 .anna-intro {
-  background: var(--color-white);
+  background: #f8f7f2;
 }
 
 .anna-intro__inner {
-  display:     grid;
-  grid-template-columns: 1fr 1.4fr;
-  gap:         var(--grid-gap-lg);
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(18rem, 0.95fr);
+  gap: clamp(2rem, 5vw, 5rem);
   align-items: start;
 }
 
-/* Left: pull quote column */
-.anna-intro__quote-col {
-  position: sticky;
-  top:      calc(var(--header-height-scroll) + var(--space-8));
+.anna-intro__inner--single {
+  grid-template-columns: 1fr;
+}
+
+.anna-intro__body {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.anna-intro__heading {
+  margin: 0;
+  color: var(--color-primary);
+  font-size: clamp(2.2rem, 5vw, 4.2rem);
+  line-height: 0.98;
+}
+
+.anna-intro__copy p {
+  margin: 0 0 1rem;
+  color: rgba(26, 43, 37, 0.74);
+  line-height: 1.9;
+  font-size: 1.02rem;
 }
 
 .anna-intro__quote {
-  font-family:  var(--font-heading);
-  font-size:    var(--text-3xl);
-  font-weight:  var(--font-weight-light);
-  line-height:  var(--leading-snug);
-  color:        var(--color-heading);
-  font-style:   italic;
-  margin:       0;
-  padding:      0;
-  border:       none;
-  position:     relative;
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+  border-left: 3px solid rgba(76, 165, 145, 0.55);
 }
 
-.anna-intro__quote::before {
-  content:       '';
-  display:       block;
-  width:         48px;
-  height:        3px;
-  background:    linear-gradient(90deg, var(--color-primary), var(--color-accent));
-  border-radius: var(--radius-full);
-  margin-bottom: var(--space-6);
+.anna-intro__quote p,
+.anna-intro__quote cite {
+  margin: 0;
+  color: #6aa99a;
+  font-style: italic;
+  font-size: 1.35rem;
+  line-height: 1.45;
 }
 
 .anna-intro__quote cite {
-  display:        block;
-  margin-top:     var(--space-6);
-  font-size:      var(--text-sm);
-  font-style:     normal;
-  font-weight:    var(--font-weight-semibold);
-  color:          var(--color-primary);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
+  display: block;
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
 }
 
-/* Right: body text column */
-.anna-intro__body {
-  display:        flex;
-  flex-direction: column;
-  gap:            var(--space-6);
-}
-
-.anna-intro__body p {
-  font-size:   var(--text-lg);
-  line-height: var(--leading-loose);
-  color:       var(--color-text-muted);
-}
-
-.anna-intro__body p:first-child {
-  font-size:   var(--text-xl);
-  color:       var(--color-text);
-  font-weight: var(--font-weight-medium);
-}
-
-@media (max-width: 1024px) {
-  .anna-intro__inner       { grid-template-columns: 1fr; }
-  .anna-intro__quote-col   { position: static; }
-  .anna-intro__quote       { font-size: var(--text-2xl); }
-}
-
-/* ════════════════════════════════════════════════════════════════════════════
-   RECOGNITION / PROBLEM SECTION
-   ════════════════════════════════════════════════════════════════════════════ */
-
-.anna-recognition {
-  background: var(--color-bg-soft);
-}
-
-.anna-recognition__inner {
-  display:     grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap:         var(--grid-gap-lg);
-  align-items: center;
-}
-
-.anna-recognition__header {
-  display:        flex;
-  flex-direction: column;
-  gap:            var(--space-6);
+.anna-recognition__card {
+  background: #edf2ed;
+  border-radius: 1.4rem;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  box-shadow: 0 12px 30px rgba(15, 31, 27, 0.05);
 }
 
 .anna-recognition__heading {
-  font-size:      var(--text-4xl);
-  font-weight:    var(--font-weight-semibold);
-  line-height:    var(--leading-tight);
-  color:          var(--color-heading);
-  letter-spacing: var(--tracking-snug);
-  margin:         0;
+  margin: 0 0 1.25rem;
+  color: var(--color-primary);
+  font-size: 1.6rem;
+  line-height: 1.2;
 }
 
 .anna-recognition__description {
-  font-size:   var(--text-lg);
-  color:       var(--color-text-muted);
-  line-height: var(--leading-relaxed);
-}
-
-/* Recognition list card */
-.anna-recognition__card {
-  background:    var(--color-white);
-  border-radius: var(--radius-xl);
-  padding:       var(--space-10) var(--space-8);
-  box-shadow:    var(--shadow-sm);
-  border:        1px solid var(--color-border-soft);
+  margin: 0 0 1rem;
 }
 
 .anna-recognition__list {
-  list-style:    none;
-  padding:       0;
-  margin:        0;
-  display:       flex;
-  flex-direction: column;
-  gap:           var(--space-5);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
 }
 
 .anna-recognition__item {
-  display:     flex;
-  align-items: flex-start;
-  gap:         var(--space-4);
-  padding:     var(--space-5);
-  border-radius: var(--radius-md);
-  background:  var(--color-bg-soft);
-  transition:  background   var(--transition-fast),
-               transform    var(--transition-spring),
-               box-shadow   var(--transition-fast);
+  display: grid;
+  grid-template-columns: 0.85rem 1fr;
+  gap: 0.85rem;
+  align-items: start;
 }
 
-.anna-recognition__item:hover {
-  background:  var(--color-white);
-  transform:   translateX(6px);
-  box-shadow:  var(--shadow-sm);
-}
-
-.anna-recognition__item-icon {
-  width:          44px;
-  height:         44px;
-  border-radius:  var(--radius-sm);
-  background:     rgba(0, 112, 99, 0.08);
-  color:          var(--color-primary);
-  display:        flex;
-  align-items:    center;
-  justify-content: center;
-  flex-shrink:    0;
-  transition:     background var(--transition-fast),
-                  color      var(--transition-fast);
-}
-
-.anna-recognition__item:hover .anna-recognition__item-icon {
-  background: var(--color-primary);
-  color:      var(--color-white);
+.anna-recognition__item-dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 999px;
+  background: #7ac0b0;
+  margin-top: 0.45rem;
 }
 
 .anna-recognition__item-text {
-  font-size:   var(--text-base);
-  line-height: var(--leading-relaxed);
-  color:       var(--color-text);
-  font-weight: var(--font-weight-medium);
+  color: rgba(26, 43, 37, 0.72);
+  line-height: 1.8;
 }
 
-@media (max-width: 1024px) {
-  .anna-recognition__inner { grid-template-columns: 1fr; }
-}
-
-@media (max-width: 768px) {
-  .anna-recognition__card  { padding: var(--space-6); }
-  .anna-recognition__heading { font-size: var(--text-3xl); }
+@media (max-width: 900px) {
+  .anna-intro__inner {
+    grid-template-columns: 1fr;
+  }
 }

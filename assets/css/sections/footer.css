@@ -1,255 +1,80 @@
-/**
- * Footer Section Styles
- *
- * @package Anna_Baylis
- * @since   1.0.0
- */
-
-/* ── Site footer ──────────────────────────────────────────────────────────── */
 .anna-footer {
-  background:  var(--color-heading);
-  color:       rgba(255, 255, 255, 0.7);
-  position:    relative;
-  overflow:    hidden;
+  background: #007063;
+  color: rgba(255, 255, 255, 0.74);
 }
 
-/* ── Footer top (widget columns) ──────────────────────────────────────────── */
 .anna-footer__top {
-  padding-top:    var(--section-padding-md);
-  padding-bottom: var(--space-16);
-  border-bottom:  1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 4rem;
+  padding-bottom: 2.5rem;
 }
 
 .anna-footer__grid {
-  display:               grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
-  gap:                   var(--grid-gap-lg);
+  display: grid;
+  grid-template-columns: 1.35fr 1fr 1fr 1fr;
+  gap: 2rem;
 }
 
-/* ── Footer column ────────────────────────────────────────────────────────── */
-.anna-footer__col { }
-
-.anna-footer__brand-text {
-  font-size:   var(--text-base);
-  line-height: var(--leading-relaxed);
-  color:       rgba(255, 255, 255, 0.55);
-  margin:      var(--space-5) 0 var(--space-6);
-  max-width:   280px;
-}
-
-.anna-footer__widget-title,
 .anna-footer__col-title {
-  font-family:    var(--font-heading);
-  font-size:      var(--text-base);
-  font-weight:    var(--font-weight-semibold);
-  color:          var(--color-white);
-  margin:         0 0 var(--space-6);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
+  margin: 0 0 1rem;
+  color: var(--color-white);
+  text-transform: none;
+  letter-spacing: 0.02em;
 }
 
-/* ── Footer nav ───────────────────────────────────────────────────────────── */
+.anna-footer__brand-text,
+.anna-footer__newsletter-text,
+.anna-footer__contact-item,
+.anna-footer__nav a {
+  color: rgba(255, 255, 255, 0.74);
+  line-height: 1.8;
+}
+
 .anna-footer__nav {
   list-style: none;
-  padding:    0;
-  margin:     0;
-  display:    flex;
-  flex-direction: column;
-  gap:        var(--space-3);
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
 }
 
-.anna-footer__nav-link {
-  color:           rgba(255, 255, 255, 0.6);
-  text-decoration: none;
-  font-size:       var(--text-sm);
-  font-weight:     var(--font-weight-regular);
-  transition:      color var(--transition-fast),
-                   padding-left var(--transition-base);
-  display:         inline-block;
-  position:        relative;
-}
-
-.anna-footer__nav-link:hover,
-.anna-footer__nav-link:focus-visible {
-  color:        var(--color-white);
-  padding-left: var(--space-2);
-}
-
-.anna-footer__nav-link:focus-visible {
-  outline:        var(--focus-ring-width) solid var(--focus-ring-color);
-  outline-offset: var(--focus-ring-offset);
-  border-radius:  var(--radius-xs);
-}
-
-/* ── Footer contact info ──────────────────────────────────────────────────── */
-.anna-footer__contact {
-  display:        flex;
-  flex-direction: column;
-  gap:            var(--space-4);
-}
-
-.anna-footer__contact-item {
-  display:     flex;
-  align-items: flex-start;
-  gap:         var(--space-3);
-  font-size:   var(--text-sm);
-  color:       rgba(255, 255, 255, 0.6);
-  line-height: var(--leading-relaxed);
-}
-
-.anna-footer__contact-icon {
-  width:       20px;
-  height:      20px;
-  color:       var(--color-accent);
-  flex-shrink: 0;
-  margin-top:  0.15em;
-}
-
+.anna-footer__nav a,
 .anna-footer__contact-link {
-  color:           rgba(255, 255, 255, 0.6);
   text-decoration: none;
-  transition:      color var(--transition-fast);
-}
-
-.anna-footer__contact-link:hover {
-  color: var(--color-white);
-}
-
-/* ── Footer newsletter ────────────────────────────────────────────────────── */
-.anna-footer__newsletter-text {
-  font-size:    var(--text-sm);
-  line-height:  var(--leading-relaxed);
-  color:        rgba(255, 255, 255, 0.55);
-  margin-bottom: var(--space-5);
 }
 
 .anna-footer__newsletter-form {
-  display: flex;
-  gap:     var(--space-3);
+  display: grid;
+  gap: 0.75rem;
 }
 
 .anna-footer__newsletter-form .anna-input {
-  background:   rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.12);
-  color:        var(--color-white);
-  flex:         1;
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: var(--color-white);
 }
 
 .anna-footer__newsletter-form .anna-input::placeholder {
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.7);
 }
 
-.anna-footer__newsletter-form .anna-input:focus {
-  border-color: var(--color-accent);
-  box-shadow:   0 0 0 3px rgba(76, 165, 145, 0.2);
-  background:   rgba(255, 255, 255, 0.1);
-}
-
-/* ── Social links in footer ───────────────────────────────────────────────── */
-.anna-social-links--footer {
-  display:   flex;
-  gap:       var(--space-3);
-  margin-top: var(--space-6);
-}
-
-.anna-social-links--footer .anna-social-links__link {
-  width:           40px;
-  height:          40px;
-  border-radius:   var(--radius-full);
-  background:      rgba(255, 255, 255, 0.06);
-  color:           rgba(255, 255, 255, 0.6);
-  display:         flex;
-  align-items:     center;
-  justify-content: center;
-  transition:      background var(--transition-fast),
-                   color      var(--transition-fast),
-                   transform  var(--transition-spring);
-}
-
-.anna-social-links--footer .anna-social-links__link:hover {
-  background: var(--color-primary);
-  color:      var(--color-white);
-  transform:  translateY(-3px);
-}
-
-/* ── Footer logo ──────────────────────────────────────────────────────────── */
-.anna-logo--footer .anna-logo__img {
-  filter:   brightness(0) invert(1);
-  opacity:  0.9;
-}
-
-.anna-logo--footer.anna-logo--text {
-  color:       var(--color-white);
-  font-size:   var(--text-2xl);
-}
-
-/* ── Footer bottom bar ────────────────────────────────────────────────────── */
 .anna-footer__bottom {
-  padding:     var(--space-6) 0;
-  display:     flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap:   wrap;
-  gap:         var(--space-4);
+  padding: 0 0 2rem;
 }
 
 .anna-footer__copyright {
-  font-size: var(--text-xs);
-  color:     rgba(255, 255, 255, 0.4);
+  margin: 0;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.88rem;
 }
 
-.anna-footer__legal {
-  display:    flex;
-  gap:        var(--space-6);
-  list-style: none;
-  padding:    0;
-  margin:     0;
+@media (max-width: 980px) {
+  .anna-footer__grid {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
-.anna-footer__legal a {
-  font-size:       var(--text-xs);
-  color:           rgba(255, 255, 255, 0.4);
-  text-decoration: none;
-  transition:      color var(--transition-fast);
-}
-
-.anna-footer__legal a:hover { color: rgba(255, 255, 255, 0.8); }
-
-/* Back to top */
-.anna-footer__back-top {
-  width:           40px;
-  height:          40px;
-  border-radius:   var(--radius-full);
-  border:          1px solid rgba(255, 255, 255, 0.15);
-  background:      transparent;
-  color:           rgba(255, 255, 255, 0.5);
-  display:         flex;
-  align-items:     center;
-  justify-content: center;
-  cursor:          pointer;
-  transition:      background var(--transition-fast),
-                   color      var(--transition-fast),
-                   transform  var(--transition-spring);
-}
-
-.anna-footer__back-top:hover {
-  background: var(--color-primary);
-  color:      var(--color-white);
-  transform:  translateY(-3px);
-}
-
-.anna-footer__back-top:focus-visible {
-  outline:        var(--focus-ring-width) solid var(--focus-ring-color);
-  outline-offset: var(--focus-ring-offset);
-}
-
-/* ── Responsive ───────────────────────────────────────────────────────────── */
-@media (max-width: 1024px) {
-  .anna-footer__grid { grid-template-columns: 1fr 1fr; }
-}
-
-@media (max-width: 768px) {
-  .anna-footer__grid    { grid-template-columns: 1fr; gap: var(--space-10); }
-  .anna-footer__bottom  { flex-direction: column; align-items: center; text-align: center; }
-  .anna-footer__newsletter-form { flex-direction: column; }
+@media (max-width: 700px) {
+  .anna-footer__grid {
+    grid-template-columns: 1fr;
+  }
 }

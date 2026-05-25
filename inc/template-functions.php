@@ -133,20 +133,22 @@ function anna_has_transparent_header() {
  * @return array
  */
 function anna_get_stats() {
+	$defaults = anna_get_default_options();
+
 	return apply_filters(
 		'anna_homepage_stats',
 		array(
 			array(
-				'value'  => anna_get_option( 'stat_1_value', '500+' ),
-				'label'  => anna_get_option( 'stat_1_label', __( 'Clients Transformed', 'anna-baylis' ) ),
+				'value'  => anna_get_option( 'stat_1_value', $defaults['stat_1_value'] ),
+				'label'  => anna_get_option( 'stat_1_label', $defaults['stat_1_label'] ),
 			),
 			array(
-				'value'  => anna_get_option( 'stat_2_value', '12+' ),
-				'label'  => anna_get_option( 'stat_2_label', __( 'Years Experience', 'anna-baylis' ) ),
+				'value'  => anna_get_option( 'stat_2_value', $defaults['stat_2_value'] ),
+				'label'  => anna_get_option( 'stat_2_label', $defaults['stat_2_label'] ),
 			),
 			array(
-				'value'  => anna_get_option( 'stat_3_value', '98%' ),
-				'label'  => anna_get_option( 'stat_3_label', __( 'Client Satisfaction', 'anna-baylis' ) ),
+				'value'  => anna_get_option( 'stat_3_value', $defaults['stat_3_value'] ),
+				'label'  => anna_get_option( 'stat_3_label', $defaults['stat_3_label'] ),
 			),
 		)
 	);

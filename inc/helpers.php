@@ -25,6 +25,31 @@ function anna_get_option( $key, $default = '' ) {
 }
 
 /**
+ * Get a newline-separated option as an array of trimmed lines.
+ *
+ * @param string $key     Option key.
+ * @param array  $default Fallback lines.
+ * @return array
+ */
+function anna_get_lines_option( $key, $default = array() ) {
+	$value = anna_get_option( $key, '' );
+
+	if ( is_array( $value ) ) {
+		$value = implode( "\n", $value );
+	}
+
+	if ( ! is_string( $value ) || '' === trim( $value ) ) {
+		return $default;
+	}
+
+	$lines = preg_split( '/\r\n|\r|\n/', $value );
+	$lines = array_map( 'trim', $lines );
+	$lines = array_filter( $lines );
+
+	return array_values( $lines );
+}
+
+/**
  * Output a theme option value (escaped).
  *
  * @param  string $key     Option key.
@@ -172,9 +197,11 @@ function anna_section_enabled( $section ) {
  * @return array
  */
 function anna_get_cta( $type = 'primary' ) {
+	$defaults = anna_get_default_options();
+
 	return array(
-		'text' => anna_get_option( 'cta_' . $type . '_text', __( 'Get Started', 'anna-baylis' ) ),
-		'url'  => anna_get_option( 'cta_' . $type . '_url', '#' ),
+		'text' => anna_get_option( 'cta_' . $type . '_text', $defaults[ 'cta_' . $type . '_text' ] ?? '' ),
+		'url'  => anna_get_option( 'cta_' . $type . '_url', $defaults[ 'cta_' . $type . '_url' ] ?? '#' ),
 	);
 }
 
