@@ -26,8 +26,9 @@
 
 /* ── Badge variants ───────────────────────────────────────────────────────── */
 .anna-badge--primary {
-  background: rgba(0, 112, 99, 0.10);
-  color:      var(--color-primary);
+  background: #edf4f1;
+  color:      #2d9488;
+  border:     1px solid rgba(45, 148, 136, 0.10);
 }
 
 .anna-badge--accent {

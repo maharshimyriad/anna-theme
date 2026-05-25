@@ -21,8 +21,10 @@
     letter-spacing: 3.2px;
     line-height: 1;
     justify-content: center;
+    font-weight: 700;
+    margin: 0;
+    text-transform: capitalize;
 }
-
 .anna-cta__heading {
   max-width: 980px;
   margin: 0 auto;
