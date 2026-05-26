@@ -92,9 +92,10 @@
 
 .anna-hero__ctas {
   display: flex;
-  flex-wrap: wrap;
+/*   flex-wrap: wrap; */
   gap: 1rem;
   align-items: center;
+	margin:1.5rem 0;
 }
 
 .anna-hero .anna-btn--hero-primary {
@@ -102,8 +103,9 @@
 }
 
 .anna-hero .anna-btn--hero-link {
-  max-width: 16rem;
+/*   max-width: 16rem; */
   font-size: var(--text-md);
+	padding:0 1.25rem;
   line-height: 1.35;
 }
 

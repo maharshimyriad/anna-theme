@@ -67,8 +67,8 @@
 }
 
 .anna-section--lg {
-  padding-top:    var(--section-padding-lg);
-  padding-bottom: var(--section-padding-lg);
+  padding-top:    4.5rem;
+  padding-bottom: 4.5rem;
 }
 
 .anna-section--xl {
