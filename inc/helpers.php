@@ -389,7 +389,10 @@ function anna_get_about_page_content() {
 			$non_empty_saved = array();
 			foreach ( $saved as $key => $value ) {
 				if ( is_array( $value ) ) {
-					$non_empty_saved[ $key ] = $value;
+					$array_value = array_values( array_filter( array_map( 'trim', $value ) ) );
+					if ( ! empty( $array_value ) ) {
+						$non_empty_saved[ $key ] = $array_value;
+					}
 					continue;
 				}
 
