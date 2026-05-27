@@ -317,6 +317,60 @@ function anna_get_final_cta_section_content() {
 }
 
 /**
+ * Get fixed About page content from page meta with theme fallbacks.
+ *
+ * @return array
+ */
+function anna_get_about_page_content() {
+	$content = array(
+		'hero_eyebrow'       => __( 'About Anna', 'anna-baylis' ),
+		'hero_heading'       => __( "I'm Anna.", 'anna-baylis' ),
+		'hero_subheading'    => __( 'Life Coach. Motivational Speaker. Olympian.', 'anna-baylis' ),
+		'hero_description'   => __( 'And I became the coach I am because of what I have lived through, not in spite of it.', 'anna-baylis' ),
+		'hero_image_id'      => 0,
+		'story_eyebrow'      => __( 'About Anna', 'anna-baylis' ),
+		'story_heading'      => __( 'My story the beginning', 'anna-baylis' ),
+		'story_body'         => '',
+		'story_image_id'     => 0,
+		'rock_heading'       => __( 'My rock bottom', 'anna-baylis' ),
+		'rock_left_body'     => '',
+		'rock_right_body'    => '',
+		'coach_heading'      => __( 'How I became a coach', 'anna-baylis' ),
+		'coach_left_body'    => '',
+		'coach_right_body'   => '',
+		'coach_quote'        => __( "That's not theory. That's my life.", 'anna-baylis' ),
+		'approach_eyebrow'   => __( 'My Approach', 'anna-baylis' ),
+		'approach_heading'   => __( 'Different to most talk therapies', 'anna-baylis' ),
+		'approach_intro'     => '',
+		'approach_left_body' => '',
+		'approach_right_body'=> '',
+		'qual_heading'       => __( 'My qualifications', 'anna-baylis' ),
+		'qual_intro'         => __( 'I am committed to ongoing learning and hold qualifications in:', 'anna-baylis' ),
+		'qual_items'         => array(),
+		'life_eyebrow'       => __( 'Present Day', 'anna-baylis' ),
+		'life_heading'       => __( 'My life now', 'anna-baylis' ),
+		'life_body'          => '',
+		'life_image_id'      => 0,
+	);
+
+	$post_id = anna_get_current_page_content_id();
+	if ( $post_id && function_exists( 'anna_content_get_about_page_content' ) ) {
+		$saved = anna_content_get_about_page_content( $post_id );
+		if ( is_array( $saved ) ) {
+			$content = wp_parse_args( $saved, $content );
+		}
+	}
+
+	if ( is_string( $content['qual_items'] ) ) {
+		$content['qual_items'] = preg_split( '/\r\n|\r|\n/', $content['qual_items'] );
+	}
+
+	$content['qual_items'] = array_values( array_filter( array_map( 'trim', (array) $content['qual_items'] ) ) );
+
+	return $content;
+}
+
+/**
  * Get a newline-separated option as an array of trimmed lines.
  *
  * @param string $key     Option key.

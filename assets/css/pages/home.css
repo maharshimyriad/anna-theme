@@ -1,0 +1,847 @@
+.anna-hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  margin-top: var(--header-height);
+  background-color: var(--color-bg-soft);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top;
+}
+
+.anna-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(22, 43, 37, 0.58) 0%, rgba(22, 43, 37, 0.42) 35%, rgba(22, 43, 37, 0.08) 72%, rgba(22, 43, 37, 0.02) 100%);
+  background-size: 120% 120%;
+  animation: annaHeroOverlayShift 14s ease-in-out infinite alternate;
+}
+
+.anna-hero::after {
+  content: "";
+  position: absolute;
+  right: clamp(1rem, 8vw, 7rem);
+  top: clamp(4rem, 16vh, 9rem);
+  width: clamp(16rem, 26vw, 24rem);
+  height: clamp(16rem, 26vw, 24rem);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(125, 196, 180, 0.22) 0%, rgba(125, 196, 180, 0.08) 34%, rgba(125, 196, 180, 0) 72%);
+  filter: blur(12px);
+  opacity: 0.8;
+  pointer-events: none;
+  animation: annaHeroGlow 9s ease-in-out infinite alternate;
+}
+
+.anna-hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+.anna-hero__inner {
+  width: 100%;
+  padding: clamp(4rem, 8vw, 7rem) 0;
+}
+
+.anna-hero__content {
+  max-width: 42rem;
+  display: grid;
+  gap: 1.5rem;
+  color: var(--color-white);
+}
+
+.anna-hero__overline {
+  color: rgba(255, 255, 255);
+  letter-spacing: 0.12em;
+  animation: annaHeroOverlineDrift 7s ease-in-out infinite;
+}
+
+.anna-hero__heading {
+  margin: 0;
+  font-size: clamp(3rem, 2.55rem + 1.45vw, 3.75rem);
+  line-height: 1.4;
+  font-weight: 700;
+  color: var(--color-white);
+}
+
+.anna-hero__heading em {
+  font-style: normal;
+}
+
+.anna-hero__word {
+  display: inline-flex;
+  overflow: hidden;
+  padding-top: 0.04em;
+  padding-bottom: 0.12em;
+  margin-top: -0.04em;
+  margin-bottom: -0.12em;
+}
+
+.anna-hero__word-inner {
+  display: inline-block;
+}
+
+.anna-hero__description {
+  max-width: 35rem;
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.anna-hero__ctas {
+  display: flex;
+/*   flex-wrap: wrap; */
+  gap: 1rem;
+  align-items: center;
+	margin:1.5rem 0;
+}
+
+.anna-hero .anna-btn--hero-primary {
+  min-width: 20.5rem;
+	transform:none !important;
+}
+
+.anna-hero .anna-btn--hero-link {
+/*   max-width: 16rem; */
+  font-size: var(--text-md);
+	padding:0 1.25rem;
+  line-height: 1.35;
+	transform:none !important;
+}
+
+.anna-hero__stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  max-width: 34rem;
+}
+
+.anna-hero__stats .anna-hero__stat {
+  animation: annaHeroStatFloat 6.5s ease-in-out infinite;
+}
+
+.anna-hero__stats .anna-hero__stat:nth-child(2) {
+  animation-delay: 1.2s;
+}
+
+.anna-hero__stats .anna-hero__stat:nth-child(3) {
+  animation-delay: 2.4s;
+}
+
+.anna-hero__stat {
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  border-radius: 0.9rem;
+  padding: 1rem;
+}
+
+.anna-hero__stat-value {
+  display: block;
+  color: var(--color-white);
+  font-size: 2rem;
+  line-height: 1;
+  font-weight: 700;
+  margin-bottom: 0.45rem;
+}
+
+.anna-hero__stat-label {
+  display: block;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.anna-hero__trust {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.92rem;
+}
+
+@keyframes annaHeroGlow {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.96);
+    opacity: 0.56;
+  }
+  100% {
+    transform: translate3d(-1rem, 1.1rem, 0) scale(1.08);
+    opacity: 0.9;
+  }
+}
+
+@keyframes annaHeroOverlayShift {
+  0% {
+    background-position: 0% 50%;
+    opacity: 0.92;
+  }
+  100% {
+    background-position: 100% 50%;
+    opacity: 1;
+  }
+}
+
+@keyframes annaHeroOverlineDrift {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.72;
+  }
+  50% {
+    transform: translate3d(0, -3px, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes annaHeroStatFloat {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -8px, 0);
+  }
+}
+
+@media (max-width: 900px) {
+  .anna-hero {
+    min-height: auto;
+    background-position: 68% center;
+  }
+
+  .anna-hero__heading {
+    font-size: clamp(2.5rem, 8vw, 3.6rem);
+  }
+
+  .anna-hero__stats {
+    grid-template-columns: 1fr;
+    max-width: 20rem;
+  }
+
+  .anna-hero .anna-btn--hero-primary {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .anna-hero .anna-btn--hero-link {
+    max-width: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anna-hero::before,
+  .anna-hero::after,
+  .anna-hero__overline,
+  .anna-hero__stats .anna-hero__stat {
+    animation: none !important;
+  }
+}
+.anna-intro {
+  background: #f8f7f2;
+}
+
+.anna-intro__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(18rem, 0.95fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+
+.anna-intro__inner--single {
+  grid-template-columns: 1fr;
+}
+
+.anna-intro__body {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.anna-intro__heading {
+  margin: 0;
+  color: var(--color-primary);
+  font-size: clamp(2.625rem, 2.28rem + 1.15vw, 3.25rem);
+  line-height: 1.02;
+}
+
+.anna-intro__copy p {
+  margin: 0 0 1rem;
+  color: rgba(26, 43, 37, 0.74);
+  line-height: 1.9;
+  font-size: 1.02rem;
+}
+
+.anna-intro__quote {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+  border-left: 3px solid rgba(76, 165, 145, 0.55);
+}
+
+.anna-intro__quote p,
+.anna-intro__quote cite {
+  margin: 0;
+  color: #6aa99a;
+  font-style: italic;
+  font-size: 1.35rem;
+  line-height: 1.45;
+}
+
+.anna-intro__quote cite {
+  display: block;
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+}
+
+.anna-recognition__card {
+  background: #F2F6F2;
+  border-radius: 1.4rem;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  box-shadow: 0 12px 30px rgba(15, 31, 27, 0.05);
+}
+
+.anna-recognition__heading {
+  margin: 0 0 1.25rem;
+  color: var(--color-primary);
+  font-size: clamp(1.5rem, 1.36rem + 0.45vw, 1.75rem);
+  line-height: 1.2;
+}
+
+.anna-recognition__description {
+  margin: 0 0 1rem;
+}
+
+.anna-recognition__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.anna-recognition__item {
+  display: grid;
+  grid-template-columns: 0.85rem 1fr;
+  gap: 0.85rem;
+  align-items: start;
+}
+
+.anna-recognition__item-dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 999px;
+  background: #7ac0b0;
+  margin-top: 0.45rem;
+}
+
+.anna-recognition__item-text {
+  color: rgba(26, 43, 37, 0.72);
+  line-height: 1.8;
+}
+
+@media (max-width: 900px) {
+  .anna-intro__inner {
+    grid-template-columns: 1fr;
+  }
+}
+/**
+ * Recognition Section CSS
+ *
+ * @package Anna_Baylis
+ * @since   1.0.0
+ */
+
+/* Styles inlined into intro.css for file efficiency.
+ * This file is a valid placeholder kept for the enqueue system.
+ * All recognition styles live in sections/intro.css.
+ */
+.anna-services {
+  background: #fbfaf6;
+}
+
+.anna-services__header {
+  max-width: 42rem;
+  margin: 0 0 3rem;
+}
+
+.anna-services__heading {
+  margin: 0.5rem 0 0;
+  color: var(--color-primary);
+  font-size: clamp(2.625rem, 2.28rem + 1.15vw, 3.25rem);
+  line-height: 1.02;
+}
+
+.anna-services__description {
+  margin-top: 1rem;
+  color: rgba(26, 43, 37, 0.74);
+}
+
+.anna-services__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.anna-services__grid > li {
+  min-width: 0;
+}
+
+.anna-services__grid > li .anna-service-card--feature {
+  height: 100%;
+}
+
+.anna-service-card--feature {
+  min-height: 24rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  padding: 1.8rem;
+  border-radius: 1.25rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.62) 0%, rgba(255, 255, 255, 0.92) 100%), #f2f1eb;
+  border: 1px solid rgba(0, 112, 99, 0.08);
+  box-shadow: 0 18px 40px rgba(15, 31, 27, 0.05);
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+  will-change: transform;
+	gap:5px;
+}
+
+.anna-service-card--feature:hover {
+  border-color: rgba(0, 112, 99, 0.18);
+  box-shadow: 0 24px 54px rgba(15, 31, 27, 0.09);
+}
+
+.anna-service-card__number {
+  display: block;
+/*   margin-bottom: auto; */
+  color: rgba(76, 165, 145, 0.75);
+  font-size: clamp(2.625rem, 2.28rem + 1.15vw, 3.75rem);
+  line-height: 1;
+	font-family:var(--font-heading);
+  font-weight: 700;
+}
+
+.anna-service-card__title {
+  margin: 1rem 0 0.75rem;
+  color: var(--color-primary);
+  font-size: clamp(1.25rem, 1.36rem + 0.45vw, 1.25rem);
+  line-height: 1.1;
+}
+
+.anna-service-card__excerpt {
+  margin: 0 0 1.4rem;
+  color: rgba(26, 43, 37, 0.76);
+  line-height: 1.8;
+  flex: none;
+}
+
+.anna-service-card__link {
+    color: var(--color-primary);
+    font-weight: 700;
+    border-bottom: 2px solid var(--color-primary);
+    width: fit-content;
+}
+
+.anna-service-card__link:hover {
+  color: var(--color-primary-dark);
+}
+
+.anna-services__footer {
+  margin-top: 2rem;
+}
+
+.anna-services__grid li:nth-child(1) .anna-service-card {
+    background-image: url('https://mediumseagreen-barracuda-518910.hostingersite.com/wp-content/uploads/2026/05/anna-services-bg-1.png');
+}
+
+.anna-services__grid li:nth-child(2) .anna-service-card {
+    background-image: url('https://mediumseagreen-barracuda-518910.hostingersite.com/wp-content/uploads/2026/05/anna-services-bg-3.png');
+}
+
+.anna-services__grid li:nth-child(3) .anna-service-card {
+    background-image: url('https://mediumseagreen-barracuda-518910.hostingersite.com/wp-content/uploads/2026/05/anna-services-bg-2.png');
+}
+
+.anna-service-card {
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
+}
+
+@media (max-width: 980px) {
+  .anna-services__grid {
+    grid-template-columns: 1fr;
+  }
+}
+/**
+ * About Section Styles
+ *
+ * @package Anna_Baylis
+ * @since   1.0.0
+ */
+
+.anna-about {
+  background: #f7faf8;
+  overflow:   hidden;
+}
+
+.anna-about__inner {
+  display:     grid;
+  grid-template-columns: 1fr 1fr;
+  gap:         var(--grid-gap-lg);
+  align-items: center;
+}
+
+/* ── About image side ─────────────────────────────────────────────────────── */
+.anna-about__visual {
+    position: relative;
+    max-width: 550px;
+    max-height: 640px;
+    padding: 16px;
+    background: #F0F5F3;
+    border-radius: 24px;
+}
+
+.anna-about__image-wrap {
+  position:      relative;
+  border-radius: var(--radius-lg);
+  overflow:      hidden;
+  aspect-ratio:  4 / 5;
+  box-shadow:    0 18px 48px rgba(120, 182, 173, 0.16);
+}
+
+.anna-about__image-wrap img {
+  width:       100%;
+  height:      100%;
+  object-fit:  cover;
+  object-position: center top;
+  transition:  transform 0.9s var(--ease-smooth);
+  will-change: transform;
+}
+
+.anna-about__visual:hover .anna-about__image-wrap img {
+  transform: scale(1.04);
+}
+
+/* Floating accent shape behind image */
+.anna-about__shape {
+  position:       absolute;
+  bottom:         -var(--space-8);
+  left:           -var(--space-8);
+  width:          60%;
+  aspect-ratio:   1;
+  border-radius:  40% 60% 70% 30% / 40% 50% 60% 50%;
+  background:     rgba(0, 112, 99, 0.07);
+  z-index:        var(--z-below);
+  animation:      anna-float-slow 10s ease-in-out infinite;
+}
+
+/* Experience badge overlaid on image */
+.anna-about__badge {
+  position:        absolute;
+  bottom:          var(--space-6);
+  right:           calc(-1 * var(--space-8));
+  background:      rgba(247, 250, 248, 0.96);
+  border-radius:   var(--radius-lg);
+  padding:         var(--space-5) var(--space-6);
+  box-shadow:      0 18px 38px rgba(120, 182, 173, 0.18);
+  text-align:      center;
+  z-index:         var(--z-raised);
+  min-width:       110px;
+}
+
+.anna-about__badge-number {
+  display:        block;
+  font-family:    var(--font-heading);
+  font-size:      var(--text-4xl);
+  font-weight:    var(--font-weight-bold);
+  color:          #0b7f74;
+  line-height:    1;
+  letter-spacing: var(--tracking-tight);
+}
+
+.anna-about__badge-text {
+  display:     block;
+  font-size:   var(--text-xs);
+  color:       #6d827f;
+  font-weight: var(--font-weight-medium);
+  margin-top:  var(--space-1);
+  line-height: var(--leading-snug);
+}
+
+/* ── About content side ───────────────────────────────────────────────────── */
+.anna-about__content {
+  display:        flex;
+  flex-direction: column;
+  gap:            var(--space-4);
+}
+
+.anna-about__heading {
+  font-size:      var(--text-4xl);
+  font-weight:    var(--font-weight-semibold);
+  line-height:    var(--leading-tight);
+  color:          #0b7f74;
+  letter-spacing: var(--tracking-snug);
+  margin:         0;
+}
+
+.anna-about__body {
+  font-size:   1.125rem;
+  line-height: 1.95;
+  color:       #59656f;
+}
+
+.anna-about__quote{
+  border-left-width: thick;
+}
+
+.anna-about__quote p{
+/*   font-family:  var(--font-heading); */
+  font-size:    var(--text-md);
+  font-style:   italic;
+  font-weight:  var(--font-weight-regular);
+  color:        #5EAD9E;
+  margin:       0;
+  line-height:  var(--leading-snug);
+}
+
+/* ── Expertise tags ───────────────────────────────────────────────────────── */
+.anna-about__expertise-label {
+  font-size:      var(--text-xs);
+  font-weight:    var(--font-weight-semibold);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color:          #7aa69f;
+  margin-bottom:  var(--space-3);
+}
+
+.anna-tag-list__item .anna-badge{
+	    padding: 1rem 0.625rem;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .anna-about__inner   { grid-template-columns: 1fr; }
+  .anna-about__visual  { display: none; }
+  .anna-about__heading { font-size: var(--text-3xl); }
+}
+.anna-testimonials-section {
+  background: #00786d;
+  color: var(--color-white);
+}
+
+.anna-testimonials-section .anna-container--wide {
+  max-width: 1360px;
+}
+
+.anna-testimonials-section__header {
+  margin-bottom: 2rem;
+}
+
+.anna-testimonials-section .anna-eyebrow {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.anna-testimonials-section__heading {
+  margin: 0.4rem 0 0;
+  line-height: 0.95;
+}
+
+.anna-testimonials-section__heading-main {
+  display: block;
+  color: var(--color-white);
+  font-size: clamp(2.625rem, 2.28rem + 1.15vw, 3rem);
+  font-weight: 700;
+}
+
+.anna-testimonials-section__heading-sub {
+  display: block;
+  margin-top: 0.15rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: clamp(2.625rem, 2.28rem + 1.15vw, 3rem);
+  font-weight: 400;
+}
+
+.anna-testimonials-section__summary {
+    margin: 0.8rem 0 0;
+    color: rgba(255, 255, 255, 0.64);
+    font-size: 0.82rem;
+    line-height: 1.6;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.anna-testimonials-inner--static {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.35rem;
+}
+
+.anna-testimonial {
+  margin: 0;
+  padding: 1.55rem 1.45rem 1.35rem;
+  border-radius: 0.7rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  min-height: 18rem;
+}
+
+.anna-testimonial__rating {
+  margin-bottom: 0.9rem;
+}
+
+.anna-testimonial__rating .anna-stars__star {
+  color: #e7da59;
+  font-size: 0.72rem;
+}
+
+.anna-testimonial__quote p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.85;
+  font-size: 0.95rem;
+  font-style: italic;
+}
+
+.anna-testimonial__author {
+  margin-top: 1.3rem;
+}
+
+.anna-testimonial__name,
+.anna-testimonial__role {
+  display: inline-block;
+  font-style: normal;
+}
+
+.anna-testimonial__name {
+  color: var(--color-white);
+  font-weight: 700;
+  font-size: 0.82rem;
+  margin-right: 0.45rem;
+}
+
+.anna-testimonial__role {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.72rem;
+}
+
+.anna-testimonials-section__footer {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.anna-testimonials-section__link {
+  min-width: 13.5rem;
+  color: var(--color-white);
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+.anna-testimonials-section__link:hover {
+  color: var(--color-white);
+  border-color: var(--color-white);
+  background: rgba(255, 255, 255, 0.14);
+}
+
+@media (max-width: 980px) {
+  .anna-testimonials-inner--static {
+    grid-template-columns: 1fr;
+  }
+
+  .anna-testimonial {
+    min-height: auto;
+  }
+}
+.anna-cta {
+  background: #fbfaf6;
+  color: var(--color-heading);
+  text-align: center;
+}
+
+.anna-cta .anna-container {
+  max-width: 1100px;
+}
+
+.anna-cta__inner {
+  max-width: 980px;
+  margin: 0 auto;
+  display: grid;
+  gap: 1.15rem;
+}
+
+.anna-cta .anna-eyebrow {
+    color: #0F695D;
+    font-size: 1rem;
+    letter-spacing: 3.2px;
+    line-height: 1;
+    justify-content: center;
+    font-weight: 700;
+    margin: 0;
+    text-transform: capitalize;
+}
+.anna-cta__heading {
+  max-width: 980px;
+  margin: 0 auto;
+  color: var(--color-primary);
+  font-size: clamp(3rem, 2.55rem + 1.45vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+.anna-cta__description {
+  max-width: 760px;
+  margin: 1.25rem auto 0;
+  color: #0a7a6f;
+  font-size: clamp(1.5rem, 1.36rem + 0.45vw, 1.75rem);
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.anna-cta__trust {
+  max-width: 720px;
+  margin: 0.95rem auto 0;
+  color: #0a7a6f;
+  line-height: 1.7;
+  font-size: 0.98rem;
+}
+
+.anna-cta__actions {
+  margin-top: 1rem;
+}
+
+.anna-cta__actions .anna-btn {
+  min-width: 234px;
+  min-height: 58px;
+  padding: 0.95rem 1.8rem;
+  border-radius: 0.45rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  box-shadow: none;
+}
+
+@media (max-width: 768px) {
+  .anna-cta__inner {
+    max-width: 100%;
+  }
+
+  .anna-cta__heading {
+    font-size: clamp(2.25rem, 2rem + 0.95vw, 2.75rem);
+  }
+
+  .anna-cta__description {
+    font-size: clamp(1.25rem, 1.18rem + 0.28vw, 1.375rem);
+  }
+
+  .anna-cta__trust {
+    font-size: 0.92rem;
+  }
+
+  .anna-cta__actions .anna-btn {
+    min-width: 210px;
+    min-height: 52px;
+  }
+}

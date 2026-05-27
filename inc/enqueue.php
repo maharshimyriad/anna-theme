@@ -92,7 +92,7 @@ function anna_enqueue_styles() {
 		$prev_dep = $handle;
 	}
 
-	$sections = array( 'header', 'hero', 'intro', 'recognition', 'services', 'about', 'testimonials-section', 'cta', 'footer' );
+	$sections = array( 'header', 'footer' );
 
 	foreach ( $sections as $section ) {
 		$handle = 'anna-section-' . $section;
@@ -106,6 +106,28 @@ function anna_enqueue_styles() {
 		);
 
 		$prev_dep = $handle;
+	}
+
+	if ( is_front_page() ) {
+		wp_enqueue_style(
+			'anna-page-home',
+			ANNA_CSS . '/pages/home.css',
+			array( $prev_dep ),
+			anna_asset_version( 'assets/css/pages/home.css' )
+		);
+
+		$prev_dep = 'anna-page-home';
+	}
+
+	if ( is_page_template( 'page-about.php' ) || is_page( 'about' ) ) {
+		wp_enqueue_style(
+			'anna-page-about',
+			ANNA_CSS . '/pages/about.css',
+			array( $prev_dep ),
+			anna_asset_version( 'assets/css/pages/about.css' )
+		);
+
+		$prev_dep = 'anna-page-about';
 	}
 
 	wp_enqueue_style(
