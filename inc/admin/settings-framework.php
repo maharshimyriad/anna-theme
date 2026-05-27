@@ -30,6 +30,222 @@ function anna_register_settings() {
 add_action( 'admin_init', 'anna_register_settings' );
 
 /**
+ * Seed About Page defaults into existing saved options.
+ *
+ * WordPress will not automatically backfill new option keys if the option row
+ * already exists. This ensures the About Page admin fields show the design
+ * defaults instead of appearing blank.
+ */
+function anna_seed_about_page_defaults() {
+	if ( ! is_admin() ) {
+		return;
+	}
+
+	$defaults = anna_get_default_options();
+	$options  = get_option( 'anna_theme_options', array() );
+
+	if ( ! is_array( $options ) ) {
+		$options = array();
+	}
+
+	$about_keys = array(
+		'about_pg_hero_eyebrow',
+		'about_pg_hero_heading',
+		'about_pg_hero_subheading',
+		'about_pg_hero_description',
+		'about_pg_hero_image_id',
+		'about_pg_story_eyebrow',
+		'about_pg_story_heading',
+		'about_pg_story_body',
+		'about_pg_story_image_id',
+		'about_pg_rock_heading',
+		'about_pg_rock_left_body',
+		'about_pg_rock_right_body',
+		'about_pg_coach_heading',
+		'about_pg_coach_left_body',
+		'about_pg_coach_right_body',
+		'about_pg_coach_quote',
+		'about_pg_approach_eyebrow',
+		'about_pg_approach_heading',
+		'about_pg_approach_intro',
+		'about_pg_approach_left_body',
+		'about_pg_approach_right_body',
+		'about_pg_qual_heading',
+		'about_pg_qual_intro',
+		'about_pg_qual_items_text',
+		'about_pg_life_eyebrow',
+		'about_pg_life_heading',
+		'about_pg_life_body',
+		'about_pg_life_image_id',
+	);
+
+	$changed = false;
+	foreach ( $about_keys as $key ) {
+		$has_value = isset( $options[ $key ] ) && '' !== trim( (string) $options[ $key ] );
+		if ( ! $has_value && isset( $defaults[ $key ] ) && '' !== (string) $defaults[ $key ] ) {
+			$options[ $key ] = $defaults[ $key ];
+			$changed         = true;
+		}
+	}
+
+	if ( $changed ) {
+		update_option( 'anna_theme_options', $options );
+	}
+}
+add_action( 'admin_init', 'anna_seed_about_page_defaults', 20 );
+
+/**
+ * Seed the WordPress "About" page editor content (post_content).
+ *
+ * The About template renders dynamic fields, so the page editor can look empty.
+ * This fills the editor with the design copy for convenience, but only when the
+ * page content is currently empty.
+ */
+function anna_seed_about_page_post_content() {
+	if ( ! is_admin() ) {
+		return;
+	}
+
+	$about_page_id = 0;
+
+	// Prefer the page assigned the About template.
+	$about_query = new WP_Query(
+		array(
+			'post_type'      => 'page',
+			'post_status'    => array( 'publish', 'draft', 'private' ),
+			'posts_per_page' => 1,
+			'meta_key'       => '_wp_page_template',
+			'meta_value'     => 'page-about.php',
+			'fields'         => 'ids',
+		)
+	);
+
+	if ( ! empty( $about_query->posts[0] ) ) {
+		$about_page_id = (int) $about_query->posts[0];
+	} else {
+		// Fallback to common slugs/titles.
+		$page = get_page_by_path( 'about' );
+		if ( ! $page ) {
+			$page = get_page_by_path( 'about-us' );
+		}
+		if ( $page instanceof WP_Post ) {
+			$about_page_id = (int) $page->ID;
+		}
+	}
+
+	if ( ! $about_page_id ) {
+		return;
+	}
+
+	$current = get_post( $about_page_id );
+	if ( ! ( $current instanceof WP_Post ) ) {
+		return;
+	}
+
+	if ( '' !== trim( (string) $current->post_content ) ) {
+		return;
+	}
+
+	$defaults = anna_get_default_options();
+
+	$hero_eyebrow     = $defaults['about_pg_hero_eyebrow'] ?? 'About Anna';
+	$hero_heading     = $defaults['about_pg_hero_heading'] ?? "I'm Anna.";
+	$hero_subheading  = $defaults['about_pg_hero_subheading'] ?? 'Life Coach. Motivational Speaker. Olympian.';
+	$hero_description = $defaults['about_pg_hero_description'] ?? '';
+
+	$story_heading = $defaults['about_pg_story_heading'] ?? 'My story the beginning';
+	$story_body    = $defaults['about_pg_story_body'] ?? '';
+
+	$rock_heading    = $defaults['about_pg_rock_heading'] ?? 'My rock bottom';
+	$rock_left_body  = $defaults['about_pg_rock_left_body'] ?? '';
+	$rock_right_body = $defaults['about_pg_rock_right_body'] ?? '';
+
+	$coach_heading    = wp_strip_all_tags( $defaults['about_pg_coach_heading'] ?? 'How I became a coach' );
+	$coach_left_body  = $defaults['about_pg_coach_left_body'] ?? '';
+	$coach_right_body = $defaults['about_pg_coach_right_body'] ?? '';
+	$coach_quote      = $defaults['about_pg_coach_quote'] ?? '';
+
+	$approach_eyebrow   = $defaults['about_pg_approach_eyebrow'] ?? 'My Approach';
+	$approach_heading   = $defaults['about_pg_approach_heading'] ?? 'Different to most talk therapies';
+	$approach_left_body = $defaults['about_pg_approach_left_body'] ?? '';
+	$approach_right_body = $defaults['about_pg_approach_right_body'] ?? '';
+
+	$qual_heading = $defaults['about_pg_qual_heading'] ?? 'My qualifications';
+	$qual_intro   = $defaults['about_pg_qual_intro'] ?? '';
+	$qual_items   = isset( $defaults['about_pg_qual_items_text'] ) ? preg_split( '/\r\n|\r|\n/', $defaults['about_pg_qual_items_text'] ) : array();
+	$qual_items   = array_values( array_filter( array_map( 'trim', (array) $qual_items ) ) );
+
+	$life_eyebrow = $defaults['about_pg_life_eyebrow'] ?? 'Present Day';
+	$life_heading = $defaults['about_pg_life_heading'] ?? 'My life now';
+	$life_body    = $defaults['about_pg_life_body'] ?? '';
+
+	// Build simple HTML that Gutenberg will treat as a single "Custom HTML" block.
+	$content  = '';
+	$content .= '<h2>' . esc_html( strtoupper( $hero_eyebrow ) ) . '</h2>';
+	$content .= '<h1>' . esc_html( $hero_heading ) . '</h1>';
+	$content .= '<p><strong>' . esc_html( $hero_subheading ) . '</strong></p>';
+	if ( $hero_description ) {
+		$content .= '<p>' . esc_html( $hero_description ) . '</p>';
+	}
+
+	$content .= '<hr />';
+	$content .= '<h2>' . esc_html( $story_heading ) . '</h2>';
+	$content .= wpautop( esc_html( $story_body ) );
+
+	$content .= '<hr />';
+	$content .= '<h2>' . esc_html( $rock_heading ) . '</h2>';
+	$content .= '<h3>Left column</h3>';
+	$content .= wpautop( esc_html( $rock_left_body ) );
+	$content .= '<h3>Right column</h3>';
+	$content .= wpautop( esc_html( $rock_right_body ) );
+
+	$content .= '<hr />';
+	$content .= '<h2>' . esc_html( $coach_heading ) . '</h2>';
+	$content .= '<h3>Left column</h3>';
+	$content .= wpautop( esc_html( $coach_left_body ) );
+	$content .= '<h3>Right column</h3>';
+	$content .= wpautop( esc_html( $coach_right_body ) );
+	if ( $coach_quote ) {
+		$content .= '<blockquote><p>' . esc_html( $coach_quote ) . '</p></blockquote>';
+	}
+
+	$content .= '<hr />';
+	$content .= '<h2>' . esc_html( $approach_eyebrow ) . '</h2>';
+	$content .= '<h2>' . esc_html( $approach_heading ) . '</h2>';
+	$content .= '<h3>Left column</h3>';
+	$content .= wpautop( esc_html( $approach_left_body ) );
+	$content .= '<h3>Right column</h3>';
+	$content .= wpautop( esc_html( $approach_right_body ) );
+
+	$content .= '<hr />';
+	$content .= '<h2>' . esc_html( $qual_heading ) . '</h2>';
+	if ( $qual_intro ) {
+		$content .= '<p>' . esc_html( $qual_intro ) . '</p>';
+	}
+	if ( ! empty( $qual_items ) ) {
+		$content .= '<ul>';
+		foreach ( $qual_items as $item ) {
+			$content .= '<li>' . esc_html( $item ) . '</li>';
+		}
+		$content .= '</ul>';
+	}
+
+	$content .= '<hr />';
+	$content .= '<h2>' . esc_html( $life_eyebrow ) . '</h2>';
+	$content .= '<h2>' . esc_html( $life_heading ) . '</h2>';
+	$content .= wpautop( esc_html( $life_body ) );
+
+	// Update the page content once.
+	wp_update_post(
+		array(
+			'ID'           => $about_page_id,
+			'post_content' => $content,
+		)
+	);
+}
+add_action( 'admin_init', 'anna_seed_about_page_post_content', 25 );
+
+/**
  * Get default theme options.
  *
  * @return array

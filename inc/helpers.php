@@ -384,7 +384,23 @@ function anna_get_about_page_content() {
 	if ( $post_id && function_exists( 'anna_content_get_about_page_content' ) ) {
 		$saved = anna_content_get_about_page_content( $post_id );
 		if ( is_array( $saved ) ) {
-			$content = wp_parse_args( $saved, $content );
+			// Only override defaults with non-empty values so that
+			// empty meta does not wipe out the design defaults.
+			$non_empty_saved = array();
+			foreach ( $saved as $key => $value ) {
+				if ( is_array( $value ) ) {
+					$non_empty_saved[ $key ] = $value;
+					continue;
+				}
+
+				if ( '' !== trim( (string) $value ) ) {
+					$non_empty_saved[ $key ] = $value;
+				}
+			}
+
+			if ( ! empty( $non_empty_saved ) ) {
+				$content = wp_parse_args( $non_empty_saved, $content );
+			}
 		}
 	}
 
