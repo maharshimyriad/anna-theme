@@ -246,6 +246,53 @@ function anna_seed_about_page_post_content() {
 add_action( 'admin_init', 'anna_seed_about_page_post_content', 25 );
 
 /**
+ * One-time migration: refresh About qualifications/life defaults in saved options.
+ *
+ * Applies new section copy from the latest design images.
+ */
+function anna_migrate_about_page_copy_20260527() {
+	if ( ! is_admin() ) {
+		return;
+	}
+
+	$done_flag = get_option( 'anna_about_copy_migrated_20260527', false );
+	if ( $done_flag ) {
+		return;
+	}
+
+	$options  = get_option( 'anna_theme_options', array() );
+	$defaults = anna_get_default_options();
+
+	if ( ! is_array( $options ) ) {
+		$options = array();
+	}
+
+	$old_qual_items = "Olympian and Commonwealth Games representative\nHawaii Ironman finisher\nNLP Practitioner\nTimeline Therapy Practitioner\nInternal Family Systems (IFS) trained\nTrauma-informed practitioner\nSomatic psychology\nCompassionate Inquiry (Gabor Maté)\nCertified Hypnotherapist\nInner Child work";
+	$old_life_body  = "I live in Melbourne, coaching clients in person across south-east Melbourne and online throughout Australia and worldwide.\n\nThese days my work, my son and the outdoors fill my life. I still train — because movement is how I think, process and stay grounded. But the drive is different now. It's not about proving anything. It's about living fully, and helping others do the same.";
+
+	$qual_current = isset( $options['about_pg_qual_items_text'] ) ? (string) $options['about_pg_qual_items_text'] : '';
+	$life_current = isset( $options['about_pg_life_body'] ) ? (string) $options['about_pg_life_body'] : '';
+
+	$changed = false;
+	if ( '' === trim( $qual_current ) || $qual_current === $old_qual_items ) {
+		$options['about_pg_qual_items_text'] = (string) ( $defaults['about_pg_qual_items_text'] ?? '' );
+		$changed = true;
+	}
+
+	if ( '' === trim( $life_current ) || $life_current === $old_life_body ) {
+		$options['about_pg_life_body'] = (string) ( $defaults['about_pg_life_body'] ?? '' );
+		$changed = true;
+	}
+
+	if ( $changed ) {
+		update_option( 'anna_theme_options', $options );
+	}
+
+	update_option( 'anna_about_copy_migrated_20260527', 1 );
+}
+add_action( 'admin_init', 'anna_migrate_about_page_copy_20260527', 30 );
+
+/**
  * Get default theme options.
  *
  * @return array
@@ -379,10 +426,10 @@ function anna_get_default_options() {
 		'about_pg_approach_right_body'=> 'I draw on neuroscience, somatic awareness, NLP, IFS parts work, trauma-informed practice and the wisdom of the body to help my clients create change that is deep, lasting and genuinely theirs.',
 		'about_pg_qual_heading'       => 'My qualifications',
 		'about_pg_qual_intro'         => 'I am committed to ongoing learning and hold qualifications in:',
-		'about_pg_qual_items_text'    => "Olympian and Commonwealth Games representative\nHawaii Ironman finisher\nNLP Practitioner\nTimeline Therapy Practitioner\nInternal Family Systems (IFS) trained\nTrauma-informed practitioner\nSomatic psychology\nCompassionate Inquiry (Gabor Maté)\nCertified Hypnotherapist\nInner Child work",
+		'about_pg_qual_items_text'    => "Bachelor of Applied Science in Human Movement — Deakin University\nCredentialled Practitioner of Coaching — The Coaching Institute\nNLP Practitioner and Coach — Institute of Empowered Psychology\nHypnotherapist — Institute of Empowered Psychology\nInner Child Work and Internal Family Systems — Embodied Philosophy Wisdom School\nCompassionate Inquiry in Action — Gabor Maté\nChakra Therapy — Awakening and Healing the Energy Body — Anodea Judith\nHonours in Food Science and Nutrition — Deakin University\nEmotional Intimacy Coach — The Coaching Institute\nTimeline Therapy Practitioner — Institute of Empowered Psychology\nTrauma-Informed Coach — The Centre for Healing\nIntroduction to Somatic Psychology and Embodied Communication — Neuroaffective Touch Institute\nComplete IFS Therapy Immersion — Integrating Internal Family Systems Across Clinical Applications",
 		'about_pg_life_eyebrow'       => 'Present Day',
 		'about_pg_life_heading'       => 'My life now',
-		'about_pg_life_body'          => "I live in Melbourne, coaching clients in person across south-east Melbourne and online throughout Australia and worldwide.\n\nThese days my work, my son and the outdoors fill my life. I still train — because movement is how I think, process and stay grounded. But the drive is different now. It's not about proving anything. It's about living fully, and helping others do the same.",
+		'about_pg_life_body'          => "I live and work in Melbourne, Australia. On any given day you'll find me outdoors — walking, moving, appreciating nature. Meditation, gratitude and movement are not things I recommend to clients from a distance. They are how I live.\n\nI coach men, women and couples both in person in Melbourne and online. I speak at events and conferences across Australia. And I am the founder of Oasis — a women's community for sustainable health and wellbeing that brings everything I've learned into an ongoing, accessible space for women who are ready to come back to themselves.",
 		'about_pg_life_image_id'      => '',
 	);
 }
