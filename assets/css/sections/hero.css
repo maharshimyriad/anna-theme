@@ -3,7 +3,7 @@
   min-height: 100svh;
   display: flex;
   align-items: center;
-  padding-top: var(--header-height);
+  margin-top: var(--header-height);
   background-color: var(--color-bg-soft);
   background-repeat: no-repeat;
   background-size: cover;
@@ -60,7 +60,7 @@
 .anna-hero__heading {
   margin: 0;
   font-size: clamp(3rem, 2.55rem + 1.45vw, 3.75rem);
-  line-height: 1.04;
+  line-height: 1.4;
   font-weight: 700;
   color: var(--color-white);
 }
@@ -100,6 +100,7 @@
 
 .anna-hero .anna-btn--hero-primary {
   min-width: 20.5rem;
+	transform:none !important;
 }
 
 .anna-hero .anna-btn--hero-link {
@@ -107,6 +108,7 @@
   font-size: var(--text-md);
 	padding:0 1.25rem;
   line-height: 1.35;
+	transform:none !important;
 }
 
 .anna-hero__stats {

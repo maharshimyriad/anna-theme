@@ -19,12 +19,17 @@
 
 /* ── About image side ─────────────────────────────────────────────────────── */
 .anna-about__visual {
-  position: relative;
+    position: relative;
+    max-width: 550px;
+    max-height: 640px;
+    padding: 16px;
+    background: #F0F5F3;
+    border-radius: 24px;
 }
 
 .anna-about__image-wrap {
   position:      relative;
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-lg);
   overflow:      hidden;
   aspect-ratio:  4 / 5;
   box-shadow:    0 18px 48px rgba(120, 182, 173, 0.16);
@@ -93,7 +98,7 @@
 .anna-about__content {
   display:        flex;
   flex-direction: column;
-  gap:            var(--space-8);
+  gap:            var(--space-4);
 }
 
 .anna-about__heading {
@@ -106,7 +111,7 @@
 }
 
 .anna-about__body {
-  font-size:   var(--text-lg);
+  font-size:   1.125rem;
   line-height: 1.95;
   color:       #59656f;
 }
@@ -116,11 +121,11 @@
 }
 
 .anna-about__quote p{
-  font-family:  var(--font-heading);
-  font-size:    var(--text-xl);
+/*   font-family:  var(--font-heading); */
+  font-size:    var(--text-md);
   font-style:   italic;
   font-weight:  var(--font-weight-regular);
-  color:        #63b5a8;
+  color:        #5EAD9E;
   margin:       0;
   line-height:  var(--leading-snug);
 }
@@ -133,6 +138,10 @@
   text-transform: uppercase;
   color:          #7aa69f;
   margin-bottom:  var(--space-3);
+}
+
+.anna-tag-list__item .anna-badge{
+	    padding: 1rem 0.625rem;
 }
 
 /* ── Responsive ───────────────────────────────────────────────────────────── */

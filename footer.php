@@ -25,8 +25,16 @@ if ( ! $copy ) {
 		<div class="anna-footer__top anna-container anna-container--wide">
 			<div class="anna-footer__grid">
 				<div class="anna-footer__col anna-footer__col--brand">
-					<?php anna_site_logo( 'footer' ); ?>
-					<p class="anna-footer__brand-text"><?php echo nl2br( esc_html( anna_get_option( 'footer_description', '' ) ) ); ?></p>
+					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="anna-footer__logo">
+						<img 
+							src="https://mediumseagreen-barracuda-518910.hostingersite.com/wp-content/uploads/2026/05/Footer-logo.png" 
+							alt="<?php bloginfo( 'name' ); ?>"
+						>
+					</a>
+
+					<p class="anna-footer__brand-text">
+						<?php echo nl2br( esc_html( anna_get_option( 'footer_description', '' ) ) ); ?>
+					</p>
 				</div>
 
 				<div class="anna-footer__col">

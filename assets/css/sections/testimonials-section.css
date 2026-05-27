@@ -23,7 +23,7 @@
 .anna-testimonials-section__heading-main {
   display: block;
   color: var(--color-white);
-  font-size: clamp(2.625rem, 2.28rem + 1.15vw, 3.25rem);
+  font-size: clamp(2.625rem, 2.28rem + 1.15vw, 3rem);
   font-weight: 700;
 }
 
@@ -31,15 +31,18 @@
   display: block;
   margin-top: 0.15rem;
   color: rgba(255, 255, 255, 0.5);
-  font-size: clamp(1.875rem, 1.68rem + 0.7vw, 2.25rem);
+  font-size: clamp(2.625rem, 2.28rem + 1.15vw, 3rem);
   font-weight: 400;
 }
 
 .anna-testimonials-section__summary {
-  margin: 0.8rem 0 0;
-  color: rgba(255, 255, 255, 0.64);
-  font-size: 0.82rem;
-  line-height: 1.6;
+    margin: 0.8rem 0 0;
+    color: rgba(255, 255, 255, 0.64);
+    font-size: 0.82rem;
+    line-height: 1.6;
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
 
 .anna-testimonials-inner--static {

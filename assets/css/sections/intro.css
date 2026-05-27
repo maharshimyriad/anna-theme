@@ -54,7 +54,7 @@
 }
 
 .anna-recognition__card {
-  background: #edf2ed;
+  background: #F2F6F2;
   border-radius: 1.4rem;
   padding: clamp(1.5rem, 3vw, 2.5rem);
   box-shadow: 0 12px 30px rgba(15, 31, 27, 0.05);

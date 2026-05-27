@@ -37,7 +37,7 @@ if ( empty( $cta_second['url'] ) || '#' === $cta_second['url'] ) {
 		style="background-image:url('<?php echo esc_url( anna_responsive_image_url( $hero_image, 'full' ) ); ?>');"
 	<?php endif; ?>
 >
-	<div class="anna-container anna-container--wide">
+	<div class="anna-container anna-container--max">
 		<div class="anna-hero__inner">
 			<div class="anna-hero__content anna-reveal">
 				<?php if ( $hero_eyebrow ) : ?>

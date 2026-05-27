@@ -17,7 +17,7 @@ $cta_p        = $section_data['primary_cta'];
 $cta_s        = $section_data['secondary_cta'];
 ?>
 
-<section class="anna-cta anna-section anna-section--xl" id="final-cta" aria-labelledby="cta-heading">
+<section class="anna-cta anna-section anna-section--lg" id="final-cta" aria-labelledby="cta-heading">
 	<div class="anna-container">
 		<div class="anna-cta__inner anna-reveal">
 			<?php if ( $section_data['eyebrow'] ) : ?>
