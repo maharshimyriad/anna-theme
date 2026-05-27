@@ -212,14 +212,6 @@ function anna_enqueue_scripts() {
 	);
 
 	wp_enqueue_script(
-		'anna-testimonials-js',
-		ANNA_JS . '/components/testimonials.js',
-		array(),
-		anna_asset_version( 'assets/js/components/testimonials.js' ),
-		array( 'strategy' => 'defer' )
-	);
-
-	wp_enqueue_script(
 		'anna-stats-counter',
 		ANNA_JS . '/components/stats-counter.js',
 		array(),
@@ -235,7 +227,7 @@ function anna_enqueue_scripts() {
 		array( 'strategy' => 'defer' )
 	);
 
-	$deps = array( 'anna-header-js', 'anna-mobile-menu', 'anna-testimonials-js', 'anna-stats-counter', 'anna-scroll-reveal' );
+	$deps = array( 'anna-header-js', 'anna-mobile-menu', 'anna-stats-counter', 'anna-scroll-reveal' );
 	if ( $animations_enabled ) {
 		$deps[] = 'anna-animations';
 	}

@@ -170,50 +170,6 @@ function anna_get_stats() {
 }
 
 /**
- * Get services for homepage display (latest N, from CPT).
- *
- * @param  int $count Number of services to retrieve.
- * @return WP_Query
- */
-function anna_get_homepage_services( $count = 6 ) {
-	return new WP_Query(
-		array(
-			'post_type'      => 'anna_service',
-			'posts_per_page' => absint( $count ),
-			'post_status'    => 'publish',
-			'orderby'        => 'menu_order',
-			'order'          => 'ASC',
-			'no_found_rows'  => true,
-		)
-	);
-}
-
-/**
- * Get testimonials for homepage display.
- *
- * @param  int $count Number of testimonials.
- * @return WP_Query
- */
-function anna_get_homepage_testimonials( $count = 8 ) {
-	return new WP_Query(
-		array(
-			'post_type'      => 'anna_testimonial',
-			'posts_per_page' => absint( $count ),
-			'post_status'    => 'publish',
-			'meta_query'     => array(
-				array(
-					'key'     => '_anna_testimonial_featured',
-					'value'   => '1',
-					'compare' => '=',
-				),
-			),
-			'orderby'        => 'rand',
-			'no_found_rows'  => true,
-		)
-	);
-}
-
-/**
  * Flush rewrite rules on theme activation.
  */
 function anna_rewrite_flush() {

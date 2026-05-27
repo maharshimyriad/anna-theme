@@ -10,7 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$services      = anna_get_homepage_services( 3 );
 $section_data  = anna_get_services_section_content();
 $heading       = $section_data['heading'];
 $desc          = $section_data['description'];
@@ -50,37 +49,16 @@ $static_services = array(
 		</header>
 
 		<ul class="anna-services__grid" role="list">
-			<?php if ( $services->have_posts() ) : ?>
-				<?php
-				$service_index = 1;
-				while ( $services->have_posts() ) :
-					$services->the_post();
-					?>
-					<li class="anna-reveal--scale">
-						<article class="anna-service-card anna-service-card--feature">
-							<span class="anna-service-card__number"><?php echo esc_html( str_pad( (string) $service_index, 2, '0', STR_PAD_LEFT ) ); ?></span>
-							<h3 class="anna-service-card__title"><?php the_title(); ?></h3>
-							<p class="anna-service-card__excerpt"><?php echo esc_html( get_the_excerpt() ); ?></p>
-							<a href="<?php the_permalink(); ?>" class="anna-service-card__link"><?php esc_html_e( 'Find out more', 'anna-baylis' ); ?></a>
-						</article>
-					</li>
-					<?php
-					$service_index++;
-				endwhile;
-				wp_reset_postdata();
-				?>
-			<?php else : ?>
-				<?php foreach ( $static_services as $service ) : ?>
-					<li class="anna-reveal--scale">
-						<article class="anna-service-card anna-service-card--feature">
-							<span class="anna-service-card__number"><?php echo esc_html( $service['number'] ); ?></span>
-							<h3 class="anna-service-card__title"><?php echo esc_html( $service['title'] ); ?></h3>
-							<p class="anna-service-card__excerpt"><?php echo esc_html( $service['excerpt'] ); ?></p>
-							<a href="#" class="anna-service-card__link"><?php echo esc_html( $service['link'] ); ?></a>
-						</article>
-					</li>
-				<?php endforeach; ?>
-			<?php endif; ?>
+			<?php foreach ( $static_services as $service ) : ?>
+				<li class="anna-reveal--scale">
+					<article class="anna-service-card anna-service-card--feature">
+						<span class="anna-service-card__number"><?php echo esc_html( $service['number'] ); ?></span>
+						<h3 class="anna-service-card__title"><?php echo esc_html( $service['title'] ); ?></h3>
+						<p class="anna-service-card__excerpt"><?php echo esc_html( $service['excerpt'] ); ?></p>
+						<a href="#" class="anna-service-card__link"><?php echo esc_html( $service['link'] ); ?></a>
+					</article>
+				</li>
+			<?php endforeach; ?>
 		</ul>
 
 		<?php if ( $section_data['cta_text'] ) : ?>

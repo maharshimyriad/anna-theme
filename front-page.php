@@ -19,7 +19,7 @@ get_header();
 
 	foreach ( $sections as $section ) {
 		if ( anna_section_enabled( $section ) || ( 'intro' === $section && anna_section_enabled( 'recognition' ) ) ) {
-			get_template_part( 'template-parts/sections/' . $section );
+			get_template_part( 'template-parts/pages/home/' . $section );
 		}
 	}
 	?>

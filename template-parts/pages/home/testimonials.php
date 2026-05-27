@@ -10,7 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$testimonials = anna_get_homepage_testimonials( 3 );
 $section_data = anna_get_testimonials_section_content();
 $heading      = $section_data['heading'];
 $heading_main = $heading;
@@ -73,35 +72,16 @@ $static       = array(
 		</div>
 
 		<div class="anna-testimonials-inner anna-testimonials-inner--static" role="list">
-			<?php if ( $testimonials->have_posts() ) : ?>
-				<?php
-				while ( $testimonials->have_posts() ) :
-					$testimonials->the_post();
-					$rating = absint( get_post_meta( get_the_ID(), '_anna_testimonial_rating', true ) ) ?: 5;
-					$role   = get_post_meta( get_the_ID(), '_anna_testimonial_role', true );
-					?>
-					<figure class="anna-testimonial" role="listitem">
-						<div class="anna-testimonial__rating"><?php echo anna_star_rating( $rating ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
-						<blockquote class="anna-testimonial__quote"><p><?php echo esc_html( get_the_content() ); ?></p></blockquote>
-						<figcaption class="anna-testimonial__author">
-							<cite class="anna-testimonial__name"><?php the_title(); ?></cite>
-							<?php if ( $role ) : ?><span class="anna-testimonial__role"><?php echo esc_html( $role ); ?></span><?php endif; ?>
-						</figcaption>
-					</figure>
-				<?php endwhile; ?>
-				<?php wp_reset_postdata(); ?>
-			<?php else : ?>
-				<?php foreach ( $static as $testimonial ) : ?>
-					<figure class="anna-testimonial" role="listitem">
-						<div class="anna-testimonial__rating"><?php echo anna_star_rating( $testimonial['rating'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
-						<blockquote class="anna-testimonial__quote"><p><?php echo esc_html( $testimonial['quote'] ); ?></p></blockquote>
-						<figcaption class="anna-testimonial__author">
-							<cite class="anna-testimonial__name"><?php echo esc_html( $testimonial['name'] ); ?></cite>
-							<span class="anna-testimonial__role"><?php echo esc_html( $testimonial['role'] ); ?></span>
-						</figcaption>
-					</figure>
-				<?php endforeach; ?>
-			<?php endif; ?>
+			<?php foreach ( $static as $testimonial ) : ?>
+				<figure class="anna-testimonial" role="listitem">
+					<div class="anna-testimonial__rating"><?php echo anna_star_rating( $testimonial['rating'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
+					<blockquote class="anna-testimonial__quote"><p><?php echo esc_html( $testimonial['quote'] ); ?></p></blockquote>
+					<figcaption class="anna-testimonial__author">
+						<cite class="anna-testimonial__name"><?php echo esc_html( $testimonial['name'] ); ?></cite>
+						<span class="anna-testimonial__role"><?php echo esc_html( $testimonial['role'] ); ?></span>
+					</figcaption>
+				</figure>
+			<?php endforeach; ?>
 		</div>
 
 		<?php if ( $section_data['cta_text'] ) : ?>
