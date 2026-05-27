@@ -46,6 +46,15 @@ function anna_get_tab_fields_map() {
 			'about_badge_number', 'about_badge_text', 'about_quote', 'about_expertise_text', 'about_cta_text', 'about_cta_url',
 			'testimonials_eyebrow', 'testimonials_heading', 'testimonials_summary', 'testimonials_cta_text', 'testimonials_cta_url',
 		),
+		'about_page' => array(
+			'about_pg_hero_eyebrow', 'about_pg_hero_heading', 'about_pg_hero_subheading', 'about_pg_hero_description', 'about_pg_hero_image_id',
+			'about_pg_story_eyebrow', 'about_pg_story_heading', 'about_pg_story_body', 'about_pg_story_image_id',
+			'about_pg_rock_heading', 'about_pg_rock_left_body', 'about_pg_rock_right_body',
+			'about_pg_coach_heading', 'about_pg_coach_left_body', 'about_pg_coach_right_body', 'about_pg_coach_quote',
+			'about_pg_approach_eyebrow', 'about_pg_approach_heading', 'about_pg_approach_intro', 'about_pg_approach_left_body', 'about_pg_approach_right_body',
+			'about_pg_qual_heading', 'about_pg_qual_intro', 'about_pg_qual_items_text',
+			'about_pg_life_eyebrow', 'about_pg_life_heading', 'about_pg_life_body', 'about_pg_life_image_id',
+		),
 		'cta' => array(
 			'cta_eyebrow', 'cta_heading', 'cta_description', 'cta_trust', 'cta_image_id',
 			'cta_primary_text', 'cta_primary_url', 'cta_secondary_text', 'cta_secondary_url',
@@ -85,7 +94,7 @@ function anna_sanitize_single_option( $key, $value ) {
 		return esc_url_raw( $value );
 	}
 
-	$html_fields = array( 'hero_heading', 'about_heading', 'about_body', 'intro_body', 'intro_heading', 'cta_heading' );
+	$html_fields = array( 'hero_heading', 'about_heading', 'about_body', 'intro_body', 'intro_heading', 'cta_heading', 'about_pg_coach_heading' );
 	if ( in_array( $key, $html_fields, true ) ) {
 		return wp_kses_post( $value );
 	}
@@ -93,12 +102,18 @@ function anna_sanitize_single_option( $key, $value ) {
 	$textarea_fields = array(
 		'hero_description', 'intro_quote', 'recognition_description', 'services_description', 'about_quote', 'cta_description',
 		'footer_description', 'newsletter_text', 'contact_address', 'recognition_items_text', 'about_expertise_text',
+		'about_pg_hero_description', 'about_pg_story_body', 'about_pg_rock_left_body', 'about_pg_rock_right_body',
+		'about_pg_coach_left_body', 'about_pg_coach_right_body', 'about_pg_coach_quote', 'about_pg_approach_intro',
+		'about_pg_approach_left_body', 'about_pg_approach_right_body', 'about_pg_qual_intro', 'about_pg_qual_items_text', 'about_pg_life_body',
 	);
 	if ( in_array( $key, $textarea_fields, true ) ) {
 		return sanitize_textarea_field( $value );
 	}
 
-	$int_fields = array( 'site_logo_id', 'hero_image_id', 'about_image_id', 'intro_image_id', 'recognition_image_id', 'cta_image_id', 'seo_og_image_id' );
+	$int_fields = array(
+		'site_logo_id', 'hero_image_id', 'about_image_id', 'intro_image_id', 'recognition_image_id', 'cta_image_id', 'seo_og_image_id',
+		'about_pg_hero_image_id', 'about_pg_story_image_id', 'about_pg_life_image_id',
+	);
 	if ( in_array( $key, $int_fields, true ) ) {
 		return absint( $value );
 	}
@@ -141,7 +156,10 @@ function anna_sanitize_options( $input ) {
 	$tab_fields_map = anna_get_tab_fields_map();
 	$active_tab     = isset( $input['_anna_active_tab'] ) ? sanitize_key( $input['_anna_active_tab'] ) : '';
 	$sanitized      = wp_parse_args( $existing, $defaults );
-	$int_fields     = array( 'site_logo_id', 'hero_image_id', 'about_image_id', 'intro_image_id', 'recognition_image_id', 'cta_image_id', 'seo_og_image_id' );
+	$int_fields     = array(
+		'site_logo_id', 'hero_image_id', 'about_image_id', 'intro_image_id', 'recognition_image_id', 'cta_image_id', 'seo_og_image_id',
+		'about_pg_hero_image_id', 'about_pg_story_image_id', 'about_pg_life_image_id',
+	);
 	$bool_fields    = array(
 		'animations_enabled',
 		'section_hero_enabled', 'section_intro_enabled', 'section_recognition_enabled',

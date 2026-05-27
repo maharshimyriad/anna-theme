@@ -42,6 +42,7 @@ function anna_get_settings_tabs() {
 		'hero'       => __( 'Hero', 'anna-baylis' ),
 		'sections'   => __( 'Sections', 'anna-baylis' ),
 		'content'    => __( 'Content', 'anna-baylis' ),
+		'about_page' => __( 'About Page', 'anna-baylis' ),
 		'cta'        => __( 'CTA', 'anna-baylis' ),
 		'footer'     => __( 'Footer', 'anna-baylis' ),
 		'social'     => __( 'Social', 'anna-baylis' ),
@@ -199,6 +200,49 @@ function anna_render_settings_page() {
 					<?php anna_field_text( 'testimonials_summary', __( 'Summary Line', 'anna-baylis' ) ); ?>
 					<?php anna_field_text( 'testimonials_cta_text', __( 'Reviews Link Text', 'anna-baylis' ) ); ?>
 					<?php anna_field_text( 'testimonials_cta_url', __( 'Reviews Link URL', 'anna-baylis' ), '', 'url' ); ?>
+
+				<?php elseif ( 'about_page' === $active_tab ) : ?>
+					<?php anna_field_heading( __( 'About Page Hero', 'anna-baylis' ), __( 'Content for the About page template. Defaults match the design; edit here without touching code.', 'anna-baylis' ) ); ?>
+					<?php anna_field_text( 'about_pg_hero_eyebrow', __( 'Eyebrow', 'anna-baylis' ) ); ?>
+					<?php anna_field_text( 'about_pg_hero_heading', __( 'Heading', 'anna-baylis' ) ); ?>
+					<?php anna_field_text( 'about_pg_hero_subheading', __( 'Subheading', 'anna-baylis' ) ); ?>
+					<?php anna_field_textarea( 'about_pg_hero_description', __( 'Description', 'anna-baylis' ) ); ?>
+					<?php anna_field_media( 'about_pg_hero_image_id', __( 'Hero Background Image', 'anna-baylis' ) ); ?>
+
+					<?php anna_field_heading( __( 'My Story', 'anna-baylis' ) ); ?>
+					<?php anna_field_text( 'about_pg_story_eyebrow', __( 'Eyebrow', 'anna-baylis' ) ); ?>
+					<?php anna_field_text( 'about_pg_story_heading', __( 'Heading', 'anna-baylis' ) ); ?>
+					<?php anna_field_textarea( 'about_pg_story_body', __( 'Body Copy', 'anna-baylis' ), __( 'One paragraph per blank line.', 'anna-baylis' ), 8 ); ?>
+					<?php anna_field_media( 'about_pg_story_image_id', __( 'Portrait Image', 'anna-baylis' ) ); ?>
+
+					<?php anna_field_heading( __( 'My Rock Bottom', 'anna-baylis' ) ); ?>
+					<?php anna_field_text( 'about_pg_rock_heading', __( 'Heading', 'anna-baylis' ) ); ?>
+					<?php anna_field_textarea( 'about_pg_rock_left_body', __( 'Left Column', 'anna-baylis' ), __( 'One paragraph per blank line.', 'anna-baylis' ), 8 ); ?>
+					<?php anna_field_textarea( 'about_pg_rock_right_body', __( 'Right Column', 'anna-baylis' ), __( 'One paragraph per blank line.', 'anna-baylis' ), 8 ); ?>
+
+					<?php anna_field_heading( __( 'How I Became a Coach', 'anna-baylis' ) ); ?>
+					<?php anna_field_textarea( 'about_pg_coach_heading', __( 'Heading', 'anna-baylis' ), __( 'HTML allowed. Wrap accent words in: <span class="anna-about-page__heading-accent">a coach</span>', 'anna-baylis' ), 2 ); ?>
+					<?php anna_field_textarea( 'about_pg_coach_left_body', __( 'Left Column', 'anna-baylis' ), __( 'One paragraph per blank line.', 'anna-baylis' ), 8 ); ?>
+					<?php anna_field_textarea( 'about_pg_coach_right_body', __( 'Right Column', 'anna-baylis' ), __( 'One paragraph per blank line.', 'anna-baylis' ), 8 ); ?>
+					<?php anna_field_textarea( 'about_pg_coach_quote', __( 'Pull Quote', 'anna-baylis' ) ); ?>
+
+					<?php anna_field_heading( __( 'My Approach', 'anna-baylis' ) ); ?>
+					<?php anna_field_text( 'about_pg_approach_eyebrow', __( 'Eyebrow', 'anna-baylis' ) ); ?>
+					<?php anna_field_text( 'about_pg_approach_heading', __( 'Heading', 'anna-baylis' ) ); ?>
+					<?php anna_field_textarea( 'about_pg_approach_intro', __( 'Intro (optional)', 'anna-baylis' ) ); ?>
+					<?php anna_field_textarea( 'about_pg_approach_left_body', __( 'Left Column', 'anna-baylis' ), __( 'One paragraph per blank line.', 'anna-baylis' ), 8 ); ?>
+					<?php anna_field_textarea( 'about_pg_approach_right_body', __( 'Right Column', 'anna-baylis' ), __( 'One paragraph per blank line.', 'anna-baylis' ), 6 ); ?>
+
+					<?php anna_field_heading( __( 'Qualifications', 'anna-baylis' ) ); ?>
+					<?php anna_field_text( 'about_pg_qual_heading', __( 'Heading', 'anna-baylis' ) ); ?>
+					<?php anna_field_textarea( 'about_pg_qual_intro', __( 'Intro', 'anna-baylis' ) ); ?>
+					<?php anna_field_textarea( 'about_pg_qual_items_text', __( 'Qualification Items', 'anna-baylis' ), __( 'One item per line.', 'anna-baylis' ), 10 ); ?>
+
+					<?php anna_field_heading( __( 'My Life Now', 'anna-baylis' ) ); ?>
+					<?php anna_field_text( 'about_pg_life_eyebrow', __( 'Eyebrow', 'anna-baylis' ) ); ?>
+					<?php anna_field_text( 'about_pg_life_heading', __( 'Heading', 'anna-baylis' ) ); ?>
+					<?php anna_field_textarea( 'about_pg_life_body', __( 'Body Copy', 'anna-baylis' ), __( 'One paragraph per blank line.', 'anna-baylis' ), 6 ); ?>
+					<?php anna_field_media( 'about_pg_life_image_id', __( 'Image', 'anna-baylis' ) ); ?>
 
 				<?php elseif ( 'cta' === $active_tab ) : ?>
 					<?php anna_field_heading( __( 'Final CTA Section', 'anna-baylis' ) ); ?>
