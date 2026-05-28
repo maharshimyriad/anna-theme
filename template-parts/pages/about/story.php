@@ -19,18 +19,29 @@ if ( empty( $about ) ) {
 <section class="anna-about-page-section anna-about-page-story">
 	<div class="anna-container">
 		<div class="anna-about-page-story__grid">
-			<?php if ( ! empty( $about['story_image_id'] ) ) : ?>
-				<figure class="anna-about-page-story__media">
-					<?php anna_responsive_image( absint( $about['story_image_id'] ), 'large', 'anna-img-cover' ); ?>
-				</figure>
-			<?php endif; ?>
+
 			<div class="anna-about-page-story__content">
 				<?php if ( ! empty( $about['story_eyebrow'] ) ) : ?>
 					<span class="anna-about-page__eyebrow"><?php echo esc_html( $about['story_eyebrow'] ); ?></span>
 				<?php endif; ?>
 				<h2 class="anna-about-page__heading"><?php echo wp_kses_post( nl2br( (string) $about['story_heading'] ) ); ?></h2>
 				<div class="anna-about-page__copy"><?php echo wp_kses_post( wpautop( (string) $about['story_body'] ) ); ?></div>
+				<div class="anna-about-page-rock">
+				<h2 class="anna-about-page__heading"><?php echo esc_html( $about['rock_heading'] ?? '' ); ?></h2>
+					
+				<div class=""> 
+					<div class="anna-about-page__copy">
+						<?php echo wp_kses_post( wpautop( (string) ( $about['rock_left_body'] ?? '' ) ) ); ?>
+					</div> 
+					</div>
+
+				</div>
 			</div>
+						<?php if ( ! empty( $about['story_image_id'] ) ) : ?>
+				<figure class="anna-about-page-story__media">
+					<?php anna_responsive_image( absint( $about['story_image_id'] ), 'large', 'anna-img-cover' ); ?>
+				</figure>
+			<?php endif; ?>
 		</div>
 	</div>
 </section>

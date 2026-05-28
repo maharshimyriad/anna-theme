@@ -7,7 +7,7 @@
 
 .anna-about-page-main {
   background: var(--color-white);
-  --about-hero-min-height: clamp(24rem, 48vw, 34rem);
+  --about-hero-min-height: 100svh;
   --about-hero-heading-size: clamp(2.75rem, 5vw, 3.75rem); /* max 60px */
   --about-section-padding: var(--section-padding-md);
   --about-grid-gap: clamp(var(--space-12), 7vw, var(--space-28));
@@ -48,7 +48,7 @@
 }
 
 .anna-about-page-hero__content {
-  max-width: 760px;
+  max-width: 680px;
 }
 
 .anna-about-page-hero__overline {
@@ -60,12 +60,13 @@
   font-weight: 600;
 }
 
-.anna-about-page-hero__heading {
+.anna-about-page-hero__heading,.anna-about-page-hero__subheading {
   margin: 0;
   color: var(--color-white);
   font-size: var(--about-hero-heading-size);
-  line-height: 1.08;
-  letter-spacing: var(--tracking-tight);
+  line-height: 1.2;
+  font-family:var(--font-heading);
+  font-weight:var(--font-weight-regular);
 }
 
 .anna-about-page-hero__tags {
@@ -88,15 +89,6 @@
   backdrop-filter: blur(10px);
 }
 
-.anna-about-page-hero__subheading {
-  max-width: 760px;
-  margin: var(--space-4) 0 0;
-  color: var(--color-white);
-  font-family: var(--font-heading);
-  font-size: var(--text-3xl);
-  font-weight: var(--font-weight-light);
-  line-height: var(--leading-tight);
-}
 
 .anna-about-page-hero__description {
   max-width: 620px;
@@ -113,17 +105,18 @@
 .anna-about-page-story__grid,
 .anna-about-page-life__grid {
   display: grid;
-  grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1fr);
+  grid-template-columns: 1fr minmax(0, 460px);
   gap: var(--about-grid-gap);
-  align-items: center;
+  align-items: start;
 }
 
 .anna-about-page-story__media {
-  aspect-ratio: 0.9 / 1;
-  overflow: hidden;
-  border: var(--space-3-5) solid var(--color-bg-soft);
-  border-radius: var(--radius-lg);
-  background: var(--color-bg-soft);
+    aspect-ratio: 0.9 / 1;
+    overflow: hidden;
+    border-radius: 1rem;
+    background: var(--color-bg-soft);
+    position: sticky;
+    top: calc(var(--header-height) + 30px);
 }
 
 .anna-about-page-life__media {
@@ -147,7 +140,7 @@
   font-size: var(--about-eyebrow-size);
   font-weight: var(--font-weight-semibold);
   letter-spacing: var(--tracking-caps);
-  text-transform: uppercase;
+/*   text-transform: uppercase; */
 }
 
 .anna-about-page__eyebrow--light {
@@ -179,7 +172,7 @@
 }
 
 .anna-about-page__copy p + p {
-  margin-top: var(--space-8);
+  margin-top: var(--space-5);
 }
 
 .anna-about-page__intro {
@@ -274,4 +267,9 @@
   .anna-about-page-section {
     padding: var(--section-padding-sm) 0;
   }
+}
+
+
+.anna-about-page-rock{
+	margin-top:var(--space-8);
 }
