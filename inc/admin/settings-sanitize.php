@@ -47,7 +47,7 @@ function anna_get_tab_fields_map() {
 			'testimonials_eyebrow', 'testimonials_heading', 'testimonials_summary', 'testimonials_cta_text', 'testimonials_cta_url',
 		),
 		'about_page' => array(
-			'about_pg_hero_eyebrow', 'about_pg_hero_heading', 'about_pg_hero_subheading', 'about_pg_hero_description', 'about_pg_hero_image_id',
+			'about_pg_hero_eyebrow', 'about_pg_hero_heading', 'about_pg_hero_subheading', 'about_pg_hero_description', 'about_pg_hero_tags_text', 'about_pg_hero_image_id',
 			'about_pg_story_eyebrow', 'about_pg_story_heading', 'about_pg_story_body', 'about_pg_story_image_id',
 			'about_pg_rock_heading', 'about_pg_rock_left_body', 'about_pg_rock_right_body',
 			'about_pg_coach_heading', 'about_pg_coach_left_body', 'about_pg_coach_right_body', 'about_pg_coach_quote',
@@ -105,6 +105,7 @@ function anna_sanitize_single_option( $key, $value ) {
 		'about_pg_hero_description', 'about_pg_story_body', 'about_pg_rock_left_body', 'about_pg_rock_right_body',
 		'about_pg_coach_left_body', 'about_pg_coach_right_body', 'about_pg_coach_quote', 'about_pg_approach_intro',
 		'about_pg_approach_left_body', 'about_pg_approach_right_body', 'about_pg_qual_intro', 'about_pg_qual_items_text', 'about_pg_life_body',
+		'about_pg_hero_tags_text',
 	);
 	if ( in_array( $key, $textarea_fields, true ) ) {
 		return sanitize_textarea_field( $value );

@@ -204,9 +204,10 @@ function anna_render_settings_page() {
 				<?php elseif ( 'about_page' === $active_tab ) : ?>
 					<?php anna_field_heading( __( 'About Page Hero', 'anna-baylis' ), __( 'Content for the About page template. Defaults match the design; edit here without touching code.', 'anna-baylis' ) ); ?>
 					<?php anna_field_text( 'about_pg_hero_eyebrow', __( 'Eyebrow', 'anna-baylis' ) ); ?>
-					<?php anna_field_text( 'about_pg_hero_heading', __( 'Heading', 'anna-baylis' ) ); ?>
-					<?php anna_field_text( 'about_pg_hero_subheading', __( 'Subheading', 'anna-baylis' ) ); ?>
-					<?php anna_field_textarea( 'about_pg_hero_description', __( 'Description', 'anna-baylis' ) ); ?>
+					<?php anna_field_textarea( 'about_pg_hero_heading', __( 'Heading', 'anna-baylis' ), __( 'Use line breaks for the hero layout.', 'anna-baylis' ), 4 ); ?>
+					<?php anna_field_text( 'about_pg_hero_subheading', __( 'Subheading (optional)', 'anna-baylis' ) ); ?>
+					<?php anna_field_textarea( 'about_pg_hero_description', __( 'Description (optional)', 'anna-baylis' ) ); ?>
+					<?php anna_field_textarea( 'about_pg_hero_tags_text', __( 'Hero Tags (pills)', 'anna-baylis' ), __( 'One tag per line.', 'anna-baylis' ), 6 ); ?>
 					<?php anna_field_media( 'about_pg_hero_image_id', __( 'Hero Background Image', 'anna-baylis' ) ); ?>
 
 					<?php anna_field_heading( __( 'My Story', 'anna-baylis' ) ); ?>

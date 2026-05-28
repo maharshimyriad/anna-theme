@@ -26,7 +26,7 @@ if ( empty( $about ) ) {
 	<div class="anna-container">
 		<div class="anna-about-page-hero__content">
 			<?php if ( ! empty( $about['hero_eyebrow'] ) ) : ?>
-				<span class="anna-about-page__eyebrow anna-about-page__eyebrow--light"><?php echo esc_html( $about['hero_eyebrow'] ); ?></span>
+				<p class="anna-about-page-hero__overline"><?php echo esc_html( $about['hero_eyebrow'] ); ?></p>
 			<?php endif; ?>
 			<h1 class="anna-about-page-hero__heading"><?php echo wp_kses_post( nl2br( (string) $about['hero_heading'] ) ); ?></h1>
 			<?php if ( ! empty( $about['hero_subheading'] ) ) : ?>
@@ -34,6 +34,16 @@ if ( empty( $about ) ) {
 			<?php endif; ?>
 			<?php if ( ! empty( $about['hero_description'] ) ) : ?>
 				<p class="anna-about-page-hero__description"><?php echo esc_html( $about['hero_description'] ); ?></p>
+			<?php endif; ?>
+			<?php if ( ! empty( $about['hero_tags'] ) ) : ?>
+				<ul class="anna-about-page-hero__tags" role="list">
+					<?php foreach ( (array) $about['hero_tags'] as $tag ) : ?>
+						<?php if ( '' === trim( (string) $tag ) ) : ?>
+							<?php continue; ?>
+						<?php endif; ?>
+						<li class="anna-about-page-hero__tag"><?php echo esc_html( $tag ); ?></li>
+					<?php endforeach; ?>
+				</ul>
 			<?php endif; ?>
 		</div>
 	</div>

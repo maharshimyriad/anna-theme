@@ -328,6 +328,7 @@ function anna_get_about_page_option_map() {
 		'hero_subheading'     => 'about_pg_hero_subheading',
 		'hero_description'    => 'about_pg_hero_description',
 		'hero_image_id'       => 'about_pg_hero_image_id',
+		'hero_tags'           => 'about_pg_hero_tags_text',
 		'story_eyebrow'       => 'about_pg_story_eyebrow',
 		'story_heading'       => 'about_pg_story_heading',
 		'story_body'          => 'about_pg_story_body',
@@ -368,6 +369,14 @@ function anna_get_about_page_content() {
 
 		if ( str_ends_with( $template_key, '_image_id' ) ) {
 			$content[ $template_key ] = absint( anna_get_option( $option_key, $default ) );
+			continue;
+		}
+
+		if ( 'hero_tags' === $template_key ) {
+			$tags_default = isset( $defaults['about_pg_hero_tags_text'] )
+				? preg_split( '/\r\n|\r|\n/', $defaults['about_pg_hero_tags_text'] )
+				: array();
+			$content['hero_tags'] = anna_get_lines_option( 'about_pg_hero_tags_text', $tags_default );
 			continue;
 		}
 

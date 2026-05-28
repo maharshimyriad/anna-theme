@@ -8,6 +8,7 @@
 .anna-about-page-main {
   background: var(--color-white);
   --about-hero-min-height: clamp(24rem, 48vw, 34rem);
+  --about-hero-heading-size: clamp(2.75rem, 5vw, 3.75rem); /* max 60px */
   --about-section-padding: var(--section-padding-md);
   --about-grid-gap: clamp(var(--space-12), 7vw, var(--space-28));
   --about-heading-size: clamp(2rem, 3vw, 2.25rem);
@@ -22,7 +23,11 @@
   display: flex;
   align-items: center;
   margin-top: var(--header-height);
-  background-color: var(--color-heading);
+  background-color: #071a16;
+  background-image:
+    radial-gradient(900px 520px at 78% 52%, rgba(0, 148, 128, 0.72) 0%, rgba(0, 148, 128, 0.32) 35%, rgba(0, 148, 128, 0) 62%),
+    radial-gradient(760px 460px at 18% 46%, rgba(0, 148, 128, 0.18) 0%, rgba(0, 148, 128, 0) 60%),
+    linear-gradient(135deg, rgba(7, 26, 22, 0.98) 0%, rgba(7, 26, 22, 0.86) 42%, rgba(7, 26, 22, 0.96) 100%);
   background-size: cover;
   background-position: center;
   color: var(--color-white);
@@ -32,7 +37,9 @@
 .anna-about-page-hero__overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(15, 31, 27, 0.72) 0%, rgba(15, 31, 27, 0.45) 48%, rgba(15, 31, 27, 0.25) 100%);
+  background: radial-gradient(700px 520px at 78% 55%, rgba(0, 148, 128, 0.18) 0%, rgba(0, 148, 128, 0) 60%);
+  filter: blur(10px);
+  opacity: 0.9;
 }
 
 .anna-about-page-hero .anna-container {
@@ -44,12 +51,41 @@
   max-width: 760px;
 }
 
+.anna-about-page-hero__overline {
+  margin: 0 0 var(--space-6);
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: none;
+  font-weight: 600;
+}
+
 .anna-about-page-hero__heading {
-  margin: var(--space-3) 0 0;
+  margin: 0;
   color: var(--color-white);
-  font-size: var(--text-6xl);
-  line-height: 0.98;
+  font-size: var(--about-hero-heading-size);
+  line-height: 1.08;
   letter-spacing: var(--tracking-tight);
+}
+
+.anna-about-page-hero__tags {
+  margin: var(--space-8) 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.anna-about-page-hero__tag {
+  padding: 0.55rem 0.95rem;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 0.82rem;
+  line-height: 1;
+  backdrop-filter: blur(10px);
 }
 
 .anna-about-page-hero__subheading {

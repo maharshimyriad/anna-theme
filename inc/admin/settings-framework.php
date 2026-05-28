@@ -404,9 +404,10 @@ function anna_get_default_options() {
 
 		// About page (template: page-about.php).
 		'about_pg_hero_eyebrow'       => 'About Anna',
-		'about_pg_hero_heading'       => "I'm Anna.",
-		'about_pg_hero_subheading'    => 'Life Coach. Motivational Speaker. Olympian.',
-		'about_pg_hero_description'   => 'And I became the coach I am because of what I have lived through — not in spite of it.',
+		'about_pg_hero_heading'       => "Hi, I'm Anna.\nI became the coach\nI am because of\nwhat I've lived through.",
+		'about_pg_hero_subheading'    => '',
+		'about_pg_hero_description'   => '',
+		'about_pg_hero_tags_text'     => "Olympian\nHawaii Ironman\nIFS Trained\nSomatic Psychology\nTrauma-Informed",
 		'about_pg_hero_image_id'      => '',
 		'about_pg_story_eyebrow'      => 'About Anna',
 		'about_pg_story_heading'      => 'My story the beginning',
