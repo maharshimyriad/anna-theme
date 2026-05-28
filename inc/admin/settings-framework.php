@@ -79,9 +79,10 @@ function anna_seed_about_page_defaults() {
 		'about_pg_work_card_3_body',
 		'about_pg_work_card_4_title',
 		'about_pg_work_card_4_body',
-		'about_pg_qual_heading',
-		'about_pg_qual_intro',
-		'about_pg_qual_items_text',
+		'about_pg_people_eyebrow',
+		'about_pg_people_heading',
+		'about_pg_people_body',
+		'about_pg_people_items_text',
 		'about_pg_life_eyebrow',
 		'about_pg_life_heading',
 		'about_pg_life_body',
@@ -151,15 +152,36 @@ function anna_seed_about_page_post_content() {
 		return;
 	}
 
-	if ( '' !== trim( (string) $current->post_content ) ) {
+	$existing_content = (string) $current->post_content;
+	$existing_trimmed = trim( $existing_content );
+
+	// Update the editor content if it's empty OR was previously auto-seeded
+	// with an older structure.
+	$should_update = ( '' === $existing_trimmed );
+	if ( ! $should_update ) {
+		$markers = array(
+			'anna:about-seed:',
+			'<h3>Left column</h3>',
+			'My qualifications',
+			'about_pg_qual_',
+		);
+		foreach ( $markers as $marker ) {
+			if ( false !== strpos( $existing_content, $marker ) ) {
+				$should_update = true;
+				break;
+			}
+		}
+	}
+
+	if ( ! $should_update ) {
 		return;
 	}
 
 	$defaults = anna_get_default_options();
 
 	$hero_eyebrow     = $defaults['about_pg_hero_eyebrow'] ?? 'About Anna';
-	$hero_heading     = $defaults['about_pg_hero_heading'] ?? "I'm Anna.";
-	$hero_subheading  = $defaults['about_pg_hero_subheading'] ?? 'Life Coach. Motivational Speaker. Olympian.';
+	$hero_heading     = $defaults['about_pg_hero_heading'] ?? "Hi, I'm Anna.";
+	$hero_subheading  = $defaults['about_pg_hero_subheading'] ?? '';
 	$hero_description = $defaults['about_pg_hero_description'] ?? '';
 
 	$story_heading = $defaults['about_pg_story_heading'] ?? 'My story the beginning';
@@ -169,30 +191,40 @@ function anna_seed_about_page_post_content() {
 	$rock_left_body  = $defaults['about_pg_rock_left_body'] ?? '';
 	$rock_right_body = $defaults['about_pg_rock_right_body'] ?? '';
 
-	$coach_heading    = wp_strip_all_tags( $defaults['about_pg_coach_heading'] ?? 'How I became a coach' );
-	$coach_left_body  = $defaults['about_pg_coach_left_body'] ?? '';
-	$coach_right_body = $defaults['about_pg_coach_right_body'] ?? '';
-	$coach_quote      = $defaults['about_pg_coach_quote'] ?? '';
+	$coach_eyebrow     = $defaults['about_pg_coach_eyebrow'] ?? 'How I Became a Coach';
+	$coach_title       = $defaults['about_pg_coach_title'] ?? '';
+	$coach_body        = $defaults['about_pg_coach_body'] ?? '';
+	$coach_button_text = $defaults['about_pg_coach_button_text'] ?? '';
+	$coach_button_url  = $defaults['about_pg_coach_button_url'] ?? '';
 
-	$approach_eyebrow   = $defaults['about_pg_approach_eyebrow'] ?? 'My Approach';
-	$approach_heading   = $defaults['about_pg_approach_heading'] ?? 'Different to most talk therapies';
-	$approach_left_body = $defaults['about_pg_approach_left_body'] ?? '';
-	$approach_right_body = $defaults['about_pg_approach_right_body'] ?? '';
+	$work_eyebrow = $defaults['about_pg_work_eyebrow'] ?? 'How I work';
+	$work_heading = $defaults['about_pg_work_heading'] ?? '';
+	$work_body    = $defaults['about_pg_work_body'] ?? '';
+	$work_cards   = array();
+	for ( $i = 1; $i <= 4; $i++ ) {
+		$work_cards[] = array(
+			'title' => $defaults[ 'about_pg_work_card_' . $i . '_title' ] ?? '',
+			'body'  => $defaults[ 'about_pg_work_card_' . $i . '_body' ] ?? '',
+		);
+	}
 
-	$qual_heading = $defaults['about_pg_qual_heading'] ?? 'My qualifications';
-	$qual_intro   = $defaults['about_pg_qual_intro'] ?? '';
-	$qual_items   = isset( $defaults['about_pg_qual_items_text'] ) ? preg_split( '/\r\n|\r|\n/', $defaults['about_pg_qual_items_text'] ) : array();
-	$qual_items   = array_values( array_filter( array_map( 'trim', (array) $qual_items ) ) );
+	$people_eyebrow = $defaults['about_pg_people_eyebrow'] ?? 'What people say';
+	$people_heading = $defaults['about_pg_people_heading'] ?? '';
+	$people_body    = $defaults['about_pg_people_body'] ?? '';
+	$people_items   = isset( $defaults['about_pg_people_items_text'] ) ? preg_split( '/\r\n|\r|\n/', $defaults['about_pg_people_items_text'] ) : array();
+	$people_items   = array_values( array_filter( array_map( 'trim', (array) $people_items ) ) );
 
 	$life_eyebrow = $defaults['about_pg_life_eyebrow'] ?? 'Present Day';
 	$life_heading = $defaults['about_pg_life_heading'] ?? 'My life now';
 	$life_body    = $defaults['about_pg_life_body'] ?? '';
 
 	// Build simple HTML that Gutenberg will treat as a single "Custom HTML" block.
-	$content  = '';
-	$content .= '<h2>' . esc_html( strtoupper( $hero_eyebrow ) ) . '</h2>';
+	$content  = "<!-- anna:about-seed:v2 -->\n";
+	$content .= '<h2>' . esc_html( $hero_eyebrow ) . '</h2>';
 	$content .= '<h1>' . esc_html( $hero_heading ) . '</h1>';
-	$content .= '<p><strong>' . esc_html( $hero_subheading ) . '</strong></p>';
+	if ( $hero_subheading ) {
+		$content .= '<p><strong>' . esc_html( $hero_subheading ) . '</strong></p>';
+	}
 	if ( $hero_description ) {
 		$content .= '<p>' . esc_html( $hero_description ) . '</p>';
 	}
@@ -203,37 +235,38 @@ function anna_seed_about_page_post_content() {
 
 	$content .= '<hr />';
 	$content .= '<h2>' . esc_html( $rock_heading ) . '</h2>';
-	$content .= '<h3>Left column</h3>';
 	$content .= wpautop( esc_html( $rock_left_body ) );
-	$content .= '<h3>Right column</h3>';
 	$content .= wpautop( esc_html( $rock_right_body ) );
 
 	$content .= '<hr />';
-	$content .= '<h2>' . esc_html( $coach_heading ) . '</h2>';
-	$content .= '<h3>Left column</h3>';
-	$content .= wpautop( esc_html( $coach_left_body ) );
-	$content .= '<h3>Right column</h3>';
-	$content .= wpautop( esc_html( $coach_right_body ) );
-	if ( $coach_quote ) {
-		$content .= '<blockquote><p>' . esc_html( $coach_quote ) . '</p></blockquote>';
+	$content .= '<h2>' . esc_html( $coach_eyebrow ) . '</h2>';
+	$content .= '<h2>' . esc_html( $coach_title ) . '</h2>';
+	$content .= wpautop( esc_html( $coach_body ) );
+	if ( $coach_button_text && $coach_button_url ) {
+		$content .= '<p><a href="' . esc_url( $coach_button_url ) . '">' . esc_html( $coach_button_text ) . '</a></p>';
 	}
 
 	$content .= '<hr />';
-	$content .= '<h2>' . esc_html( $approach_eyebrow ) . '</h2>';
-	$content .= '<h2>' . esc_html( $approach_heading ) . '</h2>';
-	$content .= '<h3>Left column</h3>';
-	$content .= wpautop( esc_html( $approach_left_body ) );
-	$content .= '<h3>Right column</h3>';
-	$content .= wpautop( esc_html( $approach_right_body ) );
+	$content .= '<h2>' . esc_html( $work_eyebrow ) . '</h2>';
+	$content .= '<h2>' . esc_html( $work_heading ) . '</h2>';
+	$content .= wpautop( esc_html( $work_body ) );
+	foreach ( $work_cards as $card ) {
+		if ( '' === trim( (string) $card['title'] ) && '' === trim( (string) $card['body'] ) ) {
+			continue;
+		}
+		$content .= '<h3>' . esc_html( (string) $card['title'] ) . '</h3>';
+		$content .= '<p>' . esc_html( (string) $card['body'] ) . '</p>';
+	}
 
 	$content .= '<hr />';
-	$content .= '<h2>' . esc_html( $qual_heading ) . '</h2>';
-	if ( $qual_intro ) {
-		$content .= '<p>' . esc_html( $qual_intro ) . '</p>';
+	$content .= '<h2>' . esc_html( $people_eyebrow ) . '</h2>';
+	$content .= '<h2>' . esc_html( $people_heading ) . '</h2>';
+	if ( $people_body ) {
+		$content .= '<p>' . esc_html( $people_body ) . '</p>';
 	}
-	if ( ! empty( $qual_items ) ) {
+	if ( ! empty( $people_items ) ) {
 		$content .= '<ul>';
-		foreach ( $qual_items as $item ) {
+		foreach ( $people_items as $item ) {
 			$content .= '<li>' . esc_html( $item ) . '</li>';
 		}
 		$content .= '</ul>';
@@ -259,12 +292,12 @@ add_action( 'admin_init', 'anna_seed_about_page_post_content', 25 );
  *
  * Applies new section copy from the latest design images.
  */
-function anna_migrate_about_page_copy_20260527() {
+function anna_migrate_about_page_copy_20260528() {
 	if ( ! is_admin() ) {
 		return;
 	}
 
-	$done_flag = get_option( 'anna_about_copy_migrated_20260527', false );
+	$done_flag = get_option( 'anna_about_copy_migrated_20260528', false );
 	if ( $done_flag ) {
 		return;
 	}
@@ -276,19 +309,19 @@ function anna_migrate_about_page_copy_20260527() {
 		$options = array();
 	}
 
-	$old_qual_items = "Olympian and Commonwealth Games representative\nHawaii Ironman finisher\nNLP Practitioner\nTimeline Therapy Practitioner\nInternal Family Systems (IFS) trained\nTrauma-informed practitioner\nSomatic psychology\nCompassionate Inquiry (Gabor Maté)\nCertified Hypnotherapist\nInner Child work";
-	$old_life_body  = "I live in Melbourne, coaching clients in person across south-east Melbourne and online throughout Australia and worldwide.\n\nThese days my work, my son and the outdoors fill my life. I still train — because movement is how I think, process and stay grounded. But the drive is different now. It's not about proving anything. It's about living fully, and helping others do the same.";
-
-	$qual_current = isset( $options['about_pg_qual_items_text'] ) ? (string) $options['about_pg_qual_items_text'] : '';
+	$people_current = isset( $options['about_pg_people_items_text'] ) ? (string) $options['about_pg_people_items_text'] : '';
 	$life_current = isset( $options['about_pg_life_body'] ) ? (string) $options['about_pg_life_body'] : '';
 
 	$changed = false;
-	if ( '' === trim( $qual_current ) || $qual_current === $old_qual_items ) {
-		$options['about_pg_qual_items_text'] = (string) ( $defaults['about_pg_qual_items_text'] ?? '' );
+	if ( '' === trim( $people_current ) ) {
+		$options['about_pg_people_items_text'] = (string) ( $defaults['about_pg_people_items_text'] ?? '' );
+		$options['about_pg_people_heading']    = (string) ( $defaults['about_pg_people_heading'] ?? '' );
+		$options['about_pg_people_body']       = (string) ( $defaults['about_pg_people_body'] ?? '' );
+		$options['about_pg_people_eyebrow']    = (string) ( $defaults['about_pg_people_eyebrow'] ?? '' );
 		$changed = true;
 	}
 
-	if ( '' === trim( $life_current ) || $life_current === $old_life_body ) {
+	if ( '' === trim( $life_current ) ) {
 		$options['about_pg_life_body'] = (string) ( $defaults['about_pg_life_body'] ?? '' );
 		$changed = true;
 	}
@@ -297,9 +330,9 @@ function anna_migrate_about_page_copy_20260527() {
 		update_option( 'anna_theme_options', $options );
 	}
 
-	update_option( 'anna_about_copy_migrated_20260527', 1 );
+	update_option( 'anna_about_copy_migrated_20260528', 1 );
 }
-add_action( 'admin_init', 'anna_migrate_about_page_copy_20260527', 30 );
+add_action( 'admin_init', 'anna_migrate_about_page_copy_20260528', 30 );
 
 /**
  * Get default theme options.
@@ -444,9 +477,10 @@ function anna_get_default_options() {
 		'about_pg_work_card_4_title'  => 'Lived experience',
 		'about_pg_work_card_4_body'   => "I don't coach from a textbook. I coach from a life that has included elite sport, personal devastation, and genuine rebuilding. \"I understand what it takes to heal trauma and have it stored as wisdom\" I practice what I preach.",
 
-		'about_pg_qual_heading'       => 'My qualifications',
-		'about_pg_qual_intro'         => 'I am committed to ongoing learning and hold qualifications in:',
-		'about_pg_qual_items_text'    => "Bachelor of Applied Science in Human Movement — Deakin University\nCredentialled Practitioner of Coaching — The Coaching Institute\nNLP Practitioner and Coach — Institute of Empowered Psychology\nHypnotherapist — Institute of Empowered Psychology\nInner Child Work and Internal Family Systems — Embodied Philosophy Wisdom School\nCompassionate Inquiry in Action — Gabor Maté\nChakra Therapy — Awakening and Healing the Energy Body — Anodea Judith\nHonours in Food Science and Nutrition — Deakin University\nEmotional Intimacy Coach — The Coaching Institute\nTimeline Therapy Practitioner — Institute of Empowered Psychology\nTrauma-Informed Coach — The Centre for Healing\nIntroduction to Somatic Psychology and Embodied Communication — Neuroaffective Touch Institute\nComplete IFS Therapy Immersion — Integrating Internal Family Systems Across Clinical Applications",
+		'about_pg_people_eyebrow'     => 'What people say',
+		'about_pg_people_heading'     => 'Committed to continual learning.',
+		'about_pg_people_body'        => 'Over a decade of rigorous study across human movement, nutrition, coaching, somatic psychology, trauma-informed practice and inner world work. This is what I bring to every session.',
+		'about_pg_people_items_text'  => "HM|Bachelor of Applied Science — Human Movement|Deakin University\nCP|Credentialled Practitioner of Coaching|The Coaching Institute\nNLP|NLP Practitioner and Master Practitioner|Institute of Empowered Psychology\nHY|Hypnotherapy|Institute of Empowered Psychology\nIFS|Parts work — Internal Family Systems informed|Embodied Philosophy Western School\nCI|Masters — currently completing|Gabor Maté\nCT|102 five-star Google reviews|Anodea Judith\nNR|Honours — Food Science and Nutrition|Deakin University\nEI|Emotional Intimacy Coach|The Coaching Institute\nTL|Timeline Therapy|Institute of Empowered Psychology\nTC|Trauma-informed coaching|The Centre for Healing\nSP|Personal trainer — 7+ years|NeuroAffective Touch Institute",
 		'about_pg_life_eyebrow'       => 'Present Day',
 		'about_pg_life_heading'       => 'My life now',
 		'about_pg_life_body'          => "I live and work in Melbourne, Australia. On any given day you'll find me outdoors — walking, moving, appreciating nature. Meditation, gratitude and movement are not things I recommend to clients from a distance. They are how I live.\n\nI coach men, women and couples both in person in Melbourne and online. I speak at events and conferences across Australia. And I am the founder of Oasis — a women's community for sustainable health and wellbeing that brings everything I've learned into an ongoing, accessible space for women who are ready to come back to themselves.",

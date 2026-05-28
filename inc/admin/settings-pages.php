@@ -243,10 +243,11 @@ function anna_render_settings_page() {
 					<?php anna_field_text( 'about_pg_work_card_4_title', __( 'Card 4 Title', 'anna-baylis' ) ); ?>
 					<?php anna_field_textarea( 'about_pg_work_card_4_body', __( 'Card 4 Body', 'anna-baylis' ), '', 3 ); ?>
 
-					<?php anna_field_heading( __( 'Qualifications', 'anna-baylis' ) ); ?>
-					<?php anna_field_text( 'about_pg_qual_heading', __( 'Heading', 'anna-baylis' ) ); ?>
-					<?php anna_field_textarea( 'about_pg_qual_intro', __( 'Intro', 'anna-baylis' ) ); ?>
-					<?php anna_field_textarea( 'about_pg_qual_items_text', __( 'Qualification Items', 'anna-baylis' ), __( 'One item per line.', 'anna-baylis' ), 10 ); ?>
+					<?php anna_field_heading( __( 'What People Say', 'anna-baylis' ) ); ?>
+					<?php anna_field_text( 'about_pg_people_eyebrow', __( 'Eyebrow', 'anna-baylis' ) ); ?>
+					<?php anna_field_text( 'about_pg_people_heading', __( 'Heading', 'anna-baylis' ) ); ?>
+					<?php anna_field_textarea( 'about_pg_people_body', __( 'Intro', 'anna-baylis' ), '', 4 ); ?>
+					<?php anna_field_textarea( 'about_pg_people_items_text', __( 'Items', 'anna-baylis' ), __( 'One per line. Format: INITIALS|TITLE|ORG', 'anna-baylis' ), 12 ); ?>
 
 					<?php anna_field_heading( __( 'My Life Now', 'anna-baylis' ) ); ?>
 					<?php anna_field_text( 'about_pg_life_eyebrow', __( 'Eyebrow', 'anna-baylis' ) ); ?>

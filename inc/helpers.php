@@ -357,13 +357,48 @@ function anna_get_about_page_option_map() {
 		'work_card_4_title'   => 'about_pg_work_card_4_title',
 		'work_card_4_body'    => 'about_pg_work_card_4_body',
 
-		'qual_heading'        => 'about_pg_qual_heading',
-		'qual_intro'          => 'about_pg_qual_intro',
+		// What people say section.
+		'people_eyebrow'      => 'about_pg_people_eyebrow',
+		'people_heading'      => 'about_pg_people_heading',
+		'people_body'         => 'about_pg_people_body',
+		'people_items_text'   => 'about_pg_people_items_text',
 		'life_eyebrow'        => 'about_pg_life_eyebrow',
 		'life_heading'        => 'about_pg_life_heading',
 		'life_body'           => 'about_pg_life_body',
 		'life_image_id'       => 'about_pg_life_image_id',
 	);
+}
+
+/**
+ * Parse "What people say" items list.
+ *
+ * Each line should be one item in the format:
+ * INITIALS|TITLE|ORG
+ *
+ * @param string $raw Newline-separated items.
+ * @return array<int, array{initials:string,title:string,org:string}>
+ */
+function anna_parse_about_people_items( $raw ) {
+	if ( ! is_string( $raw ) || '' === trim( $raw ) ) {
+		return array();
+	}
+
+	$lines = preg_split( '/\r\n|\r|\n/', $raw );
+	$lines = array_values( array_filter( array_map( 'trim', (array) $lines ) ) );
+
+	$items = array();
+	foreach ( $lines as $line ) {
+		$parts = array_map( 'trim', explode( '|', $line ) );
+		$parts = array_pad( $parts, 3, '' );
+
+		$items[] = array(
+			'initials' => (string) $parts[0],
+			'title'    => (string) $parts[1],
+			'org'      => (string) $parts[2],
+		);
+	}
+
+	return $items;
 }
 
 /**
@@ -392,14 +427,17 @@ function anna_get_about_page_content() {
 			continue;
 		}
 
+		if ( 'people_items_text' === $template_key ) {
+			$people_default_raw = (string) ( $defaults['about_pg_people_items_text'] ?? '' );
+			$people_raw         = (string) anna_get_option( 'about_pg_people_items_text', $people_default_raw );
+			$content['people_items'] = anna_parse_about_people_items( $people_raw );
+			continue;
+		}
+
 		$content[ $template_key ] = anna_get_option( $option_key, $default );
 	}
 
-	$qual_default = isset( $defaults['about_pg_qual_items_text'] )
-		? preg_split( '/\r\n|\r|\n/', $defaults['about_pg_qual_items_text'] )
-		: array();
-
-	$content['qual_items'] = anna_get_lines_option( 'about_pg_qual_items_text', $qual_default );
+	// Remove legacy qualifications output. (Section replaced by "What people say".)
 
 	$post_id = anna_get_current_page_content_id();
 	if ( $post_id && function_exists( 'anna_content_get_about_page_content' ) ) {
@@ -427,12 +465,6 @@ function anna_get_about_page_content() {
 			}
 		}
 	}
-
-	if ( is_string( $content['qual_items'] ) ) {
-		$content['qual_items'] = preg_split( '/\r\n|\r|\n/', $content['qual_items'] );
-	}
-
-	$content['qual_items'] = array_values( array_filter( array_map( 'trim', (array) $content['qual_items'] ) ) );
 
 	return $content;
 }

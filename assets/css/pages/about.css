@@ -323,6 +323,82 @@
   font-size: 0.96rem;
 }
 
+.anna-about-page-people {
+  background: #f7faf8;
+}
+
+.anna-about-page-people__header {
+  max-width: 42rem;
+  margin-bottom: clamp(2rem, 4vw, 3.5rem);
+}
+
+.anna-about-page-people__eyebrow {
+  margin: 0 0 var(--space-4);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  color: rgba(15, 31, 27, 0.55);
+}
+
+.anna-about-page-people__heading {
+  margin: 0 0 var(--space-5);
+  color: var(--color-primary);
+  font-size: clamp(2.1rem, 3.6vw, 3.05rem);
+  line-height: 1.05;
+}
+
+.anna-about-page-people__intro {
+  margin: 0;
+  color: rgba(15, 31, 27, 0.7);
+  line-height: 1.7;
+  font-size: var(--text-base);
+}
+
+.anna-about-page-people__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-6);
+}
+
+.anna-about-page-people-card {
+  display: flex;
+  gap: var(--space-5);
+  align-items: center;
+  padding: 1.15rem 1.25rem;
+  border-radius: 0.9rem;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 112, 99, 0.08);
+  box-shadow: 0 10px 26px rgba(15, 31, 27, 0.05);
+}
+
+.anna-about-page-people-card__badge {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  background: #103f36;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 700;
+  font-size: 0.8rem;
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+.anna-about-page-people-card__title {
+  margin: 0;
+  color: rgba(15, 31, 27, 0.86);
+  font-size: 0.98rem;
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+.anna-about-page-people-card__org {
+  margin: 0.15rem 0 0;
+  color: rgba(15, 31, 27, 0.58);
+  font-size: 0.82rem;
+  line-height: 1.25;
+}
+
 .anna-about-page__quote {
   margin-top: var(--space-8);
   padding-left: var(--space-5);
@@ -377,6 +453,10 @@
 
   .anna-about-page-coach__grid,
   .anna-about-page-work__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .anna-about-page-people__grid {
     grid-template-columns: 1fr;
   }
 
