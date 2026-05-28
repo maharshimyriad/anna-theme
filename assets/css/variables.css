@@ -196,7 +196,7 @@
   --btn-transition:    var(--transition-base);
 
   /* ── Header ───────────────────────────────────────────────────────────── */
-  --header-height:        5rem;
+  --header-height:        4.8rem;
   --header-height-scroll: 4rem;
   --header-bg-transparent: transparent;
   --header-bg-scrolled:   rgba(255, 255, 255, 0.97);

@@ -31,7 +31,7 @@ if ( anna_has_transparent_header() ) {
 <div class="anna-site" id="page">
 
 	<header class="<?php echo esc_attr( $header_classes ); ?>" id="site-header" role="banner">
-		<div class="anna-container anna-container--wide">
+		<div class="anna-container anna-container--max">
 			<div class="anna-header__inner">
 
 				<?php anna_site_logo( 'header' ); ?>
@@ -131,4 +131,4 @@ if ( anna_has_transparent_header() ) {
 		</div>
 	</nav>
 
-	<div class="anna-header-placeholder" aria-hidden="true"></div>
+<!-- 	<div class="anna-header-placeholder" aria-hidden="true"></div> -->

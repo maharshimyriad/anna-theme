@@ -10,7 +10,7 @@
   --about-hero-min-height: clamp(24rem, 48vw, 34rem);
   --about-section-padding: var(--section-padding-md);
   --about-grid-gap: clamp(var(--space-12), 7vw, var(--space-28));
-  --about-heading-size: clamp(var(--text-3xl), 4vw, 4.35rem);
+  --about-heading-size: clamp(2rem, 3vw, 2.25rem);
   --about-body-size: var(--text-base);
   --about-eyebrow-size: var(--text-xs);
   --about-quote-size: var(--text-xl);
