@@ -222,17 +222,26 @@ function anna_render_settings_page() {
 					<?php anna_field_textarea( 'about_pg_rock_right_body', __( 'Right Column', 'anna-baylis' ), __( 'One paragraph per blank line.', 'anna-baylis' ), 8 ); ?>
 
 					<?php anna_field_heading( __( 'How I Became a Coach', 'anna-baylis' ) ); ?>
-					<?php anna_field_textarea( 'about_pg_coach_heading', __( 'Heading', 'anna-baylis' ), __( 'HTML allowed. Wrap accent words in: <span class="anna-about-page__heading-accent">a coach</span>', 'anna-baylis' ), 2 ); ?>
-					<?php anna_field_textarea( 'about_pg_coach_left_body', __( 'Left Column', 'anna-baylis' ), __( 'One paragraph per blank line.', 'anna-baylis' ), 8 ); ?>
-					<?php anna_field_textarea( 'about_pg_coach_right_body', __( 'Right Column', 'anna-baylis' ), __( 'One paragraph per blank line.', 'anna-baylis' ), 8 ); ?>
-					<?php anna_field_textarea( 'about_pg_coach_quote', __( 'Pull Quote', 'anna-baylis' ) ); ?>
+					<?php anna_field_text( 'about_pg_coach_eyebrow', __( 'Eyebrow', 'anna-baylis' ) ); ?>
+					<?php anna_field_text( 'about_pg_coach_title', __( 'Heading', 'anna-baylis' ) ); ?>
+					<?php anna_field_textarea( 'about_pg_coach_body', __( 'Body Copy', 'anna-baylis' ), __( 'One paragraph per blank line.', 'anna-baylis' ), 8 ); ?>
+					<?php anna_field_text( 'about_pg_coach_button_text', __( 'Button Text', 'anna-baylis' ) ); ?>
+					<?php anna_field_text( 'about_pg_coach_button_url', __( 'Button URL', 'anna-baylis' ), '', 'url' ); ?>
+					<?php anna_field_media( 'about_pg_coach_image_id', __( 'Right Image', 'anna-baylis' ) ); ?>
 
-					<?php anna_field_heading( __( 'My Approach', 'anna-baylis' ) ); ?>
-					<?php anna_field_text( 'about_pg_approach_eyebrow', __( 'Eyebrow', 'anna-baylis' ) ); ?>
-					<?php anna_field_text( 'about_pg_approach_heading', __( 'Heading', 'anna-baylis' ) ); ?>
-					<?php anna_field_textarea( 'about_pg_approach_intro', __( 'Intro (optional)', 'anna-baylis' ) ); ?>
-					<?php anna_field_textarea( 'about_pg_approach_left_body', __( 'Left Column', 'anna-baylis' ), __( 'One paragraph per blank line.', 'anna-baylis' ), 8 ); ?>
-					<?php anna_field_textarea( 'about_pg_approach_right_body', __( 'Right Column', 'anna-baylis' ), __( 'One paragraph per blank line.', 'anna-baylis' ), 6 ); ?>
+					<?php anna_field_heading( __( 'How I Work', 'anna-baylis' ) ); ?>
+					<?php anna_field_text( 'about_pg_work_eyebrow', __( 'Eyebrow', 'anna-baylis' ) ); ?>
+					<?php anna_field_text( 'about_pg_work_heading', __( 'Heading', 'anna-baylis' ) ); ?>
+					<?php anna_field_textarea( 'about_pg_work_body', __( 'Left Column Copy', 'anna-baylis' ), __( 'One paragraph per blank line.', 'anna-baylis' ), 10 ); ?>
+					<?php anna_field_heading( __( 'How I Work Cards', 'anna-baylis' ), __( 'These appear as stacked cards in the right column.', 'anna-baylis' ) ); ?>
+					<?php anna_field_text( 'about_pg_work_card_1_title', __( 'Card 1 Title', 'anna-baylis' ) ); ?>
+					<?php anna_field_textarea( 'about_pg_work_card_1_body', __( 'Card 1 Body', 'anna-baylis' ), '', 3 ); ?>
+					<?php anna_field_text( 'about_pg_work_card_2_title', __( 'Card 2 Title', 'anna-baylis' ) ); ?>
+					<?php anna_field_textarea( 'about_pg_work_card_2_body', __( 'Card 2 Body', 'anna-baylis' ), '', 3 ); ?>
+					<?php anna_field_text( 'about_pg_work_card_3_title', __( 'Card 3 Title', 'anna-baylis' ) ); ?>
+					<?php anna_field_textarea( 'about_pg_work_card_3_body', __( 'Card 3 Body', 'anna-baylis' ), '', 3 ); ?>
+					<?php anna_field_text( 'about_pg_work_card_4_title', __( 'Card 4 Title', 'anna-baylis' ) ); ?>
+					<?php anna_field_textarea( 'about_pg_work_card_4_body', __( 'Card 4 Body', 'anna-baylis' ), '', 3 ); ?>
 
 					<?php anna_field_heading( __( 'Qualifications', 'anna-baylis' ) ); ?>
 					<?php anna_field_text( 'about_pg_qual_heading', __( 'Heading', 'anna-baylis' ) ); ?>

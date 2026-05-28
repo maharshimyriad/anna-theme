@@ -50,8 +50,12 @@ function anna_get_tab_fields_map() {
 			'about_pg_hero_eyebrow', 'about_pg_hero_heading', 'about_pg_hero_subheading', 'about_pg_hero_description', 'about_pg_hero_tags_text', 'about_pg_hero_image_id',
 			'about_pg_story_eyebrow', 'about_pg_story_heading', 'about_pg_story_body', 'about_pg_story_image_id',
 			'about_pg_rock_heading', 'about_pg_rock_left_body', 'about_pg_rock_right_body',
-			'about_pg_coach_heading', 'about_pg_coach_left_body', 'about_pg_coach_right_body', 'about_pg_coach_quote',
-			'about_pg_approach_eyebrow', 'about_pg_approach_heading', 'about_pg_approach_intro', 'about_pg_approach_left_body', 'about_pg_approach_right_body',
+			'about_pg_coach_eyebrow', 'about_pg_coach_title', 'about_pg_coach_body', 'about_pg_coach_button_text', 'about_pg_coach_button_url', 'about_pg_coach_image_id',
+			'about_pg_work_eyebrow', 'about_pg_work_heading', 'about_pg_work_body',
+			'about_pg_work_card_1_title', 'about_pg_work_card_1_body',
+			'about_pg_work_card_2_title', 'about_pg_work_card_2_body',
+			'about_pg_work_card_3_title', 'about_pg_work_card_3_body',
+			'about_pg_work_card_4_title', 'about_pg_work_card_4_body',
 			'about_pg_qual_heading', 'about_pg_qual_intro', 'about_pg_qual_items_text',
 			'about_pg_life_eyebrow', 'about_pg_life_heading', 'about_pg_life_body', 'about_pg_life_image_id',
 		),
@@ -89,12 +93,12 @@ function anna_sanitize_single_option( $key, $value ) {
 		return sanitize_hex_color( $value );
 	}
 
-	$url_fields = array( 'header_cta_url', 'cta_primary_url', 'cta_secondary_url', 'services_cta_url', 'about_cta_url', 'privacy_url', 'terms_url', 'testimonials_cta_url' );
+	$url_fields = array( 'header_cta_url', 'cta_primary_url', 'cta_secondary_url', 'services_cta_url', 'about_cta_url', 'privacy_url', 'terms_url', 'testimonials_cta_url', 'about_pg_coach_button_url' );
 	if ( in_array( $key, $url_fields, true ) ) {
 		return esc_url_raw( $value );
 	}
 
-	$html_fields = array( 'hero_heading', 'about_heading', 'about_body', 'intro_body', 'intro_heading', 'cta_heading', 'about_pg_coach_heading' );
+	$html_fields = array( 'hero_heading', 'about_heading', 'about_body', 'intro_body', 'intro_heading', 'cta_heading' );
 	if ( in_array( $key, $html_fields, true ) ) {
 		return wp_kses_post( $value );
 	}
@@ -103,8 +107,9 @@ function anna_sanitize_single_option( $key, $value ) {
 		'hero_description', 'intro_quote', 'recognition_description', 'services_description', 'about_quote', 'cta_description',
 		'footer_description', 'newsletter_text', 'contact_address', 'recognition_items_text', 'about_expertise_text',
 		'about_pg_hero_description', 'about_pg_story_body', 'about_pg_rock_left_body', 'about_pg_rock_right_body',
-		'about_pg_coach_left_body', 'about_pg_coach_right_body', 'about_pg_coach_quote', 'about_pg_approach_intro',
-		'about_pg_approach_left_body', 'about_pg_approach_right_body', 'about_pg_qual_intro', 'about_pg_qual_items_text', 'about_pg_life_body',
+		'about_pg_coach_body', 'about_pg_work_body',
+		'about_pg_work_card_1_body', 'about_pg_work_card_2_body', 'about_pg_work_card_3_body', 'about_pg_work_card_4_body',
+		'about_pg_qual_intro', 'about_pg_qual_items_text', 'about_pg_life_body',
 		'about_pg_hero_tags_text',
 	);
 	if ( in_array( $key, $textarea_fields, true ) ) {
@@ -113,7 +118,7 @@ function anna_sanitize_single_option( $key, $value ) {
 
 	$int_fields = array(
 		'site_logo_id', 'hero_image_id', 'about_image_id', 'intro_image_id', 'recognition_image_id', 'cta_image_id', 'seo_og_image_id',
-		'about_pg_hero_image_id', 'about_pg_story_image_id', 'about_pg_life_image_id',
+		'about_pg_hero_image_id', 'about_pg_story_image_id', 'about_pg_life_image_id', 'about_pg_coach_image_id',
 	);
 	if ( in_array( $key, $int_fields, true ) ) {
 		return absint( $value );

@@ -16,17 +16,36 @@ if ( empty( $about ) ) {
 }
 ?>
 
-<section class="anna-about-page-section anna-about-page-band">
+<section class="anna-about-page-section anna-about-page-coach">
 	<div class="anna-container">
-		<h2 class="anna-about-page__heading anna-about-page__heading--inline"><?php echo wp_kses_post( nl2br( (string) ( $about['coach_heading'] ?? '' ) ) ); ?></h2>
-		<div class="anna-about-page-two-col">
-			<div class="anna-about-page__copy"><?php echo wp_kses_post( wpautop( (string) ( $about['coach_left_body'] ?? '' ) ) ); ?></div>
-			<div>
-				<div class="anna-about-page__copy"><?php echo wp_kses_post( wpautop( (string) ( $about['coach_right_body'] ?? '' ) ) ); ?></div>
-				<?php if ( ! empty( $about['coach_quote'] ) ) : ?>
-					<blockquote class="anna-about-page__quote"><?php echo esc_html( $about['coach_quote'] ); ?></blockquote>
+		<div class="anna-about-page-coach__grid">
+			<div class="anna-about-page-coach__content">
+				<?php if ( ! empty( $about['coach_eyebrow'] ) ) : ?>
+					<p class="anna-about-page-coach__eyebrow"><?php echo esc_html( $about['coach_eyebrow'] ); ?></p>
+				<?php endif; ?>
+
+				<?php if ( ! empty( $about['coach_title'] ) ) : ?>
+					<h2 class="anna-about-page-coach__heading"><?php echo esc_html( $about['coach_title'] ); ?></h2>
+				<?php endif; ?>
+
+				<?php if ( ! empty( $about['coach_body'] ) ) : ?>
+					<div class="anna-about-page-coach__copy"><?php echo wp_kses_post( wpautop( (string) $about['coach_body'] ) ); ?></div>
+				<?php endif; ?>
+
+				<?php if ( ! empty( $about['coach_button_text'] ) && ! empty( $about['coach_button_url'] ) ) : ?>
+					<div class="anna-about-page-coach__cta">
+						<a class="anna-btn anna-btn--primary" href="<?php echo esc_url( $about['coach_button_url'] ); ?>">
+							<?php echo esc_html( $about['coach_button_text'] ); ?>
+						</a>
+					</div>
 				<?php endif; ?>
 			</div>
+
+			<?php if ( ! empty( $about['coach_image_id'] ) ) : ?>
+				<figure class="anna-about-page-coach__media">
+					<?php anna_responsive_image( absint( $about['coach_image_id'] ), 'large', 'anna-img-cover' ); ?>
+				</figure>
+			<?php endif; ?>
 		</div>
 	</div>
 </section>
