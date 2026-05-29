@@ -148,3 +148,26 @@ tr:first-child .anna-admin-section-title {
 .anna-admin-form .button-primary:hover {
   background:   #005549 !important;
 }
+
+.anna-admin-repeater__row {
+  border: 1px solid #e8efea;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 12px;
+  background: #fbfdfc;
+}
+
+.anna-admin-repeater__row-fields {
+  display: grid;
+  gap: 12px;
+}
+
+.anna-admin-repeater__label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.anna-admin-repeater__row-actions {
+  margin-top: 10px;
+}

@@ -249,11 +249,97 @@ function anna_render_settings_page() {
 					<?php anna_field_textarea( 'about_pg_people_body', __( 'Intro', 'anna-baylis' ), '', 4 ); ?>
 					<?php anna_field_textarea( 'about_pg_people_items_text', __( 'Items', 'anna-baylis' ), __( 'One per line. Format: INITIALS|TITLE|ORG', 'anna-baylis' ), 12 ); ?>
 
-					<?php anna_field_heading( __( 'My Life Now', 'anna-baylis' ) ); ?>
-					<?php anna_field_text( 'about_pg_life_eyebrow', __( 'Eyebrow', 'anna-baylis' ) ); ?>
-					<?php anna_field_text( 'about_pg_life_heading', __( 'Heading', 'anna-baylis' ) ); ?>
-					<?php anna_field_textarea( 'about_pg_life_body', __( 'Body Copy', 'anna-baylis' ), __( 'One paragraph per blank line.', 'anna-baylis' ), 6 ); ?>
-					<?php anna_field_media( 'about_pg_life_image_id', __( 'Image', 'anna-baylis' ) ); ?>
+					<?php anna_field_heading( __( 'Qualifications', 'anna-baylis' ), __( 'Add qualification cards (logo + title + description).', 'anna-baylis' ) ); ?>
+					<?php anna_field_text( 'about_pg_qual_eyebrow', __( 'Eyebrow', 'anna-baylis' ) ); ?>
+					<?php anna_field_text( 'about_pg_qual_heading', __( 'Heading', 'anna-baylis' ) ); ?>
+					<?php anna_field_textarea( 'about_pg_qual_body', __( 'Intro', 'anna-baylis' ), '', 4 ); ?>
+
+					<?php
+					$qual_items = anna_get_option( 'about_pg_qualifications', array() );
+					$qual_items = is_array( $qual_items ) ? $qual_items : array();
+					?>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Qualification Cards', 'anna-baylis' ); ?></th>
+						<td>
+							<div class="anna-admin-repeater" data-anna-repeater="about-qualifications">
+								<div class="anna-admin-repeater__rows" data-anna-repeater-rows="true">
+									<?php foreach ( $qual_items as $index => $item ) : ?>
+										<?php
+										$logo_id     = absint( $item['logo_id'] ?? 0 );
+										$title       = (string) ( $item['title'] ?? '' );
+										$desc        = (string) ( $item['description'] ?? '' );
+										$preview_url = $logo_id ? wp_get_attachment_image_url( $logo_id, 'thumbnail' ) : '';
+										?>
+										<div class="anna-admin-repeater__row" data-anna-repeater-row="true">
+											<div class="anna-admin-repeater__row-fields">
+												<div class="anna-admin-repeater__field">
+													<label class="anna-admin-repeater__label"><?php esc_html_e( 'Logo', 'anna-baylis' ); ?></label>
+													<input type="hidden" id="anna-about-qual-<?php echo esc_attr( $index ); ?>-logo" name="anna_theme_options[about_pg_qualifications][<?php echo esc_attr( $index ); ?>][logo_id]" value="<?php echo esc_attr( $logo_id ); ?>">
+													<div class="anna-media-preview" id="anna-about-qual-<?php echo esc_attr( $index ); ?>-logo-preview">
+														<?php if ( $preview_url ) : ?>
+															<img src="<?php echo esc_url( $preview_url ); ?>" alt="" style="max-width:150px;height:auto;border-radius:8px;">
+														<?php endif; ?>
+													</div>
+													<button type="button" class="button anna-media-upload-btn" data-target="anna-about-qual-<?php echo esc_attr( $index ); ?>-logo" data-preview="anna-about-qual-<?php echo esc_attr( $index ); ?>-logo-preview"><?php esc_html_e( 'Select Image', 'anna-baylis' ); ?></button>
+													<button type="button" class="button anna-media-remove-btn" data-target="anna-about-qual-<?php echo esc_attr( $index ); ?>-logo" data-preview="anna-about-qual-<?php echo esc_attr( $index ); ?>-logo-preview" <?php echo ! $logo_id ? 'style="display:none;"' : ''; ?>><?php esc_html_e( 'Remove', 'anna-baylis' ); ?></button>
+												</div>
+
+												<div class="anna-admin-repeater__field">
+													<label class="anna-admin-repeater__label"><?php esc_html_e( 'Title', 'anna-baylis' ); ?></label>
+													<input type="text" name="anna_theme_options[about_pg_qualifications][<?php echo esc_attr( $index ); ?>][title]" value="<?php echo esc_attr( $title ); ?>" class="regular-text">
+												</div>
+
+												<div class="anna-admin-repeater__field">
+													<label class="anna-admin-repeater__label"><?php esc_html_e( 'Description', 'anna-baylis' ); ?></label>
+													<textarea name="anna_theme_options[about_pg_qualifications][<?php echo esc_attr( $index ); ?>][description]" rows="3" class="large-text"><?php echo esc_textarea( $desc ); ?></textarea>
+												</div>
+											</div>
+
+											<div class="anna-admin-repeater__row-actions">
+												<button type="button" class="button-link-delete anna-admin-repeater__remove" data-anna-repeater-remove="true"><?php esc_html_e( 'Remove', 'anna-baylis' ); ?></button>
+											</div>
+										</div>
+									<?php endforeach; ?>
+								</div>
+
+								<button type="button" class="button" data-anna-repeater-add="true"><?php esc_html_e( 'Add Qualification', 'anna-baylis' ); ?></button>
+
+								<template data-anna-repeater-template="true">
+									<div class="anna-admin-repeater__row" data-anna-repeater-row="true">
+										<div class="anna-admin-repeater__row-fields">
+											<div class="anna-admin-repeater__field">
+												<label class="anna-admin-repeater__label"><?php esc_html_e( 'Logo', 'anna-baylis' ); ?></label>
+												<input type="hidden" id="anna-about-qual-__INDEX__-logo" name="anna_theme_options[about_pg_qualifications][__INDEX__][logo_id]" value="">
+												<div class="anna-media-preview" id="anna-about-qual-__INDEX__-logo-preview"></div>
+												<button type="button" class="button anna-media-upload-btn" data-target="anna-about-qual-__INDEX__-logo" data-preview="anna-about-qual-__INDEX__-logo-preview"><?php esc_html_e( 'Select Image', 'anna-baylis' ); ?></button>
+												<button type="button" class="button anna-media-remove-btn" data-target="anna-about-qual-__INDEX__-logo" data-preview="anna-about-qual-__INDEX__-logo-preview" style="display:none;"><?php esc_html_e( 'Remove', 'anna-baylis' ); ?></button>
+											</div>
+
+											<div class="anna-admin-repeater__field">
+												<label class="anna-admin-repeater__label"><?php esc_html_e( 'Title', 'anna-baylis' ); ?></label>
+												<input type="text" name="anna_theme_options[about_pg_qualifications][__INDEX__][title]" value="" class="regular-text">
+											</div>
+
+											<div class="anna-admin-repeater__field">
+												<label class="anna-admin-repeater__label"><?php esc_html_e( 'Description', 'anna-baylis' ); ?></label>
+												<textarea name="anna_theme_options[about_pg_qualifications][__INDEX__][description]" rows="3" class="large-text"></textarea>
+											</div>
+										</div>
+
+										<div class="anna-admin-repeater__row-actions">
+											<button type="button" class="button-link-delete anna-admin-repeater__remove" data-anna-repeater-remove="true"><?php esc_html_e( 'Remove', 'anna-baylis' ); ?></button>
+										</div>
+									</div>
+								</template>
+							</div>
+						</td>
+					</tr>
+
+					<?php anna_field_heading( __( 'I would love to connect', 'anna-baylis' ) ); ?>
+					<?php anna_field_text( 'about_pg_connect_eyebrow', __( 'Eyebrow', 'anna-baylis' ) ); ?>
+					<?php anna_field_text( 'about_pg_connect_heading', __( 'Heading', 'anna-baylis' ) ); ?>
+					<?php anna_field_text( 'about_pg_connect_button_text', __( 'Button Text', 'anna-baylis' ) ); ?>
+					<?php anna_field_text( 'about_pg_connect_button_url', __( 'Button URL', 'anna-baylis' ), '', 'url' ); ?>
 
 				<?php elseif ( 'cta' === $active_tab ) : ?>
 					<?php anna_field_heading( __( 'Final CTA Section', 'anna-baylis' ) ); ?>

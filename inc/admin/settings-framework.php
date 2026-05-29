@@ -83,16 +83,37 @@ function anna_seed_about_page_defaults() {
 		'about_pg_people_heading',
 		'about_pg_people_body',
 		'about_pg_people_items_text',
-		'about_pg_life_eyebrow',
-		'about_pg_life_heading',
-		'about_pg_life_body',
-		'about_pg_life_image_id',
+		'about_pg_qual_eyebrow',
+		'about_pg_qual_heading',
+		'about_pg_qual_body',
+		'about_pg_qualifications',
+		'about_pg_connect_eyebrow',
+		'about_pg_connect_heading',
+		'about_pg_connect_button_text',
+		'about_pg_connect_button_url',
 	);
 
 	$changed = false;
 	foreach ( $about_keys as $key ) {
-		$has_value = isset( $options[ $key ] ) && '' !== trim( (string) $options[ $key ] );
-		if ( ! $has_value && isset( $defaults[ $key ] ) && '' !== (string) $defaults[ $key ] ) {
+		$has_value = false;
+		if ( isset( $options[ $key ] ) ) {
+			if ( is_array( $options[ $key ] ) ) {
+				$has_value = ! empty( $options[ $key ] );
+			} else {
+				$has_value = '' !== trim( (string) $options[ $key ] );
+			}
+		}
+
+		$default_has_value = false;
+		if ( isset( $defaults[ $key ] ) ) {
+			if ( is_array( $defaults[ $key ] ) ) {
+				$default_has_value = ! empty( $defaults[ $key ] );
+			} else {
+				$default_has_value = '' !== (string) $defaults[ $key ];
+			}
+		}
+
+		if ( ! $has_value && $default_has_value ) {
 			$options[ $key ] = $defaults[ $key ];
 			$changed         = true;
 		}
@@ -214,9 +235,17 @@ function anna_seed_about_page_post_content() {
 	$people_items   = isset( $defaults['about_pg_people_items_text'] ) ? preg_split( '/\r\n|\r|\n/', $defaults['about_pg_people_items_text'] ) : array();
 	$people_items   = array_values( array_filter( array_map( 'trim', (array) $people_items ) ) );
 
-	$life_eyebrow = $defaults['about_pg_life_eyebrow'] ?? 'Present Day';
-	$life_heading = $defaults['about_pg_life_heading'] ?? 'My life now';
-	$life_body    = $defaults['about_pg_life_body'] ?? '';
+	$qual_eyebrow = $defaults['about_pg_qual_eyebrow'] ?? 'Qualifications';
+	$qual_heading = $defaults['about_pg_qual_heading'] ?? '';
+	$qual_body    = $defaults['about_pg_qual_body'] ?? '';
+	$qual_items   = isset( $defaults['about_pg_qualifications'] ) && is_array( $defaults['about_pg_qualifications'] )
+		? $defaults['about_pg_qualifications']
+		: array();
+
+	$connect_eyebrow     = $defaults['about_pg_connect_eyebrow'] ?? 'I would love to connect';
+	$connect_heading     = $defaults['about_pg_connect_heading'] ?? '';
+	$connect_button_text = $defaults['about_pg_connect_button_text'] ?? '';
+	$connect_button_url  = $defaults['about_pg_connect_button_url'] ?? '';
 
 	// Build simple HTML that Gutenberg will treat as a single "Custom HTML" block.
 	$content  = "<!-- anna:about-seed:v2 -->\n";
@@ -273,9 +302,33 @@ function anna_seed_about_page_post_content() {
 	}
 
 	$content .= '<hr />';
-	$content .= '<h2>' . esc_html( $life_eyebrow ) . '</h2>';
-	$content .= '<h2>' . esc_html( $life_heading ) . '</h2>';
-	$content .= wpautop( esc_html( $life_body ) );
+	$content .= '<h2>' . esc_html( $qual_eyebrow ) . '</h2>';
+	$content .= '<h2>' . esc_html( $qual_heading ) . '</h2>';
+	if ( $qual_body ) {
+		$content .= '<p>' . esc_html( $qual_body ) . '</p>';
+	}
+	if ( ! empty( $qual_items ) ) {
+		$content .= '<ul>';
+		foreach ( $qual_items as $qual ) {
+			if ( ! is_array( $qual ) ) {
+				continue;
+			}
+			$t = trim( (string) ( $qual['title'] ?? '' ) );
+			$d = trim( (string) ( $qual['description'] ?? '' ) );
+			if ( '' === $t && '' === $d ) {
+				continue;
+			}
+			$content .= '<li><strong>' . esc_html( $t ) . '</strong> — ' . esc_html( $d ) . '</li>';
+		}
+		$content .= '</ul>';
+	}
+
+	$content .= '<hr />';
+	$content .= '<h2>' . esc_html( $connect_eyebrow ) . '</h2>';
+	$content .= '<h2>' . esc_html( $connect_heading ) . '</h2>';
+	if ( $connect_button_text && $connect_button_url ) {
+		$content .= '<p><a href="' . esc_url( $connect_button_url ) . '">' . esc_html( $connect_button_text ) . '</a></p>';
+	}
 
 	// Update the page content once.
 	wp_update_post(
@@ -310,7 +363,7 @@ function anna_migrate_about_page_copy_20260528() {
 	}
 
 	$people_current = isset( $options['about_pg_people_items_text'] ) ? (string) $options['about_pg_people_items_text'] : '';
-	$life_current = isset( $options['about_pg_life_body'] ) ? (string) $options['about_pg_life_body'] : '';
+	$qual_current   = $options['about_pg_qualifications'] ?? array();
 
 	$changed = false;
 	if ( '' === trim( $people_current ) ) {
@@ -321,8 +374,11 @@ function anna_migrate_about_page_copy_20260528() {
 		$changed = true;
 	}
 
-	if ( '' === trim( $life_current ) ) {
-		$options['about_pg_life_body'] = (string) ( $defaults['about_pg_life_body'] ?? '' );
+	if ( ! is_array( $qual_current ) || empty( $qual_current ) ) {
+		$options['about_pg_qual_eyebrow']   = (string) ( $defaults['about_pg_qual_eyebrow'] ?? '' );
+		$options['about_pg_qual_heading']   = (string) ( $defaults['about_pg_qual_heading'] ?? '' );
+		$options['about_pg_qual_body']      = (string) ( $defaults['about_pg_qual_body'] ?? '' );
+		$options['about_pg_qualifications'] = $defaults['about_pg_qualifications'] ?? array();
 		$changed = true;
 	}
 
@@ -481,9 +537,29 @@ function anna_get_default_options() {
 		'about_pg_people_heading'     => 'Committed to continual learning.',
 		'about_pg_people_body'        => 'Over a decade of rigorous study across human movement, nutrition, coaching, somatic psychology, trauma-informed practice and inner world work. This is what I bring to every session.',
 		'about_pg_people_items_text'  => "HM|Bachelor of Applied Science — Human Movement|Deakin University\nCP|Credentialled Practitioner of Coaching|The Coaching Institute\nNLP|NLP Practitioner and Master Practitioner|Institute of Empowered Psychology\nHY|Hypnotherapy|Institute of Empowered Psychology\nIFS|Parts work — Internal Family Systems informed|Embodied Philosophy Western School\nCI|Masters — currently completing|Gabor Maté\nCT|102 five-star Google reviews|Anodea Judith\nNR|Honours — Food Science and Nutrition|Deakin University\nEI|Emotional Intimacy Coach|The Coaching Institute\nTL|Timeline Therapy|Institute of Empowered Psychology\nTC|Trauma-informed coaching|The Centre for Healing\nSP|Personal trainer — 7+ years|NeuroAffective Touch Institute",
-		'about_pg_life_eyebrow'       => 'Present Day',
-		'about_pg_life_heading'       => 'My life now',
-		'about_pg_life_body'          => "I live and work in Melbourne, Australia. On any given day you'll find me outdoors — walking, moving, appreciating nature. Meditation, gratitude and movement are not things I recommend to clients from a distance. They are how I live.\n\nI coach men, women and couples both in person in Melbourne and online. I speak at events and conferences across Australia. And I am the founder of Oasis — a women's community for sustainable health and wellbeing that brings everything I've learned into an ongoing, accessible space for women who are ready to come back to themselves.",
-		'about_pg_life_image_id'      => '',
+		'about_pg_qual_eyebrow'       => 'My qualifications',
+		'about_pg_qual_heading'       => 'Committed to continual learning.',
+		'about_pg_qual_body'          => 'Over a decade of rigorous study across human movement, nutrition, coaching, somatic psychology, trauma-informed practice and inner world work. This is what I bring to every session.',
+		'about_pg_qualifications'     => array(
+			array(
+				'logo_id'     => 0,
+				'title'       => 'Bachelor of Applied Science — Human Movement',
+				'description' => 'Deakin University',
+			),
+			array(
+				'logo_id'     => 0,
+				'title'       => 'Credentialled Practitioner of Coaching',
+				'description' => 'The Coaching Institute',
+			),
+			array(
+				'logo_id'     => 0,
+				'title'       => 'NLP Practitioner and Master Practitioner',
+				'description' => 'Institute of Empowered Psychology',
+			),
+		),
+		'about_pg_connect_eyebrow'     => 'I would love to connect',
+		'about_pg_connect_heading'     => 'Book a discovery call and let’s see if this is the right fit.',
+		'about_pg_connect_button_text' => 'Book a Discovery Call',
+		'about_pg_connect_button_url'  => '#contact',
 	);
 }

@@ -362,10 +362,18 @@ function anna_get_about_page_option_map() {
 		'people_heading'      => 'about_pg_people_heading',
 		'people_body'         => 'about_pg_people_body',
 		'people_items_text'   => 'about_pg_people_items_text',
-		'life_eyebrow'        => 'about_pg_life_eyebrow',
-		'life_heading'        => 'about_pg_life_heading',
-		'life_body'           => 'about_pg_life_body',
-		'life_image_id'       => 'about_pg_life_image_id',
+
+		// Qualifications section (repeater).
+		'qual_eyebrow'        => 'about_pg_qual_eyebrow',
+		'qual_heading'        => 'about_pg_qual_heading',
+		'qual_body'           => 'about_pg_qual_body',
+		'qualifications'      => 'about_pg_qualifications',
+
+		// I would love to connect (CTA).
+		'connect_eyebrow'     => 'about_pg_connect_eyebrow',
+		'connect_heading'     => 'about_pg_connect_heading',
+		'connect_button_text' => 'about_pg_connect_button_text',
+		'connect_button_url'  => 'about_pg_connect_button_url',
 	);
 }
 
@@ -414,6 +422,15 @@ function anna_get_about_page_content() {
 	foreach ( $option_map as $template_key => $option_key ) {
 		$default = $defaults[ $option_key ] ?? '';
 
+		if ( 'qualifications' === $template_key ) {
+			$qual_default = isset( $defaults['about_pg_qualifications'] ) && is_array( $defaults['about_pg_qualifications'] )
+				? $defaults['about_pg_qualifications']
+				: array();
+			$qual_saved = anna_get_option( 'about_pg_qualifications', $qual_default );
+			$content['qualifications'] = is_array( $qual_saved ) ? $qual_saved : $qual_default;
+			continue;
+		}
+
 		if ( str_ends_with( $template_key, '_image_id' ) ) {
 			$content[ $template_key ] = absint( anna_get_option( $option_key, $default ) );
 			continue;
@@ -437,7 +454,7 @@ function anna_get_about_page_content() {
 		$content[ $template_key ] = anna_get_option( $option_key, $default );
 	}
 
-	// Remove legacy qualifications output. (Section replaced by "What people say".)
+	// Merge page-level overrides (content-manager plugin), but only non-empty values.
 
 	$post_id = anna_get_current_page_content_id();
 	if ( $post_id && function_exists( 'anna_content_get_about_page_content' ) ) {
@@ -448,6 +465,28 @@ function anna_get_about_page_content() {
 			$non_empty_saved = array();
 			foreach ( $saved as $key => $value ) {
 				if ( is_array( $value ) ) {
+					// For list-of-arrays (e.g. qualifications repeater), keep if any row has content.
+					$is_list_of_arrays = ! empty( $value ) && is_array( reset( $value ) );
+					if ( $is_list_of_arrays ) {
+						$has_any = false;
+						foreach ( $value as $row ) {
+							if ( ! is_array( $row ) ) {
+								continue;
+							}
+							$logo = absint( $row['logo_id'] ?? 0 );
+							$t    = trim( (string) ( $row['title'] ?? '' ) );
+							$d    = trim( (string) ( $row['description'] ?? '' ) );
+							if ( $logo || '' !== $t || '' !== $d ) {
+								$has_any = true;
+								break;
+							}
+						}
+						if ( $has_any ) {
+							$non_empty_saved[ $key ] = $value;
+						}
+						continue;
+					}
+
 					$array_value = array_values( array_filter( array_map( 'trim', $value ) ) );
 					if ( ! empty( $array_value ) ) {
 						$non_empty_saved[ $key ] = $array_value;

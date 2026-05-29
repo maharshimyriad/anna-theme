@@ -71,5 +71,27 @@
       $('#' + previewId).html('');
       button.hide();
     });
+
+    // Simple repeater (About qualifications).
+    $(document).on('click', '[data-anna-repeater-add="true"]', function (e) {
+      e.preventDefault();
+
+      var repeater = $(this).closest('[data-anna-repeater]');
+      var rowsWrap = repeater.find('[data-anna-repeater-rows="true"]').first();
+      var template = repeater.find('[data-anna-repeater-template="true"]').first();
+
+      if (!template.length || !rowsWrap.length) {
+        return;
+      }
+
+      var index = rowsWrap.find('[data-anna-repeater-row="true"]').length;
+      var html = template.html().replace(/__INDEX__/g, String(index));
+      rowsWrap.append(html);
+    });
+
+    $(document).on('click', '[data-anna-repeater-remove="true"]', function (e) {
+      e.preventDefault();
+      $(this).closest('[data-anna-repeater-row="true"]').remove();
+    });
   });
 })(jQuery);
