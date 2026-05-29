@@ -261,7 +261,7 @@ function anna_render_settings_page() {
 						<td>
 							<p class="description"><?php esc_html_e( 'Optional logo image, or initials shown in the green circle when no logo is set.', 'anna-baylis' ); ?></p>
 							<div class="anna-repeater-collapse">
-								<button type="button" class="anna-repeater-collapse__toggle" data-anna-repeater-collapse-toggle="true" aria-expanded="false">
+								<button type="button" class="anna-repeater-collapse__toggle" aria-expanded="false">
 									<span class="anna-repeater-collapse__arrow" aria-hidden="true">▶</span>
 									<span class="anna-repeater-collapse__label">
 										<?php

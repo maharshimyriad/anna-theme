@@ -87,23 +87,41 @@
       var index = rowsWrap.find('[data-anna-repeater-row="true"]').length;
       var html = template.html().replace(/__INDEX__/g, String(index));
       rowsWrap.append(html);
-      updateAdminRepeaterCollapseLabel(repeater);
+
+      var wrap = repeater.closest('.anna-repeater-collapse');
+      if (wrap.length) {
+        updateAdminRepeaterCollapseLabel(wrap);
+      }
     });
 
     $(document).on('click', '[data-anna-repeater-remove="true"]', function (e) {
       e.preventDefault();
+      var repeater = $(this).closest('[data-anna-repeater]');
       $(this).closest('[data-anna-repeater-row="true"]').remove();
-      updateAdminRepeaterCollapseLabel($(this).closest('[data-anna-repeater]'));
+
+      var wrap = repeater.closest('.anna-repeater-collapse');
+      if (wrap.length) {
+        updateAdminRepeaterCollapseLabel(wrap);
+      }
     });
 
-    function updateAdminRepeaterCollapseLabel(repeater) {
-      var collapse = repeater.closest('.anna-repeater-collapse');
-      if (!collapse.length) {
+    function getAdminCollapseWrap(toggleBtn) {
+      return toggleBtn.closest('.anna-repeater-collapse');
+    }
+
+    function getAdminCollapsePanel(wrap) {
+      return wrap.find('.anna-repeater-collapse__panel').first();
+    }
+
+    function updateAdminRepeaterCollapseLabel(wrap) {
+      if (!wrap || !wrap.length) {
         return;
       }
 
+      var toggle = wrap.find('.anna-repeater-collapse__toggle').first();
+      var panel = getAdminCollapsePanel(wrap);
+      var repeater = panel.find('[data-anna-repeater]').first();
       var count = repeater.find('[data-anna-repeater-row="true"]').length;
-      var toggle = collapse.find('[data-anna-repeater-collapse-toggle="true"]').first();
       var expanded = toggle.attr('aria-expanded') === 'true';
       var showText = 'Show all cards (' + count + ')';
       var hideText = 'Hide all cards (' + count + ')';
@@ -111,24 +129,53 @@
       toggle.find('.anna-repeater-collapse__label').text(expanded ? hideText : showText);
     }
 
-    $(document).on('click', '[data-anna-repeater-collapse-toggle="true"]', function (e) {
+    function initAdminRepeaterCollapses() {
+      $('.anna-repeater-collapse').each(function () {
+        var wrap = $(this);
+        var toggle = wrap.find('.anna-repeater-collapse__toggle').first();
+        var panel = getAdminCollapsePanel(wrap);
+
+        if (!toggle.length || !panel.length) {
+          return;
+        }
+
+        var expanded = toggle.attr('aria-expanded') === 'true';
+        if (expanded) {
+          panel.removeClass('is-collapsed').show();
+        } else {
+          panel.addClass('is-collapsed').hide();
+        }
+
+        updateAdminRepeaterCollapseLabel(wrap);
+      });
+    }
+
+    $(document).on('click', '.anna-repeater-collapse__toggle', function (e) {
       e.preventDefault();
+      e.stopPropagation();
 
-      var toggle = $(this);
-      var panel = toggle.closest('.anna-repeater-collapse').find('[data-anna-repeater-collapse-panel="true"]').first();
-      var expanded = toggle.attr('aria-expanded') === 'true';
-      var repeater = panel.find('[data-anna-repeater]').first();
-
-      toggle.attr('aria-expanded', expanded ? 'false' : 'true');
-      panel.toggleClass('is-collapsed', expanded);
-
-      if (repeater.length) {
-        updateAdminRepeaterCollapseLabel(repeater);
+      var toggle = $(this).closest('.anna-repeater-collapse__toggle');
+      if (!toggle.length) {
+        toggle = $(this);
       }
+
+      var wrap = getAdminCollapseWrap(toggle);
+      var panel = getAdminCollapsePanel(wrap);
+      var collapsed = panel.hasClass('is-collapsed');
+
+      if (collapsed) {
+        toggle.attr('aria-expanded', 'true');
+        panel.removeClass('is-collapsed').slideDown(200);
+      } else {
+        toggle.attr('aria-expanded', 'false');
+        panel.slideUp(200, function () {
+          panel.addClass('is-collapsed');
+        });
+      }
+
+      updateAdminRepeaterCollapseLabel(wrap);
     });
 
-    $('[data-anna-repeater]').each(function () {
-      updateAdminRepeaterCollapseLabel($(this));
-    });
+    initAdminRepeaterCollapses();
   });
 })(jQuery);
