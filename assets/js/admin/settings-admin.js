@@ -87,11 +87,48 @@
       var index = rowsWrap.find('[data-anna-repeater-row="true"]').length;
       var html = template.html().replace(/__INDEX__/g, String(index));
       rowsWrap.append(html);
+      updateAdminRepeaterCollapseLabel(repeater);
     });
 
     $(document).on('click', '[data-anna-repeater-remove="true"]', function (e) {
       e.preventDefault();
       $(this).closest('[data-anna-repeater-row="true"]').remove();
+      updateAdminRepeaterCollapseLabel($(this).closest('[data-anna-repeater]'));
+    });
+
+    function updateAdminRepeaterCollapseLabel(repeater) {
+      var collapse = repeater.closest('.anna-repeater-collapse');
+      if (!collapse.length) {
+        return;
+      }
+
+      var count = repeater.find('[data-anna-repeater-row="true"]').length;
+      var toggle = collapse.find('[data-anna-repeater-collapse-toggle="true"]').first();
+      var expanded = toggle.attr('aria-expanded') === 'true';
+      var showText = 'Show all cards (' + count + ')';
+      var hideText = 'Hide all cards (' + count + ')';
+
+      toggle.find('.anna-repeater-collapse__label').text(expanded ? hideText : showText);
+    }
+
+    $(document).on('click', '[data-anna-repeater-collapse-toggle="true"]', function (e) {
+      e.preventDefault();
+
+      var toggle = $(this);
+      var panel = toggle.closest('.anna-repeater-collapse').find('[data-anna-repeater-collapse-panel="true"]').first();
+      var expanded = toggle.attr('aria-expanded') === 'true';
+      var repeater = panel.find('[data-anna-repeater]').first();
+
+      toggle.attr('aria-expanded', expanded ? 'false' : 'true');
+      panel.toggleClass('is-collapsed', expanded);
+
+      if (repeater.length) {
+        updateAdminRepeaterCollapseLabel(repeater);
+      }
+    });
+
+    $('[data-anna-repeater]').each(function () {
+      updateAdminRepeaterCollapseLabel($(this));
     });
   });
 })(jQuery);

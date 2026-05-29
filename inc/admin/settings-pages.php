@@ -254,11 +254,28 @@ function anna_render_settings_page() {
 						$people_items = anna_get_about_people_items_from_options();
 					}
 					$people_items = is_array( $people_items ) ? $people_items : array();
+					$people_count = count( $people_items );
 					?>
 					<tr>
 						<th scope="row"><?php esc_html_e( 'Cards', 'anna-baylis' ); ?></th>
 						<td>
 							<p class="description"><?php esc_html_e( 'Optional logo image, or initials shown in the green circle when no logo is set.', 'anna-baylis' ); ?></p>
+							<div class="anna-repeater-collapse">
+								<button type="button" class="anna-repeater-collapse__toggle" data-anna-repeater-collapse-toggle="true" aria-expanded="false">
+									<span class="anna-repeater-collapse__arrow" aria-hidden="true">▶</span>
+									<span class="anna-repeater-collapse__label">
+										<?php
+										echo esc_html(
+											sprintf(
+												/* translators: %d: number of qualification cards */
+												__( 'Show all cards (%d)', 'anna-baylis' ),
+												$people_count
+											)
+										);
+										?>
+									</span>
+								</button>
+								<div class="anna-repeater-collapse__panel is-collapsed" data-anna-repeater-collapse-panel="true">
 							<div class="anna-admin-repeater" data-anna-repeater="about-people">
 								<div class="anna-admin-repeater__rows" data-anna-repeater-rows="true">
 									<?php foreach ( $people_items as $index => $item ) : ?>
@@ -340,6 +357,8 @@ function anna_render_settings_page() {
 										</div>
 									</div>
 								</template>
+							</div>
+								</div>
 							</div>
 						</td>
 					</tr>
