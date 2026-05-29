@@ -35,14 +35,11 @@ $items         = $section_data['recognition_items'];
 					<?php endif; ?>
 
 					<h2 id="intro-heading" class="anna-intro__heading"><?php echo wp_kses_post( $intro_heading ); ?></h2>
-					<div class="anna-intro__copy"><?php echo wp_kses_post( $intro_body ); ?></div>
+					<div class="anna-intro__copy"> <?php echo wp_kses_post( wpautop( (string) $intro_body ) ); ?> </div>
 
 					<?php if ( $quote ) : ?>
 						<blockquote class="anna-intro__quote">
 							<p><?php echo esc_html( $quote ); ?></p>
-							<?php if ( $quote_cite ) : ?>
-								<cite><?php echo esc_html( $quote_cite ); ?></cite>
-							<?php endif; ?>
 						</blockquote>
 					<?php endif; ?>
 				</div>
