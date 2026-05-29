@@ -38,18 +38,23 @@ $items = (array) ( $about['people_items'] ?? array() );
 			<div class="anna-about-page-people__grid">
 				<?php foreach ( $items as $item ) : ?>
 					<?php
+					$logo_id  = absint( $item['logo_id'] ?? 0 );
 					$initials = (string) ( $item['initials'] ?? '' );
 					$title    = (string) ( $item['title'] ?? '' );
 					$org      = (string) ( $item['org'] ?? '' );
 
-					if ( '' === trim( $title ) && '' === trim( $org ) ) {
+					if ( '' === trim( $title ) && '' === trim( $org ) && ! $logo_id ) {
 						continue;
 					}
 					?>
 					<article class="anna-about-page-people-card">
-						<?php if ( '' !== trim( $initials ) ) : ?>
+						<?php if ( $logo_id || '' !== trim( $initials ) ) : ?>
 							<div class="anna-about-page-people-card__badge" aria-hidden="true">
-								<?php echo esc_html( $initials ); ?>
+								<?php if ( $logo_id ) : ?>
+									<?php echo wp_get_attachment_image( $logo_id, 'thumbnail', false, array( 'loading' => 'lazy' ) ); ?>
+								<?php else : ?>
+									<?php echo esc_html( $initials ); ?>
+								<?php endif; ?>
 							</div>
 						<?php endif; ?>
 						<div class="anna-about-page-people-card__content">

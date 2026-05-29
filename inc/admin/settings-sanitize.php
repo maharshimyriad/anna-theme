@@ -56,8 +56,7 @@ function anna_get_tab_fields_map() {
 			'about_pg_work_card_2_title', 'about_pg_work_card_2_body',
 			'about_pg_work_card_3_title', 'about_pg_work_card_3_body',
 			'about_pg_work_card_4_title', 'about_pg_work_card_4_body',
-			'about_pg_people_eyebrow', 'about_pg_people_heading', 'about_pg_people_body', 'about_pg_people_items_text',
-			'about_pg_qual_eyebrow', 'about_pg_qual_heading', 'about_pg_qual_body', 'about_pg_qualifications',
+			'about_pg_people_eyebrow', 'about_pg_people_heading', 'about_pg_people_body', 'about_pg_people_items', 'about_pg_people_items_text',
 			'about_pg_connect_eyebrow', 'about_pg_connect_heading', 'about_pg_connect_button_text', 'about_pg_connect_button_url',
 		),
 		'cta' => array(
@@ -110,7 +109,7 @@ function anna_sanitize_single_option( $key, $value ) {
 		'about_pg_hero_description', 'about_pg_story_body', 'about_pg_rock_left_body', 'about_pg_rock_right_body',
 		'about_pg_coach_body', 'about_pg_work_body',
 		'about_pg_work_card_1_body', 'about_pg_work_card_2_body', 'about_pg_work_card_3_body', 'about_pg_work_card_4_body',
-		'about_pg_people_body', 'about_pg_people_items_text', 'about_pg_qual_body',
+		'about_pg_people_body', 'about_pg_people_items_text',
 		'about_pg_hero_tags_text',
 	);
 	if ( in_array( $key, $textarea_fields, true ) ) {
@@ -125,7 +124,7 @@ function anna_sanitize_single_option( $key, $value ) {
 		return absint( $value );
 	}
 
-	if ( 'about_pg_qualifications' === $key ) {
+	if ( 'about_pg_people_items' === $key ) {
 		if ( ! is_array( $value ) ) {
 			return array();
 		}
@@ -136,18 +135,20 @@ function anna_sanitize_single_option( $key, $value ) {
 				continue;
 			}
 
-			$logo_id     = absint( $row['logo_id'] ?? 0 );
-			$title       = sanitize_text_field( $row['title'] ?? '' );
-			$desc        = sanitize_textarea_field( $row['description'] ?? '' );
+			$logo_id  = absint( $row['logo_id'] ?? 0 );
+			$initials = sanitize_text_field( $row['initials'] ?? '' );
+			$title    = sanitize_text_field( $row['title'] ?? '' );
+			$org      = sanitize_textarea_field( $row['description'] ?? $row['org'] ?? '' );
 
-			if ( 0 === $logo_id && '' === trim( $title ) && '' === trim( $desc ) ) {
+			if ( 0 === $logo_id && '' === trim( $initials ) && '' === trim( $title ) && '' === trim( $org ) ) {
 				continue;
 			}
 
 			$items[] = array(
-				'logo_id'     => $logo_id,
-				'title'       => $title,
-				'description' => $desc,
+				'logo_id'  => $logo_id,
+				'initials' => $initials,
+				'title'    => $title,
+				'org'      => $org,
 			);
 		}
 

@@ -82,11 +82,8 @@ function anna_seed_about_page_defaults() {
 		'about_pg_people_eyebrow',
 		'about_pg_people_heading',
 		'about_pg_people_body',
+		'about_pg_people_items',
 		'about_pg_people_items_text',
-		'about_pg_qual_eyebrow',
-		'about_pg_qual_heading',
-		'about_pg_qual_body',
-		'about_pg_qualifications',
 		'about_pg_connect_eyebrow',
 		'about_pg_connect_heading',
 		'about_pg_connect_button_text',
@@ -235,13 +232,6 @@ function anna_seed_about_page_post_content() {
 	$people_items   = isset( $defaults['about_pg_people_items_text'] ) ? preg_split( '/\r\n|\r|\n/', $defaults['about_pg_people_items_text'] ) : array();
 	$people_items   = array_values( array_filter( array_map( 'trim', (array) $people_items ) ) );
 
-	$qual_eyebrow = $defaults['about_pg_qual_eyebrow'] ?? 'Qualifications';
-	$qual_heading = $defaults['about_pg_qual_heading'] ?? '';
-	$qual_body    = $defaults['about_pg_qual_body'] ?? '';
-	$qual_items   = isset( $defaults['about_pg_qualifications'] ) && is_array( $defaults['about_pg_qualifications'] )
-		? $defaults['about_pg_qualifications']
-		: array();
-
 	$connect_eyebrow     = $defaults['about_pg_connect_eyebrow'] ?? 'I would love to connect';
 	$connect_heading     = $defaults['about_pg_connect_heading'] ?? '';
 	$connect_button_text = $defaults['about_pg_connect_button_text'] ?? '';
@@ -302,28 +292,6 @@ function anna_seed_about_page_post_content() {
 	}
 
 	$content .= '<hr />';
-	$content .= '<h2>' . esc_html( $qual_eyebrow ) . '</h2>';
-	$content .= '<h2>' . esc_html( $qual_heading ) . '</h2>';
-	if ( $qual_body ) {
-		$content .= '<p>' . esc_html( $qual_body ) . '</p>';
-	}
-	if ( ! empty( $qual_items ) ) {
-		$content .= '<ul>';
-		foreach ( $qual_items as $qual ) {
-			if ( ! is_array( $qual ) ) {
-				continue;
-			}
-			$t = trim( (string) ( $qual['title'] ?? '' ) );
-			$d = trim( (string) ( $qual['description'] ?? '' ) );
-			if ( '' === $t && '' === $d ) {
-				continue;
-			}
-			$content .= '<li><strong>' . esc_html( $t ) . '</strong> — ' . esc_html( $d ) . '</li>';
-		}
-		$content .= '</ul>';
-	}
-
-	$content .= '<hr />';
 	$content .= '<h2>' . esc_html( $connect_eyebrow ) . '</h2>';
 	$content .= '<h2>' . esc_html( $connect_heading ) . '</h2>';
 	if ( $connect_button_text && $connect_button_url ) {
@@ -362,24 +330,20 @@ function anna_migrate_about_page_copy_20260528() {
 		$options = array();
 	}
 
-	$people_current = isset( $options['about_pg_people_items_text'] ) ? (string) $options['about_pg_people_items_text'] : '';
-	$qual_current   = $options['about_pg_qualifications'] ?? array();
+	$people_items_current = $options['about_pg_people_items'] ?? array();
+	$people_text_current    = isset( $options['about_pg_people_items_text'] ) ? (string) $options['about_pg_people_items_text'] : '';
 
 	$changed = false;
-	if ( '' === trim( $people_current ) ) {
-		$options['about_pg_people_items_text'] = (string) ( $defaults['about_pg_people_items_text'] ?? '' );
-		$options['about_pg_people_heading']    = (string) ( $defaults['about_pg_people_heading'] ?? '' );
-		$options['about_pg_people_body']       = (string) ( $defaults['about_pg_people_body'] ?? '' );
-		$options['about_pg_people_eyebrow']    = (string) ( $defaults['about_pg_people_eyebrow'] ?? '' );
-		$changed = true;
-	}
-
-	if ( ! is_array( $qual_current ) || empty( $qual_current ) ) {
-		$options['about_pg_qual_eyebrow']   = (string) ( $defaults['about_pg_qual_eyebrow'] ?? '' );
-		$options['about_pg_qual_heading']   = (string) ( $defaults['about_pg_qual_heading'] ?? '' );
-		$options['about_pg_qual_body']      = (string) ( $defaults['about_pg_qual_body'] ?? '' );
-		$options['about_pg_qualifications'] = $defaults['about_pg_qualifications'] ?? array();
-		$changed = true;
+	if ( ! is_array( $people_items_current ) || empty( $people_items_current ) ) {
+		if ( '' !== trim( $people_text_current ) && function_exists( 'anna_parse_about_people_items' ) ) {
+			$options['about_pg_people_items'] = anna_parse_about_people_items( $people_text_current );
+		} else {
+			$options['about_pg_people_items'] = $defaults['about_pg_people_items'] ?? array();
+		}
+		$options['about_pg_people_heading'] = (string) ( $defaults['about_pg_people_heading'] ?? '' );
+		$options['about_pg_people_body']    = (string) ( $defaults['about_pg_people_body'] ?? '' );
+		$options['about_pg_people_eyebrow'] = (string) ( $defaults['about_pg_people_eyebrow'] ?? '' );
+		$changed                            = true;
 	}
 
 	if ( $changed ) {
@@ -537,25 +501,19 @@ function anna_get_default_options() {
 		'about_pg_people_heading'     => 'Committed to continual learning.',
 		'about_pg_people_body'        => 'Over a decade of rigorous study across human movement, nutrition, coaching, somatic psychology, trauma-informed practice and inner world work. This is what I bring to every session.',
 		'about_pg_people_items_text'  => "HM|Bachelor of Applied Science — Human Movement|Deakin University\nCP|Credentialled Practitioner of Coaching|The Coaching Institute\nNLP|NLP Practitioner and Master Practitioner|Institute of Empowered Psychology\nHY|Hypnotherapy|Institute of Empowered Psychology\nIFS|Parts work — Internal Family Systems informed|Embodied Philosophy Western School\nCI|Masters — currently completing|Gabor Maté\nCT|102 five-star Google reviews|Anodea Judith\nNR|Honours — Food Science and Nutrition|Deakin University\nEI|Emotional Intimacy Coach|The Coaching Institute\nTL|Timeline Therapy|Institute of Empowered Psychology\nTC|Trauma-informed coaching|The Centre for Healing\nSP|Personal trainer — 7+ years|NeuroAffective Touch Institute",
-		'about_pg_qual_eyebrow'       => 'My qualifications',
-		'about_pg_qual_heading'       => 'Committed to continual learning.',
-		'about_pg_qual_body'          => 'Over a decade of rigorous study across human movement, nutrition, coaching, somatic psychology, trauma-informed practice and inner world work. This is what I bring to every session.',
-		'about_pg_qualifications'     => array(
-			array(
-				'logo_id'     => 0,
-				'title'       => 'Bachelor of Applied Science — Human Movement',
-				'description' => 'Deakin University',
-			),
-			array(
-				'logo_id'     => 0,
-				'title'       => 'Credentialled Practitioner of Coaching',
-				'description' => 'The Coaching Institute',
-			),
-			array(
-				'logo_id'     => 0,
-				'title'       => 'NLP Practitioner and Master Practitioner',
-				'description' => 'Institute of Empowered Psychology',
-			),
+		'about_pg_people_items'       => array(
+			array( 'logo_id' => 0, 'initials' => 'HM', 'title' => 'Bachelor of Applied Science — Human Movement', 'org' => 'Deakin University' ),
+			array( 'logo_id' => 0, 'initials' => 'CP', 'title' => 'Credentialled Practitioner of Coaching', 'org' => 'The Coaching Institute' ),
+			array( 'logo_id' => 0, 'initials' => 'NLP', 'title' => 'NLP Practitioner and Master Practitioner', 'org' => 'Institute of Empowered Psychology' ),
+			array( 'logo_id' => 0, 'initials' => 'HY', 'title' => 'Hypnotherapy', 'org' => 'Institute of Empowered Psychology' ),
+			array( 'logo_id' => 0, 'initials' => 'IFS', 'title' => 'Parts work — Internal Family Systems informed', 'org' => 'Embodied Philosophy Western School' ),
+			array( 'logo_id' => 0, 'initials' => 'CI', 'title' => 'Masters — currently completing', 'org' => 'Gabor Maté' ),
+			array( 'logo_id' => 0, 'initials' => 'CT', 'title' => '102 five-star Google reviews', 'org' => 'Anodea Judith' ),
+			array( 'logo_id' => 0, 'initials' => 'NR', 'title' => 'Honours — Food Science and Nutrition', 'org' => 'Deakin University' ),
+			array( 'logo_id' => 0, 'initials' => 'EI', 'title' => 'Emotional Intimacy Coach', 'org' => 'The Coaching Institute' ),
+			array( 'logo_id' => 0, 'initials' => 'TL', 'title' => 'Timeline Therapy', 'org' => 'Institute of Empowered Psychology' ),
+			array( 'logo_id' => 0, 'initials' => 'TC', 'title' => 'Trauma-informed coaching', 'org' => 'The Centre for Healing' ),
+			array( 'logo_id' => 0, 'initials' => 'SP', 'title' => 'Personal trainer — 7+ years', 'org' => 'NeuroAffective Touch Institute' ),
 		),
 		'about_pg_connect_eyebrow'     => 'I would love to connect',
 		'about_pg_connect_heading'     => 'Book a discovery call and let’s see if this is the right fit.',

@@ -357,17 +357,11 @@ function anna_get_about_page_option_map() {
 		'work_card_4_title'   => 'about_pg_work_card_4_title',
 		'work_card_4_body'    => 'about_pg_work_card_4_body',
 
-		// What people say section.
+		// What people say section (repeater cards).
 		'people_eyebrow'      => 'about_pg_people_eyebrow',
 		'people_heading'      => 'about_pg_people_heading',
 		'people_body'         => 'about_pg_people_body',
-		'people_items_text'   => 'about_pg_people_items_text',
-
-		// Qualifications section (repeater).
-		'qual_eyebrow'        => 'about_pg_qual_eyebrow',
-		'qual_heading'        => 'about_pg_qual_heading',
-		'qual_body'           => 'about_pg_qual_body',
-		'qualifications'      => 'about_pg_qualifications',
+		'people_items'        => 'about_pg_people_items',
 
 		// I would love to connect (CTA).
 		'connect_eyebrow'     => 'about_pg_connect_eyebrow',
@@ -410,6 +404,123 @@ function anna_parse_about_people_items( $raw ) {
 }
 
 /**
+ * Normalize a single "What people say" repeater row.
+ *
+ * @param array $row Raw row.
+ * @return array{logo_id:int,initials:string,title:string,org:string}|null
+ */
+function anna_normalize_about_people_item( $row ) {
+	if ( ! is_array( $row ) ) {
+		return null;
+	}
+
+	$logo_id  = absint( $row['logo_id'] ?? 0 );
+	$initials = sanitize_text_field( $row['initials'] ?? '' );
+	$title    = sanitize_text_field( $row['title'] ?? '' );
+	$org      = sanitize_textarea_field( $row['org'] ?? $row['description'] ?? '' );
+
+	if ( 0 === $logo_id && '' === trim( $initials ) && '' === trim( $title ) && '' === trim( $org ) ) {
+		return null;
+	}
+
+	return array(
+		'logo_id'  => $logo_id,
+		'initials' => $initials,
+		'title'    => $title,
+		'org'      => $org,
+	);
+}
+
+/**
+ * Normalize repeater rows for "What people say".
+ *
+ * @param mixed $items Raw items.
+ * @return array<int, array{logo_id:int,initials:string,title:string,org:string}>
+ */
+function anna_normalize_about_people_items( $items ) {
+	if ( ! is_array( $items ) ) {
+		return array();
+	}
+
+	$normalized = array();
+	foreach ( $items as $row ) {
+		$item = anna_normalize_about_people_item( $row );
+		if ( $item ) {
+			$normalized[] = $item;
+		}
+	}
+
+	return $normalized;
+}
+
+/**
+ * Convert legacy qualification repeater rows to people items.
+ *
+ * @param array $qual_rows Legacy rows.
+ * @return array<int, array{logo_id:int,initials:string,title:string,org:string}>
+ */
+function anna_convert_qualifications_to_people_items( $qual_rows ) {
+	if ( ! is_array( $qual_rows ) ) {
+		return array();
+	}
+
+	$items = array();
+	foreach ( $qual_rows as $row ) {
+		if ( ! is_array( $row ) ) {
+			continue;
+		}
+
+		$item = anna_normalize_about_people_item(
+			array(
+				'logo_id'     => $row['logo_id'] ?? 0,
+				'initials'    => $row['initials'] ?? '',
+				'title'       => $row['title'] ?? '',
+				'description' => $row['description'] ?? '',
+			)
+		);
+
+		if ( $item ) {
+			$items[] = $item;
+		}
+	}
+
+	return $items;
+}
+
+/**
+ * Load "What people say" items from theme options (repeater + legacy fallbacks).
+ *
+ * @return array<int, array{logo_id:int,initials:string,title:string,org:string}>
+ */
+function anna_get_about_people_items_from_options() {
+	$defaults = anna_get_default_options();
+
+	$saved = anna_get_option( 'about_pg_people_items', array() );
+	if ( is_array( $saved ) && ! empty( $saved ) ) {
+		$items = anna_normalize_about_people_items( $saved );
+		if ( ! empty( $items ) ) {
+			return $items;
+		}
+	}
+
+	$text_default = (string) ( $defaults['about_pg_people_items_text'] ?? '' );
+	$text_raw     = (string) anna_get_option( 'about_pg_people_items_text', $text_default );
+	$from_text    = anna_parse_about_people_items( $text_raw );
+	if ( ! empty( $from_text ) ) {
+		return anna_normalize_about_people_items( $from_text );
+	}
+
+	$qual_saved = anna_get_option( 'about_pg_qualifications', array() );
+	$from_qual  = anna_convert_qualifications_to_people_items( is_array( $qual_saved ) ? $qual_saved : array() );
+	if ( ! empty( $from_qual ) ) {
+		return $from_qual;
+	}
+
+	$default_items = $defaults['about_pg_people_items'] ?? array();
+	return anna_normalize_about_people_items( $default_items );
+}
+
+/**
  * Get About page content from theme options (same pattern as homepage sections).
  *
  * @return array
@@ -422,12 +533,8 @@ function anna_get_about_page_content() {
 	foreach ( $option_map as $template_key => $option_key ) {
 		$default = $defaults[ $option_key ] ?? '';
 
-		if ( 'qualifications' === $template_key ) {
-			$qual_default = isset( $defaults['about_pg_qualifications'] ) && is_array( $defaults['about_pg_qualifications'] )
-				? $defaults['about_pg_qualifications']
-				: array();
-			$qual_saved = anna_get_option( 'about_pg_qualifications', $qual_default );
-			$content['qualifications'] = is_array( $qual_saved ) ? $qual_saved : $qual_default;
+		if ( 'people_items' === $template_key ) {
+			$content['people_items'] = anna_get_about_people_items_from_options();
 			continue;
 		}
 
@@ -441,13 +548,6 @@ function anna_get_about_page_content() {
 				? preg_split( '/\r\n|\r|\n/', $defaults['about_pg_hero_tags_text'] )
 				: array();
 			$content['hero_tags'] = anna_get_lines_option( 'about_pg_hero_tags_text', $tags_default );
-			continue;
-		}
-
-		if ( 'people_items_text' === $template_key ) {
-			$people_default_raw = (string) ( $defaults['about_pg_people_items_text'] ?? '' );
-			$people_raw         = (string) anna_get_option( 'about_pg_people_items_text', $people_default_raw );
-			$content['people_items'] = anna_parse_about_people_items( $people_raw );
 			continue;
 		}
 
@@ -465,24 +565,47 @@ function anna_get_about_page_content() {
 			$non_empty_saved = array();
 			foreach ( $saved as $key => $value ) {
 				if ( is_array( $value ) ) {
-					// For list-of-arrays (e.g. qualifications repeater), keep if any row has content.
+					// Legacy: people_items saved as newline-split strings from the page editor.
+					if ( 'people_items' === $key && ! empty( $value ) && is_string( reset( $value ) ) ) {
+						$lines      = implode( "\n", array_map( 'strval', $value ) );
+						$normalized = anna_normalize_about_people_items( anna_parse_about_people_items( $lines ) );
+						if ( ! empty( $normalized ) ) {
+							$non_empty_saved['people_items'] = $normalized;
+						}
+						continue;
+					}
+
+					// For list-of-arrays (e.g. people repeater), keep if any row has content.
 					$is_list_of_arrays = ! empty( $value ) && is_array( reset( $value ) );
 					if ( $is_list_of_arrays ) {
-						$has_any = false;
-						foreach ( $value as $row ) {
-							if ( ! is_array( $row ) ) {
-								continue;
+						if ( 'people_items' === $key ) {
+							$normalized = anna_normalize_about_people_items( $value );
+							if ( ! empty( $normalized ) ) {
+								$non_empty_saved['people_items'] = $normalized;
 							}
-							$logo = absint( $row['logo_id'] ?? 0 );
-							$t    = trim( (string) ( $row['title'] ?? '' ) );
-							$d    = trim( (string) ( $row['description'] ?? '' ) );
-							if ( $logo || '' !== $t || '' !== $d ) {
-								$has_any = true;
-								break;
+						} elseif ( 'qualifications' === $key ) {
+							$converted = anna_convert_qualifications_to_people_items( $value );
+							if ( ! empty( $converted ) ) {
+								$non_empty_saved['people_items'] = $converted;
 							}
-						}
-						if ( $has_any ) {
-							$non_empty_saved[ $key ] = $value;
+						} else {
+							$has_any = false;
+							foreach ( $value as $row ) {
+								if ( ! is_array( $row ) ) {
+									continue;
+								}
+								$logo     = absint( $row['logo_id'] ?? 0 );
+								$initials = trim( (string) ( $row['initials'] ?? '' ) );
+								$t        = trim( (string) ( $row['title'] ?? '' ) );
+								$d        = trim( (string) ( $row['description'] ?? $row['org'] ?? '' ) );
+								if ( $logo || '' !== $initials || '' !== $t || '' !== $d ) {
+									$has_any = true;
+									break;
+								}
+							}
+							if ( $has_any ) {
+								$non_empty_saved[ $key ] = $value;
+							}
 						}
 						continue;
 					}
