@@ -364,7 +364,7 @@ function anna_render_settings_page() {
 					</tr>
 
 					<?php anna_field_heading( __( 'I would love to connect', 'anna-baylis' ) ); ?>
-					<?php anna_field_text( 'about_pg_connect_eyebrow', __( 'Eyebrow', 'anna-baylis' ) ); ?>
+					<?php anna_field_text( 'about_pg_connect_eyebrow', __( 'Intro line', 'anna-baylis' ) ); ?>
 					<?php anna_field_text( 'about_pg_connect_heading', __( 'Heading', 'anna-baylis' ) ); ?>
 					<?php anna_field_text( 'about_pg_connect_button_text', __( 'Button Text', 'anna-baylis' ) ); ?>
 					<?php anna_field_text( 'about_pg_connect_button_url', __( 'Button URL', 'anna-baylis' ), '', 'url' ); ?>

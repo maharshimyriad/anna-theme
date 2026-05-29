@@ -232,7 +232,7 @@ function anna_seed_about_page_post_content() {
 	$people_items   = isset( $defaults['about_pg_people_items_text'] ) ? preg_split( '/\r\n|\r|\n/', $defaults['about_pg_people_items_text'] ) : array();
 	$people_items   = array_values( array_filter( array_map( 'trim', (array) $people_items ) ) );
 
-	$connect_eyebrow     = $defaults['about_pg_connect_eyebrow'] ?? 'I would love to connect';
+	$connect_eyebrow     = $defaults['about_pg_connect_eyebrow'] ?? 'If something in my story resonates';
 	$connect_heading     = $defaults['about_pg_connect_heading'] ?? '';
 	$connect_button_text = $defaults['about_pg_connect_button_text'] ?? '';
 	$connect_button_url  = $defaults['about_pg_connect_button_url'] ?? '';
@@ -515,8 +515,8 @@ function anna_get_default_options() {
 			array( 'logo_id' => 0, 'initials' => 'TC', 'title' => 'Trauma-informed coaching', 'org' => 'The Centre for Healing' ),
 			array( 'logo_id' => 0, 'initials' => 'SP', 'title' => 'Personal trainer — 7+ years', 'org' => 'NeuroAffective Touch Institute' ),
 		),
-		'about_pg_connect_eyebrow'     => 'I would love to connect',
-		'about_pg_connect_heading'     => 'Book a discovery call and let’s see if this is the right fit.',
+		'about_pg_connect_eyebrow'     => 'If something in my story resonates',
+		'about_pg_connect_heading'     => 'I would love to connect.',
 		'about_pg_connect_button_text' => 'Book a Discovery Call',
 		'about_pg_connect_button_url'  => '#contact',
 	);
