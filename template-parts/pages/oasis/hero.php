@@ -24,7 +24,7 @@ $has_image = ! empty( $oasis['hero_image_id'] );
 		style="background-image:url('<?php echo esc_url( anna_responsive_image_url( absint( $oasis['hero_image_id'] ), 'full' ) ); ?>');"
 	<?php endif; ?>
 >
-	<div class="anna-oasis-page-hero__overlay" aria-hidden="true"></div>
+<!-- 	<div class="anna-oasis-page-hero__overlay" aria-hidden="true"></div> -->
 	<div class="anna-container anna-container--max">
 		<div class="anna-oasis-page-hero__content">
 			<?php if ( ! empty( $oasis['hero_breadcrumb'] ) ) : ?>

@@ -30,6 +30,10 @@
   padding-inline: var(--container-gutter, clamp(1.25rem, 4vw, 2.5rem));
 }
 
+.anna-oasis-page-what .anna-container{
+	max-width:44rem;
+}
+
 .anna-oasis-page-section [class*="__eyebrow"] {
   margin: 0 0 var(--space-4);
   color: var(--color-accent);
@@ -132,6 +136,7 @@
 
 .anna-oasis-page-hero__copy p {
   margin: 0 0 var(--space-5);
+  color:#FFFFFF;
 }
 
 .anna-oasis-page-hero__copy p:last-child {
@@ -204,9 +209,6 @@
 }
 
 /* ── Is Oasis right for you (cream) ─────────────────────────────────────── */
-.anna-oasis-page-ready {
-  background: var(--oasis-cream-bg);
-}
 
 .anna-oasis-page-ready__header {
   text-align: center;

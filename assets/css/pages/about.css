@@ -188,10 +188,10 @@
   gap: var(--about-grid-gap);
 }
 
-.anna-about-page-band,
-.anna-about-page-people {
+.anna-about-page-band {
   background: var(--color-bg-soft);
 }
+
 
 .anna-about-page-coach {
   background: #007063;
@@ -493,7 +493,7 @@
 }
 
 .anna-about-page-connect {
-  --about-connect-bg: #2b2b28;
+  --about-connect-bg: #FFFBE7AA;
   --about-connect-eyebrow: #5f9a8f;
   --about-connect-heading: #4ca591;
   background: var(--about-connect-bg);
@@ -511,25 +511,24 @@
 }
 
 .anna-about-page-connect__eyebrow {
-  margin: 0 0 var(--space-4);
-  font-family: var(--font-body);
-  font-size: clamp(0.95rem, 0.9rem + 0.35vw, 1.125rem);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--leading-normal);
-  letter-spacing: 0.01em;
-  text-transform: lowercase;
-  color: var(--about-connect-eyebrow);
+    margin: 0 0 var(--space-4);
+    font-family: var(--font-body);
+    font-size: clamp(0.95rem, 0.9rem + 0.35vw, 1.125rem);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--leading-normal);
+    letter-spacing: 1.2px;
+    color: var(--color-primary);
 }
 
 .anna-about-page-connect__heading {
   margin: 0;
   max-width: 22ch;
   font-family: var(--font-heading);
-  font-size: clamp(2.5rem, 1.6rem + 3.8vw, 4.5rem);
+/*   font-size: clamp(2.5rem, 1.6rem + 3.8vw, 4.5rem); */
   font-weight: var(--font-weight-semibold);
   line-height: 1.08;
   letter-spacing: var(--tracking-snug);
-  color: var(--about-connect-heading);
+  color: var(--color-primary);
 }
 
 .anna-about-page-connect__cta {
