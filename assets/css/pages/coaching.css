@@ -69,7 +69,6 @@
 }
 
 .anna-coaching-page-hero__content {
-  max-width: 34rem;
   padding-block: clamp(3rem, 8vh, 5rem);
 }
 
@@ -86,7 +85,7 @@
   margin: 0;
   color: var(--color-white);
   font-family: var(--font-heading);
-  font-size: clamp(2.75rem, 4.8vw, 4.25rem);
+  font-size: clamp(3rem, 2.55rem + 1.45vw, 3.75rem);
   line-height: 1.08;
   font-weight: var(--font-weight-regular);
   letter-spacing: var(--tracking-snug);
@@ -277,19 +276,19 @@
 }
 
 .anna-coaching-page-pillar-card__number {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--coaching-accent);
-    color: var(--color-white);
-    font-family: var(--font-body);
-    font-size: 0.8rem;
-    font-weight: var(--font-weight-bold);
-    letter-spacing: 0.04em;
-    border-radius: 12px;
-    width: fit-content;
-    width: 3rem;
-    height: 2.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--coaching-accent);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.04em;
+  border-radius: 12px;
+  width: fit-content;
+  width: 3rem;
+  height: 2.6rem;
 }
 
 .anna-coaching-page-pillar-card__title {
@@ -373,7 +372,7 @@
 
 .anna-coaching-page-work__gains-heading {
   margin: 0 0 var(--space-6);
-  color: var(--coaching-heading);
+  color: var(--color-primary);
   font-family: var(--font-heading);
   font-size: clamp(1.35rem, 2vw, 1.6rem);
   font-weight: var(--font-weight-semibold);
@@ -541,13 +540,14 @@
 }
 
 .anna-coaching-page-faq__heading {
-  margin: 0 0 clamp(2.5rem, 5vw, 3.5rem);
+  margin: 2.5rem auto;
   text-align: center;
-  color: var(--coaching-heading);
+  color: var(--color-primary);
   font-family: var(--font-heading);
   font-size: clamp(2rem, 3.5vw, 2.75rem);
   font-weight: var(--font-weight-semibold);
   line-height: 1.1;
+  max-width: 32rem;
 }
 
 .anna-coaching-page-faq__grid {
@@ -659,6 +659,6 @@
   }
 }
 
-.anna-coaching-page-faq__question{
-  color:var(--color-primary)
+.anna-coaching-page-faq__question {
+  color: var(--color-primary)
 }
