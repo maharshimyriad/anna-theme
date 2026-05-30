@@ -27,16 +27,16 @@ $has_image = ! empty( $oasis['hero_image_id'] );
 	<div class="anna-oasis-page-hero__overlay" aria-hidden="true"></div>
 	<div class="anna-container anna-container--max">
 		<div class="anna-oasis-page-hero__content">
-			<?php if ( ! empty( $oasis['hero_eyebrow'] ) ) : ?>
-				<p class="anna-oasis-page-hero__eyebrow"><?php echo esc_html( $oasis['hero_eyebrow'] ); ?></p>
+			<?php if ( ! empty( $oasis['hero_breadcrumb'] ) ) : ?>
+				<p class="anna-oasis-page-hero__breadcrumb"><?php echo esc_html( $oasis['hero_breadcrumb'] ); ?></p>
 			<?php endif; ?>
 
 			<?php if ( ! empty( $oasis['hero_heading'] ) ) : ?>
-				<h1 class="anna-oasis-page-hero__title"><?php echo esc_html( $oasis['hero_heading'] ); ?></h1>
+				<h1 class="anna-oasis-page-hero__heading"><?php echo esc_html( $oasis['hero_heading'] ); ?></h1>
 			<?php endif; ?>
 
 			<?php if ( ! empty( $oasis['hero_subheading'] ) ) : ?>
-				<p class="anna-oasis-page-hero__subheading"><?php echo esc_html( $oasis['hero_subheading'] ); ?></p>
+				<p class="anna-oasis-page-hero__description"><?php echo esc_html( $oasis['hero_subheading'] ); ?></p>
 			<?php endif; ?>
 
 			<?php if ( ! empty( $oasis['hero_body'] ) ) : ?>

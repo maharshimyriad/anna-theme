@@ -31,7 +31,14 @@ if ( empty( $oasis ) ) {
 		<?php endif; ?>
 
 		<?php if ( ! empty( $oasis['what_footer_line'] ) ) : ?>
-			<p class="anna-oasis-page-what__footer"><?php echo esc_html( $oasis['what_footer_line'] ); ?></p>
+			<?php
+			$footer_url = trim( (string) ( $oasis['what_footer_url'] ?? '#oasis-ready' ) );
+			?>
+			<p class="anna-oasis-page-what__link-wrap">
+				<a class="anna-oasis-page-what__link" href="<?php echo esc_url( $footer_url ); ?>">
+					<?php echo esc_html( $oasis['what_footer_line'] ); ?>
+				</a>
+			</p>
 		<?php endif; ?>
 	</div>
 </section>

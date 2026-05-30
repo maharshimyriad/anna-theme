@@ -249,7 +249,7 @@ function anna_enqueue_scripts() {
 		array( 'strategy' => 'defer' )
 	);
 
-	if ( is_page_template( 'page-coaching.php' ) || is_page( 'coaching' ) ) {
+	if ( is_page_template( 'page-coaching.php' ) || is_page( 'coaching' ) || is_page_template( 'page-oasis.php' ) || is_page( 'oasis' ) ) {
 		wp_enqueue_script(
 			'anna-coaching-faq',
 			ANNA_JS . '/pages/coaching-faq.js',
@@ -260,7 +260,7 @@ function anna_enqueue_scripts() {
 	}
 
 	$deps = array( 'anna-header-js', 'anna-mobile-menu', 'anna-stats-counter', 'anna-scroll-reveal' );
-	if ( is_page_template( 'page-coaching.php' ) || is_page( 'coaching' ) ) {
+	if ( is_page_template( 'page-coaching.php' ) || is_page( 'coaching' ) || is_page_template( 'page-oasis.php' ) || is_page( 'oasis' ) ) {
 		$deps[] = 'anna-coaching-faq';
 	}
 	if ( $animations_enabled ) {

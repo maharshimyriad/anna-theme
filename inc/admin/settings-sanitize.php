@@ -106,7 +106,7 @@ function anna_sanitize_single_option( $key, $value ) {
 		return sanitize_hex_color( $value );
 	}
 
-	$url_fields = array( 'header_cta_url', 'cta_primary_url', 'cta_secondary_url', 'services_cta_url', 'about_cta_url', 'privacy_url', 'terms_url', 'testimonials_cta_url', 'about_pg_coach_button_url', 'about_pg_connect_button_url', 'coaching_pg_hero_button_url', 'coaching_pg_what_button_url', 'coaching_pg_expect_button_url', 'oasis_pg_hero_button_url' );
+	$url_fields = array( 'header_cta_url', 'cta_primary_url', 'cta_secondary_url', 'services_cta_url', 'about_cta_url', 'privacy_url', 'terms_url', 'testimonials_cta_url', 'about_pg_coach_button_url', 'about_pg_connect_button_url', 'coaching_pg_hero_button_url', 'coaching_pg_what_button_url', 'coaching_pg_expect_button_url', 'oasis_pg_hero_button_url', 'oasis_pg_what_footer_url', 'oasis_pg_begun_link_url', 'oasis_pg_waitlist_button_url' );
 	if ( in_array( $key, $url_fields, true ) ) {
 		return esc_url_raw( $value );
 	}

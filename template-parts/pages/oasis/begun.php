@@ -1,6 +1,6 @@
 <?php
 /**
- * Oasis "Where Oasis began" section.
+ * Oasis "Who I am" bio section.
  *
  * @package Anna_Baylis
  * @since   1.0.0
@@ -18,10 +18,6 @@ if ( empty( $oasis ) ) {
 
 <section class="anna-oasis-page-section anna-oasis-page-begun">
 	<div class="anna-container anna-container--max">
-		<?php if ( ! empty( $oasis['begun_eyebrow'] ) ) : ?>
-			<p class="anna-oasis-page-begun__eyebrow"><?php echo esc_html( $oasis['begun_eyebrow'] ); ?></p>
-		<?php endif; ?>
-
 		<div class="anna-oasis-page-begun__grid">
 			<div class="anna-oasis-page-begun__media-col">
 				<?php if ( ! empty( $oasis['begun_image_id'] ) ) : ?>
@@ -43,6 +39,10 @@ if ( empty( $oasis ) ) {
 			</div>
 
 			<div class="anna-oasis-page-begun__content">
+				<?php if ( ! empty( $oasis['begun_eyebrow'] ) ) : ?>
+					<p class="anna-oasis-page-begun__eyebrow"><?php echo esc_html( $oasis['begun_eyebrow'] ); ?></p>
+				<?php endif; ?>
+
 				<?php if ( ! empty( $oasis['begun_heading'] ) ) : ?>
 					<h2 class="anna-oasis-page-begun__heading"><?php echo esc_html( $oasis['begun_heading'] ); ?></h2>
 				<?php endif; ?>
@@ -63,6 +63,14 @@ if ( empty( $oasis ) ) {
 
 				<?php if ( ! empty( $oasis['begun_closing'] ) ) : ?>
 					<div class="anna-oasis-page-begun__closing"><?php echo wp_kses_post( wpautop( (string) $oasis['begun_closing'] ) ); ?></div>
+				<?php endif; ?>
+
+				<?php if ( ! empty( $oasis['begun_link_text'] ) && ! empty( $oasis['begun_link_url'] ) ) : ?>
+					<p class="anna-oasis-page-begun__link-wrap">
+						<a class="anna-oasis-page-begun__link" href="<?php echo esc_url( $oasis['begun_link_url'] ); ?>">
+							<?php echo esc_html( $oasis['begun_link_text'] ); ?> &rsaquo;
+						</a>
+					</p>
 				<?php endif; ?>
 			</div>
 		</div>

@@ -17,41 +17,44 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function anna_get_oasis_default_content() {
 	return array(
-		'hero_eyebrow'     => 'Starting 1 July 2026 — join the waitlist',
+		'hero_breadcrumb'  => 'ANNA BAYLIS / COACHING / OASIS',
 		'hero_heading'     => 'Oasis',
 		'hero_subheading'  => "A women's wellness community for sustainable health and wellbeing.",
 		'hero_body'        => "Most women I work with don't need more information. They need a place to land.\n\nSomewhere they can slow down, reconnect with themselves, and take the next small step with the right guidance and support around them. A space that's theirs. Steady, grounded, and always there.\n\nThat's why I built Oasis.",
 		'hero_image_id'    => 0,
-		'hero_button_text' => 'Join the waitlist',
-		'hero_button_url'  => '#contact',
+		'hero_button_text' => 'Join now',
+		'hero_button_url'  => '#oasis-waitlist',
 
-		'what_eyebrow'      => 'What Oasis Is',
+		'what_eyebrow'      => 'What is Oasis',
 		'what_heading'      => 'You always have somewhere to return to.',
 		'what_body'         => "A space you can return to every single day for a meditation, a reflection, a walk and talk session, or simply a moment to breathe. Each week I'll guide you live and each fortnight we come together to celebrate progress and reconnect.",
-		'what_footer_line'  => 'Guided, ongoing support that fits your life.',
+		'what_footer_line'  => 'Find out if Oasis is right for you',
+		'what_footer_url'   => '#oasis-ready',
 
-		'begun_eyebrow'       => 'Where Oasis began',
+		'begun_eyebrow'       => 'Who I am',
 		'begun_heading'       => 'Anna Baylis',
-		'begun_subheading'    => 'Olympian · Hawaii Ironman finisher · Life coach · Personal trainer',
+		'begun_subheading'    => 'Coach, Mentor, Facilitator, Speaker',
+		'begun_link_text'     => 'More about my story here',
+		'begun_link_url'      => '/about/',
 		'begun_body'          => "For more than two decades I've worked in high-performance sport and coaching — helping people understand their bodies, their minds, and what it actually takes to change.\n\nWhat I've learned is that wellbeing doesn't come from extremes. It comes from strong foundations, consistent rhythm, and having somewhere steady to return to.\n\nI've sat with psychologists and coaches myself. I know what it feels like to rebuild when life falls apart — and what it takes to find your way back to yourself.\n\nOasis grew out of M.O.V.E., the women's wellness program I ran for four years. The principles haven't changed. The container has simply become deeper, more spacious, and more sustainable.",
 		'begun_quote'         => "That's not theory. That's my life.",
 		'begun_closing'       => '',
 		'begun_image_id'      => 0,
-		'begun_callout_label' => 'M.O.V.E. — the foundation',
-		'begun_callout_body'  => 'Movement · Outdoors · Variety · Education. The principles that guided M.O.V.E. for four years are still at the heart of everything inside Oasis.',
+		'begun_callout_label' => 'A note from Anna',
+		'begun_callout_body'  => "Oasis grew out of M.O.V.E. — four years of guiding women toward movement, connection, and sustainable wellbeing. The principles haven't changed. The container has simply become deeper.",
 
 		'inside_eyebrow'      => 'Inside Oasis',
-		'inside_heading'      => "What you'll find here",
-		'inside_body'         => "What I saw again and again through M.O.V.E. was that the women who thrived weren't the ones who pushed hardest. They were the ones who had something steady to come back to. A rhythm, a guide, and a community that felt like theirs.",
-		'inside_highlight'    => "That's exactly what I've built into Oasis.",
-		'inside_pills_intro'  => 'What women told me they valued most through M.O.V.E.',
+		'inside_heading'      => 'The rhythm of Oasis',
+		'inside_body'         => 'Oasis moves with the seasons. Not a rigid course to complete — a living rhythm you return to, again and again, each time with more awareness and depth.',
+		'inside_highlight'    => '',
+		'inside_pills_intro'  => '',
 		'inside_pill_items'   => array(
-			array( 'text' => 'Consistency and structure they could rely on' ),
-			array( 'text' => 'Someone to guide them through' ),
-			array( 'text' => 'Something to look forward to' ),
-			array( 'text' => 'Connection beyond home and work' ),
-			array( 'text' => 'Trust built over time' ),
-			array( 'text' => 'A space that felt like theirs' ),
+			array( 'text' => 'Weekly filmed movement practices' ),
+			array( 'text' => 'Teaching videos on mind, body and nervous system' ),
+			array( 'text' => 'Live Walk and Talk sessions via Zoom' ),
+			array( 'text' => 'Journal prompts and reflections' ),
+			array( 'text' => 'Nutrition recipes and seasonal tips' ),
+			array( 'text' => 'Breathwork and rest built into the rhythm' ),
 		),
 		'inside_schedule_items' => array(
 			array( 'title' => 'Monday — Movement.', 'body' => 'A filmed movement practice — core, yoga, strength or cardio, all doable at home. We start the week in the body.' ),
@@ -64,14 +67,14 @@ function anna_get_oasis_default_content() {
 		),
 
 		'how_eyebrow'    => 'How it works',
-		'how_heading'    => 'The rhythm of Oasis',
-		'how_intro'      => 'Oasis moves with the seasons. Not a rigid course to complete — a living rhythm you return to, again and again, each time with more awareness and depth.',
-		'how_footer'     => 'You can join at any point in the cycle and return to it as many times as you need.',
+		'how_heading'    => "What you'll find here",
+		'how_intro'      => "What I saw again and again through M.O.V.E. was that the women who thrived weren't the ones who pushed hardest. They were the ones who had something steady to come back to.",
+		'how_footer'     => 'Live sessions are recorded and hosted in our private membership area.',
 		'how_card_items' => array(
-			array( 'icon' => 'roots', 'title' => 'Roots', 'body' => 'Safety, self-awareness and strong foundations. Slowing down and reconnecting with what matters.' ),
-			array( 'icon' => 'expression', 'title' => 'Expression', 'body' => 'Your emotional world. Reconnecting with your emotions, your voice, and the parts of you that have been protecting you.' ),
-			array( 'icon' => 'growth', 'title' => 'Growth', 'body' => 'Building habits that fit your real life and who you are becoming. Taking aligned action from a place of self-trust.' ),
-			array( 'icon' => 'integration', 'title' => 'Integration', 'body' => 'Bringing it all together. Living it. Embodying it. Sustaining it.' ),
+			array( 'icon' => 'restore', 'title' => 'Restore', 'body' => 'Safety, self-awareness and strong foundations. Slowing down and reconnecting with what matters.' ),
+			array( 'icon' => 'rejuvenate', 'title' => 'Rejuvenate', 'body' => 'Your emotional world. Reconnecting with your emotions, your voice, and the parts of you that have been protecting you.' ),
+			array( 'icon' => 'ground', 'title' => 'Ground', 'body' => 'Building habits that fit your real life and who you are becoming. Taking aligned action from a place of self-trust.' ),
+			array( 'icon' => 'invigorate', 'title' => 'Invigorate', 'body' => 'Bringing it all together. Living it. Embodying it. Sustaining it.' ),
 		),
 
 		'choose_eyebrow'    => 'Choose your experience',
@@ -101,7 +104,7 @@ function anna_get_oasis_default_content() {
 				'price_suffix' => '/ month AUD',
 				'annual'       => '$890/year — 2 months free',
 				'founding'     => 'Founding member: $69/month, locked in for life',
-				'badge'        => 'Most supported',
+				'badge'        => 'Most popular',
 				'featured'     => 1,
 				'features'     => array(
 					array( 'text' => 'Everything in The Garden' ),
@@ -111,6 +114,31 @@ function anna_get_oasis_default_content() {
 					array( 'text' => 'Active, supportive community' ),
 					array( 'text' => 'Consistency, structure and guidance — ongoing' ),
 				),
+			),
+		),
+
+		'waitlist_eyebrow'      => 'Join the waitlist',
+		'waitlist_heading'      => 'Be first to hear when Oasis opens and lock in founding member pricing.',
+		'waitlist_button_text'  => 'Join the waitlist',
+		'waitlist_button_url'   => '#contact',
+
+		'faq_heading' => 'Common questions FAQs',
+		'faq_items'   => array(
+			array(
+				'question' => 'What is Oasis?',
+				'answer'   => 'Oasis is a women\'s wellness community — a steady place to return to for movement, reflection, teaching, and connection, guided live each week.',
+			),
+			array(
+				'question' => 'How does it work?',
+				'answer'   => 'You choose The Garden (self-paced resources) or The Oasis Experience (includes live Walk and Talk sessions and community). Both follow a seasonal rhythm you can join at any time.',
+			),
+			array(
+				'question' => 'When does Oasis open?',
+				'answer'   => 'Oasis opens 1 July 2026. Join the waitlist to be notified first and access founding member pricing.',
+			),
+			array(
+				'question' => 'Can I cancel anytime?',
+				'answer'   => 'Yes. There is a minimum 3-month commitment, then you can cancel anytime with no lock-in contracts.',
 			),
 		),
 
@@ -281,6 +309,8 @@ function anna_get_oasis_repeater_from_options( $option_key ) {
 				return anna_normalize_oasis_how_cards( $saved );
 			case 'choose_plan_items':
 				return anna_normalize_oasis_plan_items( $saved );
+			case 'faq_items':
+				return function_exists( 'anna_normalize_coaching_faq_items' ) ? anna_normalize_coaching_faq_items( $saved ) : array();
 		}
 	}
 
@@ -295,6 +325,8 @@ function anna_get_oasis_repeater_from_options( $option_key ) {
 			return anna_normalize_oasis_how_cards( $default );
 		case 'choose_plan_items':
 			return anna_normalize_oasis_plan_items( $default );
+		case 'faq_items':
+			return function_exists( 'anna_normalize_coaching_faq_items' ) ? anna_normalize_coaching_faq_items( $default ) : array();
 	}
 	return array();
 }
@@ -315,6 +347,7 @@ function anna_get_oasis_page_content() {
 		'how_card_items',
 		'choose_plan_items',
 		'ready_items',
+		'faq_items',
 	);
 
 	$image_keys = array( 'hero_image_id', 'begun_image_id' );
@@ -371,6 +404,13 @@ function anna_get_oasis_page_content() {
 						}
 						continue;
 					}
+					if ( 'faq_items' === $key ) {
+						$n = function_exists( 'anna_normalize_coaching_faq_items' ) ? anna_normalize_coaching_faq_items( $value ) : array();
+						if ( ! empty( $n ) ) {
+							$merge[ $key ] = $n;
+						}
+						continue;
+					}
 					continue;
 				}
 				if ( '' !== trim( (string) $value ) ) {
@@ -406,11 +446,14 @@ function anna_sanitize_oasis_option( $key, $value ) {
 	if ( 'oasis_pg_choose_plan_items' === $key ) {
 		return anna_normalize_oasis_plan_items( $value );
 	}
+	if ( 'oasis_pg_faq_items' === $key ) {
+		return function_exists( 'anna_normalize_coaching_faq_items' ) ? anna_normalize_coaching_faq_items( $value ) : array();
+	}
+	if ( in_array( $key, array( 'oasis_pg_what_footer_url', 'oasis_pg_hero_button_url', 'oasis_pg_begun_link_url', 'oasis_pg_waitlist_button_url' ), true ) ) {
+		return esc_url_raw( $value );
+	}
 	if ( in_array( $key, array( 'oasis_pg_hero_image_id', 'oasis_pg_begun_image_id' ), true ) ) {
 		return absint( $value );
-	}
-	if ( in_array( $key, array( 'oasis_pg_hero_button_url' ), true ) ) {
-		return esc_url_raw( $value );
 	}
 	$textarea_keys = array(
 		'oasis_pg_hero_body',
@@ -421,6 +464,7 @@ function anna_sanitize_oasis_option( $key, $value ) {
 		'oasis_pg_inside_body',
 		'oasis_pg_how_intro',
 		'oasis_pg_choose_footer',
+		'oasis_pg_waitlist_heading',
 	);
 	if ( in_array( $key, $textarea_keys, true ) ) {
 		return sanitize_textarea_field( $value );
@@ -429,4 +473,53 @@ function anna_sanitize_oasis_option( $key, $value ) {
 		return sanitize_textarea_field( $value );
 	}
 	return sanitize_text_field( $value );
+}
+
+/**
+ * Render a single Oasis FAQ accordion item.
+ *
+ * @param array $item  FAQ row.
+ * @param int   $index Item index.
+ */
+function anna_render_oasis_faq_item( $item, $index ) {
+	if ( ! is_array( $item ) ) {
+		return;
+	}
+
+	$question = trim( (string) ( $item['question'] ?? '' ) );
+	$answer   = trim( (string) ( $item['answer'] ?? '' ) );
+
+	if ( '' === $question ) {
+		return;
+	}
+
+	$id      = 'anna-oasis-faq-' . absint( $index );
+	$is_open = 0 === (int) $index && '' !== $answer;
+	?>
+	<div class="anna-oasis-page-faq__item<?php echo $is_open ? ' is-open' : ''; ?>">
+		<h3 class="anna-oasis-page-faq__question-wrap">
+			<button
+				type="button"
+				class="anna-oasis-page-faq__trigger"
+				id="<?php echo esc_attr( $id ); ?>-trigger"
+				aria-expanded="<?php echo $is_open ? 'true' : 'false'; ?>"
+				aria-controls="<?php echo esc_attr( $id ); ?>-panel"
+			>
+				<span class="anna-oasis-page-faq__question"><?php echo esc_html( $question ); ?></span>
+				<span class="anna-oasis-page-faq__icon" aria-hidden="true"></span>
+			</button>
+		</h3>
+		<?php if ( '' !== $answer ) : ?>
+			<div
+				class="anna-oasis-page-faq__panel"
+				id="<?php echo esc_attr( $id ); ?>-panel"
+				role="region"
+				aria-labelledby="<?php echo esc_attr( $id ); ?>-trigger"
+				<?php echo $is_open ? '' : 'hidden'; ?>
+			>
+				<div class="anna-oasis-page-faq__answer"><?php echo wp_kses_post( wpautop( $answer ) ); ?></div>
+			</div>
+		<?php endif; ?>
+	</div>
+	<?php
 }

@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function anna_render_oasis_page_settings_fields() {
 	anna_field_heading( __( 'Oasis Page Hero', 'anna-baylis' ) );
-	anna_field_text( 'oasis_pg_hero_eyebrow', __( 'Eyebrow', 'anna-baylis' ) );
+	anna_field_text( 'oasis_pg_hero_breadcrumb', __( 'Breadcrumb', 'anna-baylis' ) );
 	anna_field_text( 'oasis_pg_hero_heading', __( 'Title', 'anna-baylis' ) );
 	anna_field_text( 'oasis_pg_hero_subheading', __( 'Subheading', 'anna-baylis' ) );
 	anna_field_textarea( 'oasis_pg_hero_body', __( 'Body', 'anna-baylis' ), __( 'One paragraph per blank line.', 'anna-baylis' ), 8 );
@@ -27,7 +27,8 @@ function anna_render_oasis_page_settings_fields() {
 	anna_field_text( 'oasis_pg_what_eyebrow', __( 'Eyebrow', 'anna-baylis' ) );
 	anna_field_text( 'oasis_pg_what_heading', __( 'Heading', 'anna-baylis' ) );
 	anna_field_textarea( 'oasis_pg_what_body', __( 'Body', 'anna-baylis' ), '', 5 );
-	anna_field_text( 'oasis_pg_what_footer_line', __( 'Footer Line', 'anna-baylis' ) );
+	anna_field_text( 'oasis_pg_what_footer_line', __( 'Footer Link Text', 'anna-baylis' ) );
+	anna_field_text( 'oasis_pg_what_footer_url', __( 'Footer Link URL', 'anna-baylis' ), '', 'url' );
 
 	anna_field_heading( __( 'Where Oasis Began', 'anna-baylis' ) );
 	anna_field_text( 'oasis_pg_begun_eyebrow', __( 'Eyebrow', 'anna-baylis' ) );
@@ -39,6 +40,8 @@ function anna_render_oasis_page_settings_fields() {
 	anna_field_media( 'oasis_pg_begun_image_id', __( 'Portrait Image', 'anna-baylis' ) );
 	anna_field_text( 'oasis_pg_begun_callout_label', __( 'Callout Label', 'anna-baylis' ) );
 	anna_field_textarea( 'oasis_pg_begun_callout_body', __( 'Callout Body', 'anna-baylis' ), '', 3 );
+	anna_field_text( 'oasis_pg_begun_link_text', __( 'Story Link Text', 'anna-baylis' ) );
+	anna_field_text( 'oasis_pg_begun_link_url', __( 'Story Link URL', 'anna-baylis' ), '', 'url' );
 
 	anna_field_heading( __( 'Inside Oasis', 'anna-baylis' ) );
 	anna_field_text( 'oasis_pg_inside_eyebrow', __( 'Eyebrow', 'anna-baylis' ) );
@@ -67,6 +70,53 @@ function anna_render_oasis_page_settings_fields() {
 	anna_field_text( 'oasis_pg_ready_eyebrow', __( 'Eyebrow', 'anna-baylis' ) );
 	anna_field_text( 'oasis_pg_ready_heading', __( 'Heading', 'anna-baylis' ) );
 	anna_render_oasis_text_repeater( 'oasis_pg_ready_items', __( 'Cards', 'anna-baylis' ), 'oasis-ready' );
+
+	anna_field_heading( __( 'Waitlist', 'anna-baylis' ) );
+	anna_field_text( 'oasis_pg_waitlist_eyebrow', __( 'Eyebrow', 'anna-baylis' ) );
+	anna_field_textarea( 'oasis_pg_waitlist_heading', __( 'Heading', 'anna-baylis' ), '', 3 );
+	anna_field_text( 'oasis_pg_waitlist_button_text', __( 'Button Text', 'anna-baylis' ) );
+	anna_field_text( 'oasis_pg_waitlist_button_url', __( 'Button URL', 'anna-baylis' ), '', 'url' );
+
+	anna_field_heading( __( 'FAQ', 'anna-baylis' ) );
+	anna_field_text( 'oasis_pg_faq_heading', __( 'Section Heading', 'anna-baylis' ) );
+	anna_render_oasis_faq_repeater();
+}
+
+/**
+ * FAQ repeater for theme settings.
+ */
+function anna_render_oasis_faq_repeater() {
+	$option_key = 'oasis_pg_faq_items';
+	$items      = anna_get_option( $option_key, anna_get_oasis_default_content()['faq_items'] ?? array() );
+	if ( function_exists( 'anna_normalize_coaching_faq_items' ) ) {
+		$items = anna_normalize_coaching_faq_items( $items );
+	}
+	?>
+	<tr>
+		<th scope="row"><?php esc_html_e( 'FAQ Items', 'anna-baylis' ); ?></th>
+		<td>
+			<div class="anna-admin-repeater" data-anna-repeater="oasis-faq">
+				<div class="anna-admin-repeater__rows" data-anna-repeater-rows="true">
+					<?php foreach ( $items as $i => $item ) : ?>
+						<div class="anna-admin-repeater__row" data-anna-repeater-row="true">
+							<p><input type="text" class="large-text" name="anna_theme_options[<?php echo esc_attr( $option_key ); ?>][<?php echo esc_attr( $i ); ?>][question]" value="<?php echo esc_attr( $item['question'] ?? '' ); ?>"></p>
+							<p><textarea class="large-text" rows="3" name="anna_theme_options[<?php echo esc_attr( $option_key ); ?>][<?php echo esc_attr( $i ); ?>][answer]"><?php echo esc_textarea( $item['answer'] ?? '' ); ?></textarea></p>
+							<button type="button" class="button-link-delete anna-admin-repeater__remove" data-anna-repeater-remove="true"><?php esc_html_e( 'Remove', 'anna-baylis' ); ?></button><hr>
+						</div>
+					<?php endforeach; ?>
+				</div>
+				<button type="button" class="button" data-anna-repeater-add="true"><?php esc_html_e( 'Add FAQ', 'anna-baylis' ); ?></button>
+				<template data-anna-repeater-template="true">
+					<div class="anna-admin-repeater__row" data-anna-repeater-row="true">
+						<p><input type="text" class="large-text" name="anna_theme_options[<?php echo esc_attr( $option_key ); ?>][__INDEX__][question]" value=""></p>
+						<p><textarea class="large-text" rows="3" name="anna_theme_options[<?php echo esc_attr( $option_key ); ?>][__INDEX__][answer]"></textarea></p>
+						<button type="button" class="button-link-delete anna-admin-repeater__remove" data-anna-repeater-remove="true"><?php esc_html_e( 'Remove', 'anna-baylis' ); ?></button><hr>
+					</div>
+				</template>
+			</div>
+		</td>
+	</tr>
+	<?php
 }
 
 /**

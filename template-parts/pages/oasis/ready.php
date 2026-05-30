@@ -21,7 +21,7 @@ if ( empty( $items ) ) {
 }
 ?>
 
-<section class="anna-oasis-page-section anna-oasis-page-ready">
+<section id="oasis-ready" class="anna-oasis-page-section anna-oasis-page-ready">
 	<div class="anna-container anna-container--max">
 		<header class="anna-oasis-page-ready__header">
 			<?php if ( ! empty( $oasis['ready_eyebrow'] ) ) : ?>
@@ -42,7 +42,11 @@ if ( empty( $items ) ) {
 				}
 				?>
 				<li class="anna-oasis-page-ready-card">
-					<span class="anna-oasis-page-ready-card__icon" aria-hidden="true"></span>
+					<span class="anna-oasis-page-ready-card__icon" aria-hidden="true">
+						<svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M1 5.5L5 9.5L13 1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
+					</span>
 					<span class="anna-oasis-page-ready-card__text"><?php echo esc_html( $text ); ?></span>
 				</li>
 			<?php endforeach; ?>
