@@ -54,13 +54,11 @@
 .anna-coaching-page-hero__overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(7, 20, 17, 0.92) 0%,
-    rgba(7, 20, 17, 0.72) 42%,
-    rgba(7, 20, 17, 0.35) 68%,
-    rgba(7, 20, 17, 0.15) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(7, 20, 17, 0.92) 0%,
+      rgba(7, 20, 17, 0.72) 42%,
+      rgba(7, 20, 17, 0.35) 68%,
+      rgba(7, 20, 17, 0.15) 100%);
   pointer-events: none;
 }
 
@@ -115,7 +113,7 @@
   border: none;
   border-radius: 6px;
   background: var(--coaching-cream);
-  color: var(--coaching-heading);
+  color: var(--color-primary);
   font-family: var(--font-body);
   font-size: var(--text-base);
   font-weight: var(--font-weight-semibold);
@@ -130,12 +128,7 @@
   transform: translateY(-2px);
 }
 
-/* ── What this is (dark) ────────────────────────────────────────────────── */
-.anna-coaching-page-what {
-  background: var(--coaching-dark);
-  color: rgba(255, 255, 255, 0.88);
-}
-
+/* ── What this is ────────────────────────────────────────────────── */
 .anna-coaching-page-what__grid {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
@@ -150,7 +143,7 @@
   font-size: var(--text-sm);
   font-weight: var(--font-weight-semibold);
   letter-spacing: 0.1em;
-  text-transform: uppercase;
+
 }
 
 .anna-coaching-page-what__heading {
@@ -255,7 +248,7 @@
   font-size: var(--text-sm);
   font-weight: var(--font-weight-semibold);
   letter-spacing: 0.14em;
-  text-transform: uppercase;
+
 }
 
 .anna-coaching-page-pillars__heading {
@@ -332,7 +325,7 @@
   font-size: var(--text-sm);
   font-weight: var(--font-weight-semibold);
   letter-spacing: 0.14em;
-  text-transform: uppercase;
+
 }
 
 .anna-coaching-page-work__heading {
@@ -445,7 +438,7 @@
   font-size: var(--text-sm);
   font-weight: var(--font-weight-semibold);
   letter-spacing: 0.12em;
-  text-transform: uppercase;
+
 }
 
 .anna-coaching-page-expect__heading {
@@ -634,6 +627,7 @@
 }
 
 @media (max-width: 1024px) {
+
   .anna-coaching-page-what__grid,
   .anna-coaching-page-work__grid,
   .anna-coaching-page-expect__grid,
@@ -650,12 +644,10 @@
   }
 
   .anna-coaching-page-hero__overlay {
-    background: linear-gradient(
-      180deg,
-      rgba(7, 20, 17, 0.88) 0%,
-      rgba(7, 20, 17, 0.72) 55%,
-      rgba(7, 20, 17, 0.5) 100%
-    );
+    background: linear-gradient(180deg,
+        rgba(7, 20, 17, 0.88) 0%,
+        rgba(7, 20, 17, 0.72) 55%,
+        rgba(7, 20, 17, 0.5) 100%);
   }
 }
 
