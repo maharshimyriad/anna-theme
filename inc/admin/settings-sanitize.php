@@ -62,6 +62,9 @@ function anna_get_tab_fields_map() {
 		'coaching_page' => array(
 			'coaching_pg_hero_eyebrow', 'coaching_pg_hero_heading', 'coaching_pg_hero_description', 'coaching_pg_hero_tags_text', 'coaching_pg_hero_image_id',
 			'coaching_pg_hero_button_text', 'coaching_pg_hero_button_url',
+			'coaching_pg_what_eyebrow', 'coaching_pg_what_heading', 'coaching_pg_what_body',
+			'coaching_pg_what_button_text', 'coaching_pg_what_button_url', 'coaching_pg_what_card_heading', 'coaching_pg_what_card_items',
+			'coaching_pg_pillars_eyebrow', 'coaching_pg_pillars_heading', 'coaching_pg_pillar_items',
 			'coaching_pg_work_eyebrow', 'coaching_pg_work_heading', 'coaching_pg_work_gains_heading',
 			'coaching_pg_work_topics_items', 'coaching_pg_work_gains_items',
 			'coaching_pg_expect_eyebrow', 'coaching_pg_expect_heading_line1', 'coaching_pg_expect_heading_line2',
@@ -102,7 +105,7 @@ function anna_sanitize_single_option( $key, $value ) {
 		return sanitize_hex_color( $value );
 	}
 
-	$url_fields = array( 'header_cta_url', 'cta_primary_url', 'cta_secondary_url', 'services_cta_url', 'about_cta_url', 'privacy_url', 'terms_url', 'testimonials_cta_url', 'about_pg_coach_button_url', 'about_pg_connect_button_url', 'coaching_pg_hero_button_url', 'coaching_pg_expect_button_url' );
+	$url_fields = array( 'header_cta_url', 'cta_primary_url', 'cta_secondary_url', 'services_cta_url', 'about_cta_url', 'privacy_url', 'terms_url', 'testimonials_cta_url', 'about_pg_coach_button_url', 'about_pg_connect_button_url', 'coaching_pg_hero_button_url', 'coaching_pg_what_button_url', 'coaching_pg_expect_button_url' );
 	if ( in_array( $key, $url_fields, true ) ) {
 		return esc_url_raw( $value );
 	}
@@ -120,7 +123,7 @@ function anna_sanitize_single_option( $key, $value ) {
 		'about_pg_work_card_1_body', 'about_pg_work_card_2_body', 'about_pg_work_card_3_body', 'about_pg_work_card_4_body',
 		'about_pg_people_body', 'about_pg_people_items_text',
 		'about_pg_hero_tags_text',
-		'coaching_pg_hero_description', 'coaching_pg_hero_tags_text', 'coaching_pg_expect_body', 'coaching_pg_expect_quote',
+		'coaching_pg_hero_description', 'coaching_pg_what_body', 'coaching_pg_expect_body', 'coaching_pg_expect_quote',
 		'coaching_pg_hero_heading',
 	);
 	if ( in_array( $key, $textarea_fields, true ) ) {
@@ -167,8 +170,12 @@ function anna_sanitize_single_option( $key, $value ) {
 		return $items;
 	}
 
-	if ( in_array( $key, array( 'coaching_pg_work_topics_items', 'coaching_pg_work_gains_items' ), true ) ) {
+	if ( in_array( $key, array( 'coaching_pg_work_topics_items', 'coaching_pg_work_gains_items', 'coaching_pg_what_card_items' ), true ) ) {
 		return function_exists( 'anna_normalize_coaching_text_items' ) ? anna_normalize_coaching_text_items( $value ) : array();
+	}
+
+	if ( 'coaching_pg_pillar_items' === $key ) {
+		return function_exists( 'anna_normalize_coaching_pillar_items' ) ? anna_normalize_coaching_pillar_items( $value ) : array();
 	}
 
 	if ( 'coaching_pg_expect_info_cards' === $key ) {

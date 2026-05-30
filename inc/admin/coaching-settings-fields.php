@@ -18,10 +18,28 @@ function anna_render_coaching_page_settings_fields() {
 	anna_field_text( 'coaching_pg_hero_eyebrow', __( 'Eyebrow', 'anna-baylis' ) );
 	anna_field_textarea( 'coaching_pg_hero_heading', __( 'Heading', 'anna-baylis' ), __( 'Use line breaks for the hero layout.', 'anna-baylis' ), 4 );
 	anna_field_textarea( 'coaching_pg_hero_description', __( 'Description', 'anna-baylis' ) );
-	anna_field_textarea( 'coaching_pg_hero_tags_text', __( 'Hero Tags (pills)', 'anna-baylis' ), __( 'One tag per line.', 'anna-baylis' ), 5 );
-	anna_field_media( 'coaching_pg_hero_image_id', __( 'Hero Background Image', 'anna-baylis' ) );
+	anna_field_media( 'coaching_pg_hero_image_id', __( 'Hero Background Image', 'anna-baylis' ), __( 'Full-width photo with dark overlay (e.g. swing image from design).', 'anna-baylis' ) );
 	anna_field_text( 'coaching_pg_hero_button_text', __( 'Button Text', 'anna-baylis' ) );
 	anna_field_text( 'coaching_pg_hero_button_url', __( 'Button URL', 'anna-baylis' ), '', 'url' );
+
+	anna_field_heading( __( 'What This Is', 'anna-baylis' ) );
+	anna_field_text( 'coaching_pg_what_eyebrow', __( 'Eyebrow', 'anna-baylis' ) );
+	anna_field_text( 'coaching_pg_what_heading', __( 'Heading', 'anna-baylis' ) );
+	anna_field_textarea( 'coaching_pg_what_body', __( 'Body Copy', 'anna-baylis' ), __( 'One paragraph per blank line.', 'anna-baylis' ), 10 );
+	anna_field_text( 'coaching_pg_what_button_text', __( 'Button Text', 'anna-baylis' ) );
+	anna_field_text( 'coaching_pg_what_button_url', __( 'Button URL', 'anna-baylis' ), '', 'url' );
+	anna_field_text( 'coaching_pg_what_card_heading', __( 'Card Heading', 'anna-baylis' ) );
+	anna_render_coaching_text_repeater(
+		'coaching_pg_what_card_items',
+		__( 'Card List Items', 'anna-baylis' ),
+		__( 'Bullets in the right-hand card.', 'anna-baylis' ),
+		'coaching-what-card'
+	);
+
+	anna_field_heading( __( 'How I Work — Three Pillars', 'anna-baylis' ) );
+	anna_field_text( 'coaching_pg_pillars_eyebrow', __( 'Eyebrow', 'anna-baylis' ) );
+	anna_field_text( 'coaching_pg_pillars_heading', __( 'Heading', 'anna-baylis' ) );
+	anna_render_coaching_pillar_repeater();
 
 	anna_field_heading( __( 'What We Work On', 'anna-baylis' ) );
 	anna_field_text( 'coaching_pg_work_eyebrow', __( 'Eyebrow', 'anna-baylis' ) );
@@ -121,6 +139,82 @@ function anna_render_coaching_text_repeater( $option_key, $label, $desc, $slug )
 									<div class="anna-admin-repeater__field">
 										<label class="anna-admin-repeater__label"><?php esc_html_e( 'Text', 'anna-baylis' ); ?></label>
 										<input type="text" name="anna_theme_options[<?php echo esc_attr( $option_key ); ?>][__INDEX__][text]" value="" class="large-text">
+									</div>
+								</div>
+								<div class="anna-admin-repeater__row-actions">
+									<button type="button" class="button-link-delete anna-admin-repeater__remove" data-anna-repeater-remove="true"><?php esc_html_e( 'Remove', 'anna-baylis' ); ?></button>
+								</div>
+							</div>
+						</template>
+					</div>
+				</div>
+			</div>
+		</td>
+	</tr>
+	<?php
+}
+
+/**
+ * Render pillar cards repeater.
+ */
+function anna_render_coaching_pillar_repeater() {
+	$option_key = 'coaching_pg_pillar_items';
+	$items      = anna_get_option( $option_key, array() );
+	if ( ! is_array( $items ) || empty( $items ) ) {
+		$defaults = anna_get_default_options();
+		$items    = $defaults[ $option_key ] ?? array();
+	}
+	$items = function_exists( 'anna_normalize_coaching_pillar_items' ) ? anna_normalize_coaching_pillar_items( $items ) : $items;
+	$count = count( $items );
+	?>
+	<tr>
+		<th scope="row"><?php esc_html_e( 'Pillar Cards', 'anna-baylis' ); ?></th>
+		<td>
+			<div class="anna-repeater-collapse">
+				<button type="button" class="anna-repeater-collapse__toggle" aria-expanded="false">
+					<span class="anna-repeater-collapse__arrow" aria-hidden="true">▶</span>
+					<span class="anna-repeater-collapse__label"><?php echo esc_html( sprintf( __( 'Show all pillars (%d)', 'anna-baylis' ), $count ) ); ?></span>
+				</button>
+				<div class="anna-repeater-collapse__panel is-collapsed" data-anna-repeater-collapse-panel="true">
+					<div class="anna-admin-repeater" data-anna-repeater="coaching-pillars">
+						<div class="anna-admin-repeater__rows" data-anna-repeater-rows="true">
+							<?php foreach ( $items as $index => $item ) : ?>
+								<div class="anna-admin-repeater__row" data-anna-repeater-row="true">
+									<div class="anna-admin-repeater__row-fields">
+										<div class="anna-admin-repeater__field">
+											<label class="anna-admin-repeater__label"><?php esc_html_e( 'Number', 'anna-baylis' ); ?></label>
+											<input type="text" name="anna_theme_options[<?php echo esc_attr( $option_key ); ?>][<?php echo esc_attr( $index ); ?>][number]" value="<?php echo esc_attr( $item['number'] ?? '' ); ?>" class="small-text" placeholder="01">
+										</div>
+										<div class="anna-admin-repeater__field">
+											<label class="anna-admin-repeater__label"><?php esc_html_e( 'Title', 'anna-baylis' ); ?></label>
+											<input type="text" name="anna_theme_options[<?php echo esc_attr( $option_key ); ?>][<?php echo esc_attr( $index ); ?>][title]" value="<?php echo esc_attr( $item['title'] ?? '' ); ?>" class="large-text">
+										</div>
+										<div class="anna-admin-repeater__field">
+											<label class="anna-admin-repeater__label"><?php esc_html_e( 'Body', 'anna-baylis' ); ?></label>
+											<textarea name="anna_theme_options[<?php echo esc_attr( $option_key ); ?>][<?php echo esc_attr( $index ); ?>][body]" rows="4" class="large-text"><?php echo esc_textarea( $item['body'] ?? '' ); ?></textarea>
+										</div>
+									</div>
+									<div class="anna-admin-repeater__row-actions">
+										<button type="button" class="button-link-delete anna-admin-repeater__remove" data-anna-repeater-remove="true"><?php esc_html_e( 'Remove', 'anna-baylis' ); ?></button>
+									</div>
+								</div>
+							<?php endforeach; ?>
+						</div>
+						<button type="button" class="button" data-anna-repeater-add="true"><?php esc_html_e( 'Add Pillar', 'anna-baylis' ); ?></button>
+						<template data-anna-repeater-template="true">
+							<div class="anna-admin-repeater__row" data-anna-repeater-row="true">
+								<div class="anna-admin-repeater__row-fields">
+									<div class="anna-admin-repeater__field">
+										<label class="anna-admin-repeater__label"><?php esc_html_e( 'Number', 'anna-baylis' ); ?></label>
+										<input type="text" name="anna_theme_options[<?php echo esc_attr( $option_key ); ?>][__INDEX__][number]" value="" class="small-text" placeholder="01">
+									</div>
+									<div class="anna-admin-repeater__field">
+										<label class="anna-admin-repeater__label"><?php esc_html_e( 'Title', 'anna-baylis' ); ?></label>
+										<input type="text" name="anna_theme_options[<?php echo esc_attr( $option_key ); ?>][__INDEX__][title]" value="" class="large-text">
+									</div>
+									<div class="anna-admin-repeater__field">
+										<label class="anna-admin-repeater__label"><?php esc_html_e( 'Body', 'anna-baylis' ); ?></label>
+										<textarea name="anna_theme_options[<?php echo esc_attr( $option_key ); ?>][__INDEX__][body]" rows="4" class="large-text"></textarea>
 									</div>
 								</div>
 								<div class="anna-admin-repeater__row-actions">

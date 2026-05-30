@@ -645,6 +645,16 @@ function anna_get_coaching_page_option_map() {
 		'hero_image_id'         => 'coaching_pg_hero_image_id',
 		'hero_button_text'      => 'coaching_pg_hero_button_text',
 		'hero_button_url'       => 'coaching_pg_hero_button_url',
+		'what_eyebrow'          => 'coaching_pg_what_eyebrow',
+		'what_heading'          => 'coaching_pg_what_heading',
+		'what_body'             => 'coaching_pg_what_body',
+		'what_button_text'      => 'coaching_pg_what_button_text',
+		'what_button_url'       => 'coaching_pg_what_button_url',
+		'what_card_heading'     => 'coaching_pg_what_card_heading',
+		'what_card_items'       => 'coaching_pg_what_card_items',
+		'pillars_eyebrow'       => 'coaching_pg_pillars_eyebrow',
+		'pillars_heading'       => 'coaching_pg_pillars_heading',
+		'pillar_items'          => 'coaching_pg_pillar_items',
 		'work_eyebrow'          => 'coaching_pg_work_eyebrow',
 		'work_heading'          => 'coaching_pg_work_heading',
 		'work_gains_heading'    => 'coaching_pg_work_gains_heading',
@@ -749,6 +759,41 @@ function anna_normalize_coaching_faq_items( $items ) {
 }
 
 /**
+ * Normalize pillar card repeater rows.
+ *
+ * @param mixed $items Raw items.
+ * @return array<int, array{number:string,title:string,body:string}>
+ */
+function anna_normalize_coaching_pillar_items( $items ) {
+	if ( ! is_array( $items ) ) {
+		return array();
+	}
+
+	$normalized = array();
+	foreach ( $items as $row ) {
+		if ( ! is_array( $row ) ) {
+			continue;
+		}
+
+		$number = sanitize_text_field( $row['number'] ?? '' );
+		$title  = sanitize_text_field( $row['title'] ?? '' );
+		$body   = sanitize_textarea_field( $row['body'] ?? '' );
+
+		if ( '' === trim( $title ) && '' === trim( $body ) ) {
+			continue;
+		}
+
+		$normalized[] = array(
+			'number' => $number,
+			'title'  => $title,
+			'body'   => $body,
+		);
+	}
+
+	return $normalized;
+}
+
+/**
  * Normalize info card repeater rows.
  *
  * @param mixed $items Raw items.
@@ -801,10 +846,16 @@ function anna_get_coaching_repeater_from_options( $key ) {
 		if ( 'coaching_pg_faq_items' === $key ) {
 			return anna_normalize_coaching_faq_items( $saved );
 		}
+		if ( 'coaching_pg_what_card_items' === $key ) {
+			return anna_normalize_coaching_text_items( $saved );
+		}
+		if ( 'coaching_pg_pillar_items' === $key ) {
+			return anna_normalize_coaching_pillar_items( $saved );
+		}
 	}
 
 	$default_items = $defaults[ $key ] ?? array();
-	if ( 'coaching_pg_work_topics_items' === $key || 'coaching_pg_work_gains_items' === $key ) {
+	if ( 'coaching_pg_work_topics_items' === $key || 'coaching_pg_work_gains_items' === $key || 'coaching_pg_what_card_items' === $key ) {
 		return anna_normalize_coaching_text_items( $default_items );
 	}
 	if ( 'coaching_pg_expect_info_cards' === $key ) {
@@ -812,6 +863,9 @@ function anna_get_coaching_repeater_from_options( $key ) {
 	}
 	if ( 'coaching_pg_faq_items' === $key ) {
 		return anna_normalize_coaching_faq_items( $default_items );
+	}
+	if ( 'coaching_pg_pillar_items' === $key ) {
+		return anna_normalize_coaching_pillar_items( $default_items );
 	}
 
 	return array();
@@ -877,6 +931,8 @@ function anna_get_coaching_page_content() {
 	$content    = array();
 
 	$repeater_keys = array(
+		'what_card_items'   => 'coaching_pg_what_card_items',
+		'pillar_items'      => 'coaching_pg_pillar_items',
 		'work_topics_items' => 'coaching_pg_work_topics_items',
 		'work_gains_items'  => 'coaching_pg_work_gains_items',
 		'expect_info_cards' => 'coaching_pg_expect_info_cards',
@@ -914,10 +970,17 @@ function anna_get_coaching_page_content() {
 			$non_empty_saved = array();
 			foreach ( $saved as $key => $value ) {
 				if ( is_array( $value ) ) {
-					if ( in_array( $key, array( 'work_topics_items', 'work_gains_items' ), true ) ) {
+					if ( in_array( $key, array( 'work_topics_items', 'work_gains_items', 'what_card_items' ), true ) ) {
 						$normalized = anna_normalize_coaching_text_items( $value );
 						if ( ! empty( $normalized ) ) {
 							$non_empty_saved[ $key ] = $normalized;
+						}
+						continue;
+					}
+					if ( 'pillar_items' === $key ) {
+						$normalized = anna_normalize_coaching_pillar_items( $value );
+						if ( ! empty( $normalized ) ) {
+							$non_empty_saved['pillar_items'] = $normalized;
 						}
 						continue;
 					}

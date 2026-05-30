@@ -14,16 +14,18 @@ $coaching = get_query_var( 'anna_coaching_page_content', array() );
 if ( empty( $coaching ) ) {
 	$coaching = anna_get_coaching_page_content();
 }
+
+$has_bg_image = ! empty( $coaching['hero_image_id'] );
 ?>
 
 <section
-	class="anna-coaching-page-hero"
-	<?php if ( ! empty( $coaching['hero_image_id'] ) ) : ?>
+	class="anna-coaching-page-hero<?php echo $has_bg_image ? ' anna-coaching-page-hero--has-image' : ''; ?>"
+	<?php if ( $has_bg_image ) : ?>
 		style="background-image:url('<?php echo esc_url( anna_responsive_image_url( absint( $coaching['hero_image_id'] ), 'full' ) ); ?>');"
 	<?php endif; ?>
 >
 	<div class="anna-coaching-page-hero__overlay" aria-hidden="true"></div>
-	<div class="anna-container">
+	<div class="anna-container anna-container--max">
 		<div class="anna-coaching-page-hero__content">
 			<?php if ( ! empty( $coaching['hero_eyebrow'] ) ) : ?>
 				<p class="anna-coaching-page-hero__eyebrow"><?php echo esc_html( $coaching['hero_eyebrow'] ); ?></p>
@@ -37,20 +39,9 @@ if ( empty( $coaching ) ) {
 				<p class="anna-coaching-page-hero__description"><?php echo esc_html( $coaching['hero_description'] ); ?></p>
 			<?php endif; ?>
 
-			<?php if ( ! empty( $coaching['hero_tags'] ) ) : ?>
-				<ul class="anna-coaching-page-hero__tags" role="list">
-					<?php foreach ( (array) $coaching['hero_tags'] as $tag ) : ?>
-						<?php if ( '' === trim( (string) $tag ) ) : ?>
-							<?php continue; ?>
-						<?php endif; ?>
-						<li class="anna-coaching-page-hero__tag"><?php echo esc_html( $tag ); ?></li>
-					<?php endforeach; ?>
-				</ul>
-			<?php endif; ?>
-
 			<?php if ( ! empty( $coaching['hero_button_text'] ) && ! empty( $coaching['hero_button_url'] ) ) : ?>
 				<div class="anna-coaching-page-hero__cta">
-					<a class="anna-btn anna-btn--primary" href="<?php echo esc_url( $coaching['hero_button_url'] ); ?>">
+					<a class="anna-btn anna-coaching-page-hero__btn" href="<?php echo esc_url( $coaching['hero_button_url'] ); ?>">
 						<?php echo esc_html( $coaching['hero_button_text'] ); ?>
 					</a>
 				</div>

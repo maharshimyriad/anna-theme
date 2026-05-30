@@ -7,12 +7,30 @@
 
 .anna-coaching-page-main {
   background: var(--color-white);
-  --coaching-hero-min-height: min(100svh, 920px);
-  --coaching-section-padding: var(--section-padding-md);
-  --coaching-grid-gap: clamp(var(--space-12), 6vw, var(--space-24));
+  --coaching-hero-min-height: min(100svh, 900px);
+  --coaching-section-padding: clamp(4.5rem, 8vw, 7rem);
+  --coaching-grid-gap: clamp(var(--space-12), 5vw, var(--space-20));
+  --coaching-heading: var(--color-heading);
+  --coaching-accent: var(--color-primary);
+  --coaching-mint: #8ec9a8;
+  --coaching-cream: #e9e5c9;
+  --coaching-cream-bg: #f9f8f3;
+  --coaching-dark: #0a1210;
 }
 
-/* Hero */
+/* ── Shared section ─────────────────────────────────────────────────────── */
+.anna-coaching-page-section {
+  padding: var(--coaching-section-padding) 0;
+}
+
+.anna-coaching-page-section .anna-container--max {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-gutter, clamp(1.25rem, 4vw, 2.5rem));
+}
+
+/* ── Hero ───────────────────────────────────────────────────────────────── */
 .anna-coaching-page-hero {
   position: relative;
   min-height: var(--coaching-hero-min-height);
@@ -21,113 +39,307 @@
   margin-top: var(--header-height);
   background-color: #071a16;
   background-image:
-    radial-gradient(900px 520px at 78% 52%, rgba(0, 148, 128, 0.72) 0%, rgba(0, 148, 128, 0.32) 35%, rgba(0, 148, 128, 0) 62%),
-    radial-gradient(760px 460px at 18% 46%, rgba(0, 148, 128, 0.18) 0%, rgba(0, 148, 128, 0) 60%),
-    linear-gradient(135deg, rgba(7, 26, 22, 0.98) 0%, rgba(7, 26, 22, 0.86) 42%, rgba(7, 26, 22, 0.96) 100%);
+    radial-gradient(900px 520px at 78% 52%, rgba(0, 148, 128, 0.45) 0%, rgba(0, 148, 128, 0.2) 40%, rgba(0, 148, 128, 0) 62%),
+    linear-gradient(135deg, rgba(7, 26, 22, 0.96) 0%, rgba(7, 26, 22, 0.88) 100%);
   background-size: cover;
-  background-position: center;
+  background-position: center right;
   color: var(--color-white);
   overflow: hidden;
+}
+
+.anna-coaching-page-hero--has-image {
+  background-image: none;
 }
 
 .anna-coaching-page-hero__overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(700px 520px at 78% 55%, rgba(0, 148, 128, 0.18) 0%, rgba(0, 148, 128, 0) 60%);
-  filter: blur(10px);
-  opacity: 0.9;
+  background: linear-gradient(
+    90deg,
+    rgba(7, 20, 17, 0.92) 0%,
+    rgba(7, 20, 17, 0.72) 42%,
+    rgba(7, 20, 17, 0.35) 68%,
+    rgba(7, 20, 17, 0.15) 100%
+  );
+  pointer-events: none;
 }
 
 .anna-coaching-page-hero .anna-container {
   position: relative;
   z-index: 1;
+  width: 100%;
 }
 
 .anna-coaching-page-hero__content {
-  max-width: 720px;
+  max-width: 34rem;
+  padding-block: clamp(3rem, 8vh, 5rem);
 }
 
 .anna-coaching-page-hero__eyebrow {
-  margin: 0 0 var(--space-6);
-  color: rgba(255, 255, 255, 0.78);
-  font-size: 0.75rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  font-weight: 600;
+  margin: 0 0 var(--space-5);
+  color: rgba(255, 255, 255, 0.82);
+  font-family: var(--font-body);
+  font-size: clamp(0.8rem, 0.75rem + 0.2vw, 0.95rem);
+  letter-spacing: 0.06em;
+  font-weight: var(--font-weight-medium);
 }
 
 .anna-coaching-page-hero__heading {
   margin: 0;
   color: var(--color-white);
   font-family: var(--font-heading);
-  font-size: clamp(2.5rem, 4.5vw, 3.75rem);
-  line-height: 1.12;
+  font-size: clamp(2.75rem, 4.8vw, 4.25rem);
+  line-height: 1.08;
   font-weight: var(--font-weight-regular);
+  letter-spacing: var(--tracking-snug);
 }
 
 .anna-coaching-page-hero__description {
-  max-width: 640px;
+  max-width: 32rem;
   margin: var(--space-6) 0 0;
   color: rgba(255, 255, 255, 0.9);
-  font-size: var(--text-base);
-  line-height: var(--leading-relaxed);
-}
-
-.anna-coaching-page-hero__tags {
-  margin: var(--space-8) 0 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-}
-
-.anna-coaching-page-hero__tag {
-  padding: 0.55rem 0.95rem;
-  border-radius: var(--radius-full);
-  background: rgba(255, 255, 255, 0.14);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  color: rgba(255, 255, 255, 0.92);
-  font-size: 0.82rem;
-  line-height: 1;
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1rem + 0.25vw, 1.2rem);
+  line-height: 1.65;
 }
 
 .anna-coaching-page-hero__cta {
+  margin-top: clamp(1.75rem, 4vw, 2.5rem);
+}
+
+.anna-coaching-page-hero__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 1.85rem;
+  border: none;
+  border-radius: 6px;
+  background: var(--coaching-cream);
+  color: var(--coaching-heading);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.anna-coaching-page-hero__btn:hover {
+  background: #f3efd6;
+  color: var(--color-primary-dark);
+  transform: translateY(-2px);
+}
+
+/* ── What this is (dark) ────────────────────────────────────────────────── */
+.anna-coaching-page-what {
+  background: var(--coaching-dark);
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.anna-coaching-page-what__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+  gap: var(--coaching-grid-gap);
+  align-items: start;
+}
+
+.anna-coaching-page-what__eyebrow {
+  margin: 0 0 var(--space-4);
+  color: var(--coaching-mint);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.anna-coaching-page-what__heading {
+  margin: 0 0 var(--space-8);
+  color: var(--coaching-accent);
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 3.2vw, 2.75rem);
+  line-height: 1.15;
+  font-weight: var(--font-weight-semibold);
+}
+
+.anna-coaching-page-what__copy {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: var(--text-base);
+  line-height: 1.75;
+}
+
+.anna-coaching-page-what__copy p {
+  margin: 0 0 var(--space-5);
+}
+
+.anna-coaching-page-what__copy p:last-child {
+  margin-bottom: 0;
+}
+
+.anna-coaching-page-what__cta {
   margin-top: var(--space-8);
 }
 
-.anna-coaching-page-hero .anna-btn--primary {
-  border-radius: 6px;
+.anna-coaching-page-what__btn {
+  display: inline-flex;
   padding: 1rem 1.75rem;
+  border: none;
+  border-radius: 6px;
+  background: var(--coaching-accent);
+  color: var(--color-white);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
 }
 
-/* Sections */
-.anna-coaching-page-section {
-  padding: var(--coaching-section-padding) 0;
+.anna-coaching-page-what__btn:hover {
+  background: var(--color-primary-dark);
+  color: var(--color-white);
 }
 
-/* What we work on */
+.anna-coaching-page-what__card {
+  padding: clamp(2rem, 4vw, 2.75rem);
+  border-radius: 24px;
+  background: #f4f4f2;
+  color: var(--coaching-heading);
+}
+
+.anna-coaching-page-what__card-heading {
+  margin: 0 0 var(--space-6);
+  color: var(--coaching-accent);
+  font-family: var(--font-heading);
+  font-size: clamp(1.35rem, 2vw, 1.65rem);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.25;
+}
+
+.anna-coaching-page-what__card-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.anna-coaching-page-what__card-item {
+  display: grid;
+  grid-template-columns: 10px 1fr;
+  gap: var(--space-4);
+  align-items: start;
+  font-size: var(--text-base);
+  line-height: 1.55;
+  color: rgba(15, 31, 27, 0.88);
+}
+
+.anna-coaching-page-what__card-bullet {
+  width: 8px;
+  height: 8px;
+  margin-top: 0.5rem;
+  border-radius: 50%;
+  background: var(--coaching-accent);
+}
+
+/* ── Pillars (cream) ────────────────────────────────────────────────────── */
+.anna-coaching-page-pillars {
+  background: var(--coaching-cream-bg);
+}
+
+.anna-coaching-page-pillars__header {
+  max-width: 42rem;
+  margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+.anna-coaching-page-pillars__eyebrow {
+  margin: 0 0 var(--space-4);
+  color: var(--coaching-accent);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.anna-coaching-page-pillars__heading {
+  margin: 0;
+  color: var(--coaching-heading);
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 3.2vw, 2.75rem);
+  line-height: 1.12;
+  font-weight: var(--font-weight-semibold);
+}
+
+.anna-coaching-page-pillars__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(var(--space-6), 2.5vw, var(--space-8));
+}
+
+.anna-coaching-page-pillar-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: clamp(1.75rem, 3vw, 2.25rem);
+  border-radius: 16px;
+  background: var(--color-white);
+  box-shadow: 0 12px 40px rgba(15, 31, 27, 0.06);
+}
+
+.anna-coaching-page-pillar-card__number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 8px;
+  background: var(--coaching-accent);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.04em;
+}
+
+.anna-coaching-page-pillar-card__title {
+  margin: 0;
+  color: var(--coaching-heading);
+  font-family: var(--font-heading);
+  font-size: clamp(1.1rem, 1.5vw, 1.25rem);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.3;
+}
+
+.anna-coaching-page-pillar-card__body {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+/* ── What we work on ─────────────────────────────────────────────────────── */
+.anna-coaching-page-work {
+  background: var(--color-white);
+}
+
 .anna-coaching-page-work__grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-  gap: var(--coaching-grid-gap);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(var(--space-12), 6vw, var(--space-24));
   align-items: start;
 }
 
 .anna-coaching-page-work__eyebrow {
   margin: 0 0 var(--space-4);
-  color: var(--color-primary);
+  color: var(--coaching-accent);
   font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  font-weight: var(--font-weight-semibold);
 }
 
 .anna-coaching-page-work__heading {
   margin: 0 0 var(--space-10);
-  color: var(--color-heading);
+  color: var(--coaching-heading);
   font-family: var(--font-heading);
-  font-size: clamp(1.75rem, 2.5vw, 2.25rem);
+  font-size: clamp(1.85rem, 2.8vw, 2.35rem);
   line-height: 1.2;
   font-weight: var(--font-weight-semibold);
 }
@@ -140,7 +352,7 @@
 
 .anna-coaching-page-work__list-item {
   display: grid;
-  grid-template-columns: 12px 1fr;
+  grid-template-columns: 10px 1fr;
   gap: var(--space-4);
   align-items: start;
   padding: var(--space-5) 0;
@@ -154,9 +366,9 @@
 .anna-coaching-page-work__bullet {
   width: 8px;
   height: 8px;
-  margin-top: 0.45rem;
+  margin-top: 0.5rem;
   border-radius: 50%;
-  background: var(--color-primary);
+  background: var(--coaching-accent);
 }
 
 .anna-coaching-page-work__list-text {
@@ -167,7 +379,7 @@
 
 .anna-coaching-page-work__gains-heading {
   margin: 0 0 var(--space-6);
-  color: var(--color-heading);
+  color: var(--coaching-heading);
   font-family: var(--font-heading);
   font-size: clamp(1.35rem, 2vw, 1.6rem);
   font-weight: var(--font-weight-semibold);
@@ -184,11 +396,11 @@
 
 .anna-coaching-page-work__gain-card {
   display: grid;
-  grid-template-columns: 28px 1fr;
+  grid-template-columns: 32px 1fr;
   gap: var(--space-4);
   align-items: start;
   padding: var(--space-5) var(--space-6);
-  border-radius: 12px;
+  border-radius: 14px;
   background: var(--color-bg-soft);
 }
 
@@ -196,9 +408,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
-  color: var(--color-primary);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0, 112, 99, 0.12);
+  color: var(--coaching-accent);
 }
 
 .anna-coaching-page-work__gain-text {
@@ -208,27 +422,28 @@
 }
 
 .anna-coaching-page-work__gain-text strong {
-  color: var(--color-heading);
+  color: var(--coaching-heading);
   font-weight: var(--font-weight-semibold);
 }
 
-/* What to expect */
+/* ── What to expect ──────────────────────────────────────────────────────── */
 .anna-coaching-page-expect {
-  background: var(--color-primary);
+  background: #005f52;
   color: var(--color-white);
 }
 
 .anna-coaching-page-expect__grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
   gap: var(--coaching-grid-gap);
   align-items: start;
 }
 
 .anna-coaching-page-expect__eyebrow {
   margin: 0 0 var(--space-4);
-  color: rgba(255, 255, 255, 0.72);
+  color: #c8e040;
   font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -237,7 +452,7 @@
   margin: 0 0 var(--space-8);
   display: flex;
   flex-direction: column;
-  gap: 0.15em;
+  gap: 0.1em;
   font-family: var(--font-heading);
   font-size: clamp(2rem, 3.5vw, 3rem);
   line-height: 1.08;
@@ -249,13 +464,14 @@
 }
 
 .anna-coaching-page-expect__heading-secondary {
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: var(--font-weight-regular);
 }
 
 .anna-coaching-page-expect__copy {
   color: rgba(255, 255, 255, 0.9);
   font-size: var(--text-base);
-  line-height: var(--leading-relaxed);
+  line-height: 1.7;
 }
 
 .anna-coaching-page-expect__copy p {
@@ -265,7 +481,7 @@
 .anna-coaching-page-expect__quote {
   margin: var(--space-8) 0 0;
   padding: 0 0 0 var(--space-5);
-  border-left: 3px solid #b8d96a;
+  border-left: 3px solid #c8e040;
 }
 
 .anna-coaching-page-expect__quote p {
@@ -281,12 +497,14 @@
 }
 
 .anna-coaching-page-expect__btn {
-  background: var(--color-white);
-  color: var(--color-primary);
+  display: inline-flex;
+  padding: 1rem 1.75rem;
   border: none;
   border-radius: 6px;
-  padding: 1rem 1.75rem;
-  font-weight: var(--font-weight-medium);
+  background: var(--color-white);
+  color: #005f52;
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
 }
 
 .anna-coaching-page-expect__btn:hover {
@@ -302,14 +520,14 @@
 
 .anna-coaching-page-expect-card {
   padding: var(--space-6);
-  border-radius: 14px;
+  border-radius: 16px;
   background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.14);
 }
 
 .anna-coaching-page-expect-card__label {
   margin: 0 0 var(--space-3);
-  color: #b8d96a;
+  color: #c8e040;
   font-size: var(--text-sm);
   font-weight: var(--font-weight-semibold);
   letter-spacing: 0.06em;
@@ -322,11 +540,15 @@
   line-height: 1.55;
 }
 
-/* FAQ */
+/* ── FAQ ─────────────────────────────────────────────────────────────────── */
+.anna-coaching-page-faq {
+  background: var(--color-white);
+}
+
 .anna-coaching-page-faq__heading {
   margin: 0 0 clamp(2.5rem, 5vw, 3.5rem);
   text-align: center;
-  color: var(--color-heading);
+  color: var(--coaching-heading);
   font-family: var(--font-heading);
   font-size: clamp(2rem, 3.5vw, 2.75rem);
   font-weight: var(--font-weight-semibold);
@@ -337,6 +559,11 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0 clamp(var(--space-10), 5vw, var(--space-16));
+  align-items: start;
+}
+
+.anna-coaching-page-faq__column {
+  min-width: 0;
 }
 
 .anna-coaching-page-faq__item {
@@ -358,15 +585,15 @@
   background: transparent;
   text-align: left;
   cursor: pointer;
-  color: var(--color-heading);
+  color: var(--coaching-heading);
   font-family: var(--font-heading);
-  font-size: clamp(1rem, 1.2vw, 1.125rem);
+  font-size: clamp(1rem, 1.15vw, 1.125rem);
   font-weight: var(--font-weight-medium);
   line-height: 1.35;
 }
 
 .anna-coaching-page-faq__trigger:hover {
-  color: var(--color-primary);
+  color: var(--coaching-accent);
 }
 
 .anna-coaching-page-faq__icon {
@@ -399,7 +626,15 @@
   margin: 0;
 }
 
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .anna-coaching-page-pillars__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 1024px) {
+  .anna-coaching-page-what__grid,
   .anna-coaching-page-work__grid,
   .anna-coaching-page-expect__grid,
   .anna-coaching-page-faq__grid {
@@ -409,10 +644,23 @@
   .anna-coaching-page-faq__grid {
     gap: 0;
   }
+
+  .anna-coaching-page-hero {
+    background-position: center;
+  }
+
+  .anna-coaching-page-hero__overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(7, 20, 17, 0.88) 0%,
+      rgba(7, 20, 17, 0.72) 55%,
+      rgba(7, 20, 17, 0.5) 100%
+    );
+  }
 }
 
 @media (max-width: 640px) {
-  .anna-coaching-page-hero__tags {
-    gap: var(--space-2);
+  .anna-coaching-page-hero__content {
+    max-width: none;
   }
 }
