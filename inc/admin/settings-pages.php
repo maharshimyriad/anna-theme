@@ -42,7 +42,8 @@ function anna_get_settings_tabs() {
 		'hero'       => __( 'Hero', 'anna-baylis' ),
 		'sections'   => __( 'Sections', 'anna-baylis' ),
 		'content'    => __( 'Content', 'anna-baylis' ),
-		'about_page' => __( 'About Page', 'anna-baylis' ),
+		'about_page'    => __( 'About Page', 'anna-baylis' ),
+		'coaching_page' => __( 'Coaching Page', 'anna-baylis' ),
 		'cta'        => __( 'CTA', 'anna-baylis' ),
 		'footer'     => __( 'Footer', 'anna-baylis' ),
 		'social'     => __( 'Social', 'anna-baylis' ),
@@ -368,6 +369,9 @@ function anna_render_settings_page() {
 					<?php anna_field_text( 'about_pg_connect_heading', __( 'Heading', 'anna-baylis' ) ); ?>
 					<?php anna_field_text( 'about_pg_connect_button_text', __( 'Button Text', 'anna-baylis' ) ); ?>
 					<?php anna_field_text( 'about_pg_connect_button_url', __( 'Button URL', 'anna-baylis' ), '', 'url' ); ?>
+
+				<?php elseif ( 'coaching_page' === $active_tab ) : ?>
+					<?php anna_render_coaching_page_settings_fields(); ?>
 
 				<?php elseif ( 'cta' === $active_tab ) : ?>
 					<?php anna_field_heading( __( 'Final CTA Section', 'anna-baylis' ) ); ?>

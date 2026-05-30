@@ -41,4 +41,5 @@ require_once ANNA_DIR . '/inc/admin/settings-framework.php';
 require_once ANNA_DIR . '/inc/admin/settings-fields.php';
 require_once ANNA_DIR . '/inc/admin/settings-sanitize.php';
 require_once ANNA_DIR . '/inc/admin/settings-pages.php';
+require_once ANNA_DIR . '/inc/admin/coaching-settings-fields.php';
 require_once ANNA_DIR . '/inc/admin/settings-css-output.php';

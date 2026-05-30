@@ -632,6 +632,334 @@ function anna_get_about_page_content() {
 }
 
 /**
+ * Default Coaching page content keys mapped to theme option names.
+ *
+ * @return array<string, string>
+ */
+function anna_get_coaching_page_option_map() {
+	return array(
+		'hero_eyebrow'          => 'coaching_pg_hero_eyebrow',
+		'hero_heading'          => 'coaching_pg_hero_heading',
+		'hero_description'      => 'coaching_pg_hero_description',
+		'hero_tags'             => 'coaching_pg_hero_tags_text',
+		'hero_image_id'         => 'coaching_pg_hero_image_id',
+		'hero_button_text'      => 'coaching_pg_hero_button_text',
+		'hero_button_url'       => 'coaching_pg_hero_button_url',
+		'work_eyebrow'          => 'coaching_pg_work_eyebrow',
+		'work_heading'          => 'coaching_pg_work_heading',
+		'work_gains_heading'    => 'coaching_pg_work_gains_heading',
+		'work_topics_items'     => 'coaching_pg_work_topics_items',
+		'work_gains_items'      => 'coaching_pg_work_gains_items',
+		'expect_eyebrow'        => 'coaching_pg_expect_eyebrow',
+		'expect_heading_line1'  => 'coaching_pg_expect_heading_line1',
+		'expect_heading_line2'  => 'coaching_pg_expect_heading_line2',
+		'expect_body'           => 'coaching_pg_expect_body',
+		'expect_quote'          => 'coaching_pg_expect_quote',
+		'expect_button_text'    => 'coaching_pg_expect_button_text',
+		'expect_button_url'     => 'coaching_pg_expect_button_url',
+		'expect_info_cards'     => 'coaching_pg_expect_info_cards',
+		'faq_heading'           => 'coaching_pg_faq_heading',
+		'faq_items'             => 'coaching_pg_faq_items',
+	);
+}
+
+/**
+ * Wrap **emphasis** markers in <strong> for coaching gain lines.
+ *
+ * @param string $text Raw text.
+ * @return string
+ */
+function anna_format_coaching_emphasis_text( $text ) {
+	$text = (string) $text;
+	if ( '' === $text ) {
+		return '';
+	}
+
+	return preg_replace_callback(
+		'/\*\*(.+?)\*\*/',
+		static function ( $matches ) {
+			return '<strong>' . esc_html( $matches[1] ) . '</strong>';
+		},
+		$text
+	);
+}
+
+/**
+ * Normalize simple text repeater rows.
+ *
+ * @param mixed $items Raw items.
+ * @return array<int, array{text:string}>
+ */
+function anna_normalize_coaching_text_items( $items ) {
+	if ( ! is_array( $items ) ) {
+		return array();
+	}
+
+	$normalized = array();
+	foreach ( $items as $row ) {
+		if ( is_string( $row ) ) {
+			$text = sanitize_text_field( $row );
+		} elseif ( is_array( $row ) ) {
+			$text = sanitize_text_field( $row['text'] ?? '' );
+		} else {
+			continue;
+		}
+
+		if ( '' === trim( $text ) ) {
+			continue;
+		}
+
+		$normalized[] = array( 'text' => $text );
+	}
+
+	return $normalized;
+}
+
+/**
+ * Normalize FAQ repeater rows.
+ *
+ * @param mixed $items Raw items.
+ * @return array<int, array{question:string,answer:string}>
+ */
+function anna_normalize_coaching_faq_items( $items ) {
+	if ( ! is_array( $items ) ) {
+		return array();
+	}
+
+	$normalized = array();
+	foreach ( $items as $row ) {
+		if ( ! is_array( $row ) ) {
+			continue;
+		}
+
+		$question = sanitize_text_field( $row['question'] ?? '' );
+		$answer   = sanitize_textarea_field( $row['answer'] ?? '' );
+
+		if ( '' === trim( $question ) ) {
+			continue;
+		}
+
+		$normalized[] = array(
+			'question' => $question,
+			'answer'   => $answer,
+		);
+	}
+
+	return $normalized;
+}
+
+/**
+ * Normalize info card repeater rows.
+ *
+ * @param mixed $items Raw items.
+ * @return array<int, array{label:string,body:string}>
+ */
+function anna_normalize_coaching_info_cards( $items ) {
+	if ( ! is_array( $items ) ) {
+		return array();
+	}
+
+	$normalized = array();
+	foreach ( $items as $row ) {
+		if ( ! is_array( $row ) ) {
+			continue;
+		}
+
+		$label = sanitize_text_field( $row['label'] ?? '' );
+		$body  = sanitize_textarea_field( $row['body'] ?? '' );
+
+		if ( '' === trim( $label ) && '' === trim( $body ) ) {
+			continue;
+		}
+
+		$normalized[] = array(
+			'label' => $label,
+			'body'  => $body,
+		);
+	}
+
+	return $normalized;
+}
+
+/**
+ * Load coaching repeater items from theme options.
+ *
+ * @param string $key Option key for repeater array.
+ * @return array
+ */
+function anna_get_coaching_repeater_from_options( $key ) {
+	$defaults = anna_get_default_options();
+	$saved    = anna_get_option( $key, array() );
+
+	if ( is_array( $saved ) && ! empty( $saved ) ) {
+		if ( 'coaching_pg_work_topics_items' === $key || 'coaching_pg_work_gains_items' === $key ) {
+			return anna_normalize_coaching_text_items( $saved );
+		}
+		if ( 'coaching_pg_expect_info_cards' === $key ) {
+			return anna_normalize_coaching_info_cards( $saved );
+		}
+		if ( 'coaching_pg_faq_items' === $key ) {
+			return anna_normalize_coaching_faq_items( $saved );
+		}
+	}
+
+	$default_items = $defaults[ $key ] ?? array();
+	if ( 'coaching_pg_work_topics_items' === $key || 'coaching_pg_work_gains_items' === $key ) {
+		return anna_normalize_coaching_text_items( $default_items );
+	}
+	if ( 'coaching_pg_expect_info_cards' === $key ) {
+		return anna_normalize_coaching_info_cards( $default_items );
+	}
+	if ( 'coaching_pg_faq_items' === $key ) {
+		return anna_normalize_coaching_faq_items( $default_items );
+	}
+
+	return array();
+}
+
+/**
+ * Render a single coaching FAQ accordion item.
+ *
+ * @param array $item  FAQ row.
+ * @param int   $index Item index for unique IDs.
+ */
+function anna_render_coaching_faq_item( $item, $index ) {
+	if ( ! is_array( $item ) ) {
+		return;
+	}
+
+	$question = trim( (string) ( $item['question'] ?? '' ) );
+	$answer   = trim( (string) ( $item['answer'] ?? '' ) );
+
+	if ( '' === $question ) {
+		return;
+	}
+
+	$id      = 'anna-coaching-faq-' . absint( $index );
+	$is_open = 0 === (int) $index && '' !== $answer;
+	?>
+	<div class="anna-coaching-page-faq__item<?php echo $is_open ? ' is-open' : ''; ?>">
+		<h3 class="anna-coaching-page-faq__question-wrap">
+			<button
+				type="button"
+				class="anna-coaching-page-faq__trigger"
+				id="<?php echo esc_attr( $id ); ?>-trigger"
+				aria-expanded="<?php echo $is_open ? 'true' : 'false'; ?>"
+				aria-controls="<?php echo esc_attr( $id ); ?>-panel"
+			>
+				<span class="anna-coaching-page-faq__question"><?php echo esc_html( $question ); ?></span>
+				<span class="anna-coaching-page-faq__icon" aria-hidden="true"></span>
+			</button>
+		</h3>
+		<?php if ( '' !== $answer ) : ?>
+			<div
+				class="anna-coaching-page-faq__panel"
+				id="<?php echo esc_attr( $id ); ?>-panel"
+				role="region"
+				aria-labelledby="<?php echo esc_attr( $id ); ?>-trigger"
+				<?php echo $is_open ? '' : 'hidden'; ?>
+			>
+				<div class="anna-coaching-page-faq__answer"><?php echo wp_kses_post( wpautop( $answer ) ); ?></div>
+			</div>
+		<?php endif; ?>
+	</div>
+	<?php
+}
+
+/**
+ * Get Coaching page content from theme options (same pattern as About page).
+ *
+ * @return array
+ */
+function anna_get_coaching_page_content() {
+	$defaults   = anna_get_default_options();
+	$option_map = anna_get_coaching_page_option_map();
+	$content    = array();
+
+	$repeater_keys = array(
+		'work_topics_items' => 'coaching_pg_work_topics_items',
+		'work_gains_items'  => 'coaching_pg_work_gains_items',
+		'expect_info_cards' => 'coaching_pg_expect_info_cards',
+		'faq_items'         => 'coaching_pg_faq_items',
+	);
+
+	foreach ( $option_map as $template_key => $option_key ) {
+		if ( isset( $repeater_keys[ $template_key ] ) ) {
+			$content[ $template_key ] = anna_get_coaching_repeater_from_options( $repeater_keys[ $template_key ] );
+			continue;
+		}
+
+		$default = $defaults[ $option_key ] ?? '';
+
+		if ( str_ends_with( $template_key, '_image_id' ) ) {
+			$content[ $template_key ] = absint( anna_get_option( $option_key, $default ) );
+			continue;
+		}
+
+		if ( 'hero_tags' === $template_key ) {
+			$tags_default = isset( $defaults['coaching_pg_hero_tags_text'] )
+				? preg_split( '/\r\n|\r|\n/', $defaults['coaching_pg_hero_tags_text'] )
+				: array();
+			$content['hero_tags'] = anna_get_lines_option( 'coaching_pg_hero_tags_text', $tags_default );
+			continue;
+		}
+
+		$content[ $template_key ] = anna_get_option( $option_key, $default );
+	}
+
+	$post_id = anna_get_current_page_content_id();
+	if ( $post_id && function_exists( 'anna_content_get_coaching_page_content' ) ) {
+		$saved = anna_content_get_coaching_page_content( $post_id );
+		if ( is_array( $saved ) ) {
+			$non_empty_saved = array();
+			foreach ( $saved as $key => $value ) {
+				if ( is_array( $value ) ) {
+					if ( in_array( $key, array( 'work_topics_items', 'work_gains_items' ), true ) ) {
+						$normalized = anna_normalize_coaching_text_items( $value );
+						if ( ! empty( $normalized ) ) {
+							$non_empty_saved[ $key ] = $normalized;
+						}
+						continue;
+					}
+					if ( 'expect_info_cards' === $key ) {
+						$normalized = anna_normalize_coaching_info_cards( $value );
+						if ( ! empty( $normalized ) ) {
+							$non_empty_saved[ $key ] = $normalized;
+						}
+						continue;
+					}
+					if ( 'faq_items' === $key ) {
+						$normalized = anna_normalize_coaching_faq_items( $value );
+						if ( ! empty( $normalized ) ) {
+							$non_empty_saved[ $key ] = $normalized;
+						}
+						continue;
+					}
+					if ( 'hero_tags' === $key ) {
+						$tags = array_values( array_filter( array_map( 'trim', $value ) ) );
+						if ( ! empty( $tags ) ) {
+							$non_empty_saved['hero_tags'] = $tags;
+						}
+						continue;
+					}
+					continue;
+				}
+
+				if ( '' !== trim( (string) $value ) ) {
+					$non_empty_saved[ $key ] = $value;
+				}
+			}
+
+			if ( ! empty( $non_empty_saved ) ) {
+				$content = wp_parse_args( $non_empty_saved, $content );
+			}
+		}
+	}
+
+	return $content;
+}
+
+/**
  * Get a newline-separated option as an array of trimmed lines.
  *
  * @param string $key     Option key.

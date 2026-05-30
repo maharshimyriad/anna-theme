@@ -130,6 +130,17 @@ function anna_enqueue_styles() {
 		$prev_dep = 'anna-page-about';
 	}
 
+	if ( is_page_template( 'page-coaching.php' ) || is_page( 'coaching' ) ) {
+		wp_enqueue_style(
+			'anna-page-coaching',
+			ANNA_CSS . '/pages/coaching.css',
+			array( $prev_dep ),
+			anna_asset_version( 'assets/css/pages/coaching.css' )
+		);
+
+		$prev_dep = 'anna-page-coaching';
+	}
+
 	wp_enqueue_style(
 		'anna-google-fonts',
 		'https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Mulish:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap',
@@ -227,7 +238,20 @@ function anna_enqueue_scripts() {
 		array( 'strategy' => 'defer' )
 	);
 
+	if ( is_page_template( 'page-coaching.php' ) || is_page( 'coaching' ) ) {
+		wp_enqueue_script(
+			'anna-coaching-faq',
+			ANNA_JS . '/pages/coaching-faq.js',
+			array(),
+			anna_asset_version( 'assets/js/pages/coaching-faq.js' ),
+			array( 'strategy' => 'defer' )
+		);
+	}
+
 	$deps = array( 'anna-header-js', 'anna-mobile-menu', 'anna-stats-counter', 'anna-scroll-reveal' );
+	if ( is_page_template( 'page-coaching.php' ) || is_page( 'coaching' ) ) {
+		$deps[] = 'anna-coaching-faq';
+	}
 	if ( $animations_enabled ) {
 		$deps[] = 'anna-animations';
 	}

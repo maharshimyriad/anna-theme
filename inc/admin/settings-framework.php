@@ -519,5 +519,196 @@ function anna_get_default_options() {
 		'about_pg_connect_heading'     => 'I would love to connect.',
 		'about_pg_connect_button_text' => 'Book a Discovery Call',
 		'about_pg_connect_button_url'  => '#contact',
+
+		// Coaching page (template: page-coaching.php).
+		'coaching_pg_hero_eyebrow'       => 'Coaching with Anna',
+		'coaching_pg_hero_heading'       => "One-to-one coaching\nfor lasting change.",
+		'coaching_pg_hero_description'   => 'A trauma-informed, whole-person approach that works through the body and subconscious — not just talk.',
+		'coaching_pg_hero_tags_text'     => "Trauma-Informed\nIFS Trained\nSomatic Psychology\nNLP Practitioner",
+		'coaching_pg_hero_image_id'      => '',
+		'coaching_pg_hero_button_text'   => 'Book a Discovery Call',
+		'coaching_pg_hero_button_url'    => '#contact',
+		'coaching_pg_work_eyebrow'       => 'What We Work On',
+		'coaching_pg_work_heading'       => 'In our sessions together we explore.',
+		'coaching_pg_work_gains_heading' => 'What clients gain',
+		'coaching_pg_work_topics_items'  => array(
+			array( 'text' => 'The subconscious programs and beliefs shaping your current reality' ),
+			array( 'text' => "The parts of you that protect, sabotage or hold you back — and why they're there" ),
+			array( 'text' => 'Emotions and memories from the past that are still running in the present' ),
+			array( 'text' => 'Your values, identity and what actually matters to you' ),
+			array( 'text' => 'Nutrition and lifestyle as part of a whole-person approach' ),
+			array( 'text' => 'Practical strategies and tools you can use in everyday life' ),
+			array( 'text' => 'How to go from reacting to responding — above the line thinking' ),
+			array( 'text' => 'The nervous system — stress, regulation, safety' ),
+		),
+		'coaching_pg_work_gains_items'   => array(
+			array( 'text' => 'A deep **understanding** of themselves and the patterns driving their behaviour' ),
+			array( 'text' => '**Freedom** from beliefs and identities that have been holding them back' ),
+			array( 'text' => 'Greater emotional **clarity**, **balance** and self-awareness' ),
+			array( 'text' => 'Practical **tools** for navigating stress, challenge and change' ),
+			array( 'text' => 'Renewed sense of **purpose**, **direction** and **confidence**' ),
+			array( 'text' => 'Improved relationships, **communication** and **connection**' ),
+			array( 'text' => 'A genuine felt sense of **possibility** — not just intellectually, but in the body' ),
+		),
+		'coaching_pg_expect_eyebrow'        => '',
+		'coaching_pg_expect_heading_line1'  => 'What to expect',
+		'coaching_pg_expect_heading_line2'  => 'when we work together.',
+		'coaching_pg_expect_body'             => "We begin with a complimentary discovery call to explore whether we're the right fit. There is no pressure and no obligation — just a conversation.\n\nI work with men, women and couples across Australia. In person in South East Melbourne and online via Zoom. I also offer guided outdoor Walk and Talk sessions for those who work best in nature.",
+		'coaching_pg_expect_quote'            => 'Clients describe my coaching style as supportive, compassionate, and patient with space to open up, trust and grow.',
+		'coaching_pg_expect_button_text'    => 'Book a Discovery Call',
+		'coaching_pg_expect_button_url'     => '#contact',
+		'coaching_pg_expect_info_cards'     => array(
+			array(
+				'label' => 'Who I Work With',
+				'body'  => 'Men, women and couples · All walks of life · Australia and worldwide · Teenagers by arrangement',
+			),
+			array(
+				'label' => 'Important Note',
+				'body'  => 'Life coaching is not a replacement for medically advised counselling or psychiatric intervention. I work alongside your existing support where relevant.',
+			),
+		),
+		'coaching_pg_faq_heading' => 'Everything you need to know.',
+		'coaching_pg_faq_items'   => array(
+			array(
+				'question' => 'What is the difference between life coaching and therapy?',
+				'answer'   => 'While therapy often focuses on diagnosing and treating mental health conditions or deeply exploring the past, my coaching approach is forward-focused while still acknowledging and healing the root causes of current blocks. We use somatic and subconscious techniques to create tangible change in the present, rather than just talking about the problem.',
+			),
+			array(
+				'question' => 'Who is this type of coaching for?',
+				'answer'   => 'Anyone who feels stuck, disconnected, or ready for deeper change — especially if you have tried talk therapy or self-help and something still feels missing.',
+			),
+			array(
+				'question' => 'How long are the sessions and how often do we meet?',
+				'answer'   => 'Sessions are typically 60–90 minutes. Most clients meet weekly or fortnightly, depending on what you need.',
+			),
+			array(
+				'question' => 'Do I have to commit to a certain number of sessions?',
+				'answer'   => 'No long-term lock-in is required. We agree on a rhythm that supports your goals and adjust as you progress.',
+			),
+			array(
+				'question' => 'Do you offer online sessions?',
+				'answer'   => 'Yes — online sessions via Zoom are available across Australia and internationally.',
+			),
+			array(
+				'question' => 'What happens in a Walk and Talk session?',
+				'answer'   => 'We meet outdoors for a guided walk while we talk. Many clients find movement helps them think more clearly and feel more grounded.',
+			),
+			array(
+				'question' => 'What should I expect in our first session?',
+				'answer'   => 'We clarify what you want to change, explore what has been getting in the way, and outline a practical path forward tailored to you.',
+			),
+			array(
+				'question' => 'What is your cancellation policy?',
+				'answer'   => 'Please provide at least 24 hours notice to reschedule. Late cancellations may be charged at the session rate.',
+			),
+		),
 	);
 }
+
+/**
+ * Seed Coaching Page defaults into existing saved options.
+ */
+function anna_seed_coaching_page_defaults() {
+	if ( ! is_admin() ) {
+		return;
+	}
+
+	$defaults = anna_get_default_options();
+	$options  = get_option( 'anna_theme_options', array() );
+
+	if ( ! is_array( $options ) ) {
+		$options = array();
+	}
+
+	$coaching_keys = array_keys( array_filter(
+		$defaults,
+		static function ( $key ) {
+			return str_starts_with( (string) $key, 'coaching_pg_' );
+		},
+		ARRAY_FILTER_USE_KEY
+	) );
+
+	$changed = false;
+	foreach ( $coaching_keys as $key ) {
+		$has_value = false;
+		if ( isset( $options[ $key ] ) ) {
+			if ( is_array( $options[ $key ] ) ) {
+				$has_value = ! empty( $options[ $key ] );
+			} else {
+				$has_value = '' !== trim( (string) $options[ $key ] );
+			}
+		}
+
+		$default_has_value = false;
+		if ( isset( $defaults[ $key ] ) ) {
+			if ( is_array( $defaults[ $key ] ) ) {
+				$default_has_value = ! empty( $defaults[ $key ] );
+			} else {
+				$default_has_value = '' !== (string) $defaults[ $key ];
+			}
+		}
+
+		if ( ! $has_value && $default_has_value ) {
+			$options[ $key ] = $defaults[ $key ];
+			$changed         = true;
+		}
+	}
+
+	if ( $changed ) {
+		update_option( 'anna_theme_options', $options );
+	}
+}
+add_action( 'admin_init', 'anna_seed_coaching_page_defaults', 20 );
+
+/**
+ * Ensure a Coaching page exists and uses the Coaching template.
+ */
+function anna_ensure_coaching_page_exists() {
+	if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	if ( get_option( 'anna_coaching_page_created', false ) ) {
+		return;
+	}
+
+	$query = new WP_Query(
+		array(
+			'post_type'      => 'page',
+			'post_status'    => array( 'publish', 'draft', 'private' ),
+			'posts_per_page' => 1,
+			'meta_key'       => '_wp_page_template',
+			'meta_value'     => 'page-coaching.php',
+			'fields'         => 'ids',
+		)
+	);
+
+	if ( ! empty( $query->posts[0] ) ) {
+		update_option( 'anna_coaching_page_created', 1 );
+		return;
+	}
+
+	$page = get_page_by_path( 'coaching' );
+	if ( $page instanceof WP_Post ) {
+		update_post_meta( $page->ID, '_wp_page_template', 'page-coaching.php' );
+		update_option( 'anna_coaching_page_created', 1 );
+		return;
+	}
+
+	$page_id = wp_insert_post(
+		array(
+			'post_title'   => 'Coaching',
+			'post_name'    => 'coaching',
+			'post_type'    => 'page',
+			'post_status'  => 'publish',
+			'post_content' => '',
+		)
+	);
+
+	if ( $page_id && ! is_wp_error( $page_id ) ) {
+		update_post_meta( $page_id, '_wp_page_template', 'page-coaching.php' );
+	}
+
+	update_option( 'anna_coaching_page_created', 1 );
+}
+add_action( 'admin_init', 'anna_ensure_coaching_page_exists', 22 );
