@@ -360,7 +360,7 @@ add_action( 'admin_init', 'anna_migrate_about_page_copy_20260528', 30 );
  * @return array
  */
 function anna_get_default_options() {
-	return array(
+	$defaults = array(
 		'site_logo_id'        => '',
 		'color_primary'       => '#007063',
 		'color_accent'        => '#4CA591',
@@ -635,6 +635,12 @@ function anna_get_default_options() {
 			),
 		),
 	);
+
+	if ( function_exists( 'anna_get_oasis_theme_option_defaults' ) ) {
+		$defaults = array_merge( $defaults, anna_get_oasis_theme_option_defaults() );
+	}
+
+	return $defaults;
 }
 
 /**
@@ -744,3 +750,100 @@ function anna_ensure_coaching_page_exists() {
 	update_option( 'anna_coaching_page_created', 1 );
 }
 add_action( 'admin_init', 'anna_ensure_coaching_page_exists', 22 );
+
+/**
+ * Seed Oasis Page defaults into saved theme options.
+ */
+function anna_seed_oasis_page_defaults() {
+	if ( ! is_admin() ) {
+		return;
+	}
+
+	$defaults = anna_get_default_options();
+	$options  = get_option( 'anna_theme_options', array() );
+
+	if ( ! is_array( $options ) ) {
+		$options = array();
+	}
+
+	$oasis_keys = array_keys( array_filter(
+		$defaults,
+		static function ( $key ) {
+			return str_starts_with( (string) $key, 'oasis_pg_' );
+		},
+		ARRAY_FILTER_USE_KEY
+	) );
+
+	$changed = false;
+	foreach ( $oasis_keys as $key ) {
+		$has_value = false;
+		if ( isset( $options[ $key ] ) ) {
+			$has_value = is_array( $options[ $key ] ) ? ! empty( $options[ $key ] ) : '' !== trim( (string) $options[ $key ] );
+		}
+
+		$default_has_value = isset( $defaults[ $key ] ) && ( is_array( $defaults[ $key ] ) ? ! empty( $defaults[ $key ] ) : '' !== (string) $defaults[ $key ] );
+
+		if ( ! $has_value && $default_has_value ) {
+			$options[ $key ] = $defaults[ $key ];
+			$changed         = true;
+		}
+	}
+
+	if ( $changed ) {
+		update_option( 'anna_theme_options', $options );
+	}
+}
+add_action( 'admin_init', 'anna_seed_oasis_page_defaults', 20 );
+
+/**
+ * Ensure Oasis page exists with correct template.
+ */
+function anna_ensure_oasis_page_exists() {
+	if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	if ( get_option( 'anna_oasis_page_created', false ) ) {
+		return;
+	}
+
+	$query = new WP_Query(
+		array(
+			'post_type'      => 'page',
+			'post_status'    => array( 'publish', 'draft', 'private' ),
+			'posts_per_page' => 1,
+			'meta_key'       => '_wp_page_template',
+			'meta_value'     => 'page-oasis.php',
+			'fields'         => 'ids',
+		)
+	);
+
+	if ( ! empty( $query->posts[0] ) ) {
+		update_option( 'anna_oasis_page_created', 1 );
+		return;
+	}
+
+	$page = get_page_by_path( 'oasis' );
+	if ( $page instanceof WP_Post ) {
+		update_post_meta( $page->ID, '_wp_page_template', 'page-oasis.php' );
+		update_option( 'anna_oasis_page_created', 1 );
+		return;
+	}
+
+	$page_id = wp_insert_post(
+		array(
+			'post_title'   => 'Oasis',
+			'post_name'    => 'oasis',
+			'post_type'    => 'page',
+			'post_status'  => 'publish',
+			'post_content' => '',
+		)
+	);
+
+	if ( $page_id && ! is_wp_error( $page_id ) ) {
+		update_post_meta( $page_id, '_wp_page_template', 'page-oasis.php' );
+	}
+
+	update_option( 'anna_oasis_page_created', 1 );
+}
+add_action( 'admin_init', 'anna_ensure_oasis_page_exists', 22 );

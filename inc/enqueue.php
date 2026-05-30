@@ -141,6 +141,17 @@ function anna_enqueue_styles() {
 		$prev_dep = 'anna-page-coaching';
 	}
 
+	if ( is_page_template( 'page-oasis.php' ) || is_page( 'oasis' ) ) {
+		wp_enqueue_style(
+			'anna-page-oasis',
+			ANNA_CSS . '/pages/oasis.css',
+			array( $prev_dep ),
+			anna_asset_version( 'assets/css/pages/oasis.css' )
+		);
+
+		$prev_dep = 'anna-page-oasis';
+	}
+
 	wp_enqueue_style(
 		'anna-google-fonts',
 		'https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Mulish:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap',
