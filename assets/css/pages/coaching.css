@@ -138,7 +138,7 @@
 
 .anna-coaching-page-what__eyebrow {
   margin: 0 0 var(--space-4);
-  color: var(--coaching-mint);
+  color: var(--color-accent);
   font-family: var(--font-body);
   font-size: var(--text-sm);
   font-weight: var(--font-weight-semibold);
@@ -192,7 +192,7 @@
 .anna-coaching-page-what__card {
   padding: clamp(2rem, 4vw, 2.75rem);
   border-radius: 24px;
-  background: #f4f4f2;
+  background: #F2F6F2;
   color: var(--coaching-heading);
 }
 
@@ -244,16 +244,16 @@
 
 .anna-coaching-page-pillars__eyebrow {
   margin: 0 0 var(--space-4);
-  color: var(--coaching-accent);
+  color: var(--color-accent);
   font-size: var(--text-sm);
   font-weight: var(--font-weight-semibold);
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
 
 }
 
 .anna-coaching-page-pillars__heading {
   margin: 0;
-  color: var(--coaching-heading);
+  color: var(--color-primary);
   font-family: var(--font-heading);
   font-size: clamp(2rem, 3.2vw, 2.75rem);
   line-height: 1.12;
@@ -277,23 +277,24 @@
 }
 
 .anna-coaching-page-pillar-card__number {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 2.5rem;
-  padding: 0.35rem 0.65rem;
-  border-radius: 8px;
-  background: var(--coaching-accent);
-  color: var(--color-white);
-  font-family: var(--font-body);
-  font-size: 0.8rem;
-  font-weight: var(--font-weight-bold);
-  letter-spacing: 0.04em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--coaching-accent);
+    color: var(--color-white);
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: var(--font-weight-bold);
+    letter-spacing: 0.04em;
+    border-radius: 12px;
+    width: fit-content;
+    width: 3rem;
+    height: 2.6rem;
 }
 
 .anna-coaching-page-pillar-card__title {
   margin: 0;
-  color: var(--coaching-heading);
+  color: var(--color-primary);
   font-family: var(--font-heading);
   font-size: clamp(1.1rem, 1.5vw, 1.25rem);
   font-weight: var(--font-weight-semibold);
@@ -321,16 +322,16 @@
 
 .anna-coaching-page-work__eyebrow {
   margin: 0 0 var(--space-4);
-  color: var(--coaching-accent);
+  color: var(--color-accent);
   font-size: var(--text-sm);
   font-weight: var(--font-weight-semibold);
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
 
 }
 
 .anna-coaching-page-work__heading {
   margin: 0 0 var(--space-10);
-  color: var(--coaching-heading);
+  color: var(--color-primary);
   font-family: var(--font-heading);
   font-size: clamp(1.85rem, 2.8vw, 2.35rem);
   line-height: 1.2;
@@ -469,6 +470,7 @@
 
 .anna-coaching-page-expect__copy p {
   margin: 0 0 var(--space-5);
+  color: #F0FDFA;
 }
 
 .anna-coaching-page-expect__quote {
@@ -593,8 +595,8 @@
   flex-shrink: 0;
   width: 10px;
   height: 10px;
-  border-right: 2px solid currentColor;
-  border-bottom: 2px solid currentColor;
+  border-right: 2px solid var(--color-primary);
+  border-bottom: 2px solid var(--color-primary);
   transform: rotate(45deg);
   transition: transform 0.2s ease;
   margin-top: -4px;
@@ -655,4 +657,8 @@
   .anna-coaching-page-hero__content {
     max-width: none;
   }
+}
+
+.anna-coaching-page-faq__question{
+  color:var(--color-primary)
 }
