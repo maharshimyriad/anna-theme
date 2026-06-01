@@ -33,7 +33,9 @@ $stats     = isset( $speaking['hero_stat_items'] ) && is_array( $speaking['hero_
 			<?php endif; ?>
 
 			<?php if ( ! empty( $speaking['hero_heading'] ) ) : ?>
-				<h1 class="anna-speaking-page-hero__heading"><?php echo wp_kses_post( nl2br( esc_html( (string) $speaking['hero_heading'] ) ) ) ); ?></h1>
+				<h1 class="anna-speaking-page-hero__heading">
+	<?php echo nl2br( esc_html( (string) $speaking['hero_heading'] ) ); ?>
+</h1>
 			<?php endif; ?>
 
 			<?php if ( ! empty( $speaking['hero_body'] ) ) : ?>
