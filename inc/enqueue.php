@@ -152,6 +152,17 @@ function anna_enqueue_styles() {
 		$prev_dep = 'anna-page-oasis';
 	}
 
+	if ( is_page_template( 'page-speaking.php' ) || is_page( 'speaking' ) ) {
+		wp_enqueue_style(
+			'anna-page-speaking',
+			ANNA_CSS . '/pages/speaking.css',
+			array( $prev_dep ),
+			anna_asset_version( 'assets/css/pages/speaking.css' )
+		);
+
+		$prev_dep = 'anna-page-speaking';
+	}
+
 	wp_enqueue_style(
 		'anna-google-fonts',
 		'https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Mulish:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap',

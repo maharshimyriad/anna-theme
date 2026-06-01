@@ -45,6 +45,7 @@ function anna_get_settings_tabs() {
 		'about_page'    => __( 'About Page', 'anna-baylis' ),
 		'coaching_page' => __( 'Coaching Page', 'anna-baylis' ),
 		'oasis_page'    => __( 'Oasis Page', 'anna-baylis' ),
+		'speaking_page' => __( 'Speaking Page', 'anna-baylis' ),
 		'cta'        => __( 'CTA', 'anna-baylis' ),
 		'footer'     => __( 'Footer', 'anna-baylis' ),
 		'social'     => __( 'Social', 'anna-baylis' ),
@@ -375,6 +376,8 @@ function anna_render_settings_page() {
 					<?php anna_render_coaching_page_settings_fields(); ?>
 				<?php elseif ( 'oasis_page' === $active_tab ) : ?>
 					<?php anna_render_oasis_page_settings_fields(); ?>
+				<?php elseif ( 'speaking_page' === $active_tab ) : ?>
+					<?php anna_render_speaking_page_settings_fields(); ?>
 
 				<?php elseif ( 'cta' === $active_tab ) : ?>
 					<?php anna_field_heading( __( 'Final CTA Section', 'anna-baylis' ) ); ?>

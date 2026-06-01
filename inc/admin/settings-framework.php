@@ -640,6 +640,10 @@ function anna_get_default_options() {
 		$defaults = array_merge( $defaults, anna_get_oasis_theme_option_defaults() );
 	}
 
+	if ( function_exists( 'anna_get_speaking_theme_option_defaults' ) ) {
+		$defaults = array_merge( $defaults, anna_get_speaking_theme_option_defaults() );
+	}
+
 	return $defaults;
 }
 
@@ -847,3 +851,100 @@ function anna_ensure_oasis_page_exists() {
 	update_option( 'anna_oasis_page_created', 1 );
 }
 add_action( 'admin_init', 'anna_ensure_oasis_page_exists', 22 );
+
+/**
+ * Seed Speaking Page defaults into saved theme options.
+ */
+function anna_seed_speaking_page_defaults() {
+	if ( ! is_admin() ) {
+		return;
+	}
+
+	$defaults = anna_get_default_options();
+	$options  = get_option( 'anna_theme_options', array() );
+
+	if ( ! is_array( $options ) ) {
+		$options = array();
+	}
+
+	$speaking_keys = array_keys( array_filter(
+		$defaults,
+		static function ( $key ) {
+			return str_starts_with( (string) $key, 'speaking_pg_' );
+		},
+		ARRAY_FILTER_USE_KEY
+	) );
+
+	$changed = false;
+	foreach ( $speaking_keys as $key ) {
+		$has_value = false;
+		if ( isset( $options[ $key ] ) ) {
+			$has_value = is_array( $options[ $key ] ) ? ! empty( $options[ $key ] ) : '' !== trim( (string) $options[ $key ] );
+		}
+
+		$default_has_value = isset( $defaults[ $key ] ) && ( is_array( $defaults[ $key ] ) ? ! empty( $defaults[ $key ] ) : '' !== (string) $defaults[ $key ] );
+
+		if ( ! $has_value && $default_has_value ) {
+			$options[ $key ] = $defaults[ $key ];
+			$changed         = true;
+		}
+	}
+
+	if ( $changed ) {
+		update_option( 'anna_theme_options', $options );
+	}
+}
+add_action( 'admin_init', 'anna_seed_speaking_page_defaults', 20 );
+
+/**
+ * Ensure Speaking page exists with correct template.
+ */
+function anna_ensure_speaking_page_exists() {
+	if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	if ( get_option( 'anna_speaking_page_created', false ) ) {
+		return;
+	}
+
+	$query = new WP_Query(
+		array(
+			'post_type'      => 'page',
+			'post_status'    => array( 'publish', 'draft', 'private' ),
+			'posts_per_page' => 1,
+			'meta_key'       => '_wp_page_template',
+			'meta_value'     => 'page-speaking.php',
+			'fields'         => 'ids',
+		)
+	);
+
+	if ( ! empty( $query->posts[0] ) ) {
+		update_option( 'anna_speaking_page_created', 1 );
+		return;
+	}
+
+	$page = get_page_by_path( 'speaking' );
+	if ( $page instanceof WP_Post ) {
+		update_post_meta( $page->ID, '_wp_page_template', 'page-speaking.php' );
+		update_option( 'anna_speaking_page_created', 1 );
+		return;
+	}
+
+	$page_id = wp_insert_post(
+		array(
+			'post_title'   => 'Speaking',
+			'post_name'    => 'speaking',
+			'post_type'    => 'page',
+			'post_status'  => 'publish',
+			'post_content' => '',
+		)
+	);
+
+	if ( $page_id && ! is_wp_error( $page_id ) ) {
+		update_post_meta( $page_id, '_wp_page_template', 'page-speaking.php' );
+	}
+
+	update_option( 'anna_speaking_page_created', 1 );
+}
+add_action( 'admin_init', 'anna_ensure_speaking_page_exists', 22 );

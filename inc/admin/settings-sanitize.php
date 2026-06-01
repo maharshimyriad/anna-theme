@@ -60,6 +60,7 @@ function anna_get_tab_fields_map() {
 			'about_pg_connect_eyebrow', 'about_pg_connect_heading', 'about_pg_connect_button_text', 'about_pg_connect_button_url',
 		),
 		'oasis_page' => array_keys( function_exists( 'anna_get_oasis_theme_option_defaults' ) ? anna_get_oasis_theme_option_defaults() : array() ),
+		'speaking_page' => array_keys( function_exists( 'anna_get_speaking_theme_option_defaults' ) ? anna_get_speaking_theme_option_defaults() : array() ),
 		'coaching_page' => array(
 			'coaching_pg_hero_eyebrow', 'coaching_pg_hero_heading', 'coaching_pg_hero_description', 'coaching_pg_hero_tags_text', 'coaching_pg_hero_image_id',
 			'coaching_pg_hero_button_text', 'coaching_pg_hero_button_url',
@@ -106,7 +107,7 @@ function anna_sanitize_single_option( $key, $value ) {
 		return sanitize_hex_color( $value );
 	}
 
-	$url_fields = array( 'header_cta_url', 'cta_primary_url', 'cta_secondary_url', 'services_cta_url', 'about_cta_url', 'privacy_url', 'terms_url', 'testimonials_cta_url', 'about_pg_coach_button_url', 'about_pg_connect_button_url', 'coaching_pg_hero_button_url', 'coaching_pg_what_button_url', 'coaching_pg_expect_button_url', 'oasis_pg_hero_button_url', 'oasis_pg_what_footer_url', 'oasis_pg_begun_link_url', 'oasis_pg_waitlist_button_url' );
+	$url_fields = array( 'header_cta_url', 'cta_primary_url', 'cta_secondary_url', 'services_cta_url', 'about_cta_url', 'privacy_url', 'terms_url', 'testimonials_cta_url', 'about_pg_coach_button_url', 'about_pg_connect_button_url', 'coaching_pg_hero_button_url', 'coaching_pg_what_button_url', 'coaching_pg_expect_button_url', 'oasis_pg_hero_button_url', 'oasis_pg_what_footer_url', 'oasis_pg_begun_link_url', 'oasis_pg_waitlist_button_url', 'speaking_pg_hero_button_url', 'speaking_pg_hero_secondary_url', 'speaking_pg_bring_button_url', 'speaking_pg_experience_link_url' );
 	if ( in_array( $key, $url_fields, true ) ) {
 		return esc_url_raw( $value );
 	}
@@ -136,6 +137,7 @@ function anna_sanitize_single_option( $key, $value ) {
 		'about_pg_hero_image_id', 'about_pg_story_image_id', 'about_pg_coach_image_id',
 		'coaching_pg_hero_image_id',
 		'oasis_pg_hero_image_id', 'oasis_pg_begun_image_id',
+		'speaking_pg_hero_image_id', 'speaking_pg_bring_image_id',
 	);
 	if ( in_array( $key, $int_fields, true ) ) {
 		return absint( $value );
@@ -192,6 +194,10 @@ function anna_sanitize_single_option( $key, $value ) {
 		return anna_sanitize_oasis_option( $key, $value );
 	}
 
+	if ( str_starts_with( $key, 'speaking_pg_' ) && function_exists( 'anna_sanitize_speaking_option' ) ) {
+		return anna_sanitize_speaking_option( $key, $value );
+	}
+
 	$bool_fields = array(
 		'animations_enabled',
 		'section_hero_enabled', 'section_intro_enabled', 'section_recognition_enabled',
@@ -235,6 +241,7 @@ function anna_sanitize_options( $input ) {
 		'about_pg_hero_image_id', 'about_pg_story_image_id', 'about_pg_coach_image_id',
 		'coaching_pg_hero_image_id',
 		'oasis_pg_hero_image_id', 'oasis_pg_begun_image_id',
+		'speaking_pg_hero_image_id', 'speaking_pg_bring_image_id',
 	);
 	$bool_fields    = array(
 		'animations_enabled',
