@@ -163,28 +163,6 @@ function anna_enqueue_styles() {
 		$prev_dep = 'anna-page-speaking';
 	}
 
-	if ( is_page_template( 'page-move.php' ) || is_page( 'move' ) ) {
-		wp_enqueue_style(
-			'anna-page-move',
-			ANNA_CSS . '/pages/move.css',
-			array( $prev_dep ),
-			anna_asset_version( 'assets/css/pages/move.css' )
-		);
-
-		$prev_dep = 'anna-page-move';
-	}
-
-	if ( is_page_template( 'page-mental-health-support.php' ) || is_page( 'mental-health-support' ) || is_page( 'health-support' ) ) {
-		wp_enqueue_style(
-			'anna-page-health-support',
-			ANNA_CSS . '/pages/health-support.css',
-			array( $prev_dep ),
-			anna_asset_version( 'assets/css/pages/health-support.css' )
-		);
-
-		$prev_dep = 'anna-page-health-support';
-	}
-
 	wp_enqueue_style(
 		'anna-google-fonts',
 		'https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Mulish:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap',
