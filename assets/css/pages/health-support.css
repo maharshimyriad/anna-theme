@@ -1,0 +1,30 @@
+/* Health Support Page Styles */
+
+.anna-hero--health-support {
+	min-height: 80vh;
+	display: flex;
+	align-items: center;
+	background-size: cover;
+	background-position: center;
+	background-color: var(--color-primary); /* fallback */
+	color: var(--color-white);
+}
+
+.anna-hero--health-support .anna-hero__title {
+	font-size: clamp(2.5rem, 5vw, 4.5rem);
+	line-height: 1.1;
+	margin-bottom: var(--space-6);
+	max-width: 800px;
+}
+
+.anna-hs-opening__image img,
+.anna-hs-inner__image img {
+	width: 100%;
+	height: auto;
+	object-fit: cover;
+	border-radius: var(--border-radius-md, 8px);
+}
+
+.anna-hs-practice {
+	/* Background color is set by the primary section utility class */
+}

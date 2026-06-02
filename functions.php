@@ -46,4 +46,6 @@ require_once ANNA_DIR . '/inc/admin/settings-pages.php';
 require_once ANNA_DIR . '/inc/admin/coaching-settings-fields.php';
 require_once ANNA_DIR . '/inc/admin/oasis-settings-fields.php';
 require_once ANNA_DIR . '/inc/admin/speaking-settings-fields.php';
+require_once ANNA_DIR . '/inc/admin/move-settings-fields.php';
+require_once ANNA_DIR . '/inc/admin/health-support-settings-fields.php';
 require_once ANNA_DIR . '/inc/admin/settings-css-output.php';
