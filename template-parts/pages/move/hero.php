@@ -10,9 +10,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$eyebrow  = anna_get_option( 'move_pg_hero_eyebrow' );
-$heading  = anna_get_option( 'move_pg_hero_heading' );
-$image_id = anna_get_option( 'move_pg_hero_image_id' );
+$data = get_query_var( 'anna_move_page_content' );
+$eyebrow  = $data['hero_eyebrow'] ?? '';
+$heading  = $data['hero_heading'] ?? '';
+$image_id = $data['hero_image_id'] ?? 0;
 $image_url= $image_id ? wp_get_attachment_image_url( $image_id, 'full' ) : '';
 ?>
 

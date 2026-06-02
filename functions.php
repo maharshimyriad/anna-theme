@@ -28,6 +28,8 @@ require_once ANNA_DIR . '/inc/image-sizes.php';
 require_once ANNA_DIR . '/inc/helpers.php';
 require_once ANNA_DIR . '/inc/oasis-helpers.php';
 require_once ANNA_DIR . '/inc/speaking-helpers.php';
+require_once ANNA_DIR . '/inc/move-helpers.php';
+require_once ANNA_DIR . '/inc/health-support-helpers.php';
 require_once ANNA_DIR . '/inc/template-functions.php';
 require_once ANNA_DIR . '/inc/template-tags.php';
 require_once ANNA_DIR . '/inc/nav-walkers.php';

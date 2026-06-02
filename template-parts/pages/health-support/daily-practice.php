@@ -10,10 +10,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$heading = anna_get_option( 'hs_pg_practice_heading' );
-$body    = anna_get_option( 'hs_pg_practice_body' );
-$link_txt = anna_get_option( 'hs_pg_practice_link_text' );
-$link_url = anna_get_option( 'hs_pg_practice_link_url' );
+$data = get_query_var( 'anna_health_support_page_content' );
+$heading = $data['practice_heading'] ?? '';
+$body    = $data['practice_body'] ?? '';
+$link_txt = $data['practice_link_text'] ?? '';
+$link_url = $data['practice_link_url'] ?? '';
 ?>
 
 <section class="anna-section anna-section--primary anna-section--md anna-hs-practice">

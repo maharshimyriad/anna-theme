@@ -10,13 +10,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$heading = anna_get_option( 'hs_pg_cta_heading' );
-$body    = anna_get_option( 'hs_pg_cta_body' );
+$data = get_query_var( 'anna_health_support_page_content' );
+$heading = $data['cta_heading'] ?? '';
+$body    = $data['cta_body'] ?? '';
 
 $buttons = array();
 for ( $i = 1; $i <= 3; $i++ ) {
-	$text = anna_get_option( 'hs_pg_cta_btn_' . $i . '_text' );
-	$url  = anna_get_option( 'hs_pg_cta_btn_' . $i . '_url' );
+	$text = $data['cta_btn_' . $i . '_text'] ?? '';
+	$url  = $data['cta_btn_' . $i . '_url'] ?? '';
 	if ( $text && $url ) {
 		$buttons[] = array( 'text' => $text, 'url' => $url );
 	}

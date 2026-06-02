@@ -10,8 +10,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$heading = anna_get_option( 'hs_pg_programs_heading' );
-$body    = anna_get_option( 'hs_pg_programs_body' );
+$data = get_query_var( 'anna_health_support_page_content' );
+$heading = $data['programs_heading'] ?? '';
+$body    = $data['programs_body'] ?? '';
 ?>
 
 <section class="anna-section anna-section--soft anna-section--md anna-hs-programs">

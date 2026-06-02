@@ -10,9 +10,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$heading = anna_get_option( 'hs_pg_inner_heading' );
-$body    = anna_get_option( 'hs_pg_inner_body' );
-$image_id = anna_get_option( 'hs_pg_inner_image_id' );
+$data = get_query_var( 'anna_health_support_page_content' );
+$heading = $data['inner_heading'] ?? '';
+$body    = $data['inner_body'] ?? '';
+$image_id = $data['inner_image_id'] ?? 0;
 ?>
 
 <section class="anna-section anna-section--md anna-hs-inner">

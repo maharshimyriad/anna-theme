@@ -10,13 +10,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$heading = anna_get_option( 'move_pg_evo_heading' );
-$body    = anna_get_option( 'move_pg_evo_body' );
-$gallery_heading = anna_get_option( 'move_pg_gallery_heading' );
+$data = get_query_var( 'anna_move_page_content' );
+$heading = $data['evo_heading'] ?? '';
+$body    = $data['evo_body'] ?? '';
+$gallery_heading = $data['gallery_heading'] ?? '';
 
 $images = array();
 for ( $i = 1; $i <= 5; $i++ ) {
-	$img_id = anna_get_option( 'move_pg_gallery_image_' . $i . '_id' );
+	$img_id = $data['gallery_image_' . $i . '_id'] ?? 0;
 	if ( $img_id ) {
 		$images[] = wp_get_attachment_image( $img_id, 'large', false, array( 'class' => 'anna-move-gallery__img' ) );
 	}

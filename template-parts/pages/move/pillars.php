@@ -10,12 +10,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$heading = anna_get_option( 'move_pg_pillars_heading' );
+$data = get_query_var( 'anna_move_page_content' );
+$heading = $data['pillars_heading'] ?? '';
 
 $pillars = array();
 for ( $i = 1; $i <= 4; $i++ ) {
-	$title = anna_get_option( 'move_pg_pillar_' . $i . '_title' );
-	$body  = anna_get_option( 'move_pg_pillar_' . $i . '_body' );
+	$title = $data['pillar_' . $i . '_title'] ?? '';
+	$body  = $data['pillar_' . $i . '_body'] ?? '';
 	if ( $title || $body ) {
 		$pillars[] = array( 'title' => $title, 'body' => $body );
 	}

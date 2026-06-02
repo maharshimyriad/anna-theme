@@ -10,12 +10,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$heading = anna_get_option( 'move_pg_what_heading' );
-$body    = anna_get_option( 'move_pg_what_body' );
+$data = get_query_var( 'anna_move_page_content' );
+$heading = $data['what_heading'] ?? '';
+$body    = $data['what_body'] ?? '';
 
 $quotes = array();
 for ( $i = 1; $i <= 4; $i++ ) {
-	$quote = anna_get_option( 'move_pg_quote_' . $i );
+	$quote = $data['quote_' . $i] ?? '';
 	if ( $quote ) {
 		$quotes[] = $quote;
 	}
