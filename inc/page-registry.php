@@ -61,17 +61,17 @@ add_action( 'after_setup_theme', 'anna_bootstrap_scaffolded_pages', 5 );
  * @param array<string, string> $tabs Existing tabs.
  * @return array<string, string>
  */
-function anna_filter_scaffolded_settings_tabs( $tabs ) {
-	foreach ( anna_get_scaffolded_pages() as $page ) {
-		$tab_id = $page['tab_id'] ?? '';
-		$label  = $page['tab_label'] ?? '';
-		if ( $tab_id && $label ) {
-			$tabs[ $tab_id ] = $label;
-		}
-	}
-	return $tabs;
-}
-add_filter( 'anna_settings_tabs', 'anna_filter_scaffolded_settings_tabs' );
+// function anna_filter_scaffolded_settings_tabs( $tabs ) {
+// 	foreach ( anna_get_scaffolded_pages() as $page ) {
+// 		$tab_id = $page['tab_id'] ?? '';
+// 		$label  = $page['tab_label'] ?? '';
+// 		if ( $tab_id && $label ) {
+// 			$tabs[ $tab_id ] = $label;
+// 		}
+// 	}
+// 	return $tabs;
+// }
+// add_filter( 'anna_settings_tabs', 'anna_filter_scaffolded_settings_tabs' );
 
 /**
  * Merge scaffolded default options.
