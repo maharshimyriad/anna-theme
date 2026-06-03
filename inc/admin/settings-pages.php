@@ -34,7 +34,7 @@ add_action( 'admin_menu', 'anna_add_admin_menu' );
  * @return array
  */
 function anna_get_settings_tabs() {
-	return array(
+	$tabs = array(
 		'brand'      => __( 'Brand', 'anna-baylis' ),
 		'typography' => __( 'Typography', 'anna-baylis' ),
 		'layout'     => __( 'Layout', 'anna-baylis' ),
@@ -54,6 +54,8 @@ function anna_get_settings_tabs() {
 		'animations' => __( 'Animations', 'anna-baylis' ),
 		'seo'        => __( 'SEO', 'anna-baylis' ),
 	);
+
+	return apply_filters( 'anna_settings_tabs', $tabs );
 }
 
 /**
@@ -384,6 +386,9 @@ function anna_render_settings_page() {
 					<?php anna_render_mhs_page_settings_fields(); ?>
 				<?php elseif ( 'move_page' === $active_tab ) : ?>
 					<?php anna_render_move_page_settings_fields(); ?>
+
+				<?php elseif ( anna_is_scaffold_settings_tab( $active_tab ) ) : ?>
+					<?php anna_render_scaffold_settings_tab( $active_tab ); ?>
 
 				<?php elseif ( 'cta' === $active_tab ) : ?>
 					<?php anna_field_heading( __( 'Final CTA Section', 'anna-baylis' ) ); ?>

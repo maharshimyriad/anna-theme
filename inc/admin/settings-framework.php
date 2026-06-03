@@ -652,7 +652,7 @@ function anna_get_default_options() {
 		$defaults = array_merge( $defaults, anna_get_move_theme_option_defaults() );
 	}
 
-	return $defaults;
+	return apply_filters( 'anna_default_options', $defaults );
 }
 
 /**

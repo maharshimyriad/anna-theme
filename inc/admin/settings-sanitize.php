@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return array
  */
 function anna_get_tab_fields_map() {
-	return array(
+	$tab_map = array(
 		'brand' => array(
 			'site_logo_id',
 			'color_primary', 'color_accent', 'color_bg_soft', 'color_text', 'color_heading',
@@ -94,6 +94,8 @@ function anna_get_tab_fields_map() {
 			'seo_default_title_suffix', 'seo_default_description', 'seo_og_image_id',
 		),
 	);
+
+	return apply_filters( 'anna_settings_tab_keys', $tab_map );
 }
 
 /**
@@ -206,6 +208,17 @@ function anna_sanitize_single_option( $key, $value ) {
 
 	if ( str_starts_with( $key, 'move_pg_' ) && function_exists( 'anna_sanitize_move_option' ) ) {
 		return anna_sanitize_move_option( $key, $value );
+	}
+
+	foreach ( anna_get_scaffolded_pages() as $scaffold_page ) {
+		$prefix = $scaffold_page['option_prefix'] ?? '';
+		$code   = $scaffold_page['code'] ?? '';
+		if ( $prefix && $code && str_starts_with( (string) $key, $prefix ) ) {
+			$fn = 'anna_sanitize_' . $code . '_option';
+			if ( function_exists( $fn ) ) {
+				return $fn( $key, $value );
+			}
+		}
 	}
 
 	$bool_fields = array(
