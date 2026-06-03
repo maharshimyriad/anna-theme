@@ -15,8 +15,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Render a text input field.
  */
+function anna_get_theme_field_value( $key, $default = '' ) {
+	$fallback = $default;
+	if ( function_exists( 'anna_get_default_options' ) ) {
+		$defs = anna_get_default_options();
+		if ( array_key_exists( $key, $defs ) ) {
+			$fallback = $defs[ $key ];
+		}
+	}
+	return anna_get_option( $key, $fallback );
+}
+
 function anna_field_text( $key, $label, $desc = '', $type = 'text', $placeholder = '' ) {
-	$value = anna_get_option( $key, '' );
+	$value = anna_get_theme_field_value( $key );
 	?>
 	<tr>
 		<th scope="row"><label for="anna-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $label ); ?></label></th>
@@ -34,7 +45,7 @@ function anna_field_text( $key, $label, $desc = '', $type = 'text', $placeholder
  * Render a textarea field.
  */
 function anna_field_textarea( $key, $label, $desc = '', $rows = 4 ) {
-	$value = anna_get_option( $key, '' );
+	$value = anna_get_theme_field_value( $key );
 	?>
 	<tr>
 		<th scope="row"><label for="anna-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $label ); ?></label></th>
@@ -109,8 +120,8 @@ function anna_field_select( $key, $label, $options, $desc = '' ) {
  * Render a media upload field (uses WP media library).
  */
 function anna_field_media( $key, $label, $desc = '' ) {
-	$value = anna_get_option( $key, '' );
-	$image_url = $value ? wp_get_attachment_image_url( absint( $value ), 'thumbnail' ) : '';
+	$value     = absint( anna_get_theme_field_value( $key, 0 ) );
+	$image_url = $value ? wp_get_attachment_image_url( $value, 'thumbnail' ) : '';
 	?>
 	<tr>
 		<th scope="row"><label for="anna-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $label ); ?></label></th>

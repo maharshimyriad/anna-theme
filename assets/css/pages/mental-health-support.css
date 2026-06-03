@@ -1,0 +1,287 @@
+/**
+ * Mental Health Support page styles.
+ *
+ * @package Anna_Baylis
+ * @since   1.0.0
+ */
+
+.anna-mhs-page-main {
+  background: var(--color-white);
+  --mhs-hero-min-height: min(85svh, 820px);
+  --mhs-section-padding: clamp(4.5rem, 8vw, 7rem);
+  --mhs-grid-gap: clamp(var(--space-12), 5vw, var(--space-20));
+  --mhs-accent: var(--color-primary);
+  --mhs-cream-bg: #f9f8f3;
+  --mhs-dark: #006b54;
+  --mhs-text: #4a4a4a;
+}
+
+.anna-mhs-page-section {
+  padding: var(--mhs-section-padding) 0;
+}
+
+.anna-mhs-page-section--cream {
+  background: var(--mhs-cream-bg);
+}
+
+.anna-mhs-page-section--dark {
+  background: var(--mhs-dark);
+  color: var(--color-white);
+}
+
+.anna-mhs-page-section .anna-container--max {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-gutter, clamp(1.25rem, 4vw, 2.5rem));
+}
+
+.anna-mhs-page__heading {
+  margin: 0 0 var(--space-8);
+  color: var(--mhs-accent);
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 1.75rem + 0.8vw, 2.75rem);
+  line-height: 1.15;
+  font-weight: var(--font-weight-semibold);
+}
+
+.anna-mhs-page__copy {
+  max-width: 42rem;
+  color: var(--mhs-text);
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 0.95rem + 0.15vw, 1.125rem);
+  line-height: 1.75;
+}
+
+.anna-mhs-page__copy p {
+  margin: 0 0 var(--space-6);
+}
+
+.anna-mhs-page__copy p:last-child {
+  margin-bottom: 0;
+}
+
+.anna-mhs-page__copy em,
+.anna-mhs-page__copy strong {
+  font-style: italic;
+  font-weight: var(--font-weight-medium);
+}
+
+/* Hero */
+.anna-mhs-page-hero {
+  position: relative;
+  min-height: var(--mhs-hero-min-height);
+  display: flex;
+  align-items: center;
+  margin-top: var(--header-height);
+  background-color: #2d4a3e;
+  background-size: cover;
+  background-position: center;
+  color: var(--color-white);
+  overflow: hidden;
+}
+
+.anna-mhs-page-hero--has-image {
+  background-color: #2d4a3e;
+}
+
+.anna-mhs-page-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+      rgba(20, 45, 38, 0.82) 0%,
+      rgba(20, 45, 38, 0.55) 45%,
+      rgba(20, 45, 38, 0.25) 100%);
+  pointer-events: none;
+}
+
+.anna-mhs-page-hero .anna-container {
+  position: relative;
+  z-index: 1;
+}
+
+.anna-mhs-page-hero__content {
+  max-width: 36rem;
+  padding-block: clamp(3rem, 8vh, 5rem);
+}
+
+.anna-mhs-page-hero__eyebrow {
+  margin: 0 0 var(--space-5);
+  color: rgba(255, 255, 255, 0.88);
+  font-size: clamp(0.75rem, 0.7rem + 0.15vw, 0.875rem);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: var(--font-weight-medium);
+}
+
+.anna-mhs-page-hero__heading {
+  margin: 0;
+  color: var(--color-white);
+  font-family: var(--font-heading);
+  font-size: clamp(2.25rem, 1.9rem + 1.1vw, 3.25rem);
+  line-height: 1.12;
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Two-column sections */
+.anna-mhs-page-opening__grid,
+.anna-mhs-page-inner__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
+  gap: var(--mhs-grid-gap);
+  align-items: center;
+}
+
+.anna-mhs-page-opening__media,
+.anna-mhs-page-inner__media {
+  margin: 0;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.anna-mhs-page-opening__media img,
+.anna-mhs-page-inner__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.anna-mhs-page-programs__content,
+.anna-mhs-page-work__content {
+  max-width: 46rem;
+}
+
+/* Practice (dark) */
+.anna-mhs-page-practice__content {
+  max-width: 36rem;
+}
+
+.anna-mhs-page-practice__heading {
+  margin: 0 0 var(--space-8);
+  color: var(--color-white);
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 1.75rem + 0.8vw, 2.75rem);
+  line-height: 1.15;
+  font-weight: var(--font-weight-semibold);
+}
+
+.anna-mhs-page-practice__copy {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: clamp(1rem, 0.95rem + 0.15vw, 1.125rem);
+  line-height: 1.75;
+}
+
+.anna-mhs-page-practice__copy p {
+  margin: 0 0 var(--space-6);
+}
+
+.anna-mhs-page-practice__link-wrap {
+  margin: var(--space-8) 0 0;
+}
+
+.anna-mhs-page-practice__link {
+  color: var(--color-white);
+  font-weight: var(--font-weight-medium);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.anna-mhs-page-practice__link:hover {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Ready CTA */
+.anna-mhs-page-ready__inner {
+  text-align: center;
+}
+
+.anna-mhs-page-ready__heading {
+  margin: 0;
+  color: var(--mhs-accent);
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 1.75rem + 0.8vw, 2.75rem);
+  font-weight: var(--font-weight-semibold);
+}
+
+.anna-mhs-page-ready__subheading {
+  margin: var(--space-5) auto 0;
+  max-width: 32rem;
+  color: var(--color-text);
+  font-size: clamp(1.05rem, 1rem + 0.2vw, 1.25rem);
+  line-height: 1.5;
+}
+
+.anna-mhs-page-ready__body {
+  margin: var(--space-4) auto 0;
+  max-width: 36rem;
+  color: var(--mhs-text);
+  font-size: var(--text-base);
+  line-height: 1.6;
+}
+
+.anna-mhs-page-ready__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-4);
+  margin-top: clamp(2rem, 4vw, 2.75rem);
+}
+
+.anna-mhs-page-ready__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 1.6rem;
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.anna-mhs-page-ready__btn--primary {
+  background: var(--mhs-accent);
+  color: var(--color-white);
+  border: 1px solid var(--mhs-accent);
+}
+
+.anna-mhs-page-ready__btn--primary:hover {
+  background: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+  color: var(--color-white);
+}
+
+.anna-mhs-page-ready__btn--outline {
+  background: transparent;
+  color: var(--mhs-accent);
+  border: 1px solid var(--mhs-accent);
+}
+
+.anna-mhs-page-ready__btn--outline:hover {
+  background: rgba(0, 112, 99, 0.06);
+}
+
+@media (max-width: 900px) {
+  .anna-mhs-page-opening__grid,
+  .anna-mhs-page-inner__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .anna-mhs-page-inner__media {
+    order: -1;
+    max-width: 28rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .anna-mhs-page-ready__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .anna-mhs-page-ready__btn {
+    width: 100%;
+  }
+}

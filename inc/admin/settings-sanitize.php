@@ -61,6 +61,8 @@ function anna_get_tab_fields_map() {
 		),
 		'oasis_page' => array_keys( function_exists( 'anna_get_oasis_theme_option_defaults' ) ? anna_get_oasis_theme_option_defaults() : array() ),
 		'speaking_page' => array_keys( function_exists( 'anna_get_speaking_theme_option_defaults' ) ? anna_get_speaking_theme_option_defaults() : array() ),
+		'mhs_page'      => array_keys( function_exists( 'anna_get_mhs_theme_option_defaults' ) ? anna_get_mhs_theme_option_defaults() : array() ),
+		'move_page'     => array_keys( function_exists( 'anna_get_move_theme_option_defaults' ) ? anna_get_move_theme_option_defaults() : array() ),
 		'coaching_page' => array(
 			'coaching_pg_hero_eyebrow', 'coaching_pg_hero_heading', 'coaching_pg_hero_description', 'coaching_pg_hero_tags_text', 'coaching_pg_hero_image_id',
 			'coaching_pg_hero_button_text', 'coaching_pg_hero_button_url',
@@ -196,6 +198,14 @@ function anna_sanitize_single_option( $key, $value ) {
 
 	if ( str_starts_with( $key, 'speaking_pg_' ) && function_exists( 'anna_sanitize_speaking_option' ) ) {
 		return anna_sanitize_speaking_option( $key, $value );
+	}
+
+	if ( str_starts_with( $key, 'mhs_pg_' ) && function_exists( 'anna_sanitize_mhs_option' ) ) {
+		return anna_sanitize_mhs_option( $key, $value );
+	}
+
+	if ( str_starts_with( $key, 'move_pg_' ) && function_exists( 'anna_sanitize_move_option' ) ) {
+		return anna_sanitize_move_option( $key, $value );
 	}
 
 	$bool_fields = array(

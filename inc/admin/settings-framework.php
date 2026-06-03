@@ -644,6 +644,14 @@ function anna_get_default_options() {
 		$defaults = array_merge( $defaults, anna_get_speaking_theme_option_defaults() );
 	}
 
+	if ( function_exists( 'anna_get_mhs_theme_option_defaults' ) ) {
+		$defaults = array_merge( $defaults, anna_get_mhs_theme_option_defaults() );
+	}
+
+	if ( function_exists( 'anna_get_move_theme_option_defaults' ) ) {
+		$defaults = array_merge( $defaults, anna_get_move_theme_option_defaults() );
+	}
+
 	return $defaults;
 }
 
@@ -948,3 +956,199 @@ function anna_ensure_speaking_page_exists() {
 	update_option( 'anna_speaking_page_created', 1 );
 }
 add_action( 'admin_init', 'anna_ensure_speaking_page_exists', 22 );
+
+/**
+ * Seed theme options for a page prefix when values are still empty.
+ *
+ * @param string $prefix Option key prefix (e.g. mhs_pg_).
+ */
+function anna_seed_page_theme_defaults( $prefix ) {
+	if ( ! is_admin() ) {
+		return;
+	}
+
+	$defaults = anna_get_default_options();
+	$options  = get_option( 'anna_theme_options', array() );
+
+	if ( ! is_array( $options ) ) {
+		$options = array();
+	}
+
+	$page_keys = array_keys(
+		array_filter(
+			$defaults,
+			static function ( $key ) use ( $prefix ) {
+				return str_starts_with( (string) $key, $prefix );
+			},
+			ARRAY_FILTER_USE_KEY
+		)
+	);
+
+	$changed = false;
+	foreach ( $page_keys as $key ) {
+		$has_value = false;
+		if ( isset( $options[ $key ] ) ) {
+			$has_value = is_array( $options[ $key ] ) ? ! empty( $options[ $key ] ) : '' !== trim( (string) $options[ $key ] );
+		}
+
+		$default_has_value = isset( $defaults[ $key ] ) && ( is_array( $defaults[ $key ] ) ? ! empty( $defaults[ $key ] ) : '' !== (string) $defaults[ $key ] );
+
+		if ( ! $has_value && $default_has_value ) {
+			$options[ $key ] = $defaults[ $key ];
+			$changed         = true;
+		}
+	}
+
+	if ( $changed ) {
+		update_option( 'anna_theme_options', $options );
+	}
+}
+
+/**
+ * Seed Mental Health Support page defaults into saved theme options.
+ */
+function anna_seed_mhs_page_defaults() {
+	anna_seed_page_theme_defaults( 'mhs_pg_' );
+}
+add_action( 'admin_init', 'anna_seed_mhs_page_defaults', 20 );
+
+/**
+ * Seed MOVE page defaults into saved theme options.
+ */
+function anna_seed_move_page_defaults() {
+	anna_seed_page_theme_defaults( 'move_pg_' );
+}
+add_action( 'admin_init', 'anna_seed_move_page_defaults', 20 );
+
+/**
+ * Seed page post meta from default content array.
+ *
+ * @param int    $page_id  Page ID.
+ * @param string $meta_key Post meta key.
+ * @param array  $defaults Default content.
+ */
+function anna_seed_page_post_meta( $page_id, $meta_key, $defaults ) {
+	$page_id = absint( $page_id );
+	if ( ! $page_id || ! is_array( $defaults ) ) {
+		return;
+	}
+
+	$stored = get_post_meta( $page_id, $meta_key, true );
+	if ( is_array( $stored ) && ! empty( array_filter( $stored ) ) ) {
+		return;
+	}
+
+	update_post_meta( $page_id, $meta_key, $defaults );
+}
+
+/**
+ * Ensure Mental Health Support page exists with correct template.
+ */
+function anna_ensure_mhs_page_exists() {
+	if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	if ( get_option( 'anna_mhs_page_created', false ) ) {
+		return;
+	}
+
+	$query = new WP_Query(
+		array(
+			'post_type'      => 'page',
+			'post_status'    => array( 'publish', 'draft', 'private' ),
+			'posts_per_page' => 1,
+			'meta_key'       => '_wp_page_template',
+			'meta_value'     => 'page-mental-health-support.php',
+			'fields'         => 'ids',
+		)
+	);
+
+	if ( ! empty( $query->posts[0] ) ) {
+		anna_seed_page_post_meta( (int) $query->posts[0], '_anna_content_mhs_page', function_exists( 'anna_get_mhs_default_content' ) ? anna_get_mhs_default_content() : array() );
+		update_option( 'anna_mhs_page_created', 1 );
+		return;
+	}
+
+	$page = get_page_by_path( 'mental-health-support' );
+	if ( $page instanceof WP_Post ) {
+		update_post_meta( $page->ID, '_wp_page_template', 'page-mental-health-support.php' );
+		anna_seed_page_post_meta( $page->ID, '_anna_content_mhs_page', function_exists( 'anna_get_mhs_default_content' ) ? anna_get_mhs_default_content() : array() );
+		update_option( 'anna_mhs_page_created', 1 );
+		return;
+	}
+
+	$page_id = wp_insert_post(
+		array(
+			'post_title'   => 'Mental Health Support',
+			'post_name'    => 'mental-health-support',
+			'post_type'    => 'page',
+			'post_status'  => 'publish',
+			'post_content' => '',
+		)
+	);
+
+	if ( $page_id && ! is_wp_error( $page_id ) ) {
+		update_post_meta( $page_id, '_wp_page_template', 'page-mental-health-support.php' );
+		anna_seed_page_post_meta( $page_id, '_anna_content_mhs_page', function_exists( 'anna_get_mhs_default_content' ) ? anna_get_mhs_default_content() : array() );
+	}
+
+	update_option( 'anna_mhs_page_created', 1 );
+}
+add_action( 'admin_init', 'anna_ensure_mhs_page_exists', 22 );
+
+/**
+ * Ensure MOVE page exists with correct template.
+ */
+function anna_ensure_move_page_exists() {
+	if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	if ( get_option( 'anna_move_page_created', false ) ) {
+		return;
+	}
+
+	$query = new WP_Query(
+		array(
+			'post_type'      => 'page',
+			'post_status'    => array( 'publish', 'draft', 'private' ),
+			'posts_per_page' => 1,
+			'meta_key'       => '_wp_page_template',
+			'meta_value'     => 'page-move.php',
+			'fields'         => 'ids',
+		)
+	);
+
+	if ( ! empty( $query->posts[0] ) ) {
+		anna_seed_page_post_meta( (int) $query->posts[0], '_anna_content_move_page', function_exists( 'anna_get_move_default_content' ) ? anna_get_move_default_content() : array() );
+		update_option( 'anna_move_page_created', 1 );
+		return;
+	}
+
+	$page = get_page_by_path( 'move' );
+	if ( $page instanceof WP_Post ) {
+		update_post_meta( $page->ID, '_wp_page_template', 'page-move.php' );
+		anna_seed_page_post_meta( $page->ID, '_anna_content_move_page', function_exists( 'anna_get_move_default_content' ) ? anna_get_move_default_content() : array() );
+		update_option( 'anna_move_page_created', 1 );
+		return;
+	}
+
+	$page_id = wp_insert_post(
+		array(
+			'post_title'   => 'MOVE',
+			'post_name'    => 'move',
+			'post_type'    => 'page',
+			'post_status'  => 'publish',
+			'post_content' => '',
+		)
+	);
+
+	if ( $page_id && ! is_wp_error( $page_id ) ) {
+		update_post_meta( $page_id, '_wp_page_template', 'page-move.php' );
+		anna_seed_page_post_meta( $page_id, '_anna_content_move_page', function_exists( 'anna_get_move_default_content' ) ? anna_get_move_default_content() : array() );
+	}
+
+	update_option( 'anna_move_page_created', 1 );
+}
+add_action( 'admin_init', 'anna_ensure_move_page_exists', 22 );
