@@ -109,39 +109,6 @@ function anna_filter_scaffolded_settings_tab_keys( $tab_keys ) {
 add_filter( 'anna_settings_tab_keys', 'anna_filter_scaffolded_settings_tab_keys' );
 
 /**
- * Enqueue scaffolded page styles.
- */
-function anna_enqueue_scaffolded_page_styles() {
-	$prev_dep = 'anna-main';
-
-	foreach ( anna_get_scaffolded_pages() as $page ) {
-		$slug     = $page['slug'] ?? '';
-		$template = $page['template_file'] ?? '';
-		$css_slug = $page['css_slug'] ?? $slug;
-		$handle   = 'anna-page-' . sanitize_key( $css_slug );
-
-		if ( ! $slug || ! $template ) {
-			continue;
-		}
-
-		$load = is_page_template( $template ) || is_page( $slug );
-		if ( ! $load ) {
-			continue;
-		}
-
-		$css_path = 'assets/css/pages/' . $css_slug . '.css';
-		wp_enqueue_style(
-			$handle,
-			ANNA_CSS . '/pages/' . $css_slug . '.css',
-			array( $prev_dep ),
-			anna_asset_version( $css_path )
-		);
-		$prev_dep = $handle;
-	}
-}
-add_action( 'wp_enqueue_scripts', 'anna_enqueue_scaffolded_page_styles', 20 );
-
-/**
  * Seed and ensure scaffolded WordPress pages exist.
  */
 function anna_scaffolded_pages_admin_init() {

@@ -185,6 +185,8 @@ function anna_enqueue_styles() {
 		$prev_dep = 'anna-page-move';
 	}
 
+	anna_enqueue_scaffolded_page_styles( $prev_dep );
+
 	wp_enqueue_style(
 		'anna-google-fonts',
 		'https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Mulish:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap',
@@ -193,6 +195,46 @@ function anna_enqueue_styles() {
 	);
 }
 add_action( 'wp_enqueue_scripts', 'anna_enqueue_styles' );
+
+/**
+ * Enqueue CSS for pages created via Anna Page Scaffolder.
+ *
+ * @param string $prev_dep Handle of the last enqueued theme stylesheet.
+ */
+function anna_enqueue_scaffolded_page_styles( $prev_dep = 'anna-section-footer' ) {
+	if ( ! function_exists( 'anna_get_scaffolded_pages' ) ) {
+		return;
+	}
+
+	foreach ( anna_get_scaffolded_pages() as $page ) {
+		$slug     = $page['slug'] ?? '';
+		$template = $page['template_file'] ?? '';
+		$css_slug = $page['css_slug'] ?? $slug;
+		$handle   = 'anna-page-' . sanitize_key( $css_slug );
+
+		if ( ! $slug || ! $template ) {
+			continue;
+		}
+
+		if ( ! is_page_template( $template ) && ! is_page( $slug ) ) {
+			continue;
+		}
+
+		$css_path = 'assets/css/pages/' . $css_slug . '.css';
+		if ( ! file_exists( ANNA_DIR . '/' . $css_path ) ) {
+			continue;
+		}
+
+		wp_enqueue_style(
+			$handle,
+			ANNA_CSS . '/pages/' . $css_slug . '.css',
+			array( $prev_dep ),
+			anna_asset_version( $css_path )
+		);
+
+		$prev_dep = $handle;
+	}
+}
 
 /**
  * Enqueue front-end scripts.
