@@ -62,13 +62,13 @@ final class Anna_Page_Scaffold_Generator {
 			return array( 'success' => false, 'message' => __( 'Select at least one section.', 'anna-baylis' ) );
 		}
 
-		$section_layout = array();
-		foreach ( $sections as $section ) {
-			$section_layout[] = array(
-				'type' => $section['type'],
-				'id'   => $section['id'],
-			);
-		}
+		// $section_layout = array();
+		// foreach ( $sections as $section ) {
+		// 	$section_layout[] = array(
+		// 		'type' => $section['type'],
+		// 		'id'   => $section['id'],
+		// 	);
+		// }
 
 		$config = array(
 			'slug'            => $slug,
