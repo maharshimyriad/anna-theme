@@ -12,10 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$header_classes = 'anna-header';
-if ( anna_has_transparent_header() ) {
-	$header_classes .= ' anna-header--transparent';
-}
+$header_classes = 'anna-header anna-header--solid';
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>

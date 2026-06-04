@@ -62,25 +62,34 @@ final class Anna_Page_Scaffold_Generator {
 			return array( 'success' => false, 'message' => __( 'Select at least one section.', 'anna-baylis' ) );
 		}
 
+		$section_layout = array();
+		foreach ( $sections as $section ) {
+			$section_layout[] = array(
+				'type' => $section['type'],
+				'id'   => $section['id'],
+			);
+		}
+
 		$config = array(
-			'slug'           => $slug,
-			'title'          => $title,
-			'code'           => $code,
-			'tab_id'         => $code . '_page',
-			'tab_label'      => $title . ' ' . __( 'Page', 'anna-baylis' ),
-			'option_prefix'  => $code . '_pg_',
-			'template_file'  => 'page-' . $slug . '.php',
-			'css_slug'       => $slug,
-			'css_class'      => 'anna-' . $slug . '-page',
-			'query_var'      => 'anna_' . $code . '_page_content',
-			'sections'       => $sections,
-			'section_files'  => array_map(
+			'slug'            => $slug,
+			'title'           => $title,
+			'code'            => $code,
+			'tab_id'          => $code . '_page',
+			'tab_label'       => $title . ' ' . __( 'Page', 'anna-baylis' ),
+			'option_prefix'   => $code . '_pg_',
+			'template_file'   => 'page-' . $slug . '.php',
+			'css_slug'        => $slug,
+			'css_class'       => 'anna-' . $slug . '-page',
+			'query_var'       => 'anna_' . $code . '_page_content',
+			'sections'        => $sections,
+			'section_layout'  => $section_layout,
+			'section_files'   => array_map(
 				static function ( $section ) {
 					return $section['id'];
 				},
 				$sections
 			),
-			'created'        => time(),
+			'created'         => time(),
 		);
 
 		$files = array();
@@ -189,16 +198,12 @@ PHP;
 	 * @return string
 	 */
 	private function build_index_partial( $config ) {
-		$code      = $config['code'];
-		$slug      = $config['slug'];
-		$sections  = implode( "', '", $config['section_files'] );
-		$fn        = 'anna_get_' . $code . '_page_content';
-		$query_var = $config['query_var'];
+		$title = $config['title'];
 
 		return <<<PHP
 <?php
 /**
- * Template part: {$config['title']} page section loader.
+ * Template part: {$title} page section loader.
  *
  * @package Anna_Baylis
  * @since   1.0.0
@@ -208,14 +213,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-\$page_content = {$fn}();
-set_query_var( '{$query_var}', \$page_content );
-
-\$sections = array( '{$sections}' );
-
-foreach ( \$sections as \$section ) {
-	get_template_part( 'template-parts/pages/{$slug}/' . \$section );
-}
+get_template_part( 'template-parts/pages/flexible-loader' );
 
 PHP;
 	}

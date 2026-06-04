@@ -376,7 +376,7 @@ function anna_get_default_options() {
 		'container_wide'      => '1440px',
 		'section_padding_md'  => 'clamp(5rem, 8vw, 8rem)',
 		'border_radius_btn'   => '9999px',
-		'header_style'        => 'transparent',
+		'header_style'        => 'solid',
 		'header_cta_text'     => 'Book a Discovery Call',
 		'header_cta_url'      => '#final-cta',
 		'hero_eyebrow'        => 'Life Coach · motivational Speaker · Olympian · Melbourne',
@@ -711,59 +711,6 @@ function anna_seed_coaching_page_defaults() {
 add_action( 'admin_init', 'anna_seed_coaching_page_defaults', 20 );
 
 /**
- * Ensure a Coaching page exists and uses the Coaching template.
- */
-function anna_ensure_coaching_page_exists() {
-	if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
-		return;
-	}
-
-	if ( get_option( 'anna_coaching_page_created', false ) ) {
-		return;
-	}
-
-	$query = new WP_Query(
-		array(
-			'post_type'      => 'page',
-			'post_status'    => array( 'publish', 'draft', 'private' ),
-			'posts_per_page' => 1,
-			'meta_key'       => '_wp_page_template',
-			'meta_value'     => 'page-coaching.php',
-			'fields'         => 'ids',
-		)
-	);
-
-	if ( ! empty( $query->posts[0] ) ) {
-		update_option( 'anna_coaching_page_created', 1 );
-		return;
-	}
-
-	$page = get_page_by_path( 'coaching' );
-	if ( $page instanceof WP_Post ) {
-		update_post_meta( $page->ID, '_wp_page_template', 'page-coaching.php' );
-		update_option( 'anna_coaching_page_created', 1 );
-		return;
-	}
-
-	$page_id = wp_insert_post(
-		array(
-			'post_title'   => 'Coaching',
-			'post_name'    => 'coaching',
-			'post_type'    => 'page',
-			'post_status'  => 'publish',
-			'post_content' => '',
-		)
-	);
-
-	if ( $page_id && ! is_wp_error( $page_id ) ) {
-		update_post_meta( $page_id, '_wp_page_template', 'page-coaching.php' );
-	}
-
-	update_option( 'anna_coaching_page_created', 1 );
-}
-add_action( 'admin_init', 'anna_ensure_coaching_page_exists', 22 );
-
-/**
  * Seed Oasis Page defaults into saved theme options.
  */
 function anna_seed_oasis_page_defaults() {
@@ -808,59 +755,6 @@ function anna_seed_oasis_page_defaults() {
 add_action( 'admin_init', 'anna_seed_oasis_page_defaults', 20 );
 
 /**
- * Ensure Oasis page exists with correct template.
- */
-function anna_ensure_oasis_page_exists() {
-	if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
-		return;
-	}
-
-	if ( get_option( 'anna_oasis_page_created', false ) ) {
-		return;
-	}
-
-	$query = new WP_Query(
-		array(
-			'post_type'      => 'page',
-			'post_status'    => array( 'publish', 'draft', 'private' ),
-			'posts_per_page' => 1,
-			'meta_key'       => '_wp_page_template',
-			'meta_value'     => 'page-oasis.php',
-			'fields'         => 'ids',
-		)
-	);
-
-	if ( ! empty( $query->posts[0] ) ) {
-		update_option( 'anna_oasis_page_created', 1 );
-		return;
-	}
-
-	$page = get_page_by_path( 'oasis' );
-	if ( $page instanceof WP_Post ) {
-		update_post_meta( $page->ID, '_wp_page_template', 'page-oasis.php' );
-		update_option( 'anna_oasis_page_created', 1 );
-		return;
-	}
-
-	$page_id = wp_insert_post(
-		array(
-			'post_title'   => 'Oasis',
-			'post_name'    => 'oasis',
-			'post_type'    => 'page',
-			'post_status'  => 'publish',
-			'post_content' => '',
-		)
-	);
-
-	if ( $page_id && ! is_wp_error( $page_id ) ) {
-		update_post_meta( $page_id, '_wp_page_template', 'page-oasis.php' );
-	}
-
-	update_option( 'anna_oasis_page_created', 1 );
-}
-add_action( 'admin_init', 'anna_ensure_oasis_page_exists', 22 );
-
-/**
  * Seed Speaking Page defaults into saved theme options.
  */
 function anna_seed_speaking_page_defaults() {
@@ -903,59 +797,6 @@ function anna_seed_speaking_page_defaults() {
 	}
 }
 add_action( 'admin_init', 'anna_seed_speaking_page_defaults', 20 );
-
-/**
- * Ensure Speaking page exists with correct template.
- */
-function anna_ensure_speaking_page_exists() {
-	if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
-		return;
-	}
-
-	if ( get_option( 'anna_speaking_page_created', false ) ) {
-		return;
-	}
-
-	$query = new WP_Query(
-		array(
-			'post_type'      => 'page',
-			'post_status'    => array( 'publish', 'draft', 'private' ),
-			'posts_per_page' => 1,
-			'meta_key'       => '_wp_page_template',
-			'meta_value'     => 'page-speaking.php',
-			'fields'         => 'ids',
-		)
-	);
-
-	if ( ! empty( $query->posts[0] ) ) {
-		update_option( 'anna_speaking_page_created', 1 );
-		return;
-	}
-
-	$page = get_page_by_path( 'speaking' );
-	if ( $page instanceof WP_Post ) {
-		update_post_meta( $page->ID, '_wp_page_template', 'page-speaking.php' );
-		update_option( 'anna_speaking_page_created', 1 );
-		return;
-	}
-
-	$page_id = wp_insert_post(
-		array(
-			'post_title'   => 'Speaking',
-			'post_name'    => 'speaking',
-			'post_type'    => 'page',
-			'post_status'  => 'publish',
-			'post_content' => '',
-		)
-	);
-
-	if ( $page_id && ! is_wp_error( $page_id ) ) {
-		update_post_meta( $page_id, '_wp_page_template', 'page-speaking.php' );
-	}
-
-	update_option( 'anna_speaking_page_created', 1 );
-}
-add_action( 'admin_init', 'anna_ensure_speaking_page_exists', 22 );
 
 /**
  * Seed theme options for a page prefix when values are still empty.
@@ -1020,135 +861,3 @@ function anna_seed_move_page_defaults() {
 }
 add_action( 'admin_init', 'anna_seed_move_page_defaults', 20 );
 
-/**
- * Seed page post meta from default content array.
- *
- * @param int    $page_id  Page ID.
- * @param string $meta_key Post meta key.
- * @param array  $defaults Default content.
- */
-function anna_seed_page_post_meta( $page_id, $meta_key, $defaults ) {
-	$page_id = absint( $page_id );
-	if ( ! $page_id || ! is_array( $defaults ) ) {
-		return;
-	}
-
-	$stored = get_post_meta( $page_id, $meta_key, true );
-	if ( is_array( $stored ) && ! empty( array_filter( $stored ) ) ) {
-		return;
-	}
-
-	update_post_meta( $page_id, $meta_key, $defaults );
-}
-
-/**
- * Ensure Mental Health Support page exists with correct template.
- */
-function anna_ensure_mhs_page_exists() {
-	if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
-		return;
-	}
-
-	if ( get_option( 'anna_mhs_page_created', false ) ) {
-		return;
-	}
-
-	$query = new WP_Query(
-		array(
-			'post_type'      => 'page',
-			'post_status'    => array( 'publish', 'draft', 'private' ),
-			'posts_per_page' => 1,
-			'meta_key'       => '_wp_page_template',
-			'meta_value'     => 'page-mental-health-support.php',
-			'fields'         => 'ids',
-		)
-	);
-
-	if ( ! empty( $query->posts[0] ) ) {
-		anna_seed_page_post_meta( (int) $query->posts[0], '_anna_content_mhs_page', function_exists( 'anna_get_mhs_default_content' ) ? anna_get_mhs_default_content() : array() );
-		update_option( 'anna_mhs_page_created', 1 );
-		return;
-	}
-
-	$page = get_page_by_path( 'mental-health-support' );
-	if ( $page instanceof WP_Post ) {
-		update_post_meta( $page->ID, '_wp_page_template', 'page-mental-health-support.php' );
-		anna_seed_page_post_meta( $page->ID, '_anna_content_mhs_page', function_exists( 'anna_get_mhs_default_content' ) ? anna_get_mhs_default_content() : array() );
-		update_option( 'anna_mhs_page_created', 1 );
-		return;
-	}
-
-	$page_id = wp_insert_post(
-		array(
-			'post_title'   => 'Mental Health Support',
-			'post_name'    => 'mental-health-support',
-			'post_type'    => 'page',
-			'post_status'  => 'publish',
-			'post_content' => '',
-		)
-	);
-
-	if ( $page_id && ! is_wp_error( $page_id ) ) {
-		update_post_meta( $page_id, '_wp_page_template', 'page-mental-health-support.php' );
-		anna_seed_page_post_meta( $page_id, '_anna_content_mhs_page', function_exists( 'anna_get_mhs_default_content' ) ? anna_get_mhs_default_content() : array() );
-	}
-
-	update_option( 'anna_mhs_page_created', 1 );
-}
-add_action( 'admin_init', 'anna_ensure_mhs_page_exists', 22 );
-
-/**
- * Ensure MOVE page exists with correct template.
- */
-function anna_ensure_move_page_exists() {
-	if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
-		return;
-	}
-
-	if ( get_option( 'anna_move_page_created', false ) ) {
-		return;
-	}
-
-	$query = new WP_Query(
-		array(
-			'post_type'      => 'page',
-			'post_status'    => array( 'publish', 'draft', 'private' ),
-			'posts_per_page' => 1,
-			'meta_key'       => '_wp_page_template',
-			'meta_value'     => 'page-move.php',
-			'fields'         => 'ids',
-		)
-	);
-
-	if ( ! empty( $query->posts[0] ) ) {
-		anna_seed_page_post_meta( (int) $query->posts[0], '_anna_content_move_page', function_exists( 'anna_get_move_default_content' ) ? anna_get_move_default_content() : array() );
-		update_option( 'anna_move_page_created', 1 );
-		return;
-	}
-
-	$page = get_page_by_path( 'move' );
-	if ( $page instanceof WP_Post ) {
-		update_post_meta( $page->ID, '_wp_page_template', 'page-move.php' );
-		anna_seed_page_post_meta( $page->ID, '_anna_content_move_page', function_exists( 'anna_get_move_default_content' ) ? anna_get_move_default_content() : array() );
-		update_option( 'anna_move_page_created', 1 );
-		return;
-	}
-
-	$page_id = wp_insert_post(
-		array(
-			'post_title'   => 'MOVE',
-			'post_name'    => 'move',
-			'post_type'    => 'page',
-			'post_status'  => 'publish',
-			'post_content' => '',
-		)
-	);
-
-	if ( $page_id && ! is_wp_error( $page_id ) ) {
-		update_post_meta( $page_id, '_wp_page_template', 'page-move.php' );
-		anna_seed_page_post_meta( $page_id, '_anna_content_move_page', function_exists( 'anna_get_move_default_content' ) ? anna_get_move_default_content() : array() );
-	}
-
-	update_option( 'anna_move_page_created', 1 );
-}
-add_action( 'admin_init', 'anna_ensure_move_page_exists', 22 );

@@ -137,7 +137,7 @@ function anna_render_settings_page() {
 
 				<?php elseif ( 'header' === $active_tab ) : ?>
 					<?php anna_field_heading( __( 'Header', 'anna-baylis' ) ); ?>
-					<?php anna_field_select( 'header_style', __( 'Header Style', 'anna-baylis' ), array( 'transparent' => 'Transparent (Hero)', 'solid' => 'Solid Background' ) ); ?>
+					<p class="description"><?php esc_html_e( 'The site header always uses a solid background.', 'anna-baylis' ); ?></p>
 					<?php anna_field_text( 'header_cta_text', __( 'CTA Button Text', 'anna-baylis' ) ); ?>
 					<?php anna_field_text( 'header_cta_url', __( 'CTA Button URL', 'anna-baylis' ), '', 'url' ); ?>
 

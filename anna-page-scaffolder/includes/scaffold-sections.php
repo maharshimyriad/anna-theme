@@ -13,6 +13,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return array<string, array<string, mixed>>
  */
 function anna_scaffold_get_section_types() {
+	if ( function_exists( 'anna_get_page_section_types' ) ) {
+		return anna_get_page_section_types();
+	}
+
 	return array(
 		'hero' => array(
 			'label'    => __( 'Hero', 'anna-baylis' ),
@@ -60,6 +64,10 @@ function anna_scaffold_get_section_types() {
  * @return array<int, array<string, mixed>>
  */
 function anna_scaffold_resolve_sections( $section_types, $text_image_ids = null ) {
+	if ( function_exists( 'anna_resolve_page_sections' ) ) {
+		return anna_resolve_page_sections( $section_types, $text_image_ids );
+	}
+
 	$types     = anna_scaffold_get_section_types();
 	$resolved  = array();
 	$text_idx  = 0;
@@ -104,6 +112,10 @@ function anna_scaffold_resolve_sections( $section_types, $text_image_ids = null 
  * @return array<string, mixed>
  */
 function anna_scaffold_build_default_content( $sections, $title ) {
+	if ( function_exists( 'anna_build_page_section_default_content' ) ) {
+		return anna_build_page_section_default_content( $sections, $title );
+	}
+
 	$content = array();
 
 	foreach ( $sections as $section ) {

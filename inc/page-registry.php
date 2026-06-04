@@ -118,7 +118,6 @@ function anna_scaffolded_pages_admin_init() {
 
 	foreach ( anna_get_scaffolded_pages() as $page ) {
 		anna_seed_scaffolded_page_theme_defaults( $page );
-		anna_ensure_scaffolded_wp_page_exists( $page );
 	}
 }
 add_action( 'admin_init', 'anna_scaffolded_pages_admin_init', 20 );
@@ -195,65 +194,4 @@ function anna_seed_scaffolded_page_theme_defaults( $page ) {
 	if ( $changed ) {
 		update_option( 'anna_theme_options', $options );
 	}
-}
-
-/**
- * @param array<string, mixed> $page Page config.
- */
-function anna_ensure_scaffolded_wp_page_exists( $page ) {
-	$slug     = $page['slug'] ?? '';
-	$title    = $page['title'] ?? '';
-	$template = $page['template_file'] ?? '';
-	$code     = $page['code'] ?? '';
-	$option   = 'anna_scaffold_page_created_' . $code;
-
-	if ( ! $slug || ! $template || ! $code || get_option( $option, false ) ) {
-		return;
-	}
-
-	$query = new WP_Query(
-		array(
-			'post_type'      => 'page',
-			'post_status'    => array( 'publish', 'draft', 'private' ),
-			'posts_per_page' => 1,
-			'meta_key'       => '_wp_page_template',
-			'meta_value'     => $template,
-			'fields'         => 'ids',
-		)
-	);
-
-	$defaults_fn = 'anna_get_' . $code . '_default_content';
-	$defaults    = function_exists( $defaults_fn ) ? $defaults_fn() : array();
-	$meta_key    = '_anna_content_' . $code . '_page';
-
-	if ( ! empty( $query->posts[0] ) ) {
-		anna_seed_page_post_meta( (int) $query->posts[0], $meta_key, $defaults );
-		update_option( $option, 1 );
-		return;
-	}
-
-	$wp_page = get_page_by_path( $slug );
-	if ( $wp_page instanceof WP_Post ) {
-		update_post_meta( $wp_page->ID, '_wp_page_template', $template );
-		anna_seed_page_post_meta( $wp_page->ID, $meta_key, $defaults );
-		update_option( $option, 1 );
-		return;
-	}
-
-	$page_id = wp_insert_post(
-		array(
-			'post_title'   => $title,
-			'post_name'    => $slug,
-			'post_type'    => 'page',
-			'post_status'  => 'publish',
-			'post_content' => '',
-		)
-	);
-
-	if ( $page_id && ! is_wp_error( $page_id ) ) {
-		update_post_meta( $page_id, '_wp_page_template', $template );
-		anna_seed_page_post_meta( $page_id, $meta_key, $defaults );
-	}
-
-	update_option( $option, 1 );
 }

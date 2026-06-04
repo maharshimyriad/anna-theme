@@ -77,8 +77,7 @@ function anna_body_classes( $classes ) {
 		$classes[] = 'anna-is-singular';
 	}
 
-	$header_style = anna_get_option( 'header_style', 'transparent' );
-	$classes[]    = 'anna-header--' . sanitize_html_class( $header_style );
+	$classes[] = 'anna-header--solid';
 
 	return $classes;
 }
@@ -138,8 +137,7 @@ function anna_site_logo( $context = 'header' ) {
  * @return bool
  */
 function anna_has_transparent_header() {
-	$header_style = anna_get_option( 'header_style', 'transparent' );
-	return 'transparent' === $header_style && ( is_front_page() || is_page_template( 'template-full-width.php' ) );
+	return false;
 }
 
 /**

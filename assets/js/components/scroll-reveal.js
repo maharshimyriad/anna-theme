@@ -13,6 +13,13 @@
 
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
+  // Auto-apply scroll reveal to page template sections (coaching, MHS, scaffolded pages, etc.).
+  document.querySelectorAll('.anna-main section').forEach(function (el) {
+    if (!/\banna-reveal/.test(el.className)) {
+      el.classList.add('anna-reveal');
+    }
+  });
+
   var reveals = document.querySelectorAll('.anna-reveal, .anna-reveal--left, .anna-reveal--right, .anna-reveal--scale, .anna-stagger');
 
   if (!reveals.length) return;

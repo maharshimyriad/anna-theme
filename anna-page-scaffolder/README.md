@@ -37,7 +37,18 @@ All fields ship with placeholder copy you can edit under **Anna Theme → {Page}
 2. Go to **Anna Theme → Page Scaffolder**.
 3. Enter slug (`contact`), title (`Contact`), optional code prefix (`contact`).
 4. Select sections and click **Generate Page Structure**.
-5. Visit the front-end URL or customize content in theme settings / page editor.
+5. Create a WordPress page manually, assign the generated page template, then edit content in theme settings / page editor.
+
+**Pages are not auto-created** when you activate the theme or plugins — create them yourself in **Pages → Add New**.
+
+### Section layout (page editor)
+
+On any page using a scaffolded `page-*.php` template, the **Anna Content Manager** meta box includes:
+
+- **Page sections (layout)** — add, remove, and reorder Hero, Text+Image, and CTA blocks
+- **Per-section fields** — copy and images for each block in the layout
+
+Save the page after changing layout so the front end updates.
 
 ## Code prefix
 
