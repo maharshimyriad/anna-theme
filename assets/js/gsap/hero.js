@@ -20,7 +20,7 @@
 
     var tl = gsap.timeline({
       defaults: { ease: 'expo.out', force3D: true },
-      delay:    0.15,
+      delay:    0.25,
       onComplete: function () {
         // Release GPU layer after entrance is done
         gsap.set([eyebrow, heading, desc, ctas, trust], { clearProps: 'force3D,willChange' });
@@ -37,7 +37,7 @@
 
     // Eyebrow fades up first
     if (eyebrow) {
-      tl.from(eyebrow, { y: 14, autoAlpha: 0, duration: 0.7 });
+      tl.from(eyebrow, { y: 14, autoAlpha: 0, duration: 0.85 });
     }
 
     // Heading — word-by-word clip reveal
@@ -60,16 +60,16 @@
         {
           yPercent:  105,
           autoAlpha: 0,
-          duration:  0.75,
-          stagger:   { amount: 0.4, ease: 'power2.inOut' },
+          duration:  0.9,
+          stagger:   { amount: 0.5, ease: 'power2.inOut' },
         },
-        eyebrow ? '-=0.45' : 0
+        eyebrow ? '-=0.55' : 0
       );
     }
 
     // Description
     if (desc) {
-      tl.from(desc, { y: 20, autoAlpha: 0, duration: 0.65 }, '-=0.4');
+      tl.from(desc, { y: 20, autoAlpha: 0, duration: 0.75 }, '-=0.5');
     }
 
     // CTA buttons — stagger in
@@ -77,18 +77,18 @@
       tl.from(
         ctas.children,
         {
-          y:        16,
+          y:         16,
           autoAlpha: 0,
-          duration:  0.55,
-          stagger:   0.1,
+          duration:  0.65,
+          stagger:   0.12,
         },
-        '-=0.35'
+        '-=0.45'
       );
     }
 
     // Trust line
     if (trust) {
-      tl.from(trust, { y: 12, autoAlpha: 0, duration: 0.5 }, '-=0.2');
+      tl.from(trust, { y: 12, autoAlpha: 0, duration: 0.6 }, '-=0.3');
     }
 
     // Visual / image — slides in from right, slight scale
@@ -97,8 +97,8 @@
       if (img) {
         tl.from(
           img,
-          { x: 50, scale: 0.97, autoAlpha: 0, duration: 1.0, ease: 'expo.out' },
-          heading ? '-=0.85' : '-=0.5'
+          { x: 50, scale: 0.97, autoAlpha: 0, duration: 1.1, ease: 'expo.out' },
+          heading ? '-=1.0' : '-=0.6'
         );
       }
     }
@@ -111,11 +111,11 @@
           y:         22,
           scale:     0.88,
           autoAlpha: 0,
-          duration:  0.55,
-          stagger:   { amount: 0.25, ease: 'power1.inOut' },
+          duration:  0.65,
+          stagger:   { amount: 0.3, ease: 'power1.inOut' },
           ease:      'back.out(1.5)',
         },
-        '-=0.55'
+        '-=0.6'
       );
     }
   };

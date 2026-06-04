@@ -18,10 +18,10 @@
   gsap.registerPlugin(ScrollTrigger);
 
   // ── Shared defaults ───────────────────────────────────────────────────────
-  var DURATION    = 0.95;
+  var DURATION    = 1.05;
   var EASE        = 'expo.out';
   var DISTANCE    = 28;
-  var TRIGGER_POS = 'top 88%';
+  var TRIGGER_POS = 'top 72%';
 
   // Force GPU compositing on all animated elements up front.
   // GSAP clears it after animation completes to free memory.
@@ -71,19 +71,17 @@
       {
         autoAlpha:  1,
         y:          0,
-        duration:   0.75,
+        duration:   0.85,
         ease:       'expo.out',
         clearProps: 'willChange,force3D',
         stagger: {
-          // total spread across all children, capped so large grids
-          // don't drag on too long
-          amount: Math.min(0.12 + children.length * 0.05, 0.7),
+          amount: Math.min(0.12 + children.length * 0.06, 0.8),
           ease:   'power2.inOut',
           from:   'start',
         },
         scrollTrigger: {
           trigger: container,
-          start:   'top 90%',
+          start:   'top 75%',
           once:    true,
         },
       }
@@ -133,16 +131,16 @@
         {
           autoAlpha:  1,
           x:          0,
-          duration:   0.6,
+          duration:   0.7,
           ease:       'expo.out',
           clearProps: 'willChange,force3D',
           stagger: {
-            amount: Math.min(recItems.length * 0.06, 0.5),
+            amount: Math.min(recItems.length * 0.07, 0.55),
             ease:   'power1.inOut',
           },
           scrollTrigger: {
             trigger: '.anna-recognition__list',
-            start:   'top 82%',
+            start:   'top 72%',
             once:    true,
           },
         }
