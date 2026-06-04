@@ -17,7 +17,7 @@
 
   function createReveal(selector, fromVars) {
     gsap.utils.toArray(selector).forEach(function (el) {
-      gsap.set(el, fromVars);
+      gsap.set(el, Object.assign({ willChange: 'transform, opacity' }, fromVars));
       gsap.to(el, {
         x: typeof fromVars.x === 'number' ? 0 : undefined,
         y: typeof fromVars.y === 'number' ? 0 : undefined,
@@ -25,6 +25,7 @@
         autoAlpha: 1,
         duration: fromVars.duration || 0.8,
         ease: fromVars.ease || 'power2.out',
+        clearProps: 'willChange',
         scrollTrigger: {
           trigger: el,
           start: 'top 85%',
@@ -45,19 +46,24 @@
       if (!children.length) return;
 
       gsap.set(children, {
-        y: 30,
+        y: 24,
         autoAlpha: 0,
+        willChange: 'transform, opacity',
       });
 
       gsap.to(children, {
         y: 0,
         autoAlpha: 1,
-        duration: 0.6,
-        stagger: 0.1,
-        ease: 'power2.out',
+        duration: 0.7,
+        stagger: {
+          amount: Math.min(children.length * 0.08, 0.6),
+          ease: 'power1.inOut',
+        },
+        ease: 'power3.out',
+        clearProps: 'willChange',
         scrollTrigger: {
           trigger: container,
-          start: 'top 85%',
+          start: 'top 88%',
           once: true,
         },
       });

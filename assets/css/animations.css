@@ -142,21 +142,17 @@
 }
 
 /* ── Stagger children ─────────────────────────────────────────────────────── */
-.anna-stagger > * {
+
+/*
+ * GSAP owns the stagger animation entirely via scroll-triggers.js.
+ * No CSS initial state or transition here — that would conflict with GSAP's
+ * autoAlpha/transform control and cause a flash or jank.
+ * The .is-visible class is only used by the CSS-only fallback (scroll-reveal.js).
+ */
+.anna-stagger.is-visible > * {
   opacity:   1;
   transform: none;
-  transition: opacity var(--anim-duration-base) var(--ease-out),
-              transform var(--anim-duration-base) var(--ease-out);
 }
-
-.anna-stagger.is-visible > *:nth-child(1)  { transition-delay: calc(0 * var(--anim-stagger));     opacity: 1; transform: none; }
-.anna-stagger.is-visible > *:nth-child(2)  { transition-delay: calc(1 * var(--anim-stagger));     opacity: 1; transform: none; }
-.anna-stagger.is-visible > *:nth-child(3)  { transition-delay: calc(2 * var(--anim-stagger));     opacity: 1; transform: none; }
-.anna-stagger.is-visible > *:nth-child(4)  { transition-delay: calc(3 * var(--anim-stagger));     opacity: 1; transform: none; }
-.anna-stagger.is-visible > *:nth-child(5)  { transition-delay: calc(4 * var(--anim-stagger));     opacity: 1; transform: none; }
-.anna-stagger.is-visible > *:nth-child(6)  { transition-delay: calc(5 * var(--anim-stagger));     opacity: 1; transform: none; }
-.anna-stagger.is-visible > *:nth-child(7)  { transition-delay: calc(6 * var(--anim-stagger));     opacity: 1; transform: none; }
-.anna-stagger.is-visible > *:nth-child(8)  { transition-delay: calc(7 * var(--anim-stagger));     opacity: 1; transform: none; }
 
 /* ── Floating elements ────────────────────────────────────────────────────── */
 .anna-float {
