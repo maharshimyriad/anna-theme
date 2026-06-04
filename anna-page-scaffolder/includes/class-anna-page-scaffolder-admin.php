@@ -71,17 +71,16 @@ final class Anna_Page_Scaffolder_Admin {
 		$files  = array();
 
 		if ( isset( $_POST['anna_scaffold_generate'] ) && check_admin_referer( 'anna_scaffold_generate' ) ) {
-			$slug    = isset( $_POST['page_slug'] ) ? sanitize_title( wp_unslash( $_POST['page_slug'] ) ) : '';
-			$title   = isset( $_POST['page_title'] ) ? sanitize_text_field( wp_unslash( $_POST['page_title'] ) ) : '';
-			$code    = isset( $_POST['page_code'] ) ? sanitize_key( wp_unslash( $_POST['page_code'] ) ) : '';
-			$sections = isset( $_POST['sections'] ) && is_array( $_POST['sections'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['sections'] ) ) : array();
+			$slug  = isset( $_POST['page_slug'] ) ? sanitize_title( wp_unslash( $_POST['page_slug'] ) ) : '';
+			$title = isset( $_POST['page_title'] ) ? sanitize_text_field( wp_unslash( $_POST['page_title'] ) ) : '';
+			$code  = isset( $_POST['page_code'] ) ? sanitize_key( wp_unslash( $_POST['page_code'] ) ) : '';
 
 			if ( ! $code && $slug ) {
 				$code = str_replace( '-', '_', $slug );
 			}
 
 			$generator = new Anna_Page_Scaffold_Generator();
-			$result    = $generator->generate( $slug, $title, $code, $sections );
+			$result    = $generator->generate( $slug, $title, $code );
 
 			if ( $result['success'] ) {
 				$notice = '<div class="notice notice-success"><p>' . esc_html( $result['message'] ) . '</p></div>';
@@ -98,7 +97,6 @@ final class Anna_Page_Scaffolder_Admin {
 			}
 		}
 
-		$section_types = anna_scaffold_get_section_types();
 		$pages         = anna_get_scaffolded_pages();
 		?>
 		<div class="wrap">
@@ -128,17 +126,6 @@ final class Anna_Page_Scaffolder_Admin {
 						<td>
 							<input type="text" name="page_code" id="page_code" class="regular-text" placeholder="contact" pattern="[a-z][a-z0-9_]*">
 							<p class="description"><?php esc_html_e( 'Used in PHP function names (auto-filled from slug if empty).', 'anna-baylis' ); ?></p>
-						</td>
-					</tr>
-					<tr>
-						<th scope="row"><?php esc_html_e( 'Sections', 'anna-baylis' ); ?></th>
-						<td>
-							<?php foreach ( $section_types as $type => $section ) : ?>
-								<label style="display:block;margin-bottom:6px;">
-									<input type="checkbox" name="sections[]" value="<?php echo esc_attr( $type ); ?>" <?php checked( in_array( $type, array( 'hero', 'text-image', 'cta' ), true ) ); ?>>
-									<?php echo esc_html( $section['label'] ); ?>
-								</label>
-							<?php endforeach; ?>
 						</td>
 					</tr>
 				</table>

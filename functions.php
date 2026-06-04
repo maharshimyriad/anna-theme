@@ -26,8 +26,6 @@ require_once ANNA_DIR . '/inc/theme-setup.php';
 require_once ANNA_DIR . '/inc/enqueue.php';
 require_once ANNA_DIR . '/inc/image-sizes.php';
 require_once ANNA_DIR . '/inc/helpers.php';
-require_once ANNA_DIR . '/inc/page-section-types.php';
-require_once ANNA_DIR . '/inc/page-section-layout.php';
 require_once ANNA_DIR . '/inc/page-registry.php';
 
 if ( file_exists( ANNA_DIR . '/anna-page-scaffolder/anna-page-scaffolder.php' ) ) {

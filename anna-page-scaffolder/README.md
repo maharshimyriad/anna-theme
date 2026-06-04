@@ -25,30 +25,17 @@ For a slug like `contact`:
 
 ## Default sections
 
-- **Hero** — eyebrow, heading, description, background image, button
-- **Text + Image** — two-column block with image left/right
-- **CTA** — heading, subheading, body, two buttons
-
-All fields ship with placeholder copy you can edit under **Anna Theme → {Page} Page** or on the page in the block editor meta box.
+Section templates are not generated automatically. After scaffolding, add section template parts manually under `template-parts/pages/{slug}/` and include them in `template-parts/pages/{slug}/index.php`.
 
 ## How to use
 
 1. Ensure the theme is active and this plugin is loaded (included from `functions.php`).
 2. Go to **Anna Theme → Page Scaffolder**.
 3. Enter slug (`contact`), title (`Contact`), optional code prefix (`contact`).
-4. Select sections and click **Generate Page Structure**.
-5. Create a WordPress page manually, assign the generated page template, then edit content in theme settings / page editor.
+4. Click **Generate Page Structure**.
+5. Create a WordPress page manually, assign the generated page template, then add section partials and content.
 
 **Pages are not auto-created** when you activate the theme or plugins — create them yourself in **Pages → Add New**.
-
-### Section layout (page editor)
-
-On any page using a scaffolded `page-*.php` template, the **Anna Content Manager** meta box includes:
-
-- **Page sections (layout)** — add, remove, and reorder Hero, Text+Image, and CTA blocks
-- **Per-section fields** — copy and images for each block in the layout
-
-Save the page after changing layout so the front end updates.
 
 ## Code prefix
 

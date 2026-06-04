@@ -37,7 +37,6 @@ function anna_page_scaffolder_bootstrap() {
 		} );
 	}
 
-	require_once ANNA_PAGE_SCAFFOLDER_DIR . 'includes/scaffold-sections.php';
 	require_once ANNA_PAGE_SCAFFOLDER_DIR . 'includes/class-anna-page-scaffold-generator.php';
 	require_once ANNA_PAGE_SCAFFOLDER_DIR . 'includes/class-anna-page-scaffolder-admin.php';
 
