@@ -21,11 +21,11 @@ $pillars = isset( $move['pillar_items'] ) && is_array( $move['pillar_items'] ) ?
 <section class="anna-move-page-section anna-move-page-pillars">
 	<div class="anna-container anna-container--max">
 		<?php if ( ! empty( $move['pillars_heading'] ) ) : ?>
-			<h2 class="anna-move-page__heading"><?php echo esc_html( $move['pillars_heading'] ); ?></h2>
+			<h2 class="anna-move-page__heading anna-reveal"><?php echo esc_html( $move['pillars_heading'] ); ?></h2>
 		<?php endif; ?>
 
 		<?php if ( ! empty( $pillars ) ) : ?>
-			<div class="anna-move-page-pillars__list">
+			<div class="anna-move-page-pillars__list anna-stagger">
 				<?php foreach ( $pillars as $pillar ) : ?>
 					<article class="anna-move-page-pillar">
 						<?php if ( ! empty( $pillar['title'] ) ) : ?>

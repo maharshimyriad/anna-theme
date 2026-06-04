@@ -21,7 +21,7 @@ $items = isset( $speaking['takeaway_items'] ) && is_array( $speaking['takeaway_i
 <section class="anna-speaking-page-section anna-speaking-page-takeaway">
 	<div class="anna-container anna-container--max">
 		<div class="anna-speaking-page-takeaway__grid">
-			<div class="anna-speaking-page-takeaway__content">
+			<div class="anna-speaking-page-takeaway__content anna-reveal--left">
 				<?php if ( ! empty( $speaking['takeaway_eyebrow'] ) ) : ?>
 					<p class="anna-speaking-page-takeaway__eyebrow"><?php echo esc_html( $speaking['takeaway_eyebrow'] ); ?></p>
 				<?php endif; ?>
@@ -36,7 +36,7 @@ $items = isset( $speaking['takeaway_items'] ) && is_array( $speaking['takeaway_i
 			</div>
 
 			<?php if ( ! empty( $items ) ) : ?>
-				<ul class="anna-speaking-page-takeaway__list" role="list">
+				<ul class="anna-speaking-page-takeaway__list anna-stagger" role="list">
 					<?php foreach ( $items as $item ) : ?>
 						<?php
 						$text = is_array( $item ) ? (string) ( $item['text'] ?? '' ) : (string) $item;

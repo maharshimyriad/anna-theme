@@ -24,10 +24,10 @@ if ( empty( $items ) ) {
 <section class="anna-move-page-section anna-move-page-section--dark anna-move-page-said">
 	<div class="anna-container anna-container--max">
 		<?php if ( ! empty( $move['said_heading'] ) ) : ?>
-			<h2 class="anna-move-page-said__heading"><?php echo esc_html( $move['said_heading'] ); ?></h2>
+			<h2 class="anna-move-page-said__heading anna-reveal"><?php echo esc_html( $move['said_heading'] ); ?></h2>
 		<?php endif; ?>
 
-		<ul class="anna-move-page-said__grid" role="list">
+		<ul class="anna-move-page-said__grid anna-stagger" role="list">
 			<?php foreach ( $items as $item ) : ?>
 				<?php
 				$quote = is_array( $item ) ? (string) ( $item['quote'] ?? '' ) : (string) $item;

@@ -21,19 +21,19 @@ $gallery_items = isset( $move['evolution_gallery_items'] ) && is_array( $move['e
 <section class="anna-move-page-section anna-move-page-evolution">
 	<div class="anna-container anna-container--max">
 		<?php if ( ! empty( $move['evolution_heading'] ) ) : ?>
-			<h2 class="anna-move-page__heading"><?php echo esc_html( $move['evolution_heading'] ); ?></h2>
+			<h2 class="anna-move-page__heading anna-reveal"><?php echo esc_html( $move['evolution_heading'] ); ?></h2>
 		<?php endif; ?>
 
 		<?php if ( ! empty( $move['evolution_body'] ) ) : ?>
-			<div class="anna-move-page__copy anna-move-page-evolution__copy"><?php echo wp_kses_post( wpautop( (string) $move['evolution_body'] ) ); ?></div>
+			<div class="anna-move-page__copy anna-move-page-evolution__copy anna-reveal"><?php echo wp_kses_post( wpautop( (string) $move['evolution_body'] ) ); ?></div>
 		<?php endif; ?>
 
 		<?php if ( ! empty( $move['evolution_callout'] ) ) : ?>
-			<p class="anna-move-page-evolution__callout"><?php echo esc_html( $move['evolution_callout'] ); ?></p>
+			<p class="anna-move-page-evolution__callout anna-reveal"><?php echo esc_html( $move['evolution_callout'] ); ?></p>
 		<?php endif; ?>
 
 		<?php if ( ! empty( $gallery_items ) ) : ?>
-			<div class="anna-move-page-evolution__gallery-wrap">
+			<div class="anna-move-page-evolution__gallery-wrap anna-reveal">
 				<?php if ( ! empty( $move['evolution_gallery_heading'] ) ) : ?>
 					<h3 class="anna-move-page-evolution__gallery-heading"><?php echo esc_html( $move['evolution_gallery_heading'] ); ?></h3>
 				<?php endif; ?>

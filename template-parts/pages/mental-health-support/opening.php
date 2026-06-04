@@ -19,7 +19,7 @@ if ( empty( $mhs ) ) {
 <section class="anna-mhs-page-section anna-mhs-page-opening">
 	<div class="anna-container anna-container--max">
 		<div class="anna-mhs-page-opening__grid">
-			<div class="anna-mhs-page-opening__content">
+			<div class="anna-mhs-page-opening__content anna-reveal--left">
 				<?php if ( ! empty( $mhs['opening_heading'] ) ) : ?>
 					<h2 class="anna-mhs-page__heading"><?php echo esc_html( $mhs['opening_heading'] ); ?></h2>
 				<?php endif; ?>
@@ -30,7 +30,7 @@ if ( empty( $mhs ) ) {
 			</div>
 
 			<?php if ( ! empty( $mhs['opening_image_id'] ) ) : ?>
-				<figure class="anna-mhs-page-opening__media">
+				<figure class="anna-mhs-page-opening__media anna-reveal--right">
 					<?php anna_responsive_image( absint( $mhs['opening_image_id'] ), 'large', 'anna-img-cover' ); ?>
 				</figure>
 			<?php endif; ?>

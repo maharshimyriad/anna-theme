@@ -26,7 +26,7 @@ $has_image = ! empty( $move['hero_image_id'] );
 >
 	<div class="anna-move-page-hero__overlay" aria-hidden="true"></div>
 	<div class="anna-container anna-container--max">
-		<div class="anna-move-page-hero__content">
+		<div class="anna-move-page-hero__content anna-reveal">
 			<?php if ( ! empty( $move['hero_eyebrow'] ) ) : ?>
 				<p class="anna-move-page-hero__eyebrow"><?php echo esc_html( $move['hero_eyebrow'] ); ?></p>
 			<?php endif; ?>

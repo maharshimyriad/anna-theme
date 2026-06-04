@@ -17,7 +17,7 @@ if ( empty( $move ) ) {
 ?>
 
 <section class="anna-move-page-section anna-move-page-evolved">
-	<div class="anna-container anna-container--max anna-move-page-evolved__inner">
+	<div class="anna-container anna-container--max anna-move-page-evolved__inner anna-reveal">
 		<?php if ( ! empty( $move['evolved_heading'] ) ) : ?>
 			<h2 class="anna-move-page-evolved__heading"><?php echo esc_html( $move['evolved_heading'] ); ?></h2>
 		<?php endif; ?>

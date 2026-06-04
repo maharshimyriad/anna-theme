@@ -28,7 +28,7 @@ if ( false !== stripos( $heading, ' Google reviews' ) ) {
 
 <section class="anna-move-page-section anna-move-page-section--cream anna-move-page-reviews">
 	<div class="anna-container anna-container--wide">
-		<header class="anna-move-page-reviews__header">
+		<header class="anna-move-page-reviews__header anna-reveal">
 			<?php if ( ! empty( $move['reviews_eyebrow'] ) ) : ?>
 				<p class="anna-move-page-reviews__eyebrow"><?php echo esc_html( $move['reviews_eyebrow'] ); ?></p>
 			<?php endif; ?>

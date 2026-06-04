@@ -18,7 +18,7 @@ if ( empty( $mhs ) ) {
 
 <section class="anna-mhs-page-section anna-mhs-page-section--cream anna-mhs-page-work">
 	<div class="anna-container anna-container--max">
-		<div class="anna-mhs-page-work__content">
+		<div class="anna-mhs-page-work__content anna-reveal">
 			<?php if ( ! empty( $mhs['work_heading'] ) ) : ?>
 				<h2 class="anna-mhs-page__heading"><?php echo esc_html( $mhs['work_heading'] ); ?></h2>
 			<?php endif; ?>
