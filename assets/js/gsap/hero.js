@@ -1,7 +1,8 @@
 /**
  * GSAP Hero Animations
  *
- * Timeline-based entrance animation for the hero section.
+ * Timeline-based entrance for the homepage hero.
+ * Overlapping tweens + expo.out give a polished, high-end feel.
  *
  * @package Anna_Baylis
  * @since   1.0.0
@@ -18,77 +19,104 @@
     if (!hero) return;
 
     var tl = gsap.timeline({
-      defaults: { ease: 'power3.out' },
-      delay: 0.3,
+      defaults: { ease: 'expo.out', force3D: true },
+      delay:    0.15,
+      onComplete: function () {
+        // Release GPU layer after entrance is done
+        gsap.set([eyebrow, heading, desc, ctas, trust], { clearProps: 'force3D,willChange' });
+      },
     });
 
-    // Eyebrow
-    var eyebrow = hero.querySelector('.anna-eyebrow');
+    var eyebrow = hero.querySelector('.anna-hero__overline, .anna-eyebrow');
+    var heading = hero.querySelector('.anna-hero__heading');
+    var desc    = hero.querySelector('.anna-hero__description');
+    var ctas    = hero.querySelector('.anna-hero__ctas');
+    var trust   = hero.querySelector('.anna-hero__trust');
+    var visual  = hero.querySelector('.anna-hero__visual');
+    var stats   = hero.querySelectorAll('.anna-hero__stat');
+
+    // Eyebrow fades up first
     if (eyebrow) {
-      tl.from(eyebrow, { y: 20, opacity: 0, duration: 0.6 });
+      tl.from(eyebrow, { y: 14, autoAlpha: 0, duration: 0.7 });
     }
 
-    // Heading — word by word
-    var heading = hero.querySelector('.anna-hero__heading');
+    // Heading — word-by-word clip reveal
     if (heading) {
-      var text = heading.innerHTML;
-      var words = text.split(/(\s+)/);
-      heading.innerHTML = words.map(function (word) {
-        if (word.trim() === '') return word;
-        return '<span class="anna-hero__word"><span class="anna-hero__word-inner">' + word + '</span></span>';
+      var rawHTML = heading.innerHTML;
+      var words   = rawHTML.split(/(\s+)/);
+      heading.innerHTML = words.map(function (chunk) {
+        if (chunk.trim() === '') return chunk;
+        return (
+          '<span class="anna-hero__word" style="display:inline-block;overflow:hidden;vertical-align:bottom;">' +
+          '<span class="anna-hero__word-inner" style="display:inline-block;">' +
+          chunk +
+          '</span></span>'
+        );
       }).join('');
 
-      var wordSpans = heading.querySelectorAll('.anna-hero__word-inner');
-      tl.from(wordSpans, {
-        y:        '100%',
-        opacity:  0,
-        duration: 0.7,
-        stagger:  0.06,
-      }, '-=0.3');
+      var inners = heading.querySelectorAll('.anna-hero__word-inner');
+      tl.from(
+        inners,
+        {
+          yPercent:  105,
+          autoAlpha: 0,
+          duration:  0.75,
+          stagger:   { amount: 0.4, ease: 'power2.inOut' },
+        },
+        eyebrow ? '-=0.45' : 0
+      );
     }
 
     // Description
-    var desc = hero.querySelector('.anna-hero__description');
     if (desc) {
-      tl.from(desc, { y: 24, opacity: 0, duration: 0.6 }, '-=0.3');
+      tl.from(desc, { y: 20, autoAlpha: 0, duration: 0.65 }, '-=0.4');
     }
 
-    // CTA buttons
-    var ctas = hero.querySelector('.anna-hero__ctas');
-    if (ctas) {
-      tl.from(ctas.children, {
-        y:       20,
-        opacity: 0,
-        duration: 0.5,
-        stagger: 0.12,
-      }, '-=0.2');
+    // CTA buttons — stagger in
+    if (ctas && ctas.children.length) {
+      tl.from(
+        ctas.children,
+        {
+          y:        16,
+          autoAlpha: 0,
+          duration:  0.55,
+          stagger:   0.1,
+        },
+        '-=0.35'
+      );
     }
 
     // Trust line
-    var trust = hero.querySelector('.anna-hero__trust');
     if (trust) {
-      tl.from(trust, { y: 16, opacity: 0, duration: 0.5 }, '-=0.1');
+      tl.from(trust, { y: 12, autoAlpha: 0, duration: 0.5 }, '-=0.2');
     }
 
-    // Visual side
-    var visual = hero.querySelector('.anna-hero__visual');
+    // Visual / image — slides in from right, slight scale
     if (visual) {
       var img = visual.querySelector('.anna-image-composition__primary');
       if (img) {
-        tl.from(img, { x: 60, opacity: 0, duration: 0.9, ease: 'power2.out' }, '-=0.8');
+        tl.from(
+          img,
+          { x: 50, scale: 0.97, autoAlpha: 0, duration: 1.0, ease: 'expo.out' },
+          heading ? '-=0.85' : '-=0.5'
+        );
       }
     }
 
-    // Stat cards — stagger
-    var stats = hero.querySelectorAll('.anna-hero__stat');
+    // Stat cards — spring up with back easing
     if (stats.length) {
-      tl.from(stats, {
-        scale:    0.8,
-        opacity:  0,
-        duration: 0.5,
-        stagger:  0.15,
-        ease:     'back.out(1.7)',
-      }, '-=0.5');
+      tl.from(
+        stats,
+        {
+          y:         22,
+          scale:     0.88,
+          autoAlpha: 0,
+          duration:  0.55,
+          stagger:   { amount: 0.25, ease: 'power1.inOut' },
+          ease:      'back.out(1.5)',
+        },
+        '-=0.55'
+      );
     }
   };
 })();

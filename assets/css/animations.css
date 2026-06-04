@@ -97,48 +97,28 @@
   to   { transform: scaleX(1); transform-origin: left; }
 }
 
-/* ── Reveal utilities (initial states for GSAP to animate from) ───────────── */
+/* ── Reveal utilities ─────────────────────────────────────────────────────── */
+/*
+ * GSAP owns ALL transform/opacity animation on these classes.
+ * No CSS transition here — it conflicts with GSAP's autoAlpha control
+ * and causes a flash or competing easing on scroll entry.
+ * The .is-visible class is only for the no-JS / CSS-only fallback
+ * used by scroll-reveal.js.
+ */
 
-.anna-reveal {
-  opacity:   1;
-  transform: none;
-  transition: opacity var(--anim-duration-base) var(--ease-out),
-              transform var(--anim-duration-base) var(--ease-out);
-}
-
-.anna-reveal.is-visible {
-  opacity:   1;
-  transform: translateY(0);
-}
-
-.anna-reveal--left {
-  opacity:   1;
-  transform: none;
-}
-
-.anna-reveal--left.is-visible {
-  opacity:   1;
-  transform: translateX(0);
-}
-
-.anna-reveal--right {
-  opacity:   1;
-  transform: none;
-}
-
-.anna-reveal--right.is-visible {
-  opacity:   1;
-  transform: translateX(0);
-}
-
+.anna-reveal,
+.anna-reveal--left,
+.anna-reveal--right,
 .anna-reveal--scale {
-  opacity:   1;
-  transform: none;
+  /* intentionally no opacity/transform/transition here */
 }
 
+.anna-reveal.is-visible,
+.anna-reveal--left.is-visible,
+.anna-reveal--right.is-visible,
 .anna-reveal--scale.is-visible {
   opacity:   1;
-  transform: scale(1);
+  transform: none;
 }
 
 /* ── Stagger children ─────────────────────────────────────────────────────── */
@@ -214,6 +194,7 @@
     opacity:    1 !important;
     transform:  none !important;
     transition: none !important;
+    visibility: visible !important;
   }
 
   .anna-float,
