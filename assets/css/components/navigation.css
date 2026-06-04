@@ -108,10 +108,15 @@
   padding:          var(--space-2);
   list-style:       none;
   opacity:          0;
-  pointer-events:   none;
+/*   pointer-events:   none;
   transition:       opacity   var(--transition-base),
-                    transform var(--transition-base);
-  z-index:          var(--z-dropdown);
+                    transform var(--transition-base); */
+	 transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
+/*   z-index:          var(--z-dropdown); */
+	 z-index: var(--z-dropdown);
+  will-change: transform, opacity;
 }
 
 .anna-nav__item--has-children:hover > .anna-nav__dropdown,

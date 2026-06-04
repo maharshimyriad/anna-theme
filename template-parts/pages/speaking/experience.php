@@ -35,7 +35,7 @@ $has_testimonial = ! empty( $speaking['experience_testimonial_quote'] );
 					<?php if ( ! empty( $speaking['experience_testimonial_role'] ) ) : ?>
 						<span class="anna-speaking-page-experience__role"><?php echo esc_html( $speaking['experience_testimonial_role'] ); ?></span>
 					<?php endif; ?>
-				</blockquote>
+				</div>
 			<?php endif; ?>
 
 			<div class="anna-speaking-page-experience__content anna-reveal--right">
