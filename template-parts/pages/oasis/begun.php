@@ -22,7 +22,7 @@ if ( empty( $oasis ) ) {
 					<p class="anna-oasis-page-begun__eyebrow"><?php echo esc_html( $oasis['begun_eyebrow'] ); ?></p>
 				<?php endif; ?>
 		<div class="anna-oasis-page-begun__grid">
-			<div class="anna-oasis-page-begun__media-col">
+			<div class="anna-oasis-page-begun__media-col anna-reveal--left">
 				
 				<?php if ( ! empty( $oasis['begun_image_id'] ) ) : ?>
 					<figure class="anna-oasis-page-begun__figure">
@@ -42,7 +42,7 @@ if ( empty( $oasis ) ) {
 				<?php endif; ?>
 			</div>
 
-			<div class="anna-oasis-page-begun__content">
+			<div class="anna-oasis-page-begun__content anna-reveal--right">
 
 				<?php if ( ! empty( $oasis['begun_heading'] ) ) : ?>
 					<h2 class="anna-oasis-page-begun__heading"><?php echo esc_html( $oasis['begun_heading'] ); ?></h2>

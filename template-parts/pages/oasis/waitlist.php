@@ -17,7 +17,7 @@ if ( empty( $oasis ) ) {
 ?>
 
 <section id="oasis-waitlist" class="anna-oasis-page-section anna-oasis-page-waitlist">
-	<div class="anna-container anna-container--max anna-oasis-page-waitlist__inner">
+	<div class="anna-container anna-container--max anna-oasis-page-waitlist__inner anna-reveal">
 		<?php if ( ! empty( $oasis['waitlist_eyebrow'] ) ) : ?>
 			<p class="anna-oasis-page-waitlist__eyebrow"><?php echo esc_html( $oasis['waitlist_eyebrow'] ); ?></p>
 		<?php endif; ?>

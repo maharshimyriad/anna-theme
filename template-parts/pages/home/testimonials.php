@@ -71,7 +71,7 @@ $static       = array(
 			</div>
 		</div>
 
-		<div class="anna-testimonials-inner anna-testimonials-inner--static" role="list">
+		<div class="anna-testimonials-inner anna-testimonials-inner--static anna-stagger" role="list">
 			<?php foreach ( $static as $testimonial ) : ?>
 				<figure class="anna-testimonial" role="listitem">
 					<div class="anna-testimonial__rating"><?php echo anna_star_rating( $testimonial['rating'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>

@@ -48,7 +48,7 @@ if ( false !== stripos( $heading, ' Google reviews' ) ) {
 		</header>
 
 		<?php if ( ! empty( $items ) ) : ?>
-			<div class="anna-move-page-reviews__grid" role="list">
+			<div class="anna-move-page-reviews__grid anna-stagger" role="list">
 				<?php foreach ( $items as $review ) : ?>
 					<figure class="anna-move-page-review-card" role="listitem">
 						<div class="anna-move-page-review-card__rating"><?php echo anna_star_rating( absint( $review['rating'] ?? 5 ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>

@@ -28,10 +28,10 @@ $right    = array_slice( $faq_items, $midpoint );
 <section class="anna-oasis-page-section anna-oasis-page-faq">
 	<div class="anna-container anna-container--max">
 		<?php if ( ! empty( $oasis['faq_heading'] ) ) : ?>
-			<h2 class="anna-oasis-page-faq__heading"><?php echo esc_html( $oasis['faq_heading'] ); ?></h2>
+			<h2 class="anna-oasis-page-faq__heading anna-reveal"><?php echo esc_html( $oasis['faq_heading'] ); ?></h2>
 		<?php endif; ?>
 
-		<div class="anna-oasis-page-faq__grid" data-anna-oasis-faq>
+		<div class="anna-oasis-page-faq__grid anna-reveal" data-anna-oasis-faq>
 			<div class="anna-oasis-page-faq__column">
 				<?php foreach ( $left as $index => $item ) : ?>
 					<?php anna_render_oasis_faq_item( $item, $index ); ?>
