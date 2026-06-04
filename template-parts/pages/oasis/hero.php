@@ -26,7 +26,7 @@ $has_image = ! empty( $oasis['hero_image_id'] );
 >
 <!-- 	<div class="anna-oasis-page-hero__overlay" aria-hidden="true"></div> -->
 	<div class="anna-container anna-container--max">
-		<div class="anna-oasis-page-hero__content">
+		<div class="anna-oasis-page-hero__content anna-reveal">
 			<?php if ( ! empty( $oasis['hero_breadcrumb'] ) ) : ?>
 				<p class="anna-oasis-page-hero__breadcrumb"><?php echo esc_html( $oasis['hero_breadcrumb'] ); ?></p>
 			<?php endif; ?>

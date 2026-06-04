@@ -22,7 +22,7 @@ $gains  = isset( $coaching['work_gains_items'] ) && is_array( $coaching['work_ga
 <section class="anna-coaching-page-section anna-coaching-page-work">
 	<div class="anna-container">
 		<div class="anna-coaching-page-work__grid">
-			<div class="anna-coaching-page-work__topics">
+			<div class="anna-coaching-page-work__topics anna-reveal--left">
 				<?php if ( ! empty( $coaching['work_eyebrow'] ) ) : ?>
 					<p class="anna-coaching-page-work__eyebrow"><?php echo esc_html( $coaching['work_eyebrow'] ); ?></p>
 				<?php endif; ?>
@@ -49,7 +49,7 @@ $gains  = isset( $coaching['work_gains_items'] ) && is_array( $coaching['work_ga
 				<?php endif; ?>
 			</div>
 
-			<div class="anna-coaching-page-work__gains">
+			<div class="anna-coaching-page-work__gains anna-reveal--right">
 				<?php if ( ! empty( $coaching['work_gains_heading'] ) ) : ?>
 					<h3 class="anna-coaching-page-work__gains-heading"><?php echo esc_html( $coaching['work_gains_heading'] ); ?></h3>
 				<?php endif; ?>

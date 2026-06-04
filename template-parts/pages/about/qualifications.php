@@ -20,7 +20,7 @@ $items = (array) ( $about['qualifications'] ?? array() );
 
 <section class="anna-about-page-section anna-about-page-qualifications">
 	<div class="anna-container">
-		<div class="anna-about-page-qualifications__header">
+		<div class="anna-about-page-qualifications__header anna-reveal">
 			<?php if ( ! empty( $about['qual_eyebrow'] ) ) : ?>
 				<p class="anna-about-page-qualifications__eyebrow"><?php echo esc_html( $about['qual_eyebrow'] ); ?></p>
 			<?php endif; ?>
@@ -35,7 +35,7 @@ $items = (array) ( $about['qualifications'] ?? array() );
 		</div>
 
 		<?php if ( ! empty( $items ) ) : ?>
-			<div class="anna-about-page-qualifications__grid">
+			<div class="anna-about-page-qualifications__grid anna-stagger">
 				<?php foreach ( $items as $item ) : ?>
 					<?php
 					$logo_id     = absint( $item['logo_id'] ?? 0 );

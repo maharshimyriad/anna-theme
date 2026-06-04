@@ -23,7 +23,7 @@ if ( empty( $pillars ) ) {
 
 <section class="anna-coaching-page-section anna-coaching-page-pillars">
 	<div class="anna-container anna-container--max">
-		<header class="anna-coaching-page-pillars__header">
+		<header class="anna-coaching-page-pillars__header anna-reveal">
 			<?php if ( ! empty( $coaching['pillars_eyebrow'] ) ) : ?>
 				<p class="anna-coaching-page-pillars__eyebrow"><?php echo esc_html( $coaching['pillars_eyebrow'] ); ?></p>
 			<?php endif; ?>
@@ -33,7 +33,7 @@ if ( empty( $pillars ) ) {
 			<?php endif; ?>
 		</header>
 
-		<div class="anna-coaching-page-pillars__grid">
+		<div class="anna-coaching-page-pillars__grid anna-stagger">
 			<?php foreach ( $pillars as $index => $pillar ) : ?>
 				<?php
 				if ( ! is_array( $pillar ) ) {

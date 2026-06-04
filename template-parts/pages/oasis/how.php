@@ -22,7 +22,7 @@ $features = isset( $oasis['inside_schedule_items'] ) && is_array( $oasis['inside
 <section class="anna-oasis-page-section anna-oasis-page-how">
 	<div class="anna-container anna-container--max">
 		<div class="anna-oasis-page-how__grid">
-			<div class="anna-oasis-page-how__content">
+			<div class="anna-oasis-page-how__content anna-reveal--left">
 				<?php if ( ! empty( $oasis['how_eyebrow'] ) ) : ?>
 					<p class="anna-oasis-page-how__eyebrow"><?php echo esc_html( $oasis['how_eyebrow'] ); ?></p>
 				<?php endif; ?>
@@ -51,7 +51,7 @@ $features = isset( $oasis['inside_schedule_items'] ) && is_array( $oasis['inside
 			</div>
 
 			<?php if ( ! empty( $features ) ) : ?>
-				<div class="anna-oasis-page-how__features">
+				<div class="anna-oasis-page-how__features anna-reveal--right">
 					<ul class="anna-oasis-page-how__features-list" role="list">
 						<?php foreach ( $features as $item ) : ?>
 							<?php

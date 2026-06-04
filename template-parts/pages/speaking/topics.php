@@ -20,7 +20,7 @@ $cards = isset( $speaking['topics_card_items'] ) && is_array( $speaking['topics_
 
 <section id="speaking-topics" class="anna-speaking-page-section anna-speaking-page-topics">
 	<div class="anna-container anna-container--max">
-		<header class="anna-speaking-page-topics__header">
+		<header class="anna-speaking-page-topics__header anna-reveal">
 			<?php if ( ! empty( $speaking['topics_eyebrow'] ) ) : ?>
 				<p class="anna-speaking-page-topics__eyebrow"><?php echo esc_html( $speaking['topics_eyebrow'] ); ?></p>
 			<?php endif; ?>
@@ -35,7 +35,7 @@ $cards = isset( $speaking['topics_card_items'] ) && is_array( $speaking['topics_
 		</header>
 
 		<?php if ( ! empty( $cards ) ) : ?>
-			<div class="anna-speaking-page-topics__grid">
+			<div class="anna-speaking-page-topics__grid anna-stagger">
 				<?php foreach ( $cards as $card ) : ?>
 					<?php
 					if ( ! is_array( $card ) ) {

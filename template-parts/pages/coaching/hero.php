@@ -26,7 +26,7 @@ $has_bg_image = ! empty( $coaching['hero_image_id'] );
 >
 	<div class="anna-coaching-page-hero__overlay" aria-hidden="true"></div>
 	<div class="anna-container anna-container--max">
-		<div class="anna-coaching-page-hero__content">
+		<div class="anna-coaching-page-hero__content anna-reveal">
 			<?php if ( ! empty( $coaching['hero_eyebrow'] ) ) : ?>
 				<p class="anna-coaching-page-hero__eyebrow"><?php echo esc_html( $coaching['hero_eyebrow'] ); ?></p>
 			<?php endif; ?>

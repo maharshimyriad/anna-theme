@@ -21,7 +21,7 @@ $audience = isset( $speaking['formats_audience_items'] ) && is_array( $speaking[
 
 <section class="anna-speaking-page-section anna-speaking-page-formats">
 	<div class="anna-container anna-container--max">
-		<header class="anna-speaking-page-formats__header">
+		<header class="anna-speaking-page-formats__header anna-reveal">
 			<?php if ( ! empty( $speaking['formats_eyebrow'] ) ) : ?>
 				<p class="anna-speaking-page-formats__eyebrow"><?php echo esc_html( $speaking['formats_eyebrow'] ); ?></p>
 			<?php endif; ?>
@@ -32,7 +32,7 @@ $audience = isset( $speaking['formats_audience_items'] ) && is_array( $speaking[
 		</header>
 
 		<?php if ( ! empty( $cards ) ) : ?>
-			<div class="anna-speaking-page-formats__grid">
+			<div class="anna-speaking-page-formats__grid anna-stagger">
 				<?php foreach ( $cards as $card ) : ?>
 					<?php
 					if ( ! is_array( $card ) ) {

@@ -27,7 +27,7 @@ $stats     = isset( $speaking['hero_stat_items'] ) && is_array( $speaking['hero_
 >
 	<div class="anna-speaking-page-hero__overlay" aria-hidden="true"></div>
 	<div class="anna-container anna-container--max">
-		<div class="anna-speaking-page-hero__content">
+		<div class="anna-speaking-page-hero__content anna-reveal">
 			<?php if ( ! empty( $speaking['hero_eyebrow'] ) ) : ?>
 				<p class="anna-speaking-page-hero__eyebrow"><?php echo esc_html( $speaking['hero_eyebrow'] ); ?></p>
 			<?php endif; ?>
@@ -59,9 +59,9 @@ $stats     = isset( $speaking['hero_stat_items'] ) && is_array( $speaking['hero_
 	</div>
 
 	<?php if ( ! empty( $stats ) ) : ?>
-		<div class="anna-speaking-page-hero__stats">
+		<div class="anna-speaking-page-hero__stats anna-reveal">
 			<div class="anna-container anna-container--max">
-				<ul class="anna-speaking-page-hero__stats-list" role="list">
+				<ul class="anna-speaking-page-hero__stats-list anna-stagger" role="list">
 					<?php foreach ( $stats as $stat ) : ?>
 						<?php
 						if ( ! is_array( $stat ) ) {

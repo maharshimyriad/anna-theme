@@ -18,7 +18,7 @@ if ( empty( $about ) ) {
 
 <section class="anna-about-page-section anna-about-page-connect">
 	<div class="anna-container">
-		<div class="anna-about-page-connect__inner">
+		<div class="anna-about-page-connect__inner anna-reveal">
 			<?php if ( ! empty( $about['connect_eyebrow'] ) ) : ?>
 				<p class="anna-about-page-connect__eyebrow"><?php echo esc_html( $about['connect_eyebrow'] ); ?></p>
 			<?php endif; ?>

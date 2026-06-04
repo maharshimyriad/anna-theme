@@ -23,7 +23,7 @@ if ( empty( $items ) ) {
 
 <section id="oasis-ready" class="anna-oasis-page-section anna-oasis-page-ready">
 	<div class="anna-container anna-container--max">
-		<header class="anna-oasis-page-ready__header">
+		<header class="anna-oasis-page-ready__header anna-reveal">
 			<?php if ( ! empty( $oasis['ready_eyebrow'] ) ) : ?>
 				<p class="anna-oasis-page-ready__eyebrow"><?php echo esc_html( $oasis['ready_eyebrow'] ); ?></p>
 			<?php endif; ?>
@@ -33,7 +33,7 @@ if ( empty( $items ) ) {
 			<?php endif; ?>
 		</header>
 
-		<ul class="anna-oasis-page-ready__grid" role="list">
+		<ul class="anna-oasis-page-ready__grid anna-stagger" role="list">
 			<?php foreach ( $items as $item ) : ?>
 				<?php
 				$text = is_array( $item ) ? (string) ( $item['text'] ?? '' ) : (string) $item;

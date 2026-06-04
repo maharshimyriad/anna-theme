@@ -21,7 +21,7 @@ $info_cards = isset( $coaching['expect_info_cards'] ) && is_array( $coaching['ex
 <section class="anna-coaching-page-section anna-coaching-page-expect">
 	<div class="anna-container">
 		<div class="anna-coaching-page-expect__grid">
-			<div class="anna-coaching-page-expect__content">
+			<div class="anna-coaching-page-expect__content anna-reveal--left">
 				<?php if ( ! empty( $coaching['expect_eyebrow'] ) ) : ?>
 					<p class="anna-coaching-page-expect__eyebrow"><?php echo esc_html( $coaching['expect_eyebrow'] ); ?></p>
 				<?php endif; ?>
@@ -55,7 +55,7 @@ $info_cards = isset( $coaching['expect_info_cards'] ) && is_array( $coaching['ex
 			</div>
 
 			<?php if ( ! empty( $info_cards ) ) : ?>
-				<div class="anna-coaching-page-expect__cards">
+				<div class="anna-coaching-page-expect__cards anna-stagger">
 					<?php foreach ( $info_cards as $card ) : ?>
 						<?php
 						if ( ! is_array( $card ) ) {

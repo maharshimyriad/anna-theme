@@ -22,19 +22,19 @@ $icon_slugs = array( 'restore', 'rejuvenate', 'ground', 'invigorate' );
 <section class="anna-oasis-page-section anna-oasis-page-inside">
 	<div class="anna-container anna-container--max anna-oasis-page-inside__inner">
 		<?php if ( ! empty( $oasis['inside_eyebrow'] ) ) : ?>
-			<p class="anna-oasis-page-inside__eyebrow"><?php echo esc_html( $oasis['inside_eyebrow'] ); ?></p>
+			<p class="anna-oasis-page-inside__eyebrow anna-reveal"><?php echo esc_html( $oasis['inside_eyebrow'] ); ?></p>
 		<?php endif; ?>
 
 		<?php if ( ! empty( $oasis['inside_heading'] ) ) : ?>
-			<h2 class="anna-oasis-page-inside__heading"><?php echo esc_html( $oasis['inside_heading'] ); ?></h2>
+			<h2 class="anna-oasis-page-inside__heading anna-reveal"><?php echo esc_html( $oasis['inside_heading'] ); ?></h2>
 		<?php endif; ?>
 
 		<?php if ( ! empty( $oasis['inside_body'] ) ) : ?>
-			<p class="anna-oasis-page-inside__intro"><?php echo esc_html( $oasis['inside_body'] ); ?></p>
+			<p class="anna-oasis-page-inside__intro anna-reveal"><?php echo esc_html( $oasis['inside_body'] ); ?></p>
 		<?php endif; ?>
 
 		<?php if ( ! empty( $cards ) ) : ?>
-			<div class="anna-oasis-page-inside__grid">
+			<div class="anna-oasis-page-inside__grid anna-stagger">
 				<?php foreach ( $cards as $index => $card ) : ?>
 					<?php
 					if ( ! is_array( $card ) ) {

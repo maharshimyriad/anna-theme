@@ -20,7 +20,7 @@ if ( empty( $about ) ) {
 	<div class="anna-container">
 		<div class="anna-about-page-story__grid">
 
-			<div class="anna-about-page-story__content">
+			<div class="anna-about-page-story__content anna-reveal--left">
 				<?php if ( ! empty( $about['story_eyebrow'] ) ) : ?>
 					<span class="anna-about-page__eyebrow"><?php echo esc_html( $about['story_eyebrow'] ); ?></span>
 				<?php endif; ?>
@@ -38,7 +38,7 @@ if ( empty( $about ) ) {
 				</div>
 			</div>
 						<?php if ( ! empty( $about['story_image_id'] ) ) : ?>
-				<figure class="anna-about-page-story__media">
+				<figure class="anna-about-page-story__media anna-reveal--right">
 					<?php anna_responsive_image( absint( $about['story_image_id'] ), 'large', 'anna-img-cover' ); ?>
 				</figure>
 			<?php endif; ?>

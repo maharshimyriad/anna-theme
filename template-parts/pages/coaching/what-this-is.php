@@ -21,7 +21,7 @@ $card_items = isset( $coaching['what_card_items'] ) && is_array( $coaching['what
 <section class="anna-coaching-page-section anna-coaching-page-what">
 	<div class="anna-container anna-container--max">
 		<div class="anna-coaching-page-what__grid">
-			<div class="anna-coaching-page-what__content">
+			<div class="anna-coaching-page-what__content anna-reveal--left">
 				<?php if ( ! empty( $coaching['what_eyebrow'] ) ) : ?>
 					<p class="anna-coaching-page-what__eyebrow"><?php echo esc_html( $coaching['what_eyebrow'] ); ?></p>
 				<?php endif; ?>
@@ -44,7 +44,7 @@ $card_items = isset( $coaching['what_card_items'] ) && is_array( $coaching['what
 			</div>
 
 			<?php if ( ! empty( $card_items ) || ! empty( $coaching['what_card_heading'] ) ) : ?>
-				<aside class="anna-coaching-page-what__card">
+				<aside class="anna-coaching-page-what__card anna-reveal--right">
 					<?php if ( ! empty( $coaching['what_card_heading'] ) ) : ?>
 						<h3 class="anna-coaching-page-what__card-heading"><?php echo esc_html( $coaching['what_card_heading'] ); ?></h3>
 					<?php endif; ?>

@@ -19,7 +19,7 @@ if ( empty( $speaking ) ) {
 <section class="anna-speaking-page-section anna-speaking-page-bring">
 	<div class="anna-container anna-container--max">
 		<div class="anna-speaking-page-bring__grid">
-			<div class="anna-speaking-page-bring__content">
+			<div class="anna-speaking-page-bring__content anna-reveal--left">
 				<?php if ( ! empty( $speaking['bring_eyebrow'] ) ) : ?>
 					<p class="anna-speaking-page-bring__eyebrow"><?php echo esc_html( $speaking['bring_eyebrow'] ); ?></p>
 				<?php endif; ?>

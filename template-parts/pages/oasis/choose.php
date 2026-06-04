@@ -20,7 +20,7 @@ $plans = isset( $oasis['choose_plan_items'] ) && is_array( $oasis['choose_plan_i
 
 <section class="anna-oasis-page-section anna-oasis-page-choose">
 	<div class="anna-container anna-container--max">
-		<header class="anna-oasis-page-choose__header">
+		<header class="anna-oasis-page-choose__header anna-reveal">
 			<?php if ( ! empty( $oasis['choose_eyebrow'] ) ) : ?>
 				<p class="anna-oasis-page-choose__eyebrow"><?php echo esc_html( $oasis['choose_eyebrow'] ); ?></p>
 			<?php endif; ?>
@@ -35,7 +35,7 @@ $plans = isset( $oasis['choose_plan_items'] ) && is_array( $oasis['choose_plan_i
 		</header>
 
 		<?php if ( ! empty( $plans ) ) : ?>
-			<div class="anna-oasis-page-choose__grid">
+			<div class="anna-oasis-page-choose__grid anna-stagger">
 				<?php foreach ( $plans as $plan ) : ?>
 					<?php
 					if ( ! is_array( $plan ) ) {

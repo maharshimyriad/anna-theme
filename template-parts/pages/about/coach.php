@@ -19,7 +19,7 @@ if ( empty( $about ) ) {
 <section class="anna-about-page-section anna-about-page-coach">
 	<div class="anna-container">
 		<div class="anna-about-page-coach__grid">
-			<div class="anna-about-page-coach__content">
+			<div class="anna-about-page-coach__content anna-reveal--left">
 				<?php if ( ! empty( $about['coach_eyebrow'] ) ) : ?>
 					<p class="anna-about-page-coach__eyebrow"><?php echo esc_html( $about['coach_eyebrow'] ); ?></p>
 				<?php endif; ?>
@@ -42,7 +42,7 @@ if ( empty( $about ) ) {
 			</div>
 
 			<?php if ( ! empty( $about['coach_image_id'] ) ) : ?>
-				<figure class="anna-about-page-coach__media">
+				<figure class="anna-about-page-coach__media anna-reveal--right">
 					<?php anna_responsive_image( absint( $about['coach_image_id'] ), 'large', 'anna-img-cover' ); ?>
 				</figure>
 			<?php endif; ?>

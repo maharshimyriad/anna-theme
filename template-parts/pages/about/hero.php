@@ -23,7 +23,7 @@ if ( empty( $about ) ) {
 	<?php endif; ?>
 >
 	<div class="anna-container">
-		<div class="anna-about-page-hero__content">
+		<div class="anna-about-page-hero__content anna-reveal">
 			<?php if ( ! empty( $about['hero_eyebrow'] ) ) : ?>
 				<p class="anna-about-page-hero__overline"><?php echo esc_html( $about['hero_eyebrow'] ); ?></p>
 			<?php endif; ?>
@@ -32,7 +32,7 @@ if ( empty( $about ) ) {
 				<p class="anna-about-page-hero__subheading"><?php echo esc_html( $about['hero_subheading'] ); ?></p>
 			<?php endif; ?>
 			<?php if ( ! empty( $about['hero_tags'] ) ) : ?>
-				<ul class="anna-about-page-hero__tags" role="list">
+				<ul class="anna-about-page-hero__tags anna-stagger" role="list">
 					<?php foreach ( (array) $about['hero_tags'] as $tag ) : ?>
 						<?php if ( '' === trim( (string) $tag ) ) : ?>
 							<?php continue; ?>

@@ -31,7 +31,7 @@ for ( $i = 1; $i <= 4; $i++ ) {
 <section class="anna-about-page-section anna-about-page-work">
 	<div class="anna-container">
 		<div class="anna-about-page-work__grid">
-			<div class="anna-about-page-work__content">
+			<div class="anna-about-page-work__content anna-reveal--left">
 				<?php if ( ! empty( $about['work_eyebrow'] ) ) : ?>
 					<p class="anna-about-page-work__eyebrow"><?php echo esc_html( $about['work_eyebrow'] ); ?></p>
 				<?php endif; ?>
@@ -46,7 +46,7 @@ for ( $i = 1; $i <= 4; $i++ ) {
 			</div>
 
 			<?php if ( ! empty( $cards ) ) : ?>
-				<div class="anna-about-page-work__cards">
+				<div class="anna-about-page-work__cards anna-stagger">
 					<?php foreach ( $cards as $card ) : ?>
 						<article class="anna-about-page-work-card">
 							<?php if ( '' !== trim( $card['title'] ) ) : ?>

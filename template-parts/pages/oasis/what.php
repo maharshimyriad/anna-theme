@@ -17,7 +17,7 @@ if ( empty( $oasis ) ) {
 ?>
 
 <section class="anna-oasis-page-section anna-oasis-page-what">
-	<div class="anna-container anna-container--max anna-oasis-page-what__inner">
+	<div class="anna-container anna-container--max anna-oasis-page-what__inner anna-reveal">
 		<?php if ( ! empty( $oasis['what_eyebrow'] ) ) : ?>
 			<p class="anna-oasis-page-what__eyebrow"><?php echo esc_html( $oasis['what_eyebrow'] ); ?></p>
 		<?php endif; ?>
