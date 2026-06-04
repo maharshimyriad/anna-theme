@@ -45,7 +45,7 @@
 }
 
 .anna-hero__content {
-  max-width: 42rem;
+  max-width: 55rem;
   display: grid;
   gap: 1.5rem;
   color: var(--color-white);
@@ -626,7 +626,7 @@
   .anna-about__heading { font-size: var(--text-3xl); }
 }
 .anna-testimonials-section {
-  background: #00786d;
+  background: #007063;
   color: var(--color-white);
 }
 
@@ -682,7 +682,7 @@
   margin: 0;
   padding: 1.55rem 1.45rem 1.35rem;
   border-radius: 0.7rem;
-  background: rgba(255, 255, 255, 0.08);
+  background: #197E73;
   border: 1px solid rgba(255, 255, 255, 0.06);
   min-height: 18rem;
 }

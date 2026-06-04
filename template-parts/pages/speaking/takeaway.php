@@ -58,3 +58,54 @@ $items = isset( $speaking['takeaway_items'] ) && is_array( $speaking['takeaway_i
 		</div>
 	</div>
 </section>
+<section class="anna-speaking-page-section anna-speaking-page-bring">
+    <div class="container">
+		
+		<div class="anna-speaking-page-takeaway__grid">
+			 <div class="anna-speaking-page-takeaway__content">
+            <span class="anna-speaking-page-formats__eyebrow">Book Anna to speak</span>
+
+            <h2 class="anna-speaking-page-formats__heading">
+				Let’s create something<br>
+                <span>your audience won’t forget.</span>
+            </h2>
+
+            <div class="anna-speaking-page-bring__copy">
+				<p>
+                If you're looking for a speaker who brings authenticity,
+                energy and practical insights to the stage someone whose
+                story stops people in their tracks and whose tools actually
+                work in real life I would love to hear from you.
+            </p>
+
+            <p>
+                I tailor every talk to the audience and the goals of the
+                event. Get in touch and let's have a conversation about what
+                would work best for you.
+            </p>
+				 </div>
+        </div>
+			 <div class="enquiry-card">
+            <h2>Enquire about speaking</h2>
+
+            <p>
+                Send me a message with details about your event and I'll get
+                back to you within 48 hours.
+            </p>
+
+<a class="enquiry-card_btn" href="#contact">Send an enquiry</a>
+            <div class="enquiry-card-contact">
+                Or email me directly at
+                <a href="mailto:info@annaluthi.com.au">
+                    info@annaluthi.com.au
+                </a>
+                <br>
+                I respond to all speaking enquiries personally.
+            </div>
+        </div>
+		</div>
+       
+
+       
+    </div>
+</section>

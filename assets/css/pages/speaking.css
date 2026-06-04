@@ -21,7 +21,7 @@
 }
 
 .anna-speaking-page-section {
-  padding: var(--speaking-section-padding) 0;
+  padding: 50px;
 }
 
 .anna-speaking-page-section .anna-container--max {
@@ -46,16 +46,7 @@
   background-color: #071a16;
 }
 
-.anna-speaking-page-hero__overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg,
-      rgba(7, 20, 17, 0.92) 0%,
-      rgba(7, 20, 17, 0.72) 42%,
-      rgba(7, 20, 17, 0.35) 68%,
-      rgba(7, 20, 17, 0.15) 100%);
-  pointer-events: none;
-}
+
 
 .anna-speaking-page-hero .anna-container {
   position: relative;
@@ -63,16 +54,19 @@
 }
 
 .anna-speaking-page-hero__content {
-  max-width: 36rem;
-  padding-block: clamp(3rem, 8vh, 5rem);
+  max-width: 40rem;
+/*   padding-block: clamp(3rem, 8vh, 5rem); */
+	    padding-top: 150px;
+    padding-bottom: 100px;
 }
 
 .anna-speaking-page-hero__eyebrow {
-  margin: 0 0 var(--space-5);
-  color: rgba(255, 255, 255, 0.82);
-  font-size: clamp(0.8rem, 0.75rem + 0.2vw, 0.95rem);
-  letter-spacing: 0.06em;
-  font-weight: var(--font-weight-medium);
+  margin: 0 0 var(--space-8);
+    color: #FFFFFF;
+    font-family: 'Lexend Giga', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 4.4px;
 }
 
 .anna-speaking-page-hero__heading {
@@ -81,29 +75,39 @@
   font-size: clamp(2.5rem, 2.2rem + 1.2vw, 3.5rem);
   line-height: 1.08;
   font-weight: var(--font-weight-regular);
+	color: #FFFFFFE5;
 }
-
+.anna-speaking-page-hero__heading_span {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 2.2rem + 1.2vw, 3.5rem);
+  line-height: 1.08;
+  font-weight: 300;
+	color: #FFFFFFE5;
+	margin-top: var(--space-5);
+}
 .anna-speaking-page-hero__description {
-  margin: var(--space-6) 0 0;
-  color: rgba(255, 255, 255, 0.9);
+  margin: var(--space-8) 0 0;
+  color: #FDF6D8CC;
   font-size: clamp(1rem, 1rem + 0.2vw, 1.15rem);
   line-height: 1.65;
+	font-weight: 300;
 }
 
 .anna-speaking-page-hero__actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-5);
+  gap: 50px;
   margin-top: clamp(1.75rem, 4vw, 2.5rem);
 }
 
 .anna-speaking-page-hero__btn--primary {
   display: inline-flex;
-  padding: 1rem 1.85rem;
-  border-radius: 6px;
+  padding: .5rem 1.85rem;
+  border-radius: 4px;
   background: var(--speaking-cream);
-  color: var(--speaking-accent);
+  color: #0A5D47;
   font-weight: var(--font-weight-semibold);
   text-decoration: none;
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
@@ -117,14 +121,13 @@
 .anna-speaking-page-hero__link {
   color: var(--color-white);
   font-weight: var(--font-weight-semibold);
-  text-decoration: underline;
   text-underline-offset: 3px;
 }
 
 .anna-speaking-page-hero__stats {
   position: relative;
   z-index: 1;
-  background: #005f52;
+  background: #007063EB;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -146,7 +149,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
-  padding: var(--space-6) var(--space-5);
+  padding: var(--space-8) var(--space-5);
   border-right: 1px solid rgba(255, 255, 255, 0.12);
   text-align: center;
 }
@@ -156,10 +159,10 @@
 }
 
 .anna-speaking-page-hero__stat-value {
-  color: var(--speaking-cream);
+  color: #D9E89A;
   font-family: var(--font-heading);
-  font-size: clamp(1.5rem, 1.3rem + 0.5vw, 2rem);
-  font-weight: var(--font-weight-regular);
+      font-size: 34px;
+    font-weight: 600;
   line-height: 1;
 }
 
@@ -188,12 +191,13 @@
 }
 
 .anna-speaking-page-bring__eyebrow {
-  margin: 0 0 var(--space-4);
-  color: var(--color-accent);
-  font-size: var(--text-sm);
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+    margin: 0 0 var(--space-5);
+    font-family: 'Lexend Giga', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 4.4px;
+  color: #0A5D47;
+  
 }
 
 .anna-speaking-page-bring__heading {
@@ -209,19 +213,31 @@
 
 .anna-speaking-page-bring__heading-line--primary {
   color: var(--speaking-accent);
+    margin: 0;
+    font-family: 'Lexend', sans-serif;
+    font-size: clamp(2rem, 3.2vw, 3.2rem);
+    line-height: 1.12;
+    font-weight: var(--font-weight-semibold);
 }
 
 .anna-speaking-page-bring__heading-line--accent {
-  color: var(--speaking-mint);
+  color: #0A5D4799;
+	margin: 0;
+    font-family: 'Lexend', sans-serif;
+    font-size: clamp(2rem, 3.2vw, 3.2rem);
+    line-height: 1.12;
+    font-weight: 400;
 }
 
 .anna-speaking-page-bring__copy {
-  margin-top: var(--space-6);
   color: var(--color-text);
   font-size: var(--text-base);
   line-height: 1.75;
 }
-
+.anna-speaking-page-bring__copy p{
+  margin-top: var(--space-8);
+	
+}
 .anna-speaking-page-bring__quote {
   margin: var(--space-8) 0 0;
   padding: 0 0 0 var(--space-6);
@@ -235,14 +251,16 @@
 
 .anna-speaking-page-bring__quote p {
   margin: 0;
+	color: #3A9176;
+	    font-weight: 400;
 }
 
 .anna-speaking-page-bring__btn {
   display: inline-flex;
-  margin-top: var(--space-8);
-  padding: 1rem 1.75rem;
+  margin-top: 3rem;
+  padding: .6rem 1.75rem;
   border-radius: 6px;
-  background: var(--speaking-accent);
+  background: #0A5D47;
   color: var(--color-white);
   font-weight: var(--font-weight-semibold);
   text-decoration: none;
@@ -255,7 +273,6 @@
 
 .anna-speaking-page-bring__figure {
   margin: 0;
-  border-radius: 8px;
   overflow: hidden;
 }
 
@@ -273,29 +290,31 @@
 }
 
 .anna-speaking-page-topics__header {
-  max-width: 42rem;
+  max-width: 50rem;
   margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
 }
 
 .anna-speaking-page-topics__eyebrow {
-  margin: 0 0 var(--space-4);
-  font-size: var(--text-sm);
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+     margin: 0 0 var(--space-5);
+    font-family: 'Lexend Giga', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 4.4px;
+  color: #0A5D47;
 }
 
 .anna-speaking-page-topics__heading {
-  margin: 0;
-  font-family: var(--font-heading);
-  font-size: clamp(2rem, 3.2vw, 2.75rem);
-  line-height: 1.12;
-  font-weight: var(--font-weight-semibold);
+  color: var(--speaking-accent);
+    margin: 0;
+    font-family: 'Lexend', sans-serif;
+    font-size: clamp(2rem, 3.2vw, 3.2rem);
+    line-height: 1.12;
+    font-weight: var(--font-weight-semibold);
 }
 
 .anna-speaking-page-topics__intro {
   margin: var(--space-6) 0 0;
-  font-size: var(--text-base);
+  font-size: 18px;
   line-height: 1.65;
   color: rgba(15, 31, 27, 0.88);
 }
@@ -329,8 +348,8 @@
   width: 2.5rem;
   height: 2.5rem;
   margin-bottom: var(--space-5);
-  border-radius: 50%;
-  border: 1.5px solid rgba(0, 112, 99, 0.35);
+  border-radius: 20%;
+/*   border: 1.5px solid rgba(0, 112, 99, 0.35); */
   background-color: rgba(0, 112, 99, 0.08);
   background-repeat: no-repeat;
   background-position: center;
@@ -364,10 +383,10 @@
 .anna-speaking-page-topic-card__title {
   margin: 0 0 var(--space-4);
   font-family: var(--font-heading);
-  font-size: clamp(1rem, 1.1vw, 1.1rem);
+  font-size: 20px;
   font-weight: var(--font-weight-semibold);
   line-height: 1.35;
-  color: var(--speaking-accent);
+  color: #0A5D47;
 }
 
 .anna-speaking-page-topic-card__body {
@@ -383,21 +402,21 @@
 }
 
 .anna-speaking-page-formats__eyebrow {
-  margin: 0 0 var(--space-4);
-  color: var(--color-accent);
-  font-size: var(--text-sm);
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+      margin: 0 0 var(--space-5);
+    font-family: 'Lexend Giga', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 4.4px;
+    color: #0A5D47;
 }
 
 .anna-speaking-page-formats__heading {
-  margin: 0;
-  color: var(--speaking-accent);
-  font-family: var(--font-heading);
-  font-size: clamp(2rem, 3.2vw, 2.75rem);
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.12;
+      color: var(--speaking-accent);
+    margin: 0;
+    font-family: 'Lexend', sans-serif;
+    font-size: clamp(2rem, 3.2vw, 3.2rem);
+    line-height: 1.12;
+    font-weight: var(--font-weight-semibold);
 }
 
 .anna-speaking-page-formats__grid {
@@ -426,8 +445,7 @@
 
 .anna-speaking-page-format-card {
   position: relative;
-  padding: clamp(1.5rem, 3vw, 2rem);
-  padding-top: clamp(3rem, 5vw, 3.5rem);
+  padding: 100px 30px 30px 30px;
   border-radius: 16px;
   background: var(--color-white);
   box-shadow: 0 12px 40px rgba(15, 31, 27, 0.06);
@@ -437,20 +455,20 @@
   position: absolute;
   top: 0.75rem;
   left: 1rem;
-  color: rgba(0, 112, 99, 0.22);
+  color: #87B4AE99;
   font-family: var(--font-heading);
-  font-size: clamp(2.5rem, 4vw, 3.25rem);
-  font-weight: var(--font-weight-regular);
+  font-size: 72px;
+  font-weight: 700;
   line-height: 1;
 }
 
 .anna-speaking-page-format-card__title {
-  margin: 0 0 var(--space-4);
-  color: var(--speaking-accent);
-  font-family: var(--font-heading);
-  font-size: clamp(1rem, 1.15vw, 1.125rem);
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.35;
+     margin: 0 0 var(--space-4);
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.35;
+    color: #0A5D47;
 }
 
 .anna-speaking-page-format-card__body {
@@ -462,18 +480,19 @@
 
 .anna-speaking-page-formats__audience {
   margin-top: var(--space-6);
-  padding: clamp(1.75rem, 3vw, 2.25rem);
+  padding: clamp(1.75rem, 3vw, 3.25rem);
   border-radius: 16px;
   background: var(--color-white);
   box-shadow: 0 12px 40px rgba(15, 31, 27, 0.06);
 }
 
 .anna-speaking-page-formats__audience-heading {
-  margin: 0 0 var(--space-6);
-  color: var(--speaking-accent);
-  font-family: var(--font-heading);
-  font-size: clamp(1.25rem, 1.5vw, 1.5rem);
-  font-weight: var(--font-weight-semibold);
+      margin: 0 0 var(--space-4);
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.35;
+    color: #0A5D47;
 }
 
 .anna-speaking-page-formats__audience-list {
@@ -494,7 +513,7 @@
   position: relative;
   padding-left: 1.1rem;
   color: var(--color-text);
-  font-size: var(--text-base);
+  font-size: .9rem;
   line-height: 1.5;
 }
 
@@ -511,7 +530,7 @@
 
 /* Takeaway */
 .anna-speaking-page-takeaway {
-  background: #005f52;
+  background: #007063;
   color: var(--color-white);
 }
 
@@ -528,12 +547,12 @@
 }
 
 .anna-speaking-page-takeaway__eyebrow {
-  margin: 0 0 var(--space-4);
-  color: var(--speaking-gold);
-  font-size: var(--text-sm);
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+      margin: 0 0 var(--space-5);
+    font-family: 'Lexend Giga', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 4.4px;
+    color: #D9E89A;
 }
 
 .anna-speaking-page-takeaway__heading {
@@ -551,7 +570,12 @@
   font-size: var(--text-base);
   line-height: 1.75;
 }
-
+.anna-speaking-page-takeaway__copy p{
+	color: #fff;
+	    font-weight: 100;
+	    letter-spacing: .6px;
+	    margin-top: var(--space-8);
+}
 .anna-speaking-page-takeaway__list {
   margin: 0;
   padding: 0;
@@ -569,7 +593,6 @@
   padding: var(--space-5) var(--space-6);
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .anna-speaking-page-takeaway__icon {
@@ -584,8 +607,10 @@
 }
 
 .anna-speaking-page-takeaway__text {
-  font-size: var(--text-base);
+  font-size: .8rem;
   line-height: 1.55;
+	font-weight: 200 !important;
+	    letter-spacing: .6px;
 }
 
 .anna-speaking-page-takeaway__text strong {
@@ -601,7 +626,7 @@
 .anna-speaking-page-experience__grid {
   display: grid;
   gap: clamp(2rem, 5vw, 3rem);
-  align-items: start;
+  align-items: center;
 }
 
 @media (min-width: 900px) {
@@ -615,31 +640,31 @@
   margin: 0;
   padding: clamp(1.75rem, 3vw, 2.25rem);
   border-radius: 16px;
-  background: var(--speaking-cream-bg);
+  background: #E6EFE54D;
 }
 
 .anna-speaking-page-experience__stars {
   display: flex;
   gap: 0.2rem;
   margin-bottom: var(--space-5);
-  color: var(--speaking-mint);
-  font-size: 0.85rem;
+  color: #D9E89A;
+  font-size: 2rem;
   letter-spacing: 0.08em;
 }
 
 .anna-speaking-page-experience__quote {
   margin: 0;
-  font-style: italic;
   color: var(--color-text);
-  font-size: var(--text-base);
+  font-size: 1.3rem;
   line-height: 1.65;
+	    font-family: 'Mulish';
 }
 
 .anna-speaking-page-experience__name {
   display: block;
-  margin-top: var(--space-6);
+  margin-top: var(--space-8);
   font-style: normal;
-  color: var(--speaking-accent);
+  color: #0A5D47;
   font-family: var(--font-heading);
   font-size: 1.05rem;
   font-weight: var(--font-weight-semibold);
@@ -647,18 +672,17 @@
 
 .anna-speaking-page-experience__role {
   display: block;
-  margin-top: var(--space-2);
   color: rgba(26, 43, 37, 0.65);
   font-size: 0.92rem;
 }
 
 .anna-speaking-page-experience__eyebrow {
-  margin: 0 0 var(--space-4);
-  color: var(--color-accent);
-  font-size: var(--text-sm);
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  margin: 0 0 var(--space-5);
+    font-family: 'Lexend Giga', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 4.4px;
+    color: #0A5D47;
 }
 
 .anna-speaking-page-experience__heading {
@@ -677,7 +701,7 @@
 }
 
 .anna-speaking-page-experience__heading-secondary {
-  color: var(--speaking-mint);
+  color: #00706399;
 }
 
 .anna-speaking-page-experience__copy {
@@ -686,7 +710,10 @@
   font-size: var(--text-base);
   line-height: 1.75;
 }
-
+.anna-speaking-page-experience__copy p{
+  margin-top: var(--space-8);
+	
+}
 .anna-speaking-page-experience__link-wrap {
   margin-top: var(--space-6);
   color: var(--color-text);
@@ -732,4 +759,80 @@
   .anna-speaking-page-hero__content {
     max-width: none;
   }
+}
+
+
+
+
+
+.anna-speaking-page-formats__heading span{
+	color: #238B74E5;
+	font-weight: 400;
+}
+.speaker-section .anna-speaking-page-formats__heading {
+	margin-bottom: var(--space-8);
+	margin-top: var(--space-8);
+}
+.container {
+    width: 90%;
+    max-width: 1240px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    gap: 60px;
+    align-items: flex-start;
+}
+
+.content {
+    flex: 1;
+    max-width: 600px;
+}
+
+.eyebrow {
+    display: inline-block;
+    color: #0f6b57;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    text-transform: none;
+}
+
+
+.enquiry-card {
+    width: 100%;
+    background: #E6EFE566;
+    padding: 55px 50px;
+    border-radius: 15px;
+}
+
+.enquiry-card h2 {
+    font-size: 24px;
+    color: #0A5D47;
+    margin-bottom: 24px;
+    line-height: 1.2;
+}
+
+.enquiry-card p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #666;
+}
+
+.enquiry-card_btn{
+	    display: inline-flex;
+    margin: 2rem 0;
+    padding: .6rem 1.75rem;
+    border-radius: 3px;
+    background: #007063;
+    color: var(--color-white);
+    font-weight: var(--font-weight-semibold);
+    text-decoration: none;
+	width: 100%;
+	    justify-content: center;
+}
+.enquiry-card-contact{
+	font-size: 12px;
+	color: #1A2B2599;
+	font-weight: 700;
 }

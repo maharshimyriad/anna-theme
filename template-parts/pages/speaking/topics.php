@@ -27,6 +27,7 @@ $cards = isset( $speaking['topics_card_items'] ) && is_array( $speaking['topics_
 
 			<?php if ( ! empty( $speaking['topics_heading'] ) ) : ?>
 				<h2 class="anna-speaking-page-topics__heading"><?php echo esc_html( $speaking['topics_heading'] ); ?></h2>
+				<h2 class="anna-speaking-page-bring__heading-line--accent">Grounded in lived experience.</h2>
 			<?php endif; ?>
 
 			<?php if ( ! empty( $speaking['topics_intro'] ) ) : ?>

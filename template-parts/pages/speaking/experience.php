@@ -22,7 +22,7 @@ $has_testimonial = ! empty( $speaking['experience_testimonial_quote'] );
 	<div class="anna-container anna-container--max">
 		<div class="anna-speaking-page-experience__grid">
 			<?php if ( $has_testimonial ) : ?>
-				<blockquote class="anna-speaking-page-experience__testimonial">
+				<div class="anna-speaking-page-experience__testimonial">
 					<div class="anna-speaking-page-experience__stars" aria-hidden="true">
 						<?php for ( $i = 0; $i < 5; $i++ ) : ?>
 							<span>★</span>
@@ -35,7 +35,7 @@ $has_testimonial = ! empty( $speaking['experience_testimonial_quote'] );
 					<?php if ( ! empty( $speaking['experience_testimonial_role'] ) ) : ?>
 						<span class="anna-speaking-page-experience__role"><?php echo esc_html( $speaking['experience_testimonial_role'] ); ?></span>
 					<?php endif; ?>
-				</blockquote>
+				</div>
 			<?php endif; ?>
 
 			<div class="anna-speaking-page-experience__content">

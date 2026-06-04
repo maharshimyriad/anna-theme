@@ -25,7 +25,7 @@
 }
 
 .anna-mhs-page-section--dark {
-  background: var(--mhs-dark);
+  background: #007063;
   color: var(--color-white);
 }
 
@@ -37,16 +37,16 @@
 }
 
 .anna-mhs-page__heading {
-  margin: 0 0 var(--space-8);
-  color: var(--mhs-accent);
-  font-family: var(--font-heading);
-  font-size: clamp(2rem, 1.75rem + 0.8vw, 2.75rem);
-  line-height: 1.15;
-  font-weight: var(--font-weight-semibold);
+      margin: 0;
+    color: #007063;
+    font-family: 'Lexend', sans-serif;
+    font-size: clamp(2rem, 3.2vw, 3.2rem);
+    line-height: 1.12;
+    font-weight: var(--font-weight-semibold);
 }
 
 .anna-mhs-page__copy {
-  max-width: 42rem;
+  max-width: 90rem;
   color: var(--mhs-text);
   font-family: var(--font-body);
   font-size: clamp(1rem, 0.95rem + 0.15vw, 1.125rem);
@@ -54,7 +54,10 @@
 }
 
 .anna-mhs-page__copy p {
-  margin: 0 0 var(--space-6);
+     margin-top: var(--space-6);
+    color: var(--color-text);
+    font-size: var(--text-base);
+    line-height: 1.75;
 }
 
 .anna-mhs-page__copy p:last-child {
@@ -85,15 +88,6 @@
   background-color: #2d4a3e;
 }
 
-.anna-mhs-page-hero__overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg,
-      rgba(20, 45, 38, 0.82) 0%,
-      rgba(20, 45, 38, 0.55) 45%,
-      rgba(20, 45, 38, 0.25) 100%);
-  pointer-events: none;
-}
 
 .anna-mhs-page-hero .anna-container {
   position: relative;
@@ -101,26 +95,27 @@
 }
 
 .anna-mhs-page-hero__content {
-  max-width: 36rem;
+  max-width: 40rem;
   padding-block: clamp(3rem, 8vh, 5rem);
 }
 
 .anna-mhs-page-hero__eyebrow {
-  margin: 0 0 var(--space-5);
-  color: rgba(255, 255, 255, 0.88);
-  font-size: clamp(0.75rem, 0.7rem + 0.15vw, 0.875rem);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  font-weight: var(--font-weight-medium);
+margin: 0 0 var(--space-5);
+    color: #FFFFFF;
+    font-family: 'Lexend Giga', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 4.4px;
 }
 
 .anna-mhs-page-hero__heading {
   margin: 0;
-  color: var(--color-white);
-  font-family: var(--font-heading);
-  font-size: clamp(2.25rem, 1.9rem + 1.1vw, 3.25rem);
-  line-height: 1.12;
-  font-weight: var(--font-weight-semibold);
+    color: #FFFFFFE5;
+    font-family: var(--font-heading);
+    font-size: clamp(3rem, 2.55rem + 1.45vw, 4.75rem);
+    line-height: 1.2;
+    font-weight: 600;
+    letter-spacing: var(--tracking-snug);
 }
 
 /* Two-column sections */
@@ -149,21 +144,21 @@
 
 .anna-mhs-page-programs__content,
 .anna-mhs-page-work__content {
-  max-width: 46rem;
+  max-width: 70rem;
 }
 
 /* Practice (dark) */
 .anna-mhs-page-practice__content {
-  max-width: 36rem;
+  max-width: 70rem;
 }
 
 .anna-mhs-page-practice__heading {
   margin: 0 0 var(--space-8);
   color: var(--color-white);
-  font-family: var(--font-heading);
-  font-size: clamp(2rem, 1.75rem + 0.8vw, 2.75rem);
-  line-height: 1.15;
-  font-weight: var(--font-weight-semibold);
+    font-family: 'Lexend', sans-serif;
+    font-size: clamp(2rem, 3.2vw, 3.2rem);
+    line-height: 1.12;
+    font-weight: var(--font-weight-semibold);
 }
 
 .anna-mhs-page-practice__copy {
@@ -174,6 +169,8 @@
 
 .anna-mhs-page-practice__copy p {
   margin: 0 0 var(--space-6);
+	color: #FFFFFF;
+	font-weight: 400;
 }
 
 .anna-mhs-page-practice__link-wrap {
@@ -201,23 +198,25 @@
   color: var(--mhs-accent);
   font-family: var(--font-heading);
   font-size: clamp(2rem, 1.75rem + 0.8vw, 2.75rem);
-  font-weight: var(--font-weight-semibold);
+  font-weight: 400;
 }
 
 .anna-mhs-page-ready__subheading {
   margin: var(--space-5) auto 0;
   max-width: 32rem;
   color: var(--color-text);
-  font-size: clamp(1.05rem, 1rem + 0.2vw, 1.25rem);
+      font-size: 18px;
   line-height: 1.5;
+	font-weight: 600;
 }
 
 .anna-mhs-page-ready__body {
   margin: var(--space-4) auto 0;
   max-width: 36rem;
-  color: var(--mhs-text);
-  font-size: var(--text-base);
+  color: #374151;
+  font-size: 16px;
   line-height: 1.6;
+	font-weight: 600;
 }
 
 .anna-mhs-page-ready__actions {

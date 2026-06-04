@@ -18,8 +18,12 @@ if ( empty( $oasis ) ) {
 
 <section class="anna-oasis-page-section anna-oasis-page-begun">
 	<div class="anna-container anna-container--max">
+		<?php if ( ! empty( $oasis['begun_eyebrow'] ) ) : ?>
+					<p class="anna-oasis-page-begun__eyebrow"><?php echo esc_html( $oasis['begun_eyebrow'] ); ?></p>
+				<?php endif; ?>
 		<div class="anna-oasis-page-begun__grid">
 			<div class="anna-oasis-page-begun__media-col">
+				
 				<?php if ( ! empty( $oasis['begun_image_id'] ) ) : ?>
 					<figure class="anna-oasis-page-begun__figure">
 						<?php echo wp_get_attachment_image( absint( $oasis['begun_image_id'] ), 'large', false, array( 'class' => 'anna-oasis-page-begun__image' ) ); ?>
@@ -39,9 +43,6 @@ if ( empty( $oasis ) ) {
 			</div>
 
 			<div class="anna-oasis-page-begun__content">
-				<?php if ( ! empty( $oasis['begun_eyebrow'] ) ) : ?>
-					<p class="anna-oasis-page-begun__eyebrow"><?php echo esc_html( $oasis['begun_eyebrow'] ); ?></p>
-				<?php endif; ?>
 
 				<?php if ( ! empty( $oasis['begun_heading'] ) ) : ?>
 					<h2 class="anna-oasis-page-begun__heading"><?php echo esc_html( $oasis['begun_heading'] ); ?></h2>

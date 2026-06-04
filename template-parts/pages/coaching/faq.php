@@ -28,10 +28,10 @@ $right    = array_slice( $faq_items, $midpoint );
 <section class="anna-coaching-page-section anna-coaching-page-faq">
 	<div class="anna-container">
 		<?php if ( ! empty( $coaching['faq_heading'] ) ) : ?>
-			<h2 class="anna-coaching-page-faq__heading anna-reveal"><?php echo esc_html( $coaching['faq_heading'] ); ?></h2>
+			<h2 class="anna-coaching-page-faq__heading"><?php echo esc_html( $coaching['faq_heading'] ); ?><br><span>need to know.</span></h2>
 		<?php endif; ?>
 
-		<div class="anna-coaching-page-faq__grid anna-reveal" data-anna-coaching-faq>
+		<div class="anna-coaching-page-faq__grid" data-anna-coaching-faq>
 			<div class="anna-coaching-page-faq__column">
 				<?php foreach ( $left as $index => $item ) : ?>
 					<?php anna_render_coaching_faq_item( $item, $index ); ?>

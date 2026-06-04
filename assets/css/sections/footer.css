@@ -1,5 +1,5 @@
 .anna-footer {
-  background: #0a7a6f;
+  background: #007063;
   color: rgba(255, 255, 255, 0.74);
 }
 
@@ -16,12 +16,12 @@
 }
 
 .anna-footer__col-title {
-  margin: 0 0 0.95rem;
+  margin: 0 0 2.95rem;
   color: var(--color-white);
   text-transform: none;
-  letter-spacing: 0.02em;
-  font-size: 0.95rem;
-  font-weight: 700;
+      letter-spacing: 1px;
+    font-size: 16px;
+    font-weight: 400;
 }
 
 .anna-footer__brand-text,
@@ -31,6 +31,7 @@
   color: rgba(255, 255, 255, 0.8);
   line-height: 1.7;
   font-size: 0.9rem;
+	    font-weight: 300;
 }
 
 .anna-footer__brand-text {
@@ -71,6 +72,7 @@
   color: var(--color-white);
   border-radius: 0.25rem;
   font-size: 0.92rem;
+	    padding: 0 10px;
 }
 
 .anna-footer__newsletter-form .anna-input::placeholder {
@@ -96,11 +98,15 @@
 }
 
 .anna-footer__copyright {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 0.88rem;
+      margin: 10px 0 0 0;
+    color: #FFFBE7;
+    font-size: 0.88rem;
+    font-weight: 200;
+	letter-spacing: .4px;
 }
-
+.anna-footer__logo img{
+	    height: 45px;
+}
 @media (max-width: 980px) {
   .anna-footer__grid {
     grid-template-columns: 1fr 1fr;

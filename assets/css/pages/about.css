@@ -111,7 +111,6 @@
 }
 
 .anna-about-page-story__media {
-    aspect-ratio: 0.9 / 1;
     overflow: hidden;
     border-radius: 1rem;
     background: var(--color-bg-soft);
@@ -206,8 +205,12 @@
 }
 
 .anna-about-page-coach__eyebrow {
-  margin: 0 0 var(--space-4);
   color: rgba(255, 255, 255, 0.78);
+	margin: 0 0 var(--space-5);
+    font-family: 'Lexend Giga', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 4.4px;
 }
 
 .anna-about-page-coach__heading {
@@ -220,7 +223,7 @@
 
 .anna-about-page-coach__copy p {
   color: rgba(255, 255, 255, 0.86);
-  line-height: 1.9;
+  line-height: 1.5;
   font-size: var(--text-base);
 }
 
@@ -258,7 +261,7 @@
 }
 
 .anna-about-page-work {
-  background: #f7faf8;
+  background: #F2F6F2;
 }
 
 .anna-about-page-work__grid {
@@ -273,18 +276,20 @@
   letter-spacing: 0.18em;
   font-size: 0.78rem;
   color: var(--color-primary);
+	font-family: 'Lexend Giga', sans-serif;
 }
 
 .anna-about-page-work__heading {
-  margin: 0 0 var(--space-6);
-  color: var(--color-primary);
-  font-size: clamp(2.1rem, 3.6vw, 3.05rem);
-  line-height: 1.05;
+    margin: 0 0 var(--space-8);
+    color: #007063;
+    font-size: var(--about-heading-size);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-snug);
 }
 
 .anna-about-page-work__copy {
   color: rgba(15, 31, 27, 0.72);
-  line-height: 1.9;
+  line-height: 1.5;
   font-size: var(--text-base);
 }
 
@@ -301,7 +306,7 @@
   background: var(--color-white);
   border: 1px solid rgba(0, 112, 99, 0.08);
   border-radius: 0.9rem;
-  padding: 1.35rem 1.35rem;
+  padding: 40px;
   box-shadow: 0 10px 26px rgba(15, 31, 27, 0.05);
 }
 
@@ -316,7 +321,7 @@
 .anna-about-page-work-card__body {
   margin: 0;
   color: rgba(15, 31, 27, 0.68);
-  line-height: 1.7;
+  line-height: 1.5;
   font-size: 0.96rem;
 }
 
@@ -326,23 +331,27 @@
 }
 
 .anna-about-page-people__eyebrow {
-  margin: 0 0 var(--space-4);
-  letter-spacing: 0.18em;
-  font-size: 0.78rem;
-  color: rgba(15, 31, 27, 0.55);
+      margin: 0 0 var(--space-5);
+    font-family: 'Lexend Giga', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 4.4px;
+    color: #0A5D47;
 }
 
 .anna-about-page-people__heading {
-  margin: 0 0 var(--space-5);
-  color: var(--color-primary);
-  font-size: clamp(2.1rem, 3.6vw, 3.05rem);
-  line-height: 1.05;
+    margin: 0 0 var(--space-6);
+    font-size: clamp(2rem, 1.5rem + 1.5vw, 2.25rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  color: #007063;
+ 
 }
 
 .anna-about-page-people__intro {
   margin: 0;
   color: rgba(15, 31, 27, 0.7);
-  line-height: 1.7;
+  line-height: 1.5;
   font-size: var(--text-base);
 }
 
@@ -358,18 +367,16 @@
   align-items: center;
   padding: 1.15rem 1.25rem;
   border-radius: 0.9rem;
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(0, 112, 99, 0.08);
-  box-shadow: 0 10px 26px rgba(15, 31, 27, 0.05);
+  background: #F9FAF9;
 }
 
 .anna-about-page-people-card__badge {
   width: 42px;
   height: 42px;
   border-radius: 999px;
-  background: #103f36;
+  background: #165040;
   color: rgba(255, 255, 255, 0.9);
-  font-weight: 700;
+  font-weight: 600;
   font-size: 0.8rem;
   display: grid;
   place-items: center;
@@ -384,18 +391,18 @@
 }
 
 .anna-about-page-people-card__title {
-  margin: 0;
-  color: rgba(15, 31, 27, 0.86);
-  font-size: 0.98rem;
-  line-height: 1.25;
-  font-weight: 700;
+     color: #165040;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: var(--space-2);
 }
 
 .anna-about-page-people-card__org {
   margin: 0.15rem 0 0;
-  color: var(--color-accent);
+  color: #3A9176;
   font-size: 0.82rem;
   line-height: 1.25;
+    font-weight: 700;
 }
 
 .anna-about-page__quote {
@@ -496,7 +503,7 @@
   --about-connect-bg: #FFFBE7AA;
   --about-connect-eyebrow: #5f9a8f;
   --about-connect-heading: #4ca591;
-  background: var(--about-connect-bg);
+  background: #FFFBE733;
   color: var(--color-white);
   text-align: center;
   padding: clamp(4.5rem, 10vw, 6.5rem) 0;

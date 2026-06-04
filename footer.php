@@ -35,6 +35,9 @@ if ( ! $copy ) {
 					<p class="anna-footer__brand-text">
 						<?php echo nl2br( esc_html( anna_get_option( 'footer_description', '' ) ) ); ?>
 					</p>
+					<div class="anna-footer__bottom">
+				<p class="anna-footer__copyright"><?php echo esc_html( $copy ); ?></p>
+			</div>
 				</div>
 
 				<div class="anna-footer__col">
@@ -83,11 +86,7 @@ if ( ! $copy ) {
 			</div>
 		</div>
 
-		<div class="anna-container anna-container--wide">
-			<div class="anna-footer__bottom">
-				<p class="anna-footer__copyright"><?php echo esc_html( $copy ); ?></p>
-			</div>
-		</div>
+		
 	</footer>
 
 </div>
