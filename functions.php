@@ -35,11 +35,15 @@ require_once ANNA_DIR . '/inc/oasis-helpers.php';
 require_once ANNA_DIR . '/inc/speaking-helpers.php';
 require_once ANNA_DIR . '/inc/mhs-helpers.php';
 require_once ANNA_DIR . '/inc/move-helpers.php';
+require_once ANNA_DIR . '/inc/contact-helpers.php';
+require_once ANNA_DIR . '/inc/reviews-helpers.php';
+require_once ANNA_DIR . '/inc/blog-helpers.php';
 require_once ANNA_DIR . '/inc/template-functions.php';
 require_once ANNA_DIR . '/inc/template-tags.php';
 require_once ANNA_DIR . '/inc/nav-walkers.php';
 
 // ─── Custom Post Types ────────────────────────────────────────────────────────
+require_once ANNA_DIR . '/inc/cpt-reviews.php';
 
 // ─── Taxonomies ───────────────────────────────────────────────────────────────
 

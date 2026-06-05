@@ -89,6 +89,33 @@ function anna_responsive_image_url( $attachment_id, $size = 'full' ) {
 }
 
 /**
+ * Output an accessible star-rating row.
+ *
+ * Echoes the stars directly so it can be used in template includes.
+ * Each full star is a filled SVG polygon. Empty stars use a lighter opacity.
+ *
+ * @param int $rating  Number of filled stars (1-5).
+ * @param int $max     Total number of stars to render.
+ */
+function anna_star_rating( $rating = 5, $max = 5 ) {
+	$rating = min( max( 0, (int) $rating ), $max );
+	$path   = 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z';
+
+	echo '<span class="anna-star-rating" aria-label="' . esc_attr( sprintf( /* translators: %1$d filled, %2$d total */ '%1$d out of %2$d stars', $rating, $max ) ) . '" role="img">';
+
+	for ( $i = 1; $i <= $max; $i++ ) {
+		$filled = $i <= $rating;
+		printf(
+			'<svg class="anna-star-rating__star" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="%s"><path d="%s"/></svg>',
+			$filled ? '' : 'opacity:0.25;',
+			esc_attr( $path )
+		);
+	}
+
+	echo '</span>';
+}
+
+/**
  * Outputs a service icon SVG by slug.
  *
  * @param string $icon Icon slug identifier.

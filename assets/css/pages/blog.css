@@ -1,0 +1,273 @@
+/**
+ * Blog page styles.
+ *
+ * @package Anna_Baylis
+ * @since   1.0.0
+ */
+
+.anna-blog-page-main {
+  background: var(--color-white);
+  --blog-section-padding: clamp(4.5rem, 8vw, 7rem);
+}
+
+/* ── Hero ───────────────────────────────────────────────────────────────── */
+.anna-blog-page-hero {
+  margin-top: var(--header-height);
+  padding: clamp(3.5rem, 7vh, 5.5rem) 0;
+  background: var(--color-primary-dark, #005549);
+  background: linear-gradient(135deg, #005549 0%, #007063 100%);
+  color: var(--color-white);
+  text-align: center;
+}
+
+.anna-blog-page-hero__content {
+  max-width: 50rem;
+  margin-inline: auto;
+}
+
+.anna-blog-page-hero__heading {
+  margin: 0 0 var(--space-5);
+  font-family: var(--font-heading);
+  font-size: clamp(2.25rem, 2rem + 1.5vw, 3.25rem);
+  font-weight: var(--font-weight-regular);
+  letter-spacing: var(--tracking-snug);
+  line-height: 1.1;
+  color: var(--color-white);
+}
+
+.anna-blog-page-hero__description {
+  margin: 0;
+  font-size: clamp(1rem, 1rem + 0.2vw, 1.2rem);
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 38rem;
+  margin-inline: auto;
+}
+
+/* ── Posts section ──────────────────────────────────────────────────────── */
+.anna-blog-page-posts {
+  padding: var(--blog-section-padding) 0;
+  background: var(--color-white);
+}
+
+/* ── Section header ─────────────────────────────────────────────────────── */
+.anna-blog-page-posts__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-8);
+  flex-wrap: wrap;
+  margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+.anna-blog-page-posts__header-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.anna-blog-page-posts__heading {
+  margin: 0 0 var(--space-2);
+  color: var(--color-primary);
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 2.8vw, 2.5rem);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.15;
+}
+
+.anna-blog-page-posts__subtext {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-style: italic;
+  font-family: var(--font-body);
+}
+
+/* ── Category filter tabs ────────────────────────────────────────────────── */
+.anna-blog-page-posts__cats {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.anna-blog-page-posts__cat-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  border: 1.5px solid var(--color-border);
+  background: var(--color-white);
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+  transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+  white-space: nowrap;
+}
+
+.anna-blog-page-posts__cat-btn:hover {
+  background: var(--color-bg-soft);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.anna-blog-page-posts__cat-btn.is-active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-white);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ── Post grid ──────────────────────────────────────────────────────────── */
+.anna-blog-page-posts__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(var(--space-6), 2.5vw, var(--space-8));
+}
+
+.anna-blog-page-posts__empty {
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: var(--space-16) 0;
+  font-size: var(--text-base);
+}
+
+/* ── Blog card ──────────────────────────────────────────────────────────── */
+.anna-blog-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+  border: 1px solid var(--color-border-soft);
+  box-shadow: var(--shadow-xs);
+  overflow: hidden;
+  transition: box-shadow var(--transition-base), transform var(--transition-base);
+}
+
+.anna-blog-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+}
+
+/* ── Thumbnail ────────────────────────────────────────────────────────── */
+.anna-blog-card__thumb-link {
+  display: block;
+  overflow: hidden;
+}
+
+.anna-blog-card__thumb {
+  margin: 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.anna-blog-card__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform var(--transition-slow);
+}
+
+.anna-blog-card:hover .anna-blog-card__img {
+  transform: scale(1.04);
+}
+
+/* ── Card body ────────────────────────────────────────────────────────── */
+.anna-blog-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: clamp(1.25rem, 2.5vw, 1.75rem);
+  flex: 1;
+}
+
+/* ── Category badge ───────────────────────────────────────────────────── */
+.anna-blog-card__cat {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  background: rgba(0, 112, 99, 0.10);
+  color: var(--color-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+/* ── Title ────────────────────────────────────────────────────────────── */
+.anna-blog-card__title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.35;
+}
+
+.anna-blog-card__title a {
+  color: var(--color-heading);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.anna-blog-card__title a:hover {
+  color: var(--color-primary);
+}
+
+/* ── Excerpt ──────────────────────────────────────────────────────────── */
+.anna-blog-card__excerpt {
+  margin: 0;
+  flex: 1;
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  line-height: 1.70;
+}
+
+/* ── Footer ───────────────────────────────────────────────────────────── */
+.anna-blog-card__footer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border-soft);
+  margin-top: auto;
+}
+
+.anna-blog-card__date,
+.anna-blog-card__read-time {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1-5);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .anna-blog-page-posts__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .anna-blog-page-posts__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .anna-blog-page-posts__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .anna-blog-page-posts__cats {
+    width: 100%;
+  }
+}

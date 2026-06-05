@@ -185,6 +185,39 @@ function anna_enqueue_styles() {
 		$prev_dep = 'anna-page-move';
 	}
 
+	if ( is_page_template( 'page-contact.php' ) || is_page( 'contact' ) ) {
+		wp_enqueue_style(
+			'anna-page-contact',
+			ANNA_CSS . '/pages/contact.css',
+			array( $prev_dep ),
+			anna_asset_version( 'assets/css/pages/contact.css' )
+		);
+
+		$prev_dep = 'anna-page-contact';
+	}
+
+	if ( is_page_template( 'page-reviews.php' ) || is_page( 'reviews' ) ) {
+		wp_enqueue_style(
+			'anna-page-reviews',
+			ANNA_CSS . '/pages/reviews.css',
+			array( $prev_dep ),
+			anna_asset_version( 'assets/css/pages/reviews.css' )
+		);
+
+		$prev_dep = 'anna-page-reviews';
+	}
+
+	if ( is_page_template( 'page-blog.php' ) || is_page( 'blog' ) ) {
+		wp_enqueue_style(
+			'anna-page-blog',
+			ANNA_CSS . '/pages/blog.css',
+			array( $prev_dep ),
+			anna_asset_version( 'assets/css/pages/blog.css' )
+		);
+
+		$prev_dep = 'anna-page-blog';
+	}
+
 	anna_enqueue_scaffolded_page_styles( $prev_dep );
 
 	wp_enqueue_style(

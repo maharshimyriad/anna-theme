@@ -63,8 +63,7 @@ function anna_get_tab_fields_map() {
 		'speaking_page' => array_keys( function_exists( 'anna_get_speaking_theme_option_defaults' ) ? anna_get_speaking_theme_option_defaults() : array() ),
 		'mhs_page'      => array_keys( function_exists( 'anna_get_mhs_theme_option_defaults' ) ? anna_get_mhs_theme_option_defaults() : array() ),
 		'move_page'     => array_keys( function_exists( 'anna_get_move_theme_option_defaults' ) ? anna_get_move_theme_option_defaults() : array() ),
-		'coaching_page' => array(
-			'coaching_pg_hero_eyebrow', 'coaching_pg_hero_heading', 'coaching_pg_hero_description', 'coaching_pg_hero_tags_text', 'coaching_pg_hero_image_id',
+		'coaching_page' => array(			'coaching_pg_hero_eyebrow', 'coaching_pg_hero_heading', 'coaching_pg_hero_description', 'coaching_pg_hero_tags_text', 'coaching_pg_hero_image_id',
 			'coaching_pg_hero_button_text', 'coaching_pg_hero_button_url',
 			'coaching_pg_what_eyebrow', 'coaching_pg_what_heading', 'coaching_pg_what_body',
 			'coaching_pg_what_button_text', 'coaching_pg_what_button_url', 'coaching_pg_what_card_heading', 'coaching_pg_what_card_items',
