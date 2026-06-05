@@ -97,6 +97,7 @@ function anna_responsive_image_url( $attachment_id, $size = 'full' ) {
  * @param int $rating  Number of filled stars (1-5).
  * @param int $max     Total number of stars to render.
  */
+if ( ! function_exists( 'anna_star_rating' ) ) :
 function anna_star_rating( $rating = 5, $max = 5 ) {
 	$rating = min( max( 0, (int) $rating ), $max );
 	$path   = 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z';
@@ -114,6 +115,7 @@ function anna_star_rating( $rating = 5, $max = 5 ) {
 
 	echo '</span>';
 }
+endif;
 
 /**
  * Outputs a service icon SVG by slug.
