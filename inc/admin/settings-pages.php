@@ -97,6 +97,13 @@ function anna_render_settings_page() {
 			<?php esc_html_e( 'Anna Baylis - Theme Settings', 'anna-baylis' ); ?>
 		</h1>
 
+		<p class="description" style="margin-top:0.5rem;padding:0.75rem 1rem;background:#f0f6fc;border-left:4px solid #72aee6;border-radius:2px;max-width:700px;">
+			<strong><?php esc_html_e( 'Tip:', 'anna-baylis' ); ?></strong>
+			<?php esc_html_e( 'Type', 'anna-baylis' ); ?>
+			<code>empty--</code>
+			<?php esc_html_e( 'into any text field to intentionally leave it blank on the frontend (hides the default content).', 'anna-baylis' ); ?>
+		</p>
+
 		<nav class="nav-tab-wrapper anna-admin-tabs" aria-label="<?php esc_attr_e( 'Settings tabs', 'anna-baylis' ); ?>">
 			<?php foreach ( $tabs as $slug => $label ) : ?>
 				<a href="?page=anna-theme-settings&tab=<?php echo esc_attr( $slug ); ?>" class="nav-tab <?php echo $active_tab === $slug ? 'nav-tab-active' : ''; ?>" aria-current="<?php echo $active_tab === $slug ? 'page' : 'false'; ?>">

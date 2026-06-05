@@ -13,6 +13,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Check if a field value is the intentional-blank sentinel.
+ *
+ * When an admin types "empty--" into any text or textarea field,
+ * the frontend will render nothing for that field instead of falling
+ * back to the default content.
+ *
+ * @param  mixed $value The field value to check.
+ * @return bool
+ */
+function anna_is_intentionally_blank( $value ) {
+	return is_string( $value ) && 'empty--' === trim( $value );
+}
+
+/**
  * Retrieve a theme option value with fallback.
  *
  * @param  string $key     Option key (without prefix).
@@ -21,7 +35,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function anna_get_option( $key, $default = '' ) {
 	$options = get_option( 'anna_theme_options', array() );
-	return isset( $options[ $key ] ) && $options[ $key ] !== '' ? $options[ $key ] : $default;
+	if ( ! isset( $options[ $key ] ) || $options[ $key ] === '' ) {
+		return $default;
+	}
+	// Sentinel: admin typed "empty--" to intentionally blank this field.
+	if ( anna_is_intentionally_blank( $options[ $key ] ) ) {
+		return '';
+	}
+	return $options[ $key ];
 }
 
 /**
@@ -63,40 +84,40 @@ function anna_get_homepage_hero_content() {
 	if ( $post_id && function_exists( 'anna_content_get_page_section' ) ) {
 		$hero = anna_content_get_page_section( $post_id, 'hero' );
 
-		if ( ! empty( $hero['eyebrow'] ) ) {
-			$content['eyebrow'] = $hero['eyebrow'];
+		if ( isset( $hero['eyebrow'] ) && ( ! empty( $hero['eyebrow'] ) || anna_is_intentionally_blank( $hero['eyebrow'] ) ) ) {
+			$content['eyebrow'] = anna_is_intentionally_blank( $hero['eyebrow'] ) ? '' : $hero['eyebrow'];
 		}
 
-		if ( ! empty( $hero['heading'] ) ) {
-			$content['heading'] = nl2br( $hero['heading'] );
+		if ( isset( $hero['heading'] ) && ( ! empty( $hero['heading'] ) || anna_is_intentionally_blank( $hero['heading'] ) ) ) {
+			$content['heading'] = anna_is_intentionally_blank( $hero['heading'] ) ? '' : nl2br( $hero['heading'] );
 		}
 
-		if ( ! empty( $hero['description'] ) ) {
-			$content['description'] = $hero['description'];
+		if ( isset( $hero['description'] ) && ( ! empty( $hero['description'] ) || anna_is_intentionally_blank( $hero['description'] ) ) ) {
+			$content['description'] = anna_is_intentionally_blank( $hero['description'] ) ? '' : $hero['description'];
 		}
 
-		if ( ! empty( $hero['trust_text'] ) ) {
-			$content['trust_text'] = $hero['trust_text'];
+		if ( isset( $hero['trust_text'] ) && ( ! empty( $hero['trust_text'] ) || anna_is_intentionally_blank( $hero['trust_text'] ) ) ) {
+			$content['trust_text'] = anna_is_intentionally_blank( $hero['trust_text'] ) ? '' : $hero['trust_text'];
 		}
 
 		if ( ! empty( $hero['image_id'] ) ) {
 			$content['image_id'] = absint( $hero['image_id'] );
 		}
 
-		if ( ! empty( $hero['primary_button_text'] ) ) {
-			$content['primary_cta']['text'] = $hero['primary_button_text'];
+		if ( isset( $hero['primary_button_text'] ) && ( ! empty( $hero['primary_button_text'] ) || anna_is_intentionally_blank( $hero['primary_button_text'] ) ) ) {
+			$content['primary_cta']['text'] = anna_is_intentionally_blank( $hero['primary_button_text'] ) ? '' : $hero['primary_button_text'];
 		}
 
-		if ( ! empty( $hero['primary_button_url'] ) ) {
-			$content['primary_cta']['url'] = $hero['primary_button_url'];
+		if ( isset( $hero['primary_button_url'] ) && ( ! empty( $hero['primary_button_url'] ) || anna_is_intentionally_blank( $hero['primary_button_url'] ) ) ) {
+			$content['primary_cta']['url'] = anna_is_intentionally_blank( $hero['primary_button_url'] ) ? '' : $hero['primary_button_url'];
 		}
 
-		if ( ! empty( $hero['secondary_button_text'] ) ) {
-			$content['secondary_cta']['text'] = $hero['secondary_button_text'];
+		if ( isset( $hero['secondary_button_text'] ) && ( ! empty( $hero['secondary_button_text'] ) || anna_is_intentionally_blank( $hero['secondary_button_text'] ) ) ) {
+			$content['secondary_cta']['text'] = anna_is_intentionally_blank( $hero['secondary_button_text'] ) ? '' : $hero['secondary_button_text'];
 		}
 
-		if ( ! empty( $hero['secondary_button_url'] ) ) {
-			$content['secondary_cta']['url'] = $hero['secondary_button_url'];
+		if ( isset( $hero['secondary_button_url'] ) && ( ! empty( $hero['secondary_button_url'] ) || anna_is_intentionally_blank( $hero['secondary_button_url'] ) ) ) {
+			$content['secondary_cta']['url'] = anna_is_intentionally_blank( $hero['secondary_button_url'] ) ? '' : $hero['secondary_button_url'];
 		}
 
 		$stats = array();
@@ -150,29 +171,29 @@ function anna_get_intro_section_content() {
 	$post_id = anna_get_current_page_content_id();
 	if ( $post_id && function_exists( 'anna_content_get_page_section' ) ) {
 		$data = anna_content_get_page_section( $post_id, 'intro' );
-		if ( ! empty( $data['intro_eyebrow'] ) ) {
-			$content['intro_eyebrow'] = $data['intro_eyebrow'];
+		if ( isset( $data['intro_eyebrow'] ) && ( ! empty( $data['intro_eyebrow'] ) || anna_is_intentionally_blank( $data['intro_eyebrow'] ) ) ) {
+			$content['intro_eyebrow'] = anna_is_intentionally_blank( $data['intro_eyebrow'] ) ? '' : $data['intro_eyebrow'];
 		}
-		if ( ! empty( $data['intro_heading'] ) ) {
-			$content['intro_heading'] = $data['intro_heading'];
+		if ( isset( $data['intro_heading'] ) && ( ! empty( $data['intro_heading'] ) || anna_is_intentionally_blank( $data['intro_heading'] ) ) ) {
+			$content['intro_heading'] = anna_is_intentionally_blank( $data['intro_heading'] ) ? '' : $data['intro_heading'];
 		}
-		if ( ! empty( $data['intro_body'] ) ) {
-			$content['intro_body'] = $data['intro_body'];
+		if ( isset( $data['intro_body'] ) && ( ! empty( $data['intro_body'] ) || anna_is_intentionally_blank( $data['intro_body'] ) ) ) {
+			$content['intro_body'] = anna_is_intentionally_blank( $data['intro_body'] ) ? '' : $data['intro_body'];
 		}
-		if ( ! empty( $data['intro_quote'] ) ) {
-			$content['intro_quote'] = $data['intro_quote'];
+		if ( isset( $data['intro_quote'] ) && ( ! empty( $data['intro_quote'] ) || anna_is_intentionally_blank( $data['intro_quote'] ) ) ) {
+			$content['intro_quote'] = anna_is_intentionally_blank( $data['intro_quote'] ) ? '' : $data['intro_quote'];
 		}
-		if ( ! empty( $data['intro_quote_cite'] ) ) {
-			$content['intro_quote_cite'] = $data['intro_quote_cite'];
+		if ( isset( $data['intro_quote_cite'] ) && ( ! empty( $data['intro_quote_cite'] ) || anna_is_intentionally_blank( $data['intro_quote_cite'] ) ) ) {
+			$content['intro_quote_cite'] = anna_is_intentionally_blank( $data['intro_quote_cite'] ) ? '' : $data['intro_quote_cite'];
 		}
-		if ( ! empty( $data['recognition_eyebrow'] ) ) {
-			$content['recognition_eyebrow'] = $data['recognition_eyebrow'];
+		if ( isset( $data['recognition_eyebrow'] ) && ( ! empty( $data['recognition_eyebrow'] ) || anna_is_intentionally_blank( $data['recognition_eyebrow'] ) ) ) {
+			$content['recognition_eyebrow'] = anna_is_intentionally_blank( $data['recognition_eyebrow'] ) ? '' : $data['recognition_eyebrow'];
 		}
-		if ( ! empty( $data['recognition_heading'] ) ) {
-			$content['recognition_heading'] = $data['recognition_heading'];
+		if ( isset( $data['recognition_heading'] ) && ( ! empty( $data['recognition_heading'] ) || anna_is_intentionally_blank( $data['recognition_heading'] ) ) ) {
+			$content['recognition_heading'] = anna_is_intentionally_blank( $data['recognition_heading'] ) ? '' : $data['recognition_heading'];
 		}
-		if ( ! empty( $data['recognition_description'] ) ) {
-			$content['recognition_description'] = $data['recognition_description'];
+		if ( isset( $data['recognition_description'] ) && ( ! empty( $data['recognition_description'] ) || anna_is_intentionally_blank( $data['recognition_description'] ) ) ) {
+			$content['recognition_description'] = anna_is_intentionally_blank( $data['recognition_description'] ) ? '' : $data['recognition_description'];
 		}
 		if ( ! empty( $data['recognition_items_text'] ) ) {
 			$content['recognition_items'] = preg_split( '/\r\n|\r|\n/', $data['recognition_items_text'] );
@@ -201,8 +222,8 @@ function anna_get_services_section_content() {
 	if ( $post_id && function_exists( 'anna_content_get_page_section' ) ) {
 		$data = anna_content_get_page_section( $post_id, 'services' );
 		foreach ( array( 'eyebrow', 'heading', 'description', 'cta_text', 'cta_url' ) as $key ) {
-			if ( ! empty( $data[ $key ] ) ) {
-				$content[ $key ] = $data[ $key ];
+			if ( isset( $data[ $key ] ) && ( ! empty( $data[ $key ] ) || anna_is_intentionally_blank( $data[ $key ] ) ) ) {
+				$content[ $key ] = anna_is_intentionally_blank( $data[ $key ] ) ? '' : $data[ $key ];
 			}
 		}
 	}
@@ -233,8 +254,8 @@ function anna_get_about_section_content() {
 	if ( $post_id && function_exists( 'anna_content_get_page_section' ) ) {
 		$data = anna_content_get_page_section( $post_id, 'about' );
 		foreach ( array( 'eyebrow', 'heading', 'body', 'quote', 'badge_number', 'badge_text', 'cta_text', 'cta_url' ) as $key ) {
-			if ( ! empty( $data[ $key ] ) ) {
-				$content[ $key ] = $data[ $key ];
+			if ( isset( $data[ $key ] ) && ( ! empty( $data[ $key ] ) || anna_is_intentionally_blank( $data[ $key ] ) ) ) {
+				$content[ $key ] = anna_is_intentionally_blank( $data[ $key ] ) ? '' : $data[ $key ];
 			}
 		}
 		if ( ! empty( $data['image_id'] ) ) {
@@ -267,8 +288,8 @@ function anna_get_testimonials_section_content() {
 	if ( $post_id && function_exists( 'anna_content_get_page_section' ) ) {
 		$data = anna_content_get_page_section( $post_id, 'testimonials' );
 		foreach ( array( 'eyebrow', 'heading', 'summary', 'cta_text', 'cta_url' ) as $key ) {
-			if ( ! empty( $data[ $key ] ) ) {
-				$content[ $key ] = $data[ $key ];
+			if ( isset( $data[ $key ] ) && ( ! empty( $data[ $key ] ) || anna_is_intentionally_blank( $data[ $key ] ) ) ) {
+				$content[ $key ] = anna_is_intentionally_blank( $data[ $key ] ) ? '' : $data[ $key ];
 			}
 		}
 	}
@@ -295,21 +316,21 @@ function anna_get_final_cta_section_content() {
 	if ( $post_id && function_exists( 'anna_content_get_page_section' ) ) {
 		$data = anna_content_get_page_section( $post_id, 'cta' );
 		foreach ( array( 'eyebrow', 'heading', 'description', 'trust_text' ) as $key ) {
-			if ( ! empty( $data[ $key ] ) ) {
-				$content[ $key ] = $data[ $key ];
+			if ( isset( $data[ $key ] ) && ( ! empty( $data[ $key ] ) || anna_is_intentionally_blank( $data[ $key ] ) ) ) {
+				$content[ $key ] = anna_is_intentionally_blank( $data[ $key ] ) ? '' : $data[ $key ];
 			}
 		}
-		if ( ! empty( $data['primary_button_text'] ) ) {
-			$content['primary_cta']['text'] = $data['primary_button_text'];
+		if ( isset( $data['primary_button_text'] ) && ( ! empty( $data['primary_button_text'] ) || anna_is_intentionally_blank( $data['primary_button_text'] ) ) ) {
+			$content['primary_cta']['text'] = anna_is_intentionally_blank( $data['primary_button_text'] ) ? '' : $data['primary_button_text'];
 		}
-		if ( ! empty( $data['primary_button_url'] ) ) {
-			$content['primary_cta']['url'] = $data['primary_button_url'];
+		if ( isset( $data['primary_button_url'] ) && ( ! empty( $data['primary_button_url'] ) || anna_is_intentionally_blank( $data['primary_button_url'] ) ) ) {
+			$content['primary_cta']['url'] = anna_is_intentionally_blank( $data['primary_button_url'] ) ? '' : $data['primary_button_url'];
 		}
-		if ( ! empty( $data['secondary_button_text'] ) ) {
-			$content['secondary_cta']['text'] = $data['secondary_button_text'];
+		if ( isset( $data['secondary_button_text'] ) && ( ! empty( $data['secondary_button_text'] ) || anna_is_intentionally_blank( $data['secondary_button_text'] ) ) ) {
+			$content['secondary_cta']['text'] = anna_is_intentionally_blank( $data['secondary_button_text'] ) ? '' : $data['secondary_button_text'];
 		}
-		if ( ! empty( $data['secondary_button_url'] ) ) {
-			$content['secondary_cta']['url'] = $data['secondary_button_url'];
+		if ( isset( $data['secondary_button_url'] ) && ( ! empty( $data['secondary_button_url'] ) || anna_is_intentionally_blank( $data['secondary_button_url'] ) ) ) {
+			$content['secondary_cta']['url'] = anna_is_intentionally_blank( $data['secondary_button_url'] ) ? '' : $data['secondary_button_url'];
 		}
 	}
 
@@ -617,7 +638,11 @@ function anna_get_about_page_content() {
 					continue;
 				}
 
-				if ( '' !== trim( (string) $value ) ) {
+				$trimmed = trim( (string) $value );
+				if ( 'empty--' === $trimmed ) {
+					// Intentionally blank — override default with empty string.
+					$non_empty_saved[ $key ] = '';
+				} elseif ( '' !== $trimmed ) {
 					$non_empty_saved[ $key ] = $value;
 				}
 			}
@@ -1008,7 +1033,11 @@ function anna_get_coaching_page_content() {
 					continue;
 				}
 
-				if ( '' !== trim( (string) $value ) ) {
+				$trimmed = trim( (string) $value );
+				if ( 'empty--' === $trimmed ) {
+					// Intentionally blank — override default with empty string.
+					$non_empty_saved[ $key ] = '';
+				} elseif ( '' !== $trimmed ) {
 					$non_empty_saved[ $key ] = $value;
 				}
 			}
