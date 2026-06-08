@@ -216,8 +216,8 @@
 /* ── CTA section ────────────────────────────────────────────────────────── */
 .anna-reviews-page-cta {
   padding: var(--reviews-section-padding) 0;
-  background: #FAFAF0;
-  color: var(--color-heading);
+  background: #007063;
+  color: var(--color-white);
   text-align: center;
 }
 
@@ -234,29 +234,27 @@
   margin: 0;
   font-family: var(--font-heading);
   font-size: clamp(1.875rem, 3vw, 2.75rem);
-  font-weight: var(--font-weight-bold);
-  line-height: 1.15;
-  color: var(--color-heading);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.1;
+  color: var(--color-white);
 }
 
 .anna-reviews-page-cta__body {
   margin: 0;
-  font-size: var(--text-base);
-  color: var(--color-text-muted);
+  font-size: var(--text-lg);
+  color: rgba(255, 255, 255, 0.88);
   line-height: 1.6;
 }
 
 .anna-reviews-page-cta__btn {
-  background: var(--color-primary);
-  color: var(--color-white);
+  background: var(--color-white);
+  color: var(--color-primary-dark);
   font-weight: var(--font-weight-semibold);
-  border-color: var(--color-primary);
 }
 
 .anna-reviews-page-cta__btn:hover {
-  background: var(--color-primary-dark);
-  border-color: var(--color-primary-dark);
-  color: var(--color-white);
+  background: #f3f4f6;
+  color: var(--color-primary-dark);
 }
 
 /* ── Plugin review card overrides (business-reviews-bundle) ─────────────── */
