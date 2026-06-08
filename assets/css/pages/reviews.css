@@ -108,7 +108,7 @@
 /* ── Grid ───────────────────────────────────────────────────────────────── */
 .anna-reviews-page-grid {
   --color-bg-soft: #F1F5E8;
-  /* padding: var(--reviews-section-padding) 0; */
+  padding: var(--reviews-section-padding) 0 0;
   background: var(--color-white);
 }
 
