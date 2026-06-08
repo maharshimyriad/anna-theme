@@ -254,126 +254,134 @@
 
 /* ── Plugin review card overrides (business-reviews-bundle) ─────────────── */
 
-/* Slider slide */
+/* Slide height */
 .rplgsw-slide {
   height: auto !important;
 }
 
-/* Outer card box */
+/* Outer card box — sage background, soft radius, no heavy shadow */
 .rplg-box {
-  background: var(--color-white) !important;
-  border-radius: var(--radius-lg) !important;
-  box-shadow: var(--shadow-sm) !important;
-  transition: box-shadow var(--transition-base), transform var(--transition-base) !important;
+  background: var(--color-bg-soft) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: none !important;
   border: none !important;
   overflow: hidden !important;
   padding: 0 !important;
+  transition: box-shadow var(--transition-base), transform var(--transition-base) !important;
 }
 
 .rplg-box:hover {
-  box-shadow: var(--shadow-md) !important;
-  transform: translateY(-3px) !important;
+  box-shadow: var(--shadow-sm) !important;
+  transform: translateY(-2px) !important;
 }
 
-/* Inner content area */
+/* Inner content — holds name/date/stars/quote in one block */
 .rplg-box-content {
-  background: var(--color-white) !important;
-  padding: clamp(1.5rem, 3vw, 2rem) clamp(1.5rem, 3vw, 2rem) var(--space-4) !important;
+  background: var(--color-bg-soft) !important;
+  padding: clamp(1.4rem, 2.5vw, 1.75rem) !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: var(--space-4) !important;
+  gap: 0 !important;
+  position: relative !important;
 }
 
-/* Stars */
+/* Hide the Google badge */
+.rplg-review-badge {
+  display: none !important;
+}
+
+/* Stars — sit below the date, above the quote */
 .rplg-stars {
   display: inline-flex !important;
   align-items: center !important;
-  gap: 2px !important;
+  gap: 1px !important;
+  margin: var(--space-2) 0 var(--space-3) !important;
 }
 
 .rplg-stars svg {
-  width: 14px !important;
-  height: 14px !important;
+  width: 16px !important;
+  height: 16px !important;
 }
 
-/* Review body text */
+/* Quote text — italic, slightly muted */
 .rplg-review-text {
   display: block !important;
   font-size: var(--text-sm) !important;
   color: var(--color-text) !important;
   line-height: 1.70 !important;
-  font-style: normal !important;
+  font-style: italic !important;
   font-family: var(--font-body) !important;
   font-weight: var(--font-weight-light) !important;
   margin: 0 !important;
 }
 
-/* Google badge icon — push to top-right */
-.rplg-review-badge {
-  position: absolute !important;
-  top: clamp(1.5rem, 3vw, 2rem) !important;
-  right: clamp(1.5rem, 3vw, 2rem) !important;
-}
-
-.rplg-box-content {
-  position: relative !important;
-}
-
-.rplg-social-logo svg {
-  width: 22px !important;
-  height: 22px !important;
-  opacity: 0.55 !important;
-}
-
-/* Author row */
+/* Author row — sits below the content block, no border, no avatar shown */
 .rplg-row {
   display: flex !important;
   align-items: center !important;
-  gap: var(--space-3) !important;
-  padding: var(--space-4) clamp(1.5rem, 3vw, 2rem) clamp(1.5rem, 3vw, 2rem) !important;
-  background: var(--color-white) !important;
-  border-top: 1px solid var(--color-border-soft) !important;
+  gap: 0 !important;
+  padding: 0 clamp(1.4rem, 2.5vw, 1.75rem) clamp(1.4rem, 2.5vw, 1.75rem) !important;
+  background: var(--color-bg-soft) !important;
+  border-top: none !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
 }
 
+/* Hide the avatar */
 .rplg-row-left {
-  flex-shrink: 0 !important;
+  display: none !important;
 }
 
-/* Avatar */
-.rplg-review-avatar {
-  width: 44px !important;
-  height: 44px !important;
-  border-radius: var(--radius-full) !important;
-  object-fit: cover !important;
-  display: block !important;
+.rplg-row-right {
+  width: 100% !important;
 }
 
-/* Reviewer name */
+/* Reviewer name — bold, heading color, moves to TOP of card via order */
 .rplg-review-name,
 a.rplg-review-name {
   display: block !important;
   font-family: var(--font-heading) !important;
   font-size: var(--text-sm) !important;
-  font-weight: var(--font-weight-semibold) !important;
+  font-weight: var(--font-weight-bold) !important;
   color: var(--color-heading) !important;
   text-decoration: none !important;
   line-height: 1.3 !important;
-  max-width: 100% !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  white-space: nowrap !important;
+  order: -1 !important;
 }
 
 a.rplg-review-name:hover {
   color: var(--color-primary) !important;
+  text-decoration: none !important;
 }
 
-/* Date */
+/* Date — small muted, sits right under name */
 .rplg-review-time {
   font-size: var(--text-xs) !important;
   color: var(--color-text-muted) !important;
   line-height: 1.4 !important;
   margin-top: var(--space-0-5) !important;
+}
+
+/* Re-order: move .rplg-row (name+date) ABOVE the content (stars+quote)
+   by restructuring display order on the parent .rplg-slider-review */
+.rplg-slider-review {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.rplg-box {
+  order: 1 !important;
+}
+
+.rplg-row {
+  order: 0 !important;
+  padding: clamp(1.4rem, 2.5vw, 1.75rem) clamp(1.4rem, 2.5vw, 1.75rem) 0 !important;
+  background: var(--color-bg-soft) !important;
+  border-radius: var(--radius-md) var(--radius-md) 0 0 !important;
+}
+
+.rplg-box {
+  border-radius: 0 0 var(--radius-md) var(--radius-md) !important;
 }
 
 /* ── Responsive ──────────────────────────────────────────────────────────── */
