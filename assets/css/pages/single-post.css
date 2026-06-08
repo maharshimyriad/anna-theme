@@ -141,7 +141,7 @@
    ════════════════════════════════════════════════════════════════════════ */
 
 .anna-single-body {
-  padding: clamp(3.5rem, 7vw, 6rem) 0 clamp(3rem, 6vw, 5rem);
+  padding: clamp(2.6rem, 7vw, 3.2rem) 0 clamp(3rem, 6vw, 5rem);
   background: var(--color-white);
 }
 
@@ -224,11 +224,12 @@
 }
 
 .anna-single-article a {
-  color: var(--color-primary);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  text-decoration-thickness: 1px;
-  transition: color var(--transition-fast);
+    color: var(--color-primary) !important;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    transition: color var(--transition-fast);
+    font-weight: 500;
 }
 
 .anna-single-article a:hover {
