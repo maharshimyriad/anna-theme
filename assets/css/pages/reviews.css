@@ -278,11 +278,15 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 0;
-  padding: clamp(1.4rem, 2.5vw, 1.75rem) clamp(1.4rem, 2.5vw, 1.75rem) 0;
+  padding: 1.75rem 1.75rem 0;
   background: var(--color-bg-soft);
   border-top: none;
   border-radius: var(--radius-md) var(--radius-md) 0 0;
   margin-bottom: 0;
+}
+
+.anna-reviews-page-grid__cards .rplg-slider .rplg-box .rplg-box-content:before{
+  display: none !important;
 }
 
 /* Hide avatar */
@@ -339,13 +343,14 @@
 }
 
 /* Inner content */
-.anna-reviews-page-grid__cards .rplg-box-content {
+.anna-reviews-page-grid__cards .rplg-slider .rplg-box .rplg-box-content {
   background: var(--color-bg-soft);
   padding: clamp(1.4rem, 2.5vw, 1.75rem);
   display: flex;
   flex-direction: column;
   gap: 0;
   position: relative;
+  margin: 1.25rem 1.5rem;
 }
 
 /* Hide Google badge */
