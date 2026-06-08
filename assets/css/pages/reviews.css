@@ -403,7 +403,6 @@
   box-shadow: none !important;
   cursor: pointer !important;
   transition: background var(--transition-fast), border-color var(--transition-fast) !important;
-  position: relative !important;
 }
 
 .anna-reviews-page-grid__cards .rplg-slider .rplg-slider-prev:hover,
@@ -428,6 +427,14 @@
   border-top: 2px solid var(--color-primary) !important;
   border-right: 2px solid var(--color-primary) !important;
   transition: border-color var(--transition-fast) !important;
+}
+
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-prev{
+  left:-5% !important;
+}
+
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-next{
+  right: -5% !important
 }
 
 /* Prev: point left */
