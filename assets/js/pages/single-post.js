@@ -1,75 +1,71 @@
 /**
  * Single post — sticky prev/next navigation.
  *
- * Behaviour:
- *  - The nav bar is fixed to the bottom of the viewport ONLY after the user
- *    has scrolled past the article hero (past the fold).
- *  - Once the user scrolls far enough that the nav's natural DOM position
- *    rises into view, it detaches and sits normally in the document.
+ * The nav bar is fixed to the bottom of the viewport while the user reads.
+ * Once the page has scrolled far enough that the nav's natural DOM position
+ * comes into view, it detaches and flows normally in the document.
  *
  * @package Anna_Baylis
  */
 ( function () {
 	'use strict';
 
-	var nav      = document.getElementById( 'anna-post-nav' );
-	var sentinel = document.getElementById( 'anna-post-nav-sentinel' );
-	var hero     = document.querySelector( '.anna-single-hero' );
+	const nav      = document.getElementById( 'anna-post-nav' );
+	const sentinel = document.getElementById( 'anna-post-nav-sentinel' );
 
 	if ( ! nav || ! sentinel ) {
 		return;
 	}
 
-	var isSticky  = false;
-	var navHeight = 0;
-	var ticking   = false;
+	let navHeight    = 0;
+	let ticking      = false;
+	let isSticky     = false;
 
-	// How far past the hero the user must scroll before stickiness activates.
-	// Defaults to 300px if no hero is found.
-	function getScrollThreshold() {
-		if ( hero ) {
-			return hero.offsetTop + hero.offsetHeight;
-		}
-		return 300;
+	function measureNav() {
+		// Temporarily un-stick to measure natural height.
+		nav.classList.remove( 'is-sticky' );
+		sentinel.classList.remove( 'is-active' );
+		sentinel.style.height = '';
+		navHeight = nav.offsetHeight;
 	}
 
 	function update() {
-		ticking = false;
+		const sentinelTop = sentinel.getBoundingClientRect().top;
+		const windowH     = window.innerHeight;
 
-		var scrolled       = window.pageYOffset || document.documentElement.scrollTop;
-		var threshold      = getScrollThreshold();
-		var sentinelRect   = sentinel.getBoundingClientRect();
-		var viewportBottom = window.innerHeight;
+		// Sentinel is above the bottom of the viewport → go sticky.
+		// Sentinel is at or below the bottom               → release.
+		const shouldStick = sentinelTop > windowH - navHeight - 8;
 
-		// Only sticky if user has scrolled past the hero AND
-		// the sentinel's natural position is still below the viewport bottom.
-		var shouldBeSticky = scrolled > threshold && sentinelRect.top > viewportBottom;
-
-		if ( shouldBeSticky && ! isSticky ) {
-			navHeight             = nav.getBoundingClientRect().height;
-			isSticky              = true;
+		if ( shouldStick && ! isSticky ) {
+			isSticky = true;
 			sentinel.style.height = navHeight + 'px';
+			sentinel.classList.add( 'is-active' );
 			nav.classList.add( 'is-sticky' );
-
-		} else if ( ! shouldBeSticky && isSticky ) {
-			isSticky              = false;
+		} else if ( ! shouldStick && isSticky ) {
+			isSticky = false;
 			sentinel.style.height = '';
+			sentinel.classList.remove( 'is-active' );
 			nav.classList.remove( 'is-sticky' );
 		}
+
+		ticking = false;
 	}
 
 	function onScroll() {
 		if ( ! ticking ) {
-			window.requestAnimationFrame( update );
+			requestAnimationFrame( update );
 			ticking = true;
 		}
 	}
 
-	window.requestAnimationFrame( update );
+	// Initial setup.
+	measureNav();
+	update();
+
 	window.addEventListener( 'scroll', onScroll, { passive: true } );
 	window.addEventListener( 'resize', function () {
-		navHeight = 0;
+		measureNav();
 		update();
 	} );
-
 }() );

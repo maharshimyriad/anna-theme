@@ -58,7 +58,7 @@
 }
 
 .anna-single-hero__content {
-  max-width: 780px;
+  max-width: none;
   padding: clamp(2.5rem, 5vw, 4rem) 0 clamp(3rem, 6vw, 5rem);
 }
 
