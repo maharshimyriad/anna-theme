@@ -174,3 +174,17 @@ function anna_rewrite_flush() {
 	flush_rewrite_rules();
 }
 add_action( 'after_switch_theme', 'anna_rewrite_flush' );
+
+/**
+ * Remove the screen-reader heading from post navigation on single posts.
+ *
+ * WordPress ignores an empty `screen_reader_text` argument on some versions,
+ * so we strip the <h2> from the rendered markup instead.
+ */
+function anna_remove_post_nav_heading( $template ) {
+	if ( is_singular( 'post' ) ) {
+		$template = preg_replace( '/<h2 class="screen-reader-text">[^<]*<\/h2>/', '', $template );
+	}
+	return $template;
+}
+add_filter( 'navigation_markup_template', 'anna_remove_post_nav_heading' );

@@ -67,11 +67,18 @@ get_header();
 		<!-- ── Featured image ────────────────────────────────────────────── -->
 		<?php if ( has_post_thumbnail() ) : ?>
 			<div class="anna-single-featured-image">
-				<div class="anna-container anna-container--max">
-					<figure class="anna-single-featured-image__figure">
-						<?php the_post_thumbnail( 'anna-wide', array( 'class' => 'anna-single-featured-image__img' ) ); ?>
-					</figure>
-				</div>
+				<figure class="anna-single-featured-image__figure">
+					<?php
+					the_post_thumbnail(
+						'full',
+						array(
+							'class'   => 'anna-single-featured-image__img',
+							'loading' => 'eager',
+							'decoding' => 'async',
+						)
+					);
+					?>
+				</figure>
 			</div>
 		<?php endif; ?>
 
