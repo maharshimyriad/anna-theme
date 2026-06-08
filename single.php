@@ -103,9 +103,10 @@ get_header();
 				<?php
 				the_post_navigation(
 					array(
-						'prev_text' => '<span class="anna-single-nav__label">' . esc_html__( 'Previous', 'anna-baylis' ) . '</span><span class="anna-single-nav__title">%title</span>',
-						'next_text' => '<span class="anna-single-nav__label">' . esc_html__( 'Next', 'anna-baylis' ) . '</span><span class="anna-single-nav__title">%title</span>',
-						'in_same_term' => false,
+						'prev_text'          => '<span class="anna-single-nav__label">' . esc_html__( 'Previous', 'anna-baylis' ) . '</span><span class="anna-single-nav__title">%title</span>',
+						'next_text'          => '<span class="anna-single-nav__label">' . esc_html__( 'Next', 'anna-baylis' ) . '</span><span class="anna-single-nav__title">%title</span>',
+						'in_same_term'       => false,
+						'screen_reader_text' => '',
 					)
 				);
 				?>
