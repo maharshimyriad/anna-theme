@@ -389,7 +389,9 @@
 /* ── Plugin pagination "Next Reviews" link ───────────────────────────────── */
 .anna-reviews-page-grid__cards .rplg .rplg-url,
 .anna-reviews-page-grid .rplg .rplg-url {
-  display: inline-flex !important;
+  display: block !important;
+  width: fit-content !important;
+  margin: var(--space-8) auto 0 !important;
   align-items: center !important;
   justify-content: center !important;
   padding: var(--btn-padding-y-md) var(--btn-padding-x-md) !important;
