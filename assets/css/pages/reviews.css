@@ -278,7 +278,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 0;
-  padding: 1.75rem 1.75rem 0;
+  padding: 1.75rem 1.75rem 0 !important;
   background: var(--color-bg-soft);
   border-top: none;
   border-radius: var(--radius-md) var(--radius-md) 0 0;
@@ -350,7 +350,7 @@
   flex-direction: column;
   gap: 0;
   position: relative;
-  margin: 1.25rem 1.5rem !important;
+  margin: 0rem 1.5rem 1.25rem !important;
 }
 
 /* Hide Google badge */
@@ -385,6 +385,65 @@
   font-family: var(--font-body);
   font-weight: var(--font-weight-light);
   margin: 0;
+}
+
+/* ── Slider nav arrows ───────────────────────────────────────────────────── */
+
+/* Base button */
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-prev,
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-next {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: var(--radius-full) !important;
+  background: var(--color-white) !important;
+  border: 1.5px solid var(--color-primary) !important;
+  box-shadow: none !important;
+  cursor: pointer !important;
+  transition: background var(--transition-fast), border-color var(--transition-fast) !important;
+  position: relative !important;
+}
+
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-prev:hover,
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-next:hover {
+  background: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+}
+
+/* Hide the plugin's ‹ › text character */
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-prev span,
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-next span {
+  display: none !important;
+}
+
+/* Draw chevron via pseudo-element */
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-prev::before,
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-next::before {
+  content: '' !important;
+  display: block !important;
+  width: 9px !important;
+  height: 9px !important;
+  border-top: 2px solid var(--color-primary) !important;
+  border-right: 2px solid var(--color-primary) !important;
+  transition: border-color var(--transition-fast) !important;
+}
+
+/* Prev: point left */
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-prev::before {
+  transform: rotate(-135deg) translate(-1px, 1px) !important;
+}
+
+/* Next: point right */
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-next::before {
+  transform: rotate(45deg) translate(-1px, 1px) !important;
+}
+
+/* Chevron turns white on hover */
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-prev:hover::before,
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-next:hover::before {
+  border-color: var(--color-white) !important;
 }
 
 /* ── Responsive ──────────────────────────────────────────────────────────── */
