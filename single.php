@@ -17,20 +17,13 @@ get_header();
 	<?php while ( have_posts() ) : the_post(); ?>
 
 		<!-- ── Featured image banner (full width, no container) ─────────── -->
-		<?php if ( has_post_thumbnail() ) : ?>
-			<div class="anna-single-featured-image">
-				<figure class="anna-single-featured-image__figure">
-					<?php
-					the_post_thumbnail(
-						'full',
-						array(
-							'class'    => 'anna-single-featured-image__img',
-							'loading'  => 'eager',
-							'decoding' => 'async',
-						)
-					);
-					?>
-				</figure>
+		<?php if ( has_post_thumbnail() ) :
+			$thumb_url = get_the_post_thumbnail_url( get_the_ID(), 'full' );
+		?>
+			<div class="anna-single-featured-image"
+				 style="--thumb-url: url('<?php echo esc_url( $thumb_url ); ?>');"
+				 role="img"
+				 aria-label="<?php echo esc_attr( get_the_title() ); ?>">
 			</div>
 		<?php endif; ?>
 

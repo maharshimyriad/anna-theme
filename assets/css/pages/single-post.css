@@ -11,33 +11,27 @@
 
 /* ── Featured image banner — flush top, full width ──────────────────────── */
 /*
- * Fixed height + object-fit: cover handles both portrait and landscape images.
- * Portrait images are cropped to the banner height (centred).
- * Landscape images fill the full width naturally.
+ * Using background-image instead of <img> gives full control over
+ * positioning within the banner, which is critical for portrait images
+ * (like 687×1030) where the subject sits in the lower-centre zone.
+ * background-position: center 60% focuses on the person, not the sky.
  */
 .anna-single-featured-image {
   margin-top: var(--header-height);
   width: 100%;
-  overflow: hidden;
-  background: var(--color-heading);
-  line-height: 0;
-}
-
-.anna-single-featured-image__figure {
-  margin: 0;
-  width: 100%;
   height: clamp(384px, 54vw, 624px);
-  overflow: hidden;
-  position: relative;
+  background-image: var(--thumb-url);
+  background-size: cover;
+  background-position: center 60%;
+  background-repeat: no-repeat;
+  background-color: var(--color-heading);
 }
 
+/* Remove old figure/img rules — no longer used */
+.anna-single-featured-image__figure,
 .anna-single-featured-image__figure img,
 .anna-single-featured-image__img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center center;
+  display: none;
 }
 
 /* ── Post header (title + meta) — on white below the image ──────────────── */
@@ -291,7 +285,7 @@
 
 /* ── Responsive ─────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .anna-single-featured-image__figure {
+  .anna-single-featured-image {
     height: clamp(288px, 60vw, 456px);
   }
 
@@ -311,7 +305,8 @@
     font-size: clamp(1.625rem, 1.4rem + 1.5vw, 2.25rem);
   }
 
-  .anna-single-featured-image__figure {
+  .anna-single-featured-image {
     height: 264px;
+    background-position: center 65%;
   }
 }
