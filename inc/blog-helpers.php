@@ -89,3 +89,31 @@ function anna_get_blog_page_content() {
 
 	return $content;
 }
+
+/**
+ * Estimate reading time for post content.
+ *
+ * @param  string $content Post content (raw).
+ * @param  int    $wpm     Words per minute. Default 200.
+ * @return string Localised string like "4 min read", or empty string.
+ */
+function anna_estimate_read_time( $content, $wpm = 200 ) {
+	if ( empty( $content ) ) {
+		return '';
+	}
+
+	$text      = wp_strip_all_tags( $content );
+	$word_count = (int) str_word_count( $text );
+
+	if ( $word_count < 1 ) {
+		return '';
+	}
+
+	$minutes = max( 1, (int) ceil( $word_count / $wpm ) );
+
+	return sprintf(
+		/* translators: %d = number of minutes */
+		_n( '%d min read', '%d min read', $minutes, 'anna-baylis' ),
+		$minutes
+	);
+}

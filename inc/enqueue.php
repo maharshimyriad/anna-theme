@@ -218,6 +218,17 @@ function anna_enqueue_styles() {
 		$prev_dep = 'anna-page-blog';
 	}
 
+	if ( is_singular( 'post' ) ) {
+		wp_enqueue_style(
+			'anna-page-single',
+			ANNA_CSS . '/pages/single-post.css',
+			array( $prev_dep ),
+			anna_asset_version( 'assets/css/pages/single-post.css' )
+		);
+
+		$prev_dep = 'anna-page-single';
+	}
+
 	anna_enqueue_scaffolded_page_styles( $prev_dep );
 
 	wp_enqueue_style(
