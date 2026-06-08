@@ -227,6 +227,16 @@ function anna_enqueue_styles() {
 		);
 
 		$prev_dep = 'anna-page-single';
+
+		// Load blog card styles for the "You might also like" section.
+		wp_enqueue_style(
+			'anna-page-blog',
+			ANNA_CSS . '/pages/blog.css',
+			array( $prev_dep ),
+			anna_asset_version( 'assets/css/pages/blog.css' )
+		);
+
+		$prev_dep = 'anna-page-blog';
 	}
 
 	anna_enqueue_scaffolded_page_styles( $prev_dep );
