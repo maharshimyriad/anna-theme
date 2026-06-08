@@ -26,7 +26,7 @@
 .anna-single-featured-image__figure {
   margin: 0;
   width: 100%;
-  height: clamp(320px, 45vw, 520px);
+  height: clamp(384px, 54vw, 624px);
   overflow: hidden;
   position: relative;
 }
@@ -292,7 +292,7 @@
 /* ── Responsive ─────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .anna-single-featured-image__figure {
-    height: clamp(240px, 50vw, 380px);
+    height: clamp(288px, 60vw, 456px);
   }
 
   .anna-single-nav .nav-links {
@@ -312,6 +312,6 @@
   }
 
   .anna-single-featured-image__figure {
-    height: 220px;
+    height: 264px;
   }
 }
