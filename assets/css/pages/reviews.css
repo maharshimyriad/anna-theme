@@ -255,133 +255,118 @@
 /* ── Plugin review card overrides (business-reviews-bundle) ─────────────── */
 
 /* Slide height */
-.rplgsw-slide {
-  height: auto !important;
+.anna-reviews-page-grid__cards .rplgsw-slide {
+  height: auto;
 }
 
-/* Outer card box — sage background, soft radius, no heavy shadow */
-.rplg-box {
-  background: var(--color-bg-soft) !important;
-  border-radius: var(--radius-md) !important;
-  box-shadow: none !important;
-  border: none !important;
-  overflow: hidden !important;
-  padding: 0 !important;
-  transition: box-shadow var(--transition-base), transform var(--transition-base) !important;
+/* Re-order: name/date row above stars/quote block */
+.anna-reviews-page-grid__cards .rplg-slider-review {
+  display: flex;
+  flex-direction: column;
 }
 
-.rplg-box:hover {
-  box-shadow: var(--shadow-sm) !important;
-  transform: translateY(-2px) !important;
+/* Author row — rendered first in DOM but visually on top */
+.anna-reviews-page-grid__cards .rplg-row {
+  order: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  padding: clamp(1.4rem, 2.5vw, 1.75rem) clamp(1.4rem, 2.5vw, 1.75rem) 0;
+  background: var(--color-bg-soft);
+  border-top: none;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
 }
 
-/* Inner content — holds name/date/stars/quote in one block */
-.rplg-box-content {
-  background: var(--color-bg-soft) !important;
-  padding: clamp(1.4rem, 2.5vw, 1.75rem) !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 0 !important;
-  position: relative !important;
+/* Hide avatar */
+.anna-reviews-page-grid__cards .rplg-row-left {
+  display: none;
 }
 
-/* Hide the Google badge */
-.rplg-review-badge {
-  display: none !important;
+.anna-reviews-page-grid__cards .rplg-row-right {
+  width: 100%;
 }
 
-/* Stars — sit below the date, above the quote */
-.rplg-stars {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 1px !important;
-  margin: var(--space-2) 0 var(--space-3) !important;
+/* Reviewer name */
+.anna-reviews-page-grid__cards .rplg-review-name,
+.anna-reviews-page-grid__cards a.rplg-review-name {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-heading);
+  text-decoration: none;
+  line-height: 1.3;
 }
 
-.rplg-stars svg {
-  width: 16px !important;
-  height: 16px !important;
+.anna-reviews-page-grid__cards a.rplg-review-name:hover {
+  color: var(--color-primary);
+  text-decoration: none;
 }
 
-/* Quote text — italic, slightly muted */
-.rplg-review-text {
-  display: block !important;
-  font-size: var(--text-sm) !important;
-  color: var(--color-text) !important;
-  line-height: 1.70 !important;
-  font-style: italic !important;
-  font-family: var(--font-body) !important;
-  font-weight: var(--font-weight-light) !important;
-  margin: 0 !important;
+/* Date */
+.anna-reviews-page-grid__cards .rplg-review-time {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  line-height: 1.4;
+  margin-top: var(--space-0-5);
 }
 
-/* Author row — sits below the content block, no border, no avatar shown */
-.rplg-row {
-  display: flex !important;
-  align-items: center !important;
-  gap: 0 !important;
-  padding: 0 clamp(1.4rem, 2.5vw, 1.75rem) clamp(1.4rem, 2.5vw, 1.75rem) !important;
-  background: var(--color-bg-soft) !important;
-  border-top: none !important;
-  flex-direction: column !important;
-  align-items: flex-start !important;
+/* Outer card box — sits below the row */
+.anna-reviews-page-grid__cards .rplg-box {
+  order: 1;
+  background: var(--color-bg-soft);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  box-shadow: none;
+  border: none;
+  overflow: hidden;
+  padding: 0;
+  transition: box-shadow var(--transition-base), transform var(--transition-base);
 }
 
-/* Hide the avatar */
-.rplg-row-left {
-  display: none !important;
+.anna-reviews-page-grid__cards .rplg-box:hover {
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-2px);
 }
 
-.rplg-row-right {
-  width: 100% !important;
+/* Inner content */
+.anna-reviews-page-grid__cards .rplg-box-content {
+  background: var(--color-bg-soft);
+  padding: clamp(1.4rem, 2.5vw, 1.75rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
 }
 
-/* Reviewer name — bold, heading color, moves to TOP of card via order */
-.rplg-review-name,
-a.rplg-review-name {
-  display: block !important;
-  font-family: var(--font-heading) !important;
-  font-size: var(--text-sm) !important;
-  font-weight: var(--font-weight-bold) !important;
-  color: var(--color-heading) !important;
-  text-decoration: none !important;
-  line-height: 1.3 !important;
-  order: -1 !important;
+/* Hide Google badge */
+.anna-reviews-page-grid__cards .rplg-review-badge {
+  display: none;
 }
 
-a.rplg-review-name:hover {
-  color: var(--color-primary) !important;
-  text-decoration: none !important;
+/* Stars */
+.anna-reviews-page-grid__cards .rplg-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  margin: var(--space-2) 0 var(--space-3);
 }
 
-/* Date — small muted, sits right under name */
-.rplg-review-time {
-  font-size: var(--text-xs) !important;
-  color: var(--color-text-muted) !important;
-  line-height: 1.4 !important;
-  margin-top: var(--space-0-5) !important;
+.anna-reviews-page-grid__cards .rplg-stars svg {
+  width: 16px;
+  height: 16px;
 }
 
-/* Re-order: move .rplg-row (name+date) ABOVE the content (stars+quote)
-   by restructuring display order on the parent .rplg-slider-review */
-.rplg-slider-review {
-  display: flex !important;
-  flex-direction: column !important;
-}
-
-.rplg-box {
-  order: 1 !important;
-}
-
-.rplg-row {
-  order: 0 !important;
-  padding: clamp(1.4rem, 2.5vw, 1.75rem) clamp(1.4rem, 2.5vw, 1.75rem) 0 !important;
-  background: var(--color-bg-soft) !important;
-  border-radius: var(--radius-md) var(--radius-md) 0 0 !important;
-}
-
-.rplg-box {
-  border-radius: 0 0 var(--radius-md) var(--radius-md) !important;
+/* Quote text */
+.anna-reviews-page-grid__cards .rplg-review-text {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  line-height: 1.70;
+  font-style: italic;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-light);
+  margin: 0;
 }
 
 /* ── Responsive ──────────────────────────────────────────────────────────── */
