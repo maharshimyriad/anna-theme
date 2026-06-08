@@ -64,6 +64,11 @@
   text-decoration: none;
 }
 
+.anna-footer__nav a:hover,
+.anna-footer__contact-link:hover {
+  color: #ffffff;
+}
+
 .anna-footer__contact {
   display: grid;
   gap: 0.8rem;
