@@ -55,21 +55,26 @@ if ( ! $copy ) {
 						</form>
 					<?php endif; ?>
 				</div>
-
 				<div class="anna-footer__col">
 					<h3 class="anna-footer__col-title"><?php esc_html_e( 'Navigation', 'anna-baylis' ); ?></h3>
 					<?php
-					if ( has_nav_menu( 'footer' ) ) {
-						wp_nav_menu(
-							array(
+					$footer_menu_args = array(
 								'theme_location' => 'footer',
 								'container'      => false,
 								'menu_class'     => 'anna-footer__nav',
 								'items_wrap'     => '<ul id="%1$s" class="%2$s">%3$s</ul>',
 								'depth'          => 1,
 								'fallback_cb'    => false,
-							)
-						);
+					);
+
+					if ( has_nav_menu( 'footer' ) ) {
+						wp_nav_menu( $footer_menu_args );
+					} else {
+						$menus = wp_get_nav_menus();
+						if ( ! empty( $menus ) ) {
+							$footer_menu_args['menu'] = $menus[0]->term_id;
+							wp_nav_menu( $footer_menu_args );
+					}
 					}
 					?>
 				</div>
