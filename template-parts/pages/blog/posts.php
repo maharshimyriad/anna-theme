@@ -18,11 +18,13 @@ if ( empty( $blog ) ) {
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $active_cat     = isset( $_GET['cat'] ) ? sanitize_key( wp_unslash( $_GET['cat'] ) ) : '';
 $posts_per_page = absint( $blog['posts_per_page'] ?? 6 );
+$paged          = max( 1, absint( get_query_var( 'paged' ) ?: ( $_GET['paged'] ?? 1 ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 $query_args = array(
 	'post_type'      => 'post',
 	'post_status'    => 'publish',
 	'posts_per_page' => $posts_per_page,
+	'paged'          => $paged,
 	'orderby'        => 'date',
 	'order'          => 'DESC',
 );
@@ -139,6 +141,53 @@ $categories  = $blog['categories'] ?? array();
 		<?php else : ?>
 			<p class="anna-blog-page-posts__empty"><?php esc_html_e( 'No posts found.', 'anna-baylis' ); ?></p>
 			<?php wp_reset_postdata(); ?>
+		<?php endif; ?>
+
+		<!-- ── Pagination ───────────────────────────────────────────── -->
+		<?php if ( $posts_query->max_num_pages > 1 ) : ?>
+			<nav class="anna-blog-pagination" aria-label="<?php esc_attr_e( 'Posts pagination', 'anna-baylis' ); ?>">
+				<?php
+				$total_pages  = $posts_query->max_num_pages;
+				$current_page = $paged;
+
+				// Build base URL preserving category filter.
+				$base_url = get_permalink();
+				if ( $active_cat ) {
+					$base_url = add_query_arg( 'cat', $active_cat, $base_url );
+				}
+
+				// Previous.
+				if ( $current_page > 1 ) :
+					$prev_url = add_query_arg( 'paged', $current_page - 1, $base_url );
+				?>
+					<a href="<?php echo esc_url( $prev_url ); ?>" class="anna-blog-pagination__btn anna-blog-pagination__btn--prev" aria-label="<?php esc_attr_e( 'Previous page', 'anna-baylis' ); ?>">
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+					</a>
+				<?php endif; ?>
+
+				<?php
+				// Page numbers.
+				for ( $i = 1; $i <= $total_pages; $i++ ) :
+					if ( $i === $current_page ) :
+				?>
+						<span class="anna-blog-pagination__btn anna-blog-pagination__btn--current" aria-current="page"><?php echo esc_html( $i ); ?></span>
+					<?php elseif ( $i === 1 || $i === $total_pages || abs( $i - $current_page ) <= 2 ) : ?>
+						<a href="<?php echo esc_url( add_query_arg( 'paged', $i, $base_url ) ); ?>" class="anna-blog-pagination__btn"><?php echo esc_html( $i ); ?></a>
+					<?php elseif ( abs( $i - $current_page ) === 3 ) : ?>
+						<span class="anna-blog-pagination__ellipsis">&hellip;</span>
+					<?php endif; ?>
+				<?php endfor; ?>
+
+				<?php
+				// Next.
+				if ( $current_page < $total_pages ) :
+					$next_url = add_query_arg( 'paged', $current_page + 1, $base_url );
+				?>
+					<a href="<?php echo esc_url( $next_url ); ?>" class="anna-blog-pagination__btn anna-blog-pagination__btn--next" aria-label="<?php esc_attr_e( 'Next page', 'anna-baylis' ); ?>">
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+					</a>
+				<?php endif; ?>
+			</nav>
 		<?php endif; ?>
 
 	</div>
