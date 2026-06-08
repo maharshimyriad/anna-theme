@@ -365,13 +365,26 @@
   left: 0;
   right: 0;
   z-index: var(--z-float);
-  padding: var(--space-4) 0;
+  padding: var(--space-3) 0;
   background: rgba(242, 246, 242, 0.97);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 -2px 20px rgba(0, 112, 99, 0.12);
   border-top: 1px solid var(--color-border-soft);
   border-bottom: none;
+}
+
+/* Clamp title to 1 line with ellipsis when sticky */
+.anna-single-nav.is-sticky .anna-single-nav__title {
+  font-size: var(--text-sm);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 28rem;
+}
+
+.anna-single-nav.is-sticky .anna-single-nav__label {
+  font-size: 0.65rem;
 }
 
 /* Sentinel — always block so JS can read its position */
