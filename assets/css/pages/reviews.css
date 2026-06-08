@@ -386,6 +386,46 @@
   margin: 0;
 }
 
+/* ── Plugin pagination "Next Reviews" link ───────────────────────────────── */
+.anna-reviews-page-grid__cards .rplg .rplg-url,
+.anna-reviews-page-grid .rplg .rplg-url {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: var(--btn-padding-y-md) var(--btn-padding-x-md) !important;
+  border-radius: var(--btn-radius) !important;
+  border: 1.5px solid var(--color-primary) !important;
+  background: transparent !important;
+  color: var(--color-primary) !important;
+  font-family: var(--font-body) !important;
+  font-size: var(--btn-font-size) !important;
+  font-weight: var(--btn-font-weight) !important;
+  letter-spacing: var(--btn-letter-spacing) !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast) !important;
+}
+
+.anna-reviews-page-grid__cards .rplg .rplg-url:hover,
+.anna-reviews-page-grid .rplg .rplg-url:hover {
+  background: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+  color: var(--color-white) !important;
+  text-decoration: none !important;
+}
+
+/* ── "read more" toggle ──────────────────────────────────────────────────── */
+.anna-reviews-page-grid__cards .rplg .rplg-more-toggle,
+.anna-reviews-page-grid .rplg .rplg-more-toggle {
+  color: var(--color-primary) !important;
+  cursor: pointer !important;
+}
+
+.anna-reviews-page-grid__cards .rplg .rplg-more-toggle:hover,
+.anna-reviews-page-grid .rplg .rplg-more-toggle:hover {
+  color: var(--color-primary-dark) !important;
+}
+
 /* ── Slider nav arrows ───────────────────────────────────────────────────── */
 
 /* Base button */
