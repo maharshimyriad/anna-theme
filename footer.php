@@ -44,7 +44,7 @@ if ( ! $copy ) {
 					<div class="ml-embedded" data-form="mTow5J"></div>
 				</div>
 				<div class="anna-footer__col">
-					<h3 class="anna-footer__col-title"><?php esc_html_e( 'Navigation', 'anna-baylis' ); ?></h3>
+					<h3 class="anna-footer__col-title"><?php esc_html_e( 'Quick Links', 'anna-baylis' ); ?></h3>
 					<?php
 					$footer_menu_args = array(
 								'theme_location' => 'footer',
