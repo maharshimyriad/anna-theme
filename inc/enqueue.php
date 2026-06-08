@@ -237,14 +237,6 @@ function anna_enqueue_styles() {
 		);
 
 		$prev_dep = 'anna-page-blog';
-
-		wp_enqueue_script(
-			'anna-page-single',
-			ANNA_JS . '/pages/single-post.js',
-			array(), // dependencies, e.g. array( 'jquery' )
-			anna_asset_version( 'assets/js/pages/single-post.js' ),
-			true // load in footer
-		);
 	}
 	anna_enqueue_scaffolded_page_styles( $prev_dep );
 
@@ -424,6 +416,17 @@ function anna_enqueue_scripts() {
 			'reducedMotion'     => false,
 		)
 	);
+
+	// Single post: sticky prev/next navigation.
+	if ( is_singular( 'post' ) ) {
+		wp_enqueue_script(
+			'anna-single-post',
+			ANNA_JS . '/pages/single-post.js',
+			array(),
+			anna_asset_version( 'assets/js/pages/single-post.js' ),
+			array( 'strategy' => 'defer' )
+		);
+	}
 }
 add_action( 'wp_enqueue_scripts', 'anna_enqueue_scripts' );
 
