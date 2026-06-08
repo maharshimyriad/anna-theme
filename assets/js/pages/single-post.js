@@ -48,7 +48,7 @@
 		var sentinelRect = sentinel.getBoundingClientRect();
 		var viewportBottom = window.innerHeight;
 
-		threshold = threshold - 320;
+		threshold = threshold - 450;
 		// Show sticky when: past the hero AND sentinel still below viewport.
 		var shouldShow = scrolled > threshold && sentinelRect.top > viewportBottom;
 
