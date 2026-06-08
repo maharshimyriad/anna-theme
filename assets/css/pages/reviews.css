@@ -109,7 +109,7 @@
 .anna-reviews-page-grid {
   --color-bg-soft: #F1F5E8;
   padding: var(--reviews-section-padding) 0;
-  background: var(--color-bg-soft);
+  background: var(--color-white);
 }
 
 .anna-reviews-page-grid__cards {
