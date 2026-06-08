@@ -5,9 +5,9 @@
  * @since   1.0.0
  */
 
- :root{
-  --color-bg-soft:#F1F5E8;
- }
+:root {
+  --color-bg-soft: #F1F5E8;
+}
 
 .anna-reviews-page-main {
   background: var(--color-white);
@@ -38,12 +38,10 @@
 .anna-reviews-page-hero__overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(7, 20, 17, 0.90) 0%,
-    rgba(7, 20, 17, 0.68) 50%,
-    rgba(7, 20, 17, 0.40) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(7, 20, 17, 0.90) 0%,
+      rgba(7, 20, 17, 0.68) 50%,
+      rgba(7, 20, 17, 0.40) 100%);
   pointer-events: none;
 }
 
@@ -215,10 +213,10 @@
 
 /* ── CTA section ────────────────────────────────────────────────────────── */
 .anna-reviews-page-cta {
-    padding: var(--reviews-section-padding) 0;
-    background: #FFFBE7;
-    color: var(--color-primary);
-    text-align: center;
+  padding: var(--reviews-section-padding) 0;
+  background: #FFFBE7;
+  color: var(--color-primary);
+  text-align: center;
 }
 
 .anna-reviews-page-cta__inner {
@@ -247,8 +245,8 @@
 }
 
 .anna-reviews-page-cta__btn {
-    background: var(--color-primary);
-    font-weight: var(--font-weight-semibold);
+  background: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
 }
 
 .anna-reviews-page-cta__btn:hover {
@@ -284,7 +282,7 @@
   margin-bottom: 0;
 }
 
-.anna-reviews-page-grid__cards .rplg-slider .rplg-box .rplg-box-content:before{
+.anna-reviews-page-grid__cards .rplg-slider .rplg-box .rplg-box-content:before {
   display: none !important;
 }
 
@@ -333,7 +331,7 @@
   padding: 0;
   transition: box-shadow var(--transition-base), transform var(--transition-base);
   margin: 0 !important;
-  border:none !important;
+  border: none !important;
 }
 
 .anna-reviews-page-grid__cards .rplg-box:hover {
@@ -394,8 +392,8 @@
   margin: var(--space-8) auto 0 !important;
   align-items: center !important;
   justify-content: center !important;
-  padding: var(--btn-padding-y-md) var(--btn-padding-x-md) !important;
-  border-radius: var(--btn-radius) !important;
+  padding: 9px 18px;
+  border-radius: 6px;
   border: 1.5px solid var(--color-primary) !important;
   background: transparent !important;
   color: var(--color-primary) !important;
@@ -470,11 +468,11 @@
   transition: border-color var(--transition-fast) !important;
 }
 
-.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-prev{
-  left:-5% !important;
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-prev {
+  left: -5% !important;
 }
 
-.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-next{
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-next {
   right: -5% !important
 }
 
