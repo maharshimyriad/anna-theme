@@ -215,10 +215,10 @@
 
 /* ── CTA section ────────────────────────────────────────────────────────── */
 .anna-reviews-page-cta {
-  padding: var(--reviews-section-padding) 0;
-  background: #007063;
-  color: var(--color-white);
-  text-align: center;
+    padding: var(--reviews-section-padding) 0;
+    background: #FFFBE7;
+    color: var(--color-primary);
+    text-align: center;
 }
 
 .anna-reviews-page-cta__inner {
@@ -236,20 +236,19 @@
   font-size: clamp(1.875rem, 3vw, 2.75rem);
   font-weight: var(--font-weight-semibold);
   line-height: 1.1;
-  color: var(--color-white);
+  color: var(--color-primary);
 }
 
 .anna-reviews-page-cta__body {
   margin: 0;
   font-size: var(--text-lg);
-  color: rgba(255, 255, 255, 0.88);
+  color: var(--color-primary);
   line-height: 1.6;
 }
 
 .anna-reviews-page-cta__btn {
-  background: var(--color-white);
-  color: var(--color-primary-dark);
-  font-weight: var(--font-weight-semibold);
+    background: var(--color-primary);
+    font-weight: var(--font-weight-semibold);
 }
 
 .anna-reviews-page-cta__btn:hover {
