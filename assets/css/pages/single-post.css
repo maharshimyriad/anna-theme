@@ -77,7 +77,7 @@
 }
 
 .anna-single-breadcrumb__link:hover {
-  color: var(--color-white);
+  color: var(--color-white) !important;
 }
 
 .anna-single-breadcrumb__sep {
