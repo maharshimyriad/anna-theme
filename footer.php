@@ -45,15 +45,7 @@ if ( ! $copy ) {
 					<?php if ( anna_get_option( 'newsletter_text', '' ) ) : ?>
 						<p class="anna-footer__newsletter-text"><?php echo esc_html( anna_get_option( 'newsletter_text', '' ) ); ?></p>
 					<?php endif; ?>
-					<?php if ( is_active_sidebar( 'footer-newsletter' ) ) : ?>
-						<?php dynamic_sidebar( 'footer-newsletter' ); ?>
-					<?php else : ?>
-						<form class="anna-footer__newsletter-form" action="#" method="post">
-							<input type="text" class="anna-input" placeholder="<?php echo esc_attr( anna_get_option( 'newsletter_name_placeholder', 'Name' ) ); ?>">
-							<input type="email" class="anna-input" placeholder="<?php echo esc_attr( anna_get_option( 'newsletter_email_placeholder', 'Email' ) ); ?>">
-							<button type="submit" class="anna-btn anna-btn--accent anna-btn--sm"><?php echo esc_html( anna_get_option( 'newsletter_button_text', 'Subscribe' ) ); ?></button>
-						</form>
-					<?php endif; ?>
+					<div class="ml-embedded" data-form="mTow5J"></div>
 				</div>
 				<div class="anna-footer__col">
 					<h3 class="anna-footer__col-title"><?php esc_html_e( 'Navigation', 'anna-baylis' ); ?></h3>
