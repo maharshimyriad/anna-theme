@@ -355,11 +355,14 @@
   border-top: 1px solid var(--color-border-soft);
   border-bottom: 1px solid var(--color-border-soft);
   background: var(--color-bg-soft);
-  transition: box-shadow var(--transition-base), padding var(--transition-base);
 }
 
-/* Sticky state — fixed to bottom of viewport */
-.anna-single-nav.is-sticky {
+/*
+ * Sticky bar — always fixed at bottom, hidden by default.
+ * Fades + slides in when .is-visible is added by JS.
+ * Stays hidden (pointer-events: none) until active.
+ */
+.anna-single-nav--sticky {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -372,10 +375,25 @@
   box-shadow: 0 -2px 20px rgba(0, 112, 99, 0.12);
   border-top: 1px solid var(--color-border-soft);
   border-bottom: none;
+
+  /* Hidden state */
+  opacity: 0;
+  transform: translateY(100%);
+  pointer-events: none;
+  transition:
+    opacity 300ms ease,
+    transform 300ms ease;
 }
 
-/* Clamp title to 1 line with ellipsis when sticky */
-.anna-single-nav.is-sticky .anna-single-nav__title {
+/* Visible state */
+.anna-single-nav--sticky.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Compact text in sticky bar */
+.anna-single-nav--sticky .anna-single-nav__title {
   font-size: var(--text-sm);
   white-space: nowrap;
   overflow: hidden;
@@ -383,15 +401,14 @@
   max-width: 28rem;
 }
 
-.anna-single-nav.is-sticky .anna-single-nav__label {
+.anna-single-nav--sticky .anna-single-nav__label {
   font-size: 0.65rem;
 }
 
-/* Sentinel — always block so JS can read its position */
+/* Sentinel — always block so JS can measure its position */
 #anna-post-nav-sentinel {
   display: block;
   height: 0;
-  /* height set to nav height by JS when sticky to prevent layout jump */
 }
 
 .anna-single-nav .nav-links {
