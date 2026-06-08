@@ -1,5 +1,12 @@
 /**
- * Single post page styles.
+ * Single post page styles — redesigned.
+ *
+ * Layout:
+ *   1. Full-bleed hero: featured image + dark gradient + breadcrumb + title + meta
+ *   2. Wide article body with generous white space
+ *   3. Share bar inside article footer
+ *   4. Post prev/next navigation
+ *   5. You might also like grid (reuses anna-blog-card)
  *
  * @package Anna_Baylis
  * @since   1.0.0
@@ -9,55 +16,88 @@
   background: var(--color-white);
 }
 
-/* ── Featured image banner — flush top, full width ──────────────────────── */
-/*
- * Using background-image instead of <img> gives full control over
- * positioning within the banner, which is critical for portrait images
- * (like 687×1030) where the subject sits in the lower-centre zone.
- * background-position: center 60% focuses on the person, not the sky.
- */
-.anna-single-featured-image {
+/* ════════════════════════════════════════════════════════════════════════
+   HERO
+   ════════════════════════════════════════════════════════════════════════ */
+
+.anna-single-hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: clamp(420px, 60vw, 640px);
   margin-top: var(--header-height);
-  width: 100%;
-  height: clamp(384px, 54vw, 624px);
-  background-image: var(--thumb-url);
+  background-color: var(--color-primary-dark);
+  overflow: hidden;
+}
+
+/* Featured image as background */
+.anna-single-hero--has-image {
+  background-image: var(--hero-img);
   background-size: cover;
-  background-position: center 60%;
+  background-position: center 55%;
   background-repeat: no-repeat;
-  background-color: var(--color-heading);
 }
 
-/* Remove old figure/img rules — no longer used */
-.anna-single-featured-image__figure,
-.anna-single-featured-image__figure img,
-.anna-single-featured-image__img {
-  display: none;
+/* Gradient overlay — dark at bottom where text sits, transparent at top */
+.anna-single-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 26, 22, 0.15) 0%,
+    rgba(10, 26, 22, 0.45) 45%,
+    rgba(10, 26, 22, 0.82) 100%
+  );
+  z-index: 1;
 }
 
-/* ── Post header (title + meta) — on white below the image ──────────────── */
-.anna-single-header {
-  padding: clamp(2.5rem, 4vw, 3.5rem) 0 clamp(1.5rem, 3vw, 2.5rem);
-  background: var(--color-white);
-  border-bottom: 1px solid var(--color-border-soft);
+.anna-single-hero .anna-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
 }
 
-/* When there's no featured image, header sits below the fixed header bar */
-.anna-single-main:not(:has(.anna-single-featured-image)) .anna-single-header {
-  margin-top: var(--header-height);
+.anna-single-hero__content {
+  max-width: 780px;
+  padding: clamp(2.5rem, 5vw, 4rem) 0 clamp(3rem, 6vw, 5rem);
 }
 
-.anna-single-header__inner {
-  max-width: 720px;
-  margin-inline: auto;
+/* ── Breadcrumb ──────────────────────────────────────────────────────────── */
+.anna-single-breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-1-5);
+  margin-bottom: var(--space-5);
+  font-size: var(--text-xs);
 }
 
-.anna-single-header__eyebrow {
-  display: inline-block;
+.anna-single-breadcrumb__link {
+  color: rgba(255, 255, 255, 0.70);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.anna-single-breadcrumb__link:hover {
+  color: var(--color-white);
+}
+
+.anna-single-breadcrumb__sep {
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.65rem;
+}
+
+/* ── Category badge ──────────────────────────────────────────────────────── */
+.anna-single-hero__cat {
+  display: inline-flex;
+  align-items: center;
   margin-bottom: var(--space-4);
-  padding: var(--space-1) var(--space-4);
+  padding: var(--space-1) var(--space-3-5);
   border-radius: var(--radius-full);
-  background: rgba(0, 112, 99, 0.08);
-  color: var(--color-primary);
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: var(--color-white);
   font-size: var(--text-xs);
   font-weight: var(--font-weight-semibold);
   letter-spacing: var(--tracking-caps);
@@ -66,97 +106,109 @@
   transition: background var(--transition-fast);
 }
 
-.anna-single-header__eyebrow:hover {
-  background: rgba(0, 112, 99, 0.15);
-  color: var(--color-primary-dark);
+.anna-single-hero__cat:hover {
+  background: rgba(255, 255, 255, 0.28);
+  color: var(--color-white);
 }
 
-.anna-single-header__heading {
-  margin: 0 0 var(--space-5);
+/* ── Heading ─────────────────────────────────────────────────────────────── */
+.anna-single-hero__heading {
+  margin: 0 0 var(--space-6);
   font-family: var(--font-heading);
-  font-size: clamp(1.875rem, 1.5rem + 2vw, 3rem);
+  font-size: clamp(2rem, 2rem + 2.5vw, 3.5rem);
   font-weight: var(--font-weight-semibold);
-  line-height: 1.15;
+  line-height: 1.1;
   letter-spacing: var(--tracking-snug);
-  color: var(--color-heading);
+  color: var(--color-white);
 }
 
-.anna-single-header__meta {
+/* ── Meta row ────────────────────────────────────────────────────────────── */
+.anna-single-hero__meta {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: var(--space-2);
   font-size: var(--text-sm);
-  color: var(--color-text-muted);
+  color: rgba(255, 255, 255, 0.75);
 }
 
-.anna-single-header__sep {
-  color: var(--color-border);
+.anna-single-hero__sep {
+  color: rgba(255, 255, 255, 0.35);
 }
 
-/* ── Content section ────────────────────────────────────────────────────── */
-.anna-single-content-section {
-  padding: clamp(3rem, 6vw, 5rem) 0 clamp(4rem, 8vw, 7rem);
+/* ════════════════════════════════════════════════════════════════════════
+   ARTICLE BODY
+   ════════════════════════════════════════════════════════════════════════ */
+
+.anna-single-body {
+  padding: clamp(3.5rem, 7vw, 6rem) 0 clamp(3rem, 6vw, 5rem);
+  background: var(--color-white);
 }
 
-/* Constrained reading-width layout */
-.anna-single-layout {
-  max-width: 720px;
+.anna-single-body__inner {
+  max-width: 740px;
   margin-inline: auto;
 }
 
-/* ── Post content typography ────────────────────────────────────────────── */
+/* ── Post content typography ─────────────────────────────────────────────── */
 .anna-single-article {
-  font-size: clamp(1rem, 0.97rem + 0.14vw, 1.075rem);
-  line-height: var(--leading-relaxed);
+  font-size: clamp(1rem, 0.97rem + 0.2vw, 1.1rem);
+  line-height: 1.85;
   color: var(--color-text);
 }
 
-.anna-single-article h2,
-.anna-single-article h3,
-.anna-single-article h4 {
-  margin-top: var(--space-10);
-  margin-bottom: var(--space-4);
-  color: var(--color-heading);
+.anna-single-article > * + * {
+  margin-top: var(--space-6);
 }
 
 .anna-single-article h2 {
-  font-size: clamp(1.5rem, 1.3rem + 0.75vw, 2rem);
+  margin-top: var(--space-12);
+  font-size: clamp(1.375rem, 1.2rem + 0.75vw, 1.875rem);
+  color: var(--color-heading);
 }
 
 .anna-single-article h3 {
-  font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.625rem);
+  margin-top: var(--space-10);
+  font-size: clamp(1.125rem, 1rem + 0.5vw, 1.5rem);
+  color: var(--color-heading);
+}
+
+.anna-single-article h4 {
+  margin-top: var(--space-8);
+  font-size: clamp(1rem, 0.95rem + 0.3vw, 1.25rem);
+  color: var(--color-heading);
 }
 
 .anna-single-article p {
-  margin-bottom: var(--space-6);
+  margin: 0;
 }
 
 .anna-single-article ul,
 .anna-single-article ol {
-  margin: 0 0 var(--space-6);
   padding-left: var(--space-6);
 }
 
-.anna-single-article li {
-  margin-bottom: var(--space-2);
-  line-height: var(--leading-relaxed);
+.anna-single-article li + li {
+  margin-top: var(--space-2);
 }
 
 .anna-single-article blockquote {
   margin: var(--space-10) 0;
-  padding: var(--space-6) var(--space-8);
+  padding: var(--space-7) var(--space-8);
   border-left: 4px solid var(--color-primary);
   background: var(--color-bg-soft);
   border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  font-family: var(--font-heading);
+  font-size: clamp(1.1rem, 1rem + 0.5vw, 1.375rem);
   font-style: italic;
-  font-size: var(--text-lg);
+  font-weight: var(--font-weight-light);
   color: var(--color-heading);
+  line-height: 1.6;
 }
 
 .anna-single-article blockquote cite {
   display: block;
-  margin-top: var(--space-3);
+  margin-top: var(--space-4);
   font-size: var(--text-sm);
   font-style: normal;
   font-weight: var(--font-weight-semibold);
@@ -169,13 +221,13 @@
   max-width: 100%;
   height: auto;
   border-radius: var(--radius-md);
-  margin: var(--space-6) 0;
 }
 
 .anna-single-article a {
   color: var(--color-primary);
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
   transition: color var(--transition-fast);
 }
 
@@ -183,7 +235,7 @@
   color: var(--color-primary-dark);
 }
 
-/* ── Page links (multi-page posts) ──────────────────────────────────────── */
+/* ── Page links ──────────────────────────────────────────────────────────── */
 .anna-single-page-links {
   display: flex;
   align-items: center;
@@ -222,113 +274,24 @@
   color: var(--color-white);
 }
 
-/* ── Post navigation ────────────────────────────────────────────────────── */
-.anna-single-nav {
-  padding: clamp(2.5rem, 5vw, 4rem) 0;
-  border-top: 1px solid var(--color-border-soft);
-  background: var(--color-bg-soft);
-}
+/* ════════════════════════════════════════════════════════════════════════
+   SHARE BAR — inside article, after content
+   ════════════════════════════════════════════════════════════════════════ */
 
-.anna-single-nav .nav-links {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-6);
-}
-
-.anna-single-nav .nav-previous,
-.anna-single-nav .nav-next {
-  display: flex;
-}
-
-.anna-single-nav .nav-next {
-  justify-content: flex-end;
-  text-align: right;
-}
-
-.anna-single-nav a {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-  text-decoration: none;
-  max-width: 26rem;
-}
-
-.anna-single-nav__label {
-  font-size: var(--text-xs);
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: var(--tracking-caps);
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-  transition: color var(--transition-fast);
-}
-
-.anna-single-nav__title {
-  font-family: var(--font-heading);
-  font-size: var(--text-base);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-heading);
-  line-height: var(--leading-snug);
-  transition: color var(--transition-fast);
-}
-
-.anna-single-nav a:hover .anna-single-nav__label,
-.anna-single-nav a:hover .anna-single-nav__title {
-  color: var(--color-primary);
-}
-
-/* ── Comments ───────────────────────────────────────────────────────────── */
-.anna-single-comments {
-  padding: clamp(3rem, 6vw, 5rem) 0;
-  background: var(--color-white);
-  border-top: 1px solid var(--color-border-soft);
-}
-
-/* ── Responsive ─────────────────────────────────────────────────────────── */
-@media (max-width: 768px) {
-  .anna-single-featured-image {
-    height: clamp(288px, 60vw, 456px);
-  }
-
-  .anna-single-nav .nav-links {
-    grid-template-columns: 1fr;
-    gap: var(--space-4);
-  }
-
-  .anna-single-nav .nav-next {
-    justify-content: flex-start;
-    text-align: left;
-  }
-}
-
-@media (max-width: 480px) {
-  .anna-single-header__heading {
-    font-size: clamp(1.625rem, 1.4rem + 1.5vw, 2.25rem);
-  }
-
-  .anna-single-featured-image {
-    height: 264px;
-    background-position: center 65%;
-  }
-}
-
-/* ── Share buttons ──────────────────────────────────────────────────────── */
 .anna-single-share {
-  padding: clamp(2rem, 4vw, 3rem) 0;
-  border-top: 1px solid var(--color-border-soft);
-  background: var(--color-white);
-}
-
-.anna-single-share__inner {
   display: flex;
   align-items: center;
   gap: var(--space-4);
   flex-wrap: wrap;
+  margin-top: var(--space-12);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--color-border-soft);
 }
 
 .anna-single-share__label {
   font-size: var(--text-xs);
   font-weight: var(--font-weight-semibold);
-  letter-spacing: var(--tracking-wide);
+  letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
   color: var(--color-text-muted);
   white-space: nowrap;
@@ -345,41 +308,120 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-1-5);
-  padding: var(--space-1-5) var(--space-3);
+  padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-full);
   border: 1.5px solid var(--color-border);
-  background: var(--color-white);
+  background: transparent;
   color: var(--color-text-muted);
+  font-family: var(--font-body);
   font-size: var(--text-xs);
   font-weight: var(--font-weight-medium);
   text-decoration: none;
-  transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+  cursor: pointer;
+  /* Explicit transition for every changing property */
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease,
+    transform 150ms ease,
+    box-shadow 150ms ease;
 }
 
 .anna-single-share__btn svg {
   width: 14px;
   height: 14px;
   flex-shrink: 0;
+  /* Inherit colour so it changes with the button */
+  color: inherit;
 }
 
-.anna-single-share__btn:hover {
-  transform: translateY(-1px);
-  background: var(--color-primary);
+.anna-single-share__btn:hover,
+.anna-single-share__btn:focus-visible {
+  background-color: var(--color-primary);
   border-color: var(--color-primary);
-  color: var(--color-white);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 112, 99, 0.25);
+  outline: none;
 }
 
-/* ── You might also like ────────────────────────────────────────────────── */
-.anna-single-related {
-  padding: clamp(3.5rem, 6vw, 5.5rem) 0 clamp(4rem, 8vw, 7rem);
-  background: var(--color-bg-soft);
+/* ════════════════════════════════════════════════════════════════════════
+   POST NAVIGATION
+   ════════════════════════════════════════════════════════════════════════ */
+
+.anna-single-nav {
+  padding: clamp(3rem, 5vw, 4.5rem) 0;
   border-top: 1px solid var(--color-border-soft);
+  border-bottom: 1px solid var(--color-border-soft);
+  background: var(--color-bg-soft);
+}
+
+.anna-single-nav .nav-links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-8);
+}
+
+.anna-single-nav .nav-previous,
+.anna-single-nav .nav-next {
+  display: flex;
+}
+
+.anna-single-nav .nav-next {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.anna-single-nav a {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  text-decoration: none;
+  max-width: 28rem;
+}
+
+.anna-single-nav__label {
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  transition: color var(--transition-fast);
+}
+
+.anna-single-nav__title {
+  font-family: var(--font-heading);
+  font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.1rem);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-heading);
+  line-height: var(--leading-snug);
+  transition: color var(--transition-fast);
+}
+
+.anna-single-nav a:hover .anna-single-nav__label,
+.anna-single-nav a:hover .anna-single-nav__title {
+  color: var(--color-primary);
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   YOU MIGHT ALSO LIKE
+   ════════════════════════════════════════════════════════════════════════ */
+
+.anna-single-related {
+  padding: clamp(4rem, 7vw, 6.5rem) 0 clamp(5rem, 9vw, 8rem);
+  background: var(--color-white);
+}
+
+.anna-single-related__header {
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+  padding-bottom: var(--space-6);
+  border-bottom: 1px solid var(--color-border-soft);
 }
 
 .anna-single-related__heading {
-  margin: 0 0 clamp(2rem, 4vw, 3rem);
+  margin: 0;
   font-family: var(--font-heading);
-  font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.625rem);
+  font-size: clamp(1.5rem, 1.3rem + 0.75vw, 2rem);
   font-weight: var(--font-weight-semibold);
   color: var(--color-heading);
 }
@@ -387,8 +429,12 @@
 .anna-single-related__grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(var(--space-5), 2vw, var(--space-7));
+  gap: clamp(var(--space-6), 2.5vw, var(--space-8));
 }
+
+/* ════════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════════════════════════════════════════ */
 
 @media (max-width: 1024px) {
   .anna-single-related__grid {
@@ -396,8 +442,29 @@
   }
 }
 
+@media (max-width: 768px) {
+  .anna-single-hero {
+    min-height: clamp(360px, 70vw, 520px);
+    align-items: flex-end;
+  }
+
+  .anna-single-nav .nav-links {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+
+  .anna-single-nav .nav-next {
+    justify-content: flex-start;
+    text-align: left;
+  }
+}
+
 @media (max-width: 640px) {
-  .anna-single-share__inner {
+  .anna-single-hero {
+    min-height: 320px;
+  }
+
+  .anna-single-share {
     flex-direction: column;
     align-items: flex-start;
   }
