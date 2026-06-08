@@ -107,8 +107,9 @@
 
 /* ── Grid ───────────────────────────────────────────────────────────────── */
 .anna-reviews-page-grid {
+  --color-bg-soft: #F1F5E8;
   padding: var(--reviews-section-padding) 0;
-  background: var(--color-white);
+  background: var(--color-bg-soft);
 }
 
 .anna-reviews-page-grid__cards {
@@ -267,6 +268,7 @@
 .anna-reviews-page-grid__cards .rplg-slider-review {
   display: flex;
   flex-direction: column;
+  gap: 0;
 }
 
 /* Author row — rendered first in DOM but visually on top */
@@ -280,6 +282,7 @@
   background: var(--color-bg-soft);
   border-top: none;
   border-radius: var(--radius-md) var(--radius-md) 0 0;
+  margin-bottom: 0;
 }
 
 /* Hide avatar */
