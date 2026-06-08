@@ -43,10 +43,19 @@ $email_body  = urlencode( get_the_title() . ' — ' . get_permalink() );
 						<?php esc_html_e( 'Home', 'anna-baylis' ); ?>
 					</a>
 					<span class="anna-single-breadcrumb__sep" aria-hidden="true">/</span>
-					<a href="<?php echo esc_url( get_permalink( get_option( 'page_for_posts' ) ) ?: home_url( '/blog/' ) ); ?>" class="anna-single-breadcrumb__link">
-						<?php esc_html_e( 'Blog', 'anna-baylis' ); ?>
+					<?php
+					// Get the blog archive page URL — avoid showing "Blog / Blog"
+					$blog_page_id  = get_option( 'page_for_posts' );
+					$blog_page_url = $blog_page_id ? get_permalink( $blog_page_id ) : home_url( '/blog/' );
+					$blog_page_name = $blog_page_id ? get_the_title( $blog_page_id ) : __( 'Blog', 'anna-baylis' );
+					?>
+					<a href="<?php echo esc_url( $blog_page_url ); ?>" class="anna-single-breadcrumb__link">
+						<?php echo esc_html( $blog_page_name ); ?>
 					</a>
-					<?php if ( $primary_cat ) : ?>
+					<?php
+					// Only show category crumb if it's not the same name as the blog page
+					if ( $primary_cat && strtolower( $primary_cat->name ) !== strtolower( $blog_page_name ) ) :
+					?>
 						<span class="anna-single-breadcrumb__sep" aria-hidden="true">/</span>
 						<a href="<?php echo esc_url( get_category_link( $primary_cat->term_id ) ); ?>" class="anna-single-breadcrumb__link">
 							<?php echo esc_html( $primary_cat->name ); ?>
@@ -108,7 +117,7 @@ $email_body  = urlencode( get_the_title() . ' — ' . get_permalink() );
 					);
 					?>
 
-					<!-- Share bar — inside article, after content -->
+					<?php /* Share bar — temporarily disabled
 					<div class="anna-single-share">
 						<span class="anna-single-share__label"><?php esc_html_e( 'Share this post', 'anna-baylis' ); ?></span>
 						<div class="anna-single-share__buttons">
@@ -138,6 +147,7 @@ $email_body  = urlencode( get_the_title() . ' — ' . get_permalink() );
 
 						</div>
 					</div>
+					*/ ?>
 
 				</article>
 
@@ -148,7 +158,8 @@ $email_body  = urlencode( get_the_title() . ' — ' . get_permalink() );
 	<!-- ════════════════════════════════════════════════════════════════
 	     POST NAVIGATION
 	     ════════════════════════════════════════════════════════════════ -->
-	<nav class="anna-single-nav" aria-label="<?php esc_attr_e( 'Post navigation', 'anna-baylis' ); ?>">
+	<div id="anna-post-nav-sentinel"></div>
+	<nav class="anna-single-nav" id="anna-post-nav" aria-label="<?php esc_attr_e( 'Post navigation', 'anna-baylis' ); ?>">
 		<div class="anna-container anna-container--max">
 			<?php
 			the_post_navigation(

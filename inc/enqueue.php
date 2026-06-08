@@ -237,8 +237,15 @@ function anna_enqueue_styles() {
 		);
 
 		$prev_dep = 'anna-page-blog';
-	}
 
+		wp_enqueue_script(
+			'anna-page-single',
+			ANNA_JS . '/pages/single-post.js',
+			array(), // dependencies, e.g. array( 'jquery' )
+			anna_asset_version( 'assets/js/pages/single-post.js' ),
+			true // load in footer
+		);
+	}
 	anna_enqueue_scaffolded_page_styles( $prev_dep );
 
 	wp_enqueue_style(
