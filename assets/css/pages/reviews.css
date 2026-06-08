@@ -297,13 +297,13 @@
 /* Reviewer name */
 .anna-reviews-page-grid__cards .rplg .rplg-review-name,
 .anna-reviews-page-grid__cards .rplg a.rplg-review-name {
-  display: block;
-  font-family: var(--font-heading);
-  font-size: var(--text-sm);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
-  text-decoration: none;
-  line-height: 1.3;
+  display: block !important;
+  font-family: var(--font-heading) !important;
+  font-size: var(--text-sm) !important;
+  font-weight: var(--font-weight-bold) !important;
+  color: var(--color-primary) !important;
+  text-decoration: none !important;
+  line-height: 1.3 !important;
 }
 
 .anna-reviews-page-grid__cards .rplg a.rplg-review-name:hover {
