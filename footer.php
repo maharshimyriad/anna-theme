@@ -41,10 +41,6 @@ if ( ! $copy ) {
 				</div>
 
 				<div class="anna-footer__col">
-					<h3 class="anna-footer__col-title"><?php echo esc_html( anna_get_option( 'newsletter_heading', __( 'Newsletter', 'anna-baylis' ) ) ); ?></h3>
-					<?php if ( anna_get_option( 'newsletter_text', '' ) ) : ?>
-						<p class="anna-footer__newsletter-text"><?php echo esc_html( anna_get_option( 'newsletter_text', '' ) ); ?></p>
-					<?php endif; ?>
 					<div class="ml-embedded" data-form="mTow5J"></div>
 				</div>
 				<div class="anna-footer__col">

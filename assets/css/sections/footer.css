@@ -13,13 +13,16 @@ display: flex;
 justify-content: space-between;
 }
 
-.anna-footer__col-title {
+.anna-footer__col-title,
+.anna-footer__grid #mlb2-40772586.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedContent h4, 
+.anna-footer__grid #mlb2-40772586 .ml-form-embedContainer  .ml-form-embedWrapper .ml-form-successBody .ml-form-successContent h4 {
   margin: 0 0 2.95rem;
   color: var(--color-white);
   text-transform: none;
       letter-spacing: 1px;
     font-size: 16px;
     font-weight: 400;
+    font-family: var(--font-heading);
 }
 
 .anna-footer__brand-text,
