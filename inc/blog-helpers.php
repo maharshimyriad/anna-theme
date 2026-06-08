@@ -20,18 +20,34 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return array<string, mixed>
  */
 function anna_get_blog_default_content() {
+
+	$categories = array(
+		array(
+			'slug'  => '',
+			'label' => sprintf(
+				'All Posts (%d)',
+				wp_count_posts( 'post' )->publish
+			),
+		),
+	);
+
+	foreach ( get_categories( array( 'hide_empty' => true ) ) as $category ) {
+		$categories[] = array(
+			'slug'  => $category->slug,
+			'label' => sprintf(
+				'%s (%d)',
+				$category->name,
+				$category->count
+			),
+		);
+	}
+
 	return array(
 		'hero_heading'     => 'Blog & Insights',
 		'hero_description' => 'Explore articles on personal growth, mindfulness, wellness, and the journey toward becoming your best self.',
 		'section_heading'  => 'Latest Articles',
 		'section_subtext'  => 'Real insights for real change',
-		'categories'       => array(
-			array( 'slug' => '',                'label' => 'All Posts' ),
-			array( 'slug' => 'mindfulness',     'label' => 'Mindfulness' ),
-			array( 'slug' => 'personal-growth', 'label' => 'Personal Growth' ),
-			array( 'slug' => 'wellness',        'label' => 'Wellness' ),
-			array( 'slug' => 'life-coaching',   'label' => 'Life Coaching' ),
-		),
+		'categories'       => $categories,
 		'posts_per_page'   => 6,
 	);
 }

@@ -31,7 +31,7 @@ $form_status = isset( $_GET['contact'] ) ? sanitize_key( wp_unslash( $_GET['cont
 
 		<?php if ( 'sent' === $form_status ) : ?>
 			<div class="anna-contact-page-notice anna-contact-page-notice--success" role="status">
-				<?php esc_html_e( 'Thank you — your message has been sent. I'll be in touch soon.', 'anna-baylis' ); ?>
+				<?php esc_html_e( 'Thank you — your message has been sent. I \'ll be in touch soon.', 'anna-baylis' ); ?>
 			</div>
 		<?php elseif ( 'error' === $form_status ) : ?>
 			<div class="anna-contact-page-notice anna-contact-page-notice--error" role="alert">
