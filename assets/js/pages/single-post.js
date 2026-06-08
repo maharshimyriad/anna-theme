@@ -1,71 +1,88 @@
 /**
  * Single post — sticky prev/next navigation.
  *
- * The nav bar is fixed to the bottom of the viewport while the user reads.
- * Once the page has scrolled far enough that the nav's natural DOM position
- * comes into view, it detaches and flows normally in the document.
+ * Behaviour:
+ *  - The nav bar is fixed to the bottom of the viewport while the user reads.
+ *  - Once the user scrolls far enough that the nav's natural DOM position
+ *    rises into view, it detaches and sits normally in the document.
+ *
+ * Technique:
+ *  - A zero-height sentinel div (#anna-post-nav-sentinel) lives just before
+ *    the nav in the DOM, marking the nav's natural top edge.
+ *  - When the sentinel is BELOW the viewport bottom → nav is sticky (fixed).
+ *  - When the sentinel is AT or ABOVE the viewport bottom → nav is released.
+ *  - A spacer equal to the nav's height is inserted while sticky so the
+ *    content beneath doesn't jump.
  *
  * @package Anna_Baylis
  */
 ( function () {
 	'use strict';
 
-	const nav      = document.getElementById( 'anna-post-nav' );
-	const sentinel = document.getElementById( 'anna-post-nav-sentinel' );
+	var nav      = document.getElementById( 'anna-post-nav' );
+	var sentinel = document.getElementById( 'anna-post-nav-sentinel' );
 
 	if ( ! nav || ! sentinel ) {
 		return;
 	}
 
-	let navHeight    = 0;
-	let ticking      = false;
-	let isSticky     = false;
+	var isSticky   = false;
+	var navHeight  = 0;
+	var ticking    = false;
 
-	function measureNav() {
-		// Temporarily un-stick to measure natural height.
-		nav.classList.remove( 'is-sticky' );
-		sentinel.classList.remove( 'is-active' );
-		sentinel.style.height = '';
-		navHeight = nav.offsetHeight;
+	function getNavHeight() {
+		// Temporarily remove sticky to measure true height.
+		var wasSticky = isSticky;
+		if ( wasSticky ) {
+			nav.classList.remove( 'is-sticky' );
+			sentinel.style.height = '';
+		}
+		navHeight = nav.getBoundingClientRect().height;
+		if ( wasSticky ) {
+			nav.classList.add( 'is-sticky' );
+			sentinel.style.height = navHeight + 'px';
+		}
+		return navHeight;
 	}
 
 	function update() {
-		const sentinelTop = sentinel.getBoundingClientRect().top;
-		const windowH     = window.innerHeight;
+		ticking = false;
 
-		// Sentinel is above the bottom of the viewport → go sticky.
-		// Sentinel is at or below the bottom               → release.
-		const shouldStick = sentinelTop > windowH - navHeight - 8;
+		var sentinelRect  = sentinel.getBoundingClientRect();
+		var viewportBottom = window.innerHeight;
 
-		if ( shouldStick && ! isSticky ) {
-			isSticky = true;
+		// Sentinel top is below the viewport bottom → should be sticky.
+		var shouldBeSticky = sentinelRect.top > viewportBottom;
+
+		if ( shouldBeSticky && ! isSticky ) {
+			// Measure height before going sticky.
+			navHeight = nav.getBoundingClientRect().height;
+			isSticky  = true;
+			// Set spacer height to prevent layout shift.
 			sentinel.style.height = navHeight + 'px';
-			sentinel.classList.add( 'is-active' );
 			nav.classList.add( 'is-sticky' );
-		} else if ( ! shouldStick && isSticky ) {
+
+		} else if ( ! shouldBeSticky && isSticky ) {
 			isSticky = false;
 			sentinel.style.height = '';
-			sentinel.classList.remove( 'is-active' );
 			nav.classList.remove( 'is-sticky' );
 		}
-
-		ticking = false;
 	}
 
 	function onScroll() {
 		if ( ! ticking ) {
-			requestAnimationFrame( update );
+			window.requestAnimationFrame( update );
 			ticking = true;
 		}
 	}
 
-	// Initial setup.
-	measureNav();
-	update();
+	// Run once after DOM is ready to set initial state.
+	window.requestAnimationFrame( update );
 
 	window.addEventListener( 'scroll', onScroll, { passive: true } );
 	window.addEventListener( 'resize', function () {
-		measureNav();
+		getNavHeight();
 		update();
 	} );
+
 }() );
