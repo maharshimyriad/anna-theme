@@ -42,12 +42,10 @@
 .anna-single-hero__overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(10, 26, 22, 0.15) 0%,
-    rgba(10, 26, 22, 0.45) 45%,
-    rgba(10, 26, 22, 0.82) 100%
-  );
+  background: linear-gradient(to bottom,
+      rgba(10, 26, 22, 0.15) 0%,
+      rgba(10, 26, 22, 0.45) 45%,
+      rgba(10, 26, 22, 0.82) 100%);
   z-index: 1;
 }
 
@@ -157,7 +155,7 @@
   color: var(--color-text);
 }
 
-.anna-single-article > * + * {
+.anna-single-article>*+* {
   margin-top: var(--space-6);
 }
 
@@ -188,7 +186,7 @@
   padding-left: var(--space-6);
 }
 
-.anna-single-article li + li {
+.anna-single-article li+li {
   margin-top: var(--space-2);
 }
 
@@ -224,12 +222,12 @@
 }
 
 .anna-single-article a {
-    color: var(--color-primary) !important;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-thickness: 1px;
-    transition: color var(--transition-fast);
-    font-weight: 500;
+  color: var(--color-primary) !important;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color var(--transition-fast);
+  font-weight: 500;
 }
 
 .anna-single-article a:hover {

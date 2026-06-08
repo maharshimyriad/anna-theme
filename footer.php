@@ -40,7 +40,7 @@ if ( ! $copy ) {
 			</div>
 				</div>
 
-				<div class="anna-footer__col">
+				<div class="anna-footer__col anna-footer__col--newsletter">
 					<div class="ml-embedded" data-form="mTow5J"></div>
 				</div>
 				<div class="anna-footer__col">

@@ -12,29 +12,29 @@
  *
  * @package Anna_Baylis
  */
-( function () {
+(function () {
 	'use strict';
 
-	var nav      = document.getElementById( 'anna-post-nav' );
-	var sentinel = document.getElementById( 'anna-post-nav-sentinel' );
-	var hero     = document.querySelector( '.anna-single-hero' );
+	var nav = document.getElementById('anna-post-nav');
+	var sentinel = document.getElementById('anna-post-nav-sentinel');
+	var hero = document.querySelector('.anna-single-hero');
 
-	if ( ! nav || ! sentinel ) {
+	if (!nav || !sentinel) {
 		return;
 	}
 
 	// Build the sticky clone.
-	var stickyNav = nav.cloneNode( true );
-	stickyNav.removeAttribute( 'id' );
-	stickyNav.setAttribute( 'aria-hidden', 'true' ); // original nav is the accessible one
-	stickyNav.classList.add( 'anna-single-nav--sticky' );
-	document.body.appendChild( stickyNav );
+	var stickyNav = nav.cloneNode(true);
+	stickyNav.removeAttribute('id');
+	stickyNav.setAttribute('aria-hidden', 'true'); // original nav is the accessible one
+	stickyNav.classList.add('anna-single-nav--sticky');
+	document.body.appendChild(stickyNav);
 
 	var isVisible = false;
-	var ticking   = false;
+	var ticking = false;
 
 	function getScrollThreshold() {
-		if ( hero ) {
+		if (hero) {
 			return hero.offsetTop + hero.offsetHeight;
 		}
 		return 400;
@@ -43,34 +43,34 @@
 	function update() {
 		ticking = false;
 
-		var scrolled        = window.pageYOffset || document.documentElement.scrollTop;
-		var threshold       = getScrollThreshold();
-		var sentinelRect    = sentinel.getBoundingClientRect();
-		var viewportBottom  = window.innerHeight;
+		var scrolled = window.pageYOffset || document.documentElement.scrollTop;
+		var threshold = getScrollThreshold();
+		var sentinelRect = sentinel.getBoundingClientRect();
+		var viewportBottom = window.innerHeight;
 
 		// Show sticky when: past the hero AND sentinel still below viewport.
 		var shouldShow = scrolled > threshold && sentinelRect.top > viewportBottom;
 
-		if ( shouldShow && ! isVisible ) {
+		if (shouldShow && !isVisible) {
 			isVisible = true;
-			stickyNav.classList.add( 'is-visible' );
-		} else if ( ! shouldShow && isVisible ) {
+			stickyNav.classList.add('is-visible');
+		} else if (!shouldShow && isVisible) {
 			isVisible = false;
-			stickyNav.classList.remove( 'is-visible' );
+			stickyNav.classList.remove('is-visible');
 		}
 	}
 
 	function onScroll() {
-		if ( ! ticking ) {
-			window.requestAnimationFrame( update );
+		if (!ticking) {
+			window.requestAnimationFrame(update);
 			ticking = true;
 		}
 	}
 
-	window.requestAnimationFrame( update );
-	window.addEventListener( 'scroll', onScroll, { passive: true } );
-	window.addEventListener( 'resize', function () {
-		window.requestAnimationFrame( update );
-	} );
+	window.requestAnimationFrame(update);
+	window.addEventListener('scroll', onScroll, { passive: true });
+	window.addEventListener('resize', function () {
+		window.requestAnimationFrame(update);
+	});
 
-}() );
+}());
