@@ -130,3 +130,8 @@ iframe {
     scroll-behavior: auto !important;
   }
 }
+
+
+.menu-item a{
+  text-transform: capitalize;
+}
