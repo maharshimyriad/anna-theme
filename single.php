@@ -16,10 +16,28 @@ get_header();
 <main id="main-content" class="anna-main anna-single-main" role="main">
 	<?php while ( have_posts() ) : the_post(); ?>
 
-		<!-- ── Hero ──────────────────────────────────────────────────────── -->
-		<section class="anna-single-hero">
+		<!-- ── Featured image banner (full width, no container) ─────────── -->
+		<?php if ( has_post_thumbnail() ) : ?>
+			<div class="anna-single-featured-image">
+				<figure class="anna-single-featured-image__figure">
+					<?php
+					the_post_thumbnail(
+						'full',
+						array(
+							'class'    => 'anna-single-featured-image__img',
+							'loading'  => 'eager',
+							'decoding' => 'async',
+						)
+					);
+					?>
+				</figure>
+			</div>
+		<?php endif; ?>
+
+		<!-- ── Post header (title + meta) ───────────────────────────────── -->
+		<div class="anna-single-header">
 			<div class="anna-container anna-container--max">
-				<div class="anna-single-hero__inner anna-reveal">
+				<div class="anna-single-header__inner anna-reveal">
 
 					<?php
 					$categories = get_the_category();
@@ -27,24 +45,24 @@ get_header();
 						$cat = $categories[0];
 					?>
 						<a href="<?php echo esc_url( get_category_link( $cat->term_id ) ); ?>"
-						   class="anna-eyebrow anna-single-hero__eyebrow">
+						   class="anna-eyebrow anna-single-header__eyebrow">
 							<?php echo esc_html( $cat->name ); ?>
 						</a>
 					<?php endif; ?>
 
-					<h1 class="anna-single-hero__heading">
+					<h1 class="anna-single-header__heading">
 						<?php the_title(); ?>
 					</h1>
 
-					<div class="anna-single-hero__meta">
-						<time class="anna-single-hero__date"
+					<div class="anna-single-header__meta">
+						<time class="anna-single-header__date"
 							  datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>">
 							<?php echo esc_html( get_the_date() ); ?>
 						</time>
 
 						<?php if ( get_the_author() ) : ?>
-							<span class="anna-single-hero__sep" aria-hidden="true">&middot;</span>
-							<span class="anna-single-hero__author">
+							<span class="anna-single-header__sep" aria-hidden="true">&middot;</span>
+							<span class="anna-single-header__author">
 								<?php the_author(); ?>
 							</span>
 						<?php endif; ?>
@@ -53,8 +71,8 @@ get_header();
 						$read_time = anna_estimate_read_time( get_the_content() );
 						if ( $read_time ) :
 						?>
-							<span class="anna-single-hero__sep" aria-hidden="true">&middot;</span>
-							<span class="anna-single-hero__read-time">
+							<span class="anna-single-header__sep" aria-hidden="true">&middot;</span>
+							<span class="anna-single-header__read-time">
 								<?php echo esc_html( $read_time ); ?>
 							</span>
 						<?php endif; ?>
@@ -62,25 +80,7 @@ get_header();
 
 				</div>
 			</div>
-		</section>
-
-		<!-- ── Featured image ────────────────────────────────────────────── -->
-		<?php if ( has_post_thumbnail() ) : ?>
-			<div class="anna-single-featured-image">
-				<figure class="anna-single-featured-image__figure">
-					<?php
-					the_post_thumbnail(
-						'full',
-						array(
-							'class'   => 'anna-single-featured-image__img',
-							'loading' => 'eager',
-							'decoding' => 'async',
-						)
-					);
-					?>
-				</figure>
-			</div>
-		<?php endif; ?>
+		</div>
 
 		<!-- ── Content ───────────────────────────────────────────────────── -->
 		<section class="anna-single-content-section">
