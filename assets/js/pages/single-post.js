@@ -1,71 +1,75 @@
 /**
  * Single post — sticky prev/next navigation.
  *
- * The nav bar is fixed to the bottom of the viewport while the user reads.
- * Once the page has scrolled far enough that the nav's natural DOM position
- * comes into view, it detaches and flows normally in the document.
+ * Behaviour:
+ *  - The nav bar is fixed to the bottom of the viewport ONLY after the user
+ *    has scrolled past the article hero (past the fold).
+ *  - Once the user scrolls far enough that the nav's natural DOM position
+ *    rises into view, it detaches and sits normally in the document.
  *
  * @package Anna_Baylis
  */
 ( function () {
 	'use strict';
 
-	const nav      = document.getElementById( 'anna-post-nav' );
-	const sentinel = document.getElementById( 'anna-post-nav-sentinel' );
+	var nav      = document.getElementById( 'anna-post-nav' );
+	var sentinel = document.getElementById( 'anna-post-nav-sentinel' );
+	var hero     = document.querySelector( '.anna-single-hero' );
 
 	if ( ! nav || ! sentinel ) {
 		return;
 	}
 
-	let navHeight    = 0;
-	let ticking      = false;
-	let isSticky     = false;
+	var isSticky  = false;
+	var navHeight = 0;
+	var ticking   = false;
 
-	function measureNav() {
-		// Temporarily un-stick to measure natural height.
-		nav.classList.remove( 'is-sticky' );
-		sentinel.classList.remove( 'is-active' );
-		sentinel.style.height = '';
-		navHeight = nav.offsetHeight;
+	// How far past the hero the user must scroll before stickiness activates.
+	// Defaults to 300px if no hero is found.
+	function getScrollThreshold() {
+		if ( hero ) {
+			return hero.offsetTop + hero.offsetHeight;
+		}
+		return 200;
 	}
 
 	function update() {
-		const sentinelTop = sentinel.getBoundingClientRect().top;
-		const windowH     = window.innerHeight;
+		ticking = false;
 
-		// Sentinel is above the bottom of the viewport → go sticky.
-		// Sentinel is at or below the bottom               → release.
-		const shouldStick = sentinelTop > windowH - navHeight - 8;
+		var scrolled       = window.pageYOffset || document.documentElement.scrollTop;
+		var threshold      = getScrollThreshold();
+		var sentinelRect   = sentinel.getBoundingClientRect();
+		var viewportBottom = window.innerHeight;
 
-		if ( shouldStick && ! isSticky ) {
-			isSticky = true;
+		// Only sticky if user has scrolled past the hero AND
+		// the sentinel's natural position is still below the viewport bottom.
+		var shouldBeSticky = scrolled > threshold && sentinelRect.top > viewportBottom;
+
+		if ( shouldBeSticky && ! isSticky ) {
+			navHeight             = nav.getBoundingClientRect().height;
+			isSticky              = true;
 			sentinel.style.height = navHeight + 'px';
-			sentinel.classList.add( 'is-active' );
 			nav.classList.add( 'is-sticky' );
-		} else if ( ! shouldStick && isSticky ) {
-			isSticky = false;
+
+		} else if ( ! shouldBeSticky && isSticky ) {
+			isSticky              = false;
 			sentinel.style.height = '';
-			sentinel.classList.remove( 'is-active' );
 			nav.classList.remove( 'is-sticky' );
 		}
-
-		ticking = false;
 	}
 
 	function onScroll() {
 		if ( ! ticking ) {
-			requestAnimationFrame( update );
+			window.requestAnimationFrame( update );
 			ticking = true;
 		}
 	}
 
-	// Initial setup.
-	measureNav();
-	update();
-
+	window.requestAnimationFrame( update );
 	window.addEventListener( 'scroll', onScroll, { passive: true } );
 	window.addEventListener( 'resize', function () {
-		measureNav();
+		navHeight = 0;
 		update();
 	} );
+
 }() );
