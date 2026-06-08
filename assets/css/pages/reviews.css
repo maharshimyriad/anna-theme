@@ -315,7 +315,7 @@
 /* Outer card box — sits below the row */
 .anna-reviews-page-grid__cards .rplg-box {
   order: 1;
-  background: var(--color-bg-soft);
+  background-color: var(--color-bg-soft) !important;
   border-radius: 0 0 var(--radius-md) var(--radius-md);
   box-shadow: none;
   border: none;
