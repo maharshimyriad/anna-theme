@@ -284,7 +284,17 @@ a.anna-contact-page-info__value:hover {
 
 /* ── Gravity Forms overrides (form id 2) ────────────────────────────────── */
 
-.anna-contact-page-form .gform_wrapper {
+/* Reset GF orbital theme tokens to our values */
+.anna-contact-page-form .gform_wrapper.gform-theme {
+  --gf-color-primary: var(--color-primary) !important;
+  --gf-color-primary-darker: var(--color-primary-dark) !important;
+  --gf-color-in-ctrl: #ffffff !important;
+  --gf-color-in-ctrl-rgb: 255, 255, 255 !important;
+  --gf-color-out-ctrl-light: rgba(0, 112, 99, 0.1) !important;
+  --gf-ctrl-border-color: rgba(0, 112, 99, 0.2) !important;
+  --gf-ctrl-label-color-primary: var(--color-heading) !important;
+  --gf-ctrl-label-color-secondary: var(--color-heading) !important;
+  --gf-radius: var(--radius-sm) !important;
   padding: 0 !important;
   margin: 0 !important;
   background: transparent !important;
@@ -306,7 +316,7 @@ a.anna-contact-page-info__value:hover {
   padding: 0 !important;
 }
 
-/* Labels */
+/* Labels — dark, not primary green */
 .anna-contact-page-form .gfield_label,
 .anna-contact-page-form .gform-field-label:not(.gform-field-label--type-sub) {
   display: block !important;
@@ -324,15 +334,19 @@ a.anna-contact-page-info__value:hover {
   display: none !important;
 }
 
-/* Text, email, textarea inputs */
+/* Text, email, textarea — white background, not sage green */
 .anna-contact-page-form .gfield input[type="text"],
 .anna-contact-page-form .gfield input[type="email"],
-.anna-contact-page-form .gfield textarea {
+.anna-contact-page-form .gfield textarea,
+.anna-contact-page-form .gform-theme .gfield input[type="text"],
+.anna-contact-page-form .gform-theme .gfield input[type="email"],
+.anna-contact-page-form .gform-theme .gfield textarea {
   width: 100% !important;
   padding: var(--space-3-5) var(--space-4) !important;
-  border: 1.5px solid var(--color-border) !important;
+  border: 1.5px solid rgba(0, 112, 99, 0.2) !important;
   border-radius: var(--radius-sm) !important;
   background: var(--color-white) !important;
+  background-color: var(--color-white) !important;
   color: var(--color-heading) !important;
   font-family: var(--font-body) !important;
   font-size: var(--text-base) !important;
@@ -349,6 +363,7 @@ a.anna-contact-page-info__value:hover {
   border-color: var(--color-primary) !important;
   box-shadow: 0 0 0 3px rgba(0, 112, 99, 0.12) !important;
   outline: none !important;
+  background: var(--color-white) !important;
 }
 
 .anna-contact-page-form .gfield input::placeholder,
@@ -362,18 +377,12 @@ a.anna-contact-page-info__value:hover {
   resize: vertical !important;
 }
 
-/* Character counter */
-.anna-contact-page-form .ginput_counter {
-  font-size: var(--text-xs) !important;
-  color: var(--color-text-muted) !important;
-  margin-top: var(--space-1) !important;
-}
-
-/* Field description */
+/* Character counter & field description */
+.anna-contact-page-form .ginput_counter,
 .anna-contact-page-form .gfield_description {
   font-size: var(--text-xs) !important;
   color: var(--color-text-muted) !important;
-  margin-bottom: var(--space-2) !important;
+  margin-top: var(--space-1) !important;
 }
 
 /* Footer / submit */
@@ -382,13 +391,15 @@ a.anna-contact-page-info__value:hover {
   padding: 0 !important;
 }
 
-.anna-contact-page-form .gform_button {
+.anna-contact-page-form .gform_button,
+.anna-contact-page-form .gform-theme .gform_button {
   display: block !important;
   width: 100% !important;
   padding: var(--space-4) var(--space-8) !important;
   border: none !important;
   border-radius: var(--btn-radius) !important;
   background: var(--color-primary) !important;
+  background-color: var(--color-primary) !important;
   color: var(--color-white) !important;
   font-family: var(--font-body) !important;
   font-size: var(--text-base) !important;
@@ -399,8 +410,10 @@ a.anna-contact-page-info__value:hover {
   transition: background var(--transition-fast) !important;
 }
 
-.anna-contact-page-form .gform_button:hover {
+.anna-contact-page-form .gform_button:hover,
+.anna-contact-page-form .gform-theme .gform_button:hover {
   background: var(--color-primary-dark) !important;
+  background-color: var(--color-primary-dark) !important;
 }
 
 /* Validation errors */
