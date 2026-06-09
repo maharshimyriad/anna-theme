@@ -55,11 +55,17 @@
   color: rgba(255, 255, 255);
   letter-spacing: 0.12em;
   animation: annaHeroOverlineDrift 7s ease-in-out infinite;
+	    font-family: 'Lexend Giga', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 3.2px;
+    color: white;
 }
 
 .anna-hero__heading {
   margin: 0;
-  font-size: clamp(3rem, 2.55rem + 1.45vw, 3.75rem);
+font-size: clamp(32px, 4vw, 60px);
+	
   line-height: 1.4;
   font-weight: 700;
   color: var(--color-white);
@@ -83,9 +89,10 @@
 }
 
 .anna-hero__description {
-  max-width: 35rem;
+  max-width: 48rem;
   margin: 0;
-  font-size: 1.25rem;
+/*   font-size: 18px; */
+	 font-size: clamp(14px, 1.2vw, 18px);
   line-height: 1.7;
   color: rgba(255, 255, 255, 0.9);
 }
@@ -99,8 +106,9 @@
 }
 
 .anna-hero .anna-btn--hero-primary {
-  min-width: 20.5rem;
+  min-width: 17.5rem;
 	transform:none !important;
+	    font-weight: 700;
 }
 
 .anna-hero .anna-btn--hero-link {
@@ -208,17 +216,14 @@
 @media (max-width: 900px) {
   .anna-hero {
     min-height: auto;
-    background-position: 68% center;
+    background-position: 90% center;
   }
-
-  .anna-hero__heading {
-    font-size: clamp(2.5rem, 8vw, 3.6rem);
-  }
-
-  .anna-hero__stats {
-    grid-template-columns: 1fr;
-    max-width: 20rem;
-  }
+	.anna-hero__ctas{
+		margin: 0 0;
+	}
+	.anna-hero__stat-value{
+		font-size: 1.2rem;
+	}
 
   .anna-hero .anna-btn--hero-primary {
     min-width: 0;
@@ -244,7 +249,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(18rem, 0.95fr);
   gap: clamp(2rem, 5vw, 5rem);
-  align-items: start;
+  align-items: center;
 }
 
 .anna-intro__inner--single {
@@ -259,15 +264,18 @@
 .anna-intro__heading {
   margin: 0;
   color: var(--color-primary);
-  font-size: clamp(2.625rem, 2.28rem + 1.15vw, 3.25rem);
-  line-height: 1.02;
+    font-size: clamp(32px, 4vw, 60px);
+  line-height: 1.2;
 }
-
+.anna-intro__copy{
+	    margin-top: var(--space-5);
+}
 .anna-intro__copy p {
-  margin: 0 0 1rem;
-  color: rgba(26, 43, 37, 0.74);
+/*       margin-top: var(--space-8); */
+  color: #59656f;
   line-height: 1.9;
-  font-size: 1.02rem;
+     font-size: clamp(14px, 1.2vw, 18px);
+	
 }
 
 .anna-intro__quote {
@@ -275,7 +283,9 @@
   padding-left: 1.25rem;
   border-left: 4px solid #4CA591;
 }
-
+.anna-intro__quote{
+	color: #4CA591 !important;
+}
 .anna-intro__quote p,
 .anna-intro__quote cite {
   margin: 0;
@@ -328,7 +338,7 @@
   width: 0.45rem;
   height: 0.45rem;
   border-radius: 999px;
-  background: #7ac0b0;
+  background: #4CA591;
   margin-top: 0.45rem;
 }
 
@@ -336,7 +346,20 @@
   color: rgba(26, 43, 37, 0.72);
   line-height: 1.8;
 }
-
+@media (max-width: 1500px){
+	.anna-hero__inner{
+		padding: 50px 0;
+	}
+	.anna-hero__content {
+		    gap: .8rem;
+	}
+	.anna-hero__ctas{
+		margin: 10px 0;
+	}
+	h2{
+		font-size: 50px !important;
+	}
+}
 @media (max-width: 900px) {
   .anna-intro__inner {
     grid-template-columns: 1fr;
@@ -354,7 +377,7 @@
  * All recognition styles live in sections/intro.css.
  */
 .anna-services {
-  background: #fbfaf6;
+  background: #FBFAF5;
 }
 
 .anna-services__header {
@@ -365,7 +388,7 @@
 .anna-services__heading {
   margin: 0.5rem 0 0;
   color: var(--color-primary);
-  font-size: clamp(2.625rem, 2.28rem + 1.15vw, 3.25rem);
+      font-size: clamp(32px, 4vw, 60px);
   line-height: 1.02;
 }
 
@@ -375,71 +398,101 @@
 }
 
 .anna-services__grid {
-  display: grid;
+/*   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.5rem;
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 0; */
+	   display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    align-items: stretch;
 }
 
 .anna-services__grid > li {
-  min-width: 0;
+/*   min-width: 0; */
+	display: flex;
+    height: 100%;
+    min-width: 0;
 }
 
 .anna-services__grid > li .anna-service-card--feature {
   height: 100%;
+	border-radius: 24px;
 }
 
 .anna-service-card--feature {
-  min-height: 24rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  padding: 1.8rem;
-  border-radius: 1.25rem;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.62) 0%, rgba(255, 255, 255, 0.92) 100%), #f2f1eb;
-  border: 1px solid rgba(0, 112, 99, 0.08);
-  box-shadow: 0 18px 40px rgba(15, 31, 27, 0.05);
-  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
-  will-change: transform;
-	gap:5px;
+	   width: 100%;
+    min-height: 24rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 50px;
+    border-radius: 1.25rem;
+    gap: 14px;
+/*     border: 1px solid rgba(0,112,99,0.08); */
+/*     box-shadow: 0 18px 40px rgba(15,31,27,0.05); */
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease,
+        border-color .3s ease;
 }
 
-.anna-service-card--feature:hover {
+/* .anna-service-card--feature:hover {
   border-color: rgba(0, 112, 99, 0.18);
   box-shadow: 0 24px 54px rgba(15, 31, 27, 0.09);
-}
+} */
 
 .anna-service-card__number {
-  display: block;
-/*   margin-bottom: auto; */
-  color: rgba(76, 165, 145, 0.75);
-  font-size: clamp(2.625rem, 2.28rem + 1.15vw, 3.75rem);
-  line-height: 1;
-	font-family:var(--font-heading);
-  font-weight: 700;
+
+	 display: block;
+    color: #87B4AE;
+    font-size: clamp(2.625rem, 2.28rem + 1.15vw, 3.75rem);
+    line-height: 1;
+    font-family: var(--font-heading);
+    font-weight: 700;
 }
 
 .anna-service-card__title {
   margin: 1rem 0 0.75rem;
-  color: var(--color-primary);
+  color: #007063;
   font-size: clamp(1.25rem, 1.36rem + 0.45vw, 1.25rem);
   line-height: 1.1;
+	
+    font-family: 'Lexend';
 }
 
 .anna-service-card__excerpt {
   margin: 0 0 1.4rem;
-  color: rgba(26, 43, 37, 0.76);
+  color: #4A5568;
   line-height: 1.8;
   flex: none;
+	font-size: 15px;
+	  flex-grow: 1;
 }
 
 .anna-service-card__link {
-    color: var(--color-primary);
+    color: #0F695D;
     font-weight: 700;
     border-bottom: 2px solid var(--color-primary);
     width: fit-content;
+	    font-size: 16px;
+
+}
+.anna-service-card__link::after{
+    content: "→";
+    font-size: 18px;
+    transition: transform 0.3s ease;
+	margin-left: 5px;
+}
+
+.anna-service-card__link:hover::after{
+    transform: translateX(4px);
 }
 
 .anna-service-card__link:hover {
@@ -451,15 +504,15 @@
 }
 
 .anna-services__grid li:nth-child(1) .anna-service-card {
-    background-image: url('https://mediumseagreen-barracuda-518910.hostingersite.com/wp-content/uploads/2026/05/anna-services-bg-1.png');
+    background-image: url('https://mediumseagreen-barracuda-518910.hostingersite.com/wp-content/uploads/2026/06/Background-3-1.png');
 }
 
 .anna-services__grid li:nth-child(2) .anna-service-card {
-    background-image: url('https://mediumseagreen-barracuda-518910.hostingersite.com/wp-content/uploads/2026/05/anna-services-bg-3.png');
+    background-image: url('https://mediumseagreen-barracuda-518910.hostingersite.com/wp-content/uploads/2026/06/Background-4-1.png');
 }
 
 .anna-services__grid li:nth-child(3) .anna-service-card {
-    background-image: url('https://mediumseagreen-barracuda-518910.hostingersite.com/wp-content/uploads/2026/05/anna-services-bg-2.png');
+    background-image: url('https://mediumseagreen-barracuda-518910.hostingersite.com/wp-content/uploads/2026/06/Background-2-1.png');
 }
 
 .anna-service-card {
@@ -496,7 +549,7 @@
 .anna-about__visual {
     position: relative;
     max-width: 550px;
-    max-height: 640px;
+/*     max-height: 640px; */
     padding: 16px;
     background: #F0F5F3;
     border-radius: 24px;
@@ -577,10 +630,10 @@
 }
 
 .anna-about__heading {
-  font-size:      var(--text-4xl);
+      font-size: clamp(32px, 4vw, 60px);
   font-weight:    var(--font-weight-semibold);
   line-height:    var(--leading-tight);
-  color:          #0b7f74;
+  color:          #007063;
   letter-spacing: var(--tracking-snug);
   margin:         0;
 }
@@ -618,9 +671,38 @@
 .anna-tag-list__item .anna-badge{
 	    padding: 1rem 0.625rem;
 }
+.anna-tag-list__item{
+	display: none;
+}
 
+.anna-reveal .anna-btn--secondary{
+	border: none;
+	padding: 0;
+}
+.anna-reveal .anna-btn--secondary:hover{
+	background: transparent;
+	color: #007063;
+	box-shadow: none;
+	    text-decoration: underline;
+}
 /* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 1201px) {
+	.anna-service-card--feature{
+		
+    padding: 20px 20px;
+	}
+	.anna-service-card__excerpt{
+		margin: 0;
+	}
+	.anna-service-card__title{
+    margin: .5rem 0 0;}
+
+}
 @media (max-width: 1024px) {
+	.anna-service-card--feature{
+		
+    padding: 20px 20px;
+	}
   .anna-about__inner   { grid-template-columns: 1fr; }
   .anna-about__visual  { display: none; }
   .anna-about__heading { font-size: var(--text-3xl); }
@@ -663,7 +745,7 @@
 }
 
 .anna-testimonials-section__summary {
-    margin: 0.8rem 0 0;
+    margin:1.5rem 0 0;
     color: rgba(255, 255, 255, 0.64);
     font-size: 0.82rem;
     line-height: 1.6;
@@ -702,6 +784,7 @@
   line-height: 1.85;
   font-size: 0.95rem;
   font-style: italic;
+	font-family: 'Lexend;
 }
 
 .anna-testimonial__author {
@@ -753,9 +836,11 @@
   }
 }
 .anna-cta {
-  background: #fbfaf6;
+  background: #FFFEFA;
   color: var(--color-heading);
   text-align: center;
+	    margin: 80px 0;
+	    padding: 80px 0;
 }
 
 .anna-cta .anna-container {
@@ -763,7 +848,7 @@
 }
 
 .anna-cta__inner {
-  max-width: 980px;
+/*   max-width: 980px; */
   margin: 0 auto;
   display: grid;
   gap: 1.15rem;
@@ -775,19 +860,21 @@
     letter-spacing: 3.2px;
     line-height: 1;
     justify-content: center;
-    font-weight: 700;
+    font-weight: 500;
     margin: 0;
     text-transform: capitalize;
 }
 .anna-cta__heading {
-  max-width: 980px;
+/*   max-width: 980px; */
   margin: 0 auto;
   color: var(--color-primary);
-  font-size: clamp(3rem, 2.55rem + 1.45vw, 3.75rem);
-  font-weight: 700;
+ font-size: clamp(32px, 4vw, 60px);
+  font-weight: 600;
   line-height: 1.02;
   letter-spacing: -0.045em;
   text-wrap: balance;
+	margin-bottom: 30px;
+	margin-bottom: 20px;
 }
 
 .anna-cta__description {
@@ -810,7 +897,9 @@
 .anna-cta__actions {
   margin-top: 1rem;
 }
-
+.anna-testimonials-section__footer .anna-btn{
+	border: none !important;
+}
 .anna-cta__actions .anna-btn {
   min-width: 234px;
   min-height: 58px;

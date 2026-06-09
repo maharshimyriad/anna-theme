@@ -377,7 +377,7 @@
 .anna-oasis-page-how__grid {
   display: grid;
   grid-template-columns: minmax(0, .8fr) minmax(0, 1fr);
-  gap: 0;
+  gap: 20px;
   align-items: start;
 }
 

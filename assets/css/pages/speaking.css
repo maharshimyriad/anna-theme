@@ -411,7 +411,7 @@
 }
 
 .anna-speaking-page-formats__heading {
-      color: var(--speaking-accent);
+      color: #007063;
     margin: 0;
     font-family: 'Lexend', sans-serif;
     font-size: clamp(2rem, 3.2vw, 3.2rem);
@@ -623,12 +623,14 @@
   background: var(--color-white);
 }
 
-.anna-speaking-page-experience__grid {
-  display: grid;
-  gap: clamp(2rem, 5vw, 3rem);
-  align-items: center;
+.anna-speaking-page-experience.anna-speaking-page-section .anna-container--max{
+	display: flex;
+	align-items: center;
+	gap: 100px;
 }
-
+.anna-speaking-page-experience__grid blockquote{
+	border-left: none;
+}
 @media (min-width: 900px) {
   .anna-speaking-page-experience__grid {
     grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
@@ -748,6 +750,9 @@
         rgba(7, 20, 17, 0.72) 55%,
         rgba(7, 20, 17, 0.5) 100%);
   }
+	.anna-speaking-page-book__grid{
+		flex-direction: column;
+	}
 
   .anna-speaking-page-hero__stat {
     border-right: none;
@@ -759,6 +764,9 @@
   .anna-speaking-page-hero__content {
     max-width: none;
   }
+	.anna-speaking-page-book__grid{
+		flex-direction: column;
+	}
 }
 
 
@@ -835,4 +843,35 @@
 	font-size: 12px;
 	color: #1A2B2599;
 	font-weight: 700;
+}
+
+.anna-speaking-page-book__grid{
+	display: flex;
+	gap: 50px;
+	
+}
+.anna-speaking-page-book__heading{
+	    color: #007063;
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 3.2vw, 2.75rem);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.12;
+}
+.anna-speaking-page-book{
+	padding: 100px 0;
+}
+.anna-speaking-page-book__copy{
+	margin-top: var(--space-5);
+}
+.anna-speaking-page-book__copy p{
+color: #59656f;
+    line-height: 1.9;
+	font-size: 18px;}
+.anna-speaking-page-book__eyebrow{
+	animation: annaHeroOverlineDrift 7s ease-in-out infinite;
+    font-family: 'Lexend Giga', sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 3.2px;
+    color: #128266;
 }

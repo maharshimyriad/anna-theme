@@ -43,7 +43,7 @@ $static       = array(
 ?>
 
 <section class="anna-testimonials-section anna-section anna-section--lg" id="testimonials" aria-labelledby="testimonials-heading">
-	<div class="anna-container anna-container--wide">
+	<div class="anna-container">
 		<div class="anna-testimonials-section__header anna-reveal">
 			<div>
 				<?php if ( $section_data['eyebrow'] ) : ?>
