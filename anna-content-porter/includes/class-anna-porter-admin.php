@@ -37,7 +37,7 @@ class Anna_Porter_Admin {
 	 * Called once from the main plugin bootstrap file.
 	 */
 	public function init(): void {
-		add_action( 'admin_menu',                            [ $this, 'register_menu'         ] );
+		add_action( 'admin_menu',                            [ $this, 'register_menu'         ], 20 );
 		add_action( 'admin_enqueue_scripts',                 [ $this, 'enqueue_assets'        ] );
 		add_action( 'admin_post_anna_porter_export',         [ $this, 'handle_export'         ] );
 		add_action( 'admin_post_anna_porter_import_preview', [ $this, 'handle_import_preview' ] );
