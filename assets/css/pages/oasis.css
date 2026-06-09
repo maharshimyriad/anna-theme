@@ -818,9 +818,23 @@
   padding: 0 !important;
 }
 
-/* Full-width fields (textarea) */
-.anna-oasis-page-waitlist .gfield--width-full {
+/* Half-width fields sit in one column each */
+.anna-oasis-page-waitlist .gfield--width-half {
+  grid-column: span 1 !important;
+  width: auto !important;
+  max-width: none !important;
+  flex: none !important;
+  float: none !important;
+}
+
+/* Full-width fields span both columns */
+.anna-oasis-page-waitlist .gfield--width-full,
+.anna-oasis-page-waitlist .gform_footer {
   grid-column: 1 / -1 !important;
+  width: auto !important;
+  max-width: none !important;
+  flex: none !important;
+  float: none !important;
 }
 
 /* Labels */
