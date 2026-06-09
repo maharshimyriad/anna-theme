@@ -37,6 +37,10 @@ require_once ANNA_DIR . "/inc/page-registry.php";
 if (file_exists(ANNA_DIR . "/anna-page-scaffolder/anna-page-scaffolder.php")) {
     require_once ANNA_DIR . "/anna-page-scaffolder/anna-page-scaffolder.php";
 }
+
+if (file_exists(ANNA_DIR . "/anna-content-porter/anna-content-porter.php")) {
+    require_once ANNA_DIR . "/anna-content-porter/anna-content-porter.php";
+}
 require_once ANNA_DIR . "/inc/oasis-helpers.php";
 require_once ANNA_DIR . "/inc/speaking-helpers.php";
 require_once ANNA_DIR . "/inc/mhs-helpers.php";

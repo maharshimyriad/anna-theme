@@ -1,0 +1,74 @@
+/**
+ * Anna Content Porter — Admin Styles
+ *
+ * Scoped styles for the Content Porter admin page.
+ * All WordPress core styles (notices, buttons, form-table) are left untouched.
+ *
+ * @package Anna_Content_Porter
+ * @since   1.0.0
+ */
+
+/* ─── Card container ─────────────────────────────────────────────────────── */
+
+.anna-porter-box {
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	padding: 20px;
+	max-width: 800px;
+	margin-bottom: 24px;
+}
+
+/* ─── Section checkboxes grid ────────────────────────────────────────────── */
+
+.anna-porter-sections-grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 8px 24px;
+	margin-bottom: 16px;
+}
+
+/* ─── Individual checkbox label ──────────────────────────────────────────── */
+
+.anna-porter-section-label {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	cursor: pointer;
+	font-size: 13px;
+}
+
+/* ─── Select All / Deselect All link ─────────────────────────────────────── */
+
+#anna-porter-select-all {
+	font-size: 12px;
+	color: #646970;
+}
+
+/* ─── Import preview panel ───────────────────────────────────────────────── */
+
+.anna-porter-preview {
+	border-left: 4px solid #2271b1;
+}
+
+/* ─── Preview table header column ────────────────────────────────────────── */
+
+.anna-porter-preview table.form-table th {
+	font-weight: 600;
+	width: 140px;
+}
+
+/* ─── Disabled export button ─────────────────────────────────────────────── */
+
+#anna-porter-export-btn:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+/* ─── Responsive: single column on narrow screens ────────────────────────── */
+
+@media screen and (max-width: 782px) {
+	.anna-porter-sections-grid {
+		grid-template-columns: 1fr;
+	}
+}
