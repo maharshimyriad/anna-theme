@@ -774,7 +774,8 @@
 }
 
 .anna-oasis-page-waitlist__cta {
-  margin-top: var(--space-8);
+  max-width: 768px;
+  margin: var(--space-8) 0 0;
 }
 
 .anna-oasis-page-waitlist__btn {
