@@ -284,17 +284,19 @@ a.anna-contact-page-info__value:hover {
 
 /* ── Gravity Forms overrides (form id 2) ────────────────────────────────── */
 
-/* Reset GF orbital theme tokens to our values */
+/* Use form ID specificity to beat GF's inline <style> token declarations */
+#gform_wrapper_2.gform_wrapper,
 .anna-contact-page-form .gform_wrapper.gform-theme {
-  --gf-color-primary: var(--color-primary) !important;
-  --gf-color-primary-darker: var(--color-primary-dark) !important;
+  --gf-color-primary: #007063 !important;
+  --gf-color-primary-darker: #005549 !important;
   --gf-color-in-ctrl: #ffffff !important;
   --gf-color-in-ctrl-rgb: 255, 255, 255 !important;
+  --gf-color-in-ctrl-darker: #f5f5f5 !important;
+  --gf-color-secondary: #ffffff !important;
   --gf-color-out-ctrl-light: rgba(0, 112, 99, 0.1) !important;
   --gf-ctrl-border-color: rgba(0, 112, 99, 0.2) !important;
-  --gf-ctrl-label-color-primary: var(--color-heading) !important;
-  --gf-ctrl-label-color-secondary: var(--color-heading) !important;
-  --gf-radius: var(--radius-sm) !important;
+  --gf-ctrl-label-color-primary: #0F1F1B !important;
+  --gf-ctrl-label-color-secondary: #0F1F1B !important;
   padding: 0 !important;
   margin: 0 !important;
   background: transparent !important;
@@ -318,12 +320,14 @@ a.anna-contact-page-info__value:hover {
 
 /* Labels — dark, not primary green */
 .anna-contact-page-form .gfield_label,
-.anna-contact-page-form .gform-field-label:not(.gform-field-label--type-sub) {
+.anna-contact-page-form .gform-field-label:not(.gform-field-label--type-sub),
+#gform_2 .gfield_label,
+#gform_2 .gform-field-label:not(.gform-field-label--type-sub) {
   display: block !important;
   font-family: var(--font-body) !important;
   font-size: var(--text-sm) !important;
   font-weight: var(--font-weight-semibold) !important;
-  color: var(--color-heading) !important;
+  color: #0F1F1B !important;
   letter-spacing: 0.01em !important;
   margin-bottom: var(--space-2) !important;
 }
@@ -340,14 +344,17 @@ a.anna-contact-page-info__value:hover {
 .anna-contact-page-form .gfield textarea,
 .anna-contact-page-form .gform-theme .gfield input[type="text"],
 .anna-contact-page-form .gform-theme .gfield input[type="email"],
-.anna-contact-page-form .gform-theme .gfield textarea {
+.anna-contact-page-form .gform-theme .gfield textarea,
+#gform_2 .gfield input[type="text"],
+#gform_2 .gfield input[type="email"],
+#gform_2 .gfield textarea {
   width: 100% !important;
   padding: var(--space-3-5) var(--space-4) !important;
   border: 1.5px solid rgba(0, 112, 99, 0.2) !important;
   border-radius: var(--radius-sm) !important;
-  background: var(--color-white) !important;
-  background-color: var(--color-white) !important;
-  color: var(--color-heading) !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #0F1F1B !important;
   font-family: var(--font-body) !important;
   font-size: var(--text-base) !important;
   line-height: 1.5 !important;
@@ -359,11 +366,15 @@ a.anna-contact-page-info__value:hover {
 
 .anna-contact-page-form .gfield input[type="text"]:focus,
 .anna-contact-page-form .gfield input[type="email"]:focus,
-.anna-contact-page-form .gfield textarea:focus {
-  border-color: var(--color-primary) !important;
+.anna-contact-page-form .gfield textarea:focus,
+#gform_2 .gfield input[type="text"]:focus,
+#gform_2 .gfield input[type="email"]:focus,
+#gform_2 .gfield textarea:focus {
+  border-color: #007063 !important;
   box-shadow: 0 0 0 3px rgba(0, 112, 99, 0.12) !important;
   outline: none !important;
-  background: var(--color-white) !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
 }
 
 .anna-contact-page-form .gfield input::placeholder,
