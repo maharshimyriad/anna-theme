@@ -642,6 +642,91 @@ class Anna_Porter_Admin {
 					</tbody>
 				</table>
 
+				<!-- Section D: post meta entries whose keys match anna_theme_options keys -->
+				<h3 class="anna-porter-debug-heading">
+					<?php esc_html_e( 'D - Post meta rows sharing the same keys as anna_theme_options (the live source)', 'anna-content-porter' ); ?>
+				</h3>
+				<?php
+				// Build the list of known keys from the DB value we already have.
+				$known_keys = $is_array ? array_keys( $db_value ) : [];
+
+				if ( empty( $known_keys ) ) :
+				?>
+					<div class="anna-porter-debug-alert is-warning">
+						<?php esc_html_e( 'No keys in anna_theme_options to compare against.', 'anna-content-porter' ); ?>
+					</div>
+				<?php else :
+					// Build a safe IN() placeholder list.
+					$placeholders = implode( ', ', array_fill( 0, count( $known_keys ), '%s' ) );
+
+					// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+					$postmeta_rows = $wpdb->get_results(
+						$wpdb->prepare(
+							"SELECT pm.post_id, p.post_title, p.post_type, p.post_status,
+							        pm.meta_key,
+							        LEFT(pm.meta_value, 120) AS meta_val_preview
+							 FROM {$wpdb->postmeta} pm
+							 INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id
+							 WHERE pm.meta_key IN ($placeholders)
+							   AND p.post_status NOT IN ('trash','auto-draft')
+							 ORDER BY p.post_title, pm.meta_key
+							 LIMIT 300",
+							...$known_keys
+						)
+					);
+					// phpcs:enable
+
+					if ( empty( $postmeta_rows ) ) :
+				?>
+					<div class="anna-porter-debug-alert is-ok">
+						<?php esc_html_e( 'No post meta rows found for these keys. The theme reads only from anna_theme_options — option name is correct, data may simply be stale there.', 'anna-content-porter' ); ?>
+					</div>
+				<?php else : ?>
+					<div class="anna-porter-debug-alert is-error">
+						<?php
+						printf(
+							/* translators: %d count */
+							esc_html__( 'Found %d post meta row(s) using the same keys. The LIVE data lives here, NOT in anna_theme_options. The porter must read post meta instead.', 'anna-content-porter' ),
+							count( $postmeta_rows )
+						);
+						?>
+					</div>
+					<table class="anna-porter-debug-table">
+						<thead><tr>
+							<th><?php esc_html_e( 'post_id', 'anna-content-porter' ); ?></th>
+							<th><?php esc_html_e( 'Title', 'anna-content-porter' ); ?></th>
+							<th><?php esc_html_e( 'Type / Status', 'anna-content-porter' ); ?></th>
+							<th><?php esc_html_e( 'meta_key', 'anna-content-porter' ); ?></th>
+							<th><?php esc_html_e( 'meta_value (preview)', 'anna-content-porter' ); ?></th>
+						</tr></thead>
+						<tbody>
+							<?php foreach ( $postmeta_rows as $row ) : ?>
+								<?php
+								// Highlight rows whose meta_value differs from the option value.
+								$opt_val    = (string) ( $db_value[ $row->meta_key ] ?? '' );
+								$meta_val   = (string) $row->meta_val_preview;
+								$is_diff    = ( trim( $opt_val ) !== trim( $meta_val ) );
+								?>
+								<tr style="<?php echo $is_diff ? 'background:#fff8f0;' : ''; ?>">
+									<td><?php echo esc_html( $row->post_id ); ?></td>
+									<td><?php echo esc_html( $row->post_title ); ?></td>
+									<td><?php echo esc_html( $row->post_type . ' / ' . $row->post_status ); ?></td>
+									<td class="anna-porter-debug-key"><?php echo esc_html( $row->meta_key ); ?></td>
+									<td class="anna-porter-debug-val">
+										<?php echo esc_html( $meta_val ); ?>
+										<?php if ( $is_diff ) : ?>
+											<br><em style="color:#d63638;font-size:11px">
+												<?php esc_html_e( 'DIFFERS from anna_theme_options', 'anna-content-porter' ); ?>
+											</em>
+										<?php endif; ?>
+									</td>
+								</tr>
+							<?php endforeach; ?>
+						</tbody>
+					</table>
+				<?php endif; ?>
+				<?php endif; ?>
+
 			</div>
 		</details>
 		<?php
