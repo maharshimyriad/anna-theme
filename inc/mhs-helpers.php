@@ -181,7 +181,7 @@ function anna_sanitize_mhs_option( $key, $value ) {
 		'mhs_pg_ready_button_tertiary_url',
 	);
 	if ( in_array( $key, $url_keys, true ) ) {
-		return esc_url_raw( $value );
+		return sanitize_text_field( $value );
 	}
 
 	$textarea_keys = array(

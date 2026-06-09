@@ -517,7 +517,7 @@ function anna_sanitize_speaking_option($key, $value)
         "speaking_pg_experience_link_url",
     ];
     if (in_array($key, $url_keys, true)) {
-        return esc_url_raw($value);
+        return sanitize_text_field($value);
     }
     $textarea_keys = [
         "speaking_pg_hero_body",

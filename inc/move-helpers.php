@@ -344,7 +344,7 @@ function anna_sanitize_move_option( $key, $value ) {
 		'move_pg_evolved_button_tertiary_url',
 	);
 	if ( in_array( $key, $url_keys, true ) ) {
-		return esc_url_raw( $value );
+		return sanitize_text_field( $value );
 	}
 
 	$textarea_keys = array(

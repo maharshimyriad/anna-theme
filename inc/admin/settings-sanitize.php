@@ -113,7 +113,7 @@ function anna_sanitize_single_option( $key, $value ) {
 
 	$url_fields = array( 'header_cta_url', 'cta_primary_url', 'cta_secondary_url', 'services_cta_url', 'about_cta_url', 'privacy_url', 'terms_url', 'testimonials_cta_url', 'about_pg_coach_button_url', 'about_pg_connect_button_url', 'coaching_pg_hero_button_url', 'coaching_pg_what_button_url', 'coaching_pg_expect_button_url', 'oasis_pg_hero_button_url', 'oasis_pg_what_footer_url', 'oasis_pg_begun_link_url', 'oasis_pg_waitlist_button_url', 'speaking_pg_hero_button_url', 'speaking_pg_hero_secondary_url', 'speaking_pg_bring_button_url', 'speaking_pg_experience_link_url' );
 	if ( in_array( $key, $url_fields, true ) ) {
-		return esc_url_raw( $value );
+		return sanitize_text_field( $value );
 	}
 
 	$html_fields = array( 'hero_heading', 'about_heading', 'about_body', 'intro_body', 'intro_heading', 'cta_heading' );

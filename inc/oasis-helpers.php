@@ -450,7 +450,7 @@ function anna_sanitize_oasis_option( $key, $value ) {
 		return function_exists( 'anna_normalize_coaching_faq_items' ) ? anna_normalize_coaching_faq_items( $value ) : array();
 	}
 	if ( in_array( $key, array( 'oasis_pg_what_footer_url', 'oasis_pg_hero_button_url', 'oasis_pg_begun_link_url', 'oasis_pg_waitlist_button_url' ), true ) ) {
-		return esc_url_raw( $value );
+		return sanitize_text_field( $value );
 	}
 	if ( in_array( $key, array( 'oasis_pg_hero_image_id', 'oasis_pg_begun_image_id' ), true ) ) {
 		return absint( $value );
