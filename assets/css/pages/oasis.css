@@ -858,6 +858,7 @@
 .anna-oasis-page-waitlist .gfield_required_text {
   color: rgba(250, 246, 239, 0.45) !important;
   font-size: var(--text-xs) !important;
+  margin-left: 0.2rem;
 }
 
 /* Inputs + email */
