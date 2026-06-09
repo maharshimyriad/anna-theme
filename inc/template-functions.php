@@ -14,6 +14,52 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Suppress old page builder shortcode output on custom-template pages.
+ *
+ * Pages using our custom templates (Oasis, Coaching, etc.) store their
+ * content in post meta managed by the Anna Content Manager plugin.
+ * The classic editor post_content may still contain old Avada / WPBakery
+ * shortcodes from a previous theme. We blank that out before it renders.
+ *
+ * @param string $content The post content.
+ * @return string
+ */
+function anna_suppress_builder_content_on_managed_pages( $content ) {
+	if ( ! is_singular( 'page' ) ) {
+		return $content;
+	}
+
+	$managed_templates = array(
+		'page-contact.php',
+		'page-reviews.php',
+		'page-oasis.php',
+		'page-coaching.php',
+		'page-speaking.php',
+		'page-mental-health-support.php',
+		'page-move.php',
+		'page-about.php',
+	);
+
+	$template = get_page_template_slug( get_the_ID() );
+	if ( in_array( $template, $managed_templates, true ) ) {
+		return '';
+	}
+
+	// Also suppress if content contains old builder shortcodes regardless of template.
+	if (
+		strpos( $content, '[av_' ) !== false ||
+		strpos( $content, 'av_uid=' ) !== false ||
+		strpos( $content, '[vc_' ) !== false ||
+		strpos( $content, '[fusion_' ) !== false
+	) {
+		return '';
+	}
+
+	return $content;
+}
+add_filter( 'the_content', 'anna_suppress_builder_content_on_managed_pages', 1 );
+
+/**
  * Outputs the skip-to-content link.
  * Must be the very first item inside <body>.
  */
