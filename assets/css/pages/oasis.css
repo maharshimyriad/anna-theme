@@ -797,6 +797,137 @@
   transform: translateY(-2px);
 }
 
+/* ── Waitlist gravity form ───────────────────────────────────────────────── */
+
+/* Form wrapper */
+.anna-oasis-page-waitlist .gform_wrapper {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.5rem, 3vw, 2rem);
+  margin-top: var(--space-8);
+}
+
+/* Labels */
+.anna-oasis-page-waitlist .gfield_label,
+.anna-oasis-page-waitlist .gform-field-label {
+  color: rgba(250, 246, 239, 0.80) !important;
+  font-family: var(--font-body) !important;
+  font-size: var(--text-sm) !important;
+  font-weight: var(--font-weight-medium) !important;
+  margin-bottom: var(--space-2) !important;
+}
+
+/* Hide required text */
+.anna-oasis-page-waitlist .gfield_required_text {
+  color: rgba(250, 246, 239, 0.50) !important;
+  font-size: var(--text-xs) !important;
+}
+
+/* Inputs, email, textarea */
+.anna-oasis-page-waitlist .gfield input[type="text"],
+.anna-oasis-page-waitlist .gfield input[type="email"],
+.anna-oasis-page-waitlist .gfield textarea {
+  width: 100% !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  border-radius: var(--radius-sm) !important;
+  color: var(--color-white) !important;
+  font-family: var(--font-body) !important;
+  font-size: var(--text-sm) !important;
+  padding: 0.65rem 0.9rem !important;
+  outline: none !important;
+  transition: border-color var(--transition-fast) !important;
+  box-shadow: none !important;
+}
+
+.anna-oasis-page-waitlist .gfield input[type="text"]:focus,
+.anna-oasis-page-waitlist .gfield input[type="email"]:focus,
+.anna-oasis-page-waitlist .gfield textarea:focus {
+  border-color: rgba(255, 255, 255, 0.55) !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.anna-oasis-page-waitlist .gfield input::placeholder,
+.anna-oasis-page-waitlist .gfield textarea::placeholder {
+  color: rgba(255, 255, 255, 0.45) !important;
+}
+
+/* Textarea height */
+.anna-oasis-page-waitlist .gfield textarea {
+  min-height: 7rem !important;
+  resize: vertical !important;
+}
+
+/* Two-column name + email row */
+.anna-oasis-page-waitlist .gform_fields {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: var(--space-5) var(--space-6) !important;
+}
+
+/* Full-width textarea field */
+.anna-oasis-page-waitlist .gfield--width-full {
+  grid-column: 1 / -1 !important;
+}
+
+/* Submit button */
+.anna-oasis-page-waitlist .gform_footer {
+  grid-column: 1 / -1;
+  margin-top: var(--space-2) !important;
+  padding: 0 !important;
+}
+
+.anna-oasis-page-waitlist .gform_button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  padding: var(--btn-padding-y-md) var(--btn-padding-x-md) !important;
+  border: none !important;
+  border-radius: var(--btn-radius) !important;
+  background: var(--color-white) !important;
+  color: var(--color-primary) !important;
+  font-family: var(--font-body) !important;
+  font-size: var(--btn-font-size) !important;
+  font-weight: var(--btn-font-weight) !important;
+  letter-spacing: var(--btn-letter-spacing) !important;
+  cursor: pointer !important;
+  transition: background var(--transition-fast), color var(--transition-fast) !important;
+}
+
+.anna-oasis-page-waitlist .gform_button:hover {
+  background: var(--oasis-cream) !important;
+  color: var(--color-primary-dark) !important;
+}
+
+/* Validation messages */
+.anna-oasis-page-waitlist .validation_message,
+.anna-oasis-page-waitlist .gfield_description {
+  color: rgba(250, 246, 239, 0.70) !important;
+  font-size: var(--text-xs) !important;
+}
+
+.anna-oasis-page-waitlist .gform_confirmation_message {
+  color: var(--color-white) !important;
+  font-size: var(--text-base) !important;
+  text-align: center;
+  padding: var(--space-6) 0;
+}
+
+/* Hide honeypot spam field */
+.anna-oasis-page-waitlist .altEmail_container,
+.anna-oasis-page-waitlist .wpa_hidden_field {
+  display: none !important;
+}
+
+/* Responsive — stack to single column on small screens */
+@media (max-width: 600px) {
+  .anna-oasis-page-waitlist .gform_fields {
+    grid-template-columns: 1fr !important;
+  }
+}
+
 /* ── FAQ ────────────────────────────────────────────────────────────────── */
 
 
