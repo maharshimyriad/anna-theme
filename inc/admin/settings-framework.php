@@ -1088,3 +1088,69 @@ function anna_seed_move_page_defaults()
     anna_seed_page_theme_defaults("move_pg_");
 }
 add_action("admin_init", "anna_seed_move_page_defaults", 20);
+
+/**
+ * One-time migration: update all "Book a Discovery Call" button URLs
+ * that still hold stale placeholder values (#contact, #final-cta)
+ * to the configured discovery_call_url setting.
+ *
+ * Changing defaults in anna_get_default_options() does not retroactively
+ * update values already saved in the database. This migration does.
+ * It runs exactly once and is skipped on every subsequent request.
+ */
+function anna_migrate_discovery_call_urls() {
+	if ( ! is_admin() ) {
+		return;
+	}
+
+	if ( get_option( 'anna_discovery_call_urls_migrated_v1', false ) ) {
+		return;
+	}
+
+	$options = get_option( 'anna_theme_options', array() );
+	if ( ! is_array( $options ) ) {
+		$options = array();
+	}
+
+	// Use whatever the admin has already saved; fall back to the constant.
+	$target_url = ! empty( $options['discovery_call_url'] )
+		? $options['discovery_call_url']
+		: ANNA_DISCOVERY_CALL_URL;
+
+	// Stale placeholder values that mean "never customised".
+	$stale = array( '#contact', '#final-cta', '#', '' );
+
+	// Every theme-option key that should point to the discovery call URL.
+	$fields = array(
+		'header_cta_url',
+		'cta_primary_url',
+		'about_pg_coach_button_url',
+		'about_pg_connect_button_url',
+		'coaching_pg_hero_button_url',
+		'coaching_pg_what_button_url',
+		'coaching_pg_expect_button_url',
+	);
+
+	$changed = false;
+
+	foreach ( $fields as $field ) {
+		$current = isset( $options[ $field ] ) ? trim( (string) $options[ $field ] ) : '';
+		if ( in_array( $current, $stale, true ) ) {
+			$options[ $field ] = $target_url;
+			$changed           = true;
+		}
+	}
+
+	// Seed discovery_call_url itself if it was never saved.
+	if ( empty( $options['discovery_call_url'] ) ) {
+		$options['discovery_call_url'] = ANNA_DISCOVERY_CALL_URL;
+		$changed                       = true;
+	}
+
+	if ( $changed ) {
+		update_option( 'anna_theme_options', $options );
+	}
+
+	update_option( 'anna_discovery_call_urls_migrated_v1', 1 );
+}
+add_action( 'admin_init', 'anna_migrate_discovery_call_urls', 35 );
