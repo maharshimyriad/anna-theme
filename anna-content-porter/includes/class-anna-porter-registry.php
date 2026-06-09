@@ -3,7 +3,7 @@
  * Anna Porter Registry
  *
  * Single source of truth for which anna_theme_options keys belong to which
- * page section. Used by both the exporter and the importer.
+ * page section, and which post-meta keys store the live content for each section.
  *
  * @package Anna_Content_Porter
  * @since   1.0.0
@@ -14,98 +14,114 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Maps page sections to their option key prefixes and exact key names.
+ * Maps page sections to their option key prefixes, exact key names, and
+ * the post-meta keys that store the live content on specific pages.
  */
 class Anna_Porter_Registry {
 
 	/**
-	 * Returns the complete section map, merged with any dynamically registered
-	 * scaffolded pages from anna_get_scaffolded_pages().
+	 * Returns the complete section map.
 	 *
-	 * Each entry has the shape:
-	 *   'label'    => string     Human-readable name shown in the UI.
-	 *   'prefixes' => string[]   Key prefixes to match (e.g. 'hero_').
-	 *   'exact'    => string[]   Exact key names (e.g. 'site_logo_id').
+	 * Each entry shape:
+	 *   'label'          => string     Human-readable name shown in the UI.
+	 *   'prefixes'       => string[]   Option key prefixes (legacy / brand / footer).
+	 *   'exact'          => string[]   Exact option key names.
+	 *   'post_meta_page' => string     (optional) '__front__' or a page slug.
+	 *   'post_meta_keys' => string[]   (optional) _anna_content_* meta keys on that page.
 	 *
-	 * @return array<string, array{label: string, prefixes: string[], exact: string[]}>
+	 * @return array<string, array>
 	 */
 	public static function get_sections(): array {
 		$sections = [
 
 			// ── Home page ──────────────────────────────────────────────────────
 			'home' => [
-				'label'    => 'Home',
-				'prefixes' => [
-					'hero_',         // Hero section fields and stats
-					'intro_',        // Intro / approach section
-					'recognition_',  // Recognition list section
-					'services_',     // Services section
-					'about_',        // Home page "about" teaser (NOT the About page)
-					'testimonials_', // Testimonials section
-					'cta_',          // Final CTA section
+				'label'          => 'Home',
+				'prefixes'       => [
+					'hero_', 'intro_', 'recognition_', 'services_', 'about_', 'testimonials_', 'cta_',
 				],
-				'exact'    => [],
+				'exact'          => [],
+				'post_meta_page' => '__front__',
+				'post_meta_keys' => [
+					'_anna_content_hero',
+					'_anna_content_intro',
+					'_anna_content_services',
+					'_anna_content_about',
+					'_anna_content_testimonials',
+					'_anna_content_cta',
+				],
 			],
 
 			// ── Standalone page sections ───────────────────────────────────────
 			'about_pg' => [
-				'label'    => 'About Page',
-				'prefixes' => [ 'about_pg_' ],
-				'exact'    => [],
+				'label'          => 'About Page',
+				'prefixes'       => [ 'about_pg_' ],
+				'exact'          => [],
+				'post_meta_page' => 'about',
+				'post_meta_keys' => [ '_anna_content_about_pg' ],
 			],
 
 			'coaching_pg' => [
-				'label'    => 'Coaching Page',
-				'prefixes' => [ 'coaching_pg_' ],
-				'exact'    => [],
+				'label'          => 'Coaching Page',
+				'prefixes'       => [ 'coaching_pg_' ],
+				'exact'          => [],
+				'post_meta_page' => 'coaching',
+				'post_meta_keys' => [ '_anna_content_coaching_pg' ],
 			],
 
 			'oasis_pg' => [
-				'label'    => 'Oasis Page',
-				'prefixes' => [ 'oasis_pg_' ],
-				'exact'    => [],
+				'label'          => 'Oasis Page',
+				'prefixes'       => [ 'oasis_pg_' ],
+				'exact'          => [],
+				'post_meta_page' => 'oasis',
+				'post_meta_keys' => [ '_anna_content_oasis_pg' ],
 			],
 
 			'speaking_pg' => [
-				'label'    => 'Speaking Page',
-				'prefixes' => [ 'speaking_pg_' ],
-				'exact'    => [],
+				'label'          => 'Speaking Page',
+				'prefixes'       => [ 'speaking_pg_' ],
+				'exact'          => [],
+				'post_meta_page' => 'speaking',
+				'post_meta_keys' => [ '_anna_content_speaking_pg' ],
 			],
 
 			'mhs_pg' => [
-				'label'    => 'Mental Health Support Page',
-				'prefixes' => [ 'mhs_pg_' ],
-				'exact'    => [],
+				'label'          => 'Mental Health Support Page',
+				'prefixes'       => [ 'mhs_pg_' ],
+				'exact'          => [],
+				'post_meta_page' => 'mhs',
+				'post_meta_keys' => [ '_anna_content_mhs_pg' ],
 			],
 
 			'move_pg' => [
-				'label'    => 'Move Page',
-				'prefixes' => [ 'move_pg_' ],
-				'exact'    => [],
+				'label'          => 'Move Page',
+				'prefixes'       => [ 'move_pg_' ],
+				'exact'          => [],
+				'post_meta_page' => 'move',
+				'post_meta_keys' => [ '_anna_content_move_pg' ],
 			],
 
 			'reviews_pg' => [
-				'label'    => 'Reviews Page',
-				'prefixes' => [ 'reviews_pg_' ],
-				'exact'    => [],
+				'label'          => 'Reviews Page',
+				'prefixes'       => [ 'reviews_pg_' ],
+				'exact'          => [],
+				'post_meta_page' => 'reviews',
+				'post_meta_keys' => [ '_anna_content_reviews_pg' ],
 			],
 
 			'contact_pg' => [
-				'label'    => 'Contact Page',
-				'prefixes' => [ 'contact_pg_' ],
-				'exact'    => [],
+				'label'          => 'Contact Page',
+				'prefixes'       => [ 'contact_pg_' ],
+				'exact'          => [],
+				'post_meta_page' => 'contact',
+				'post_meta_keys' => [ '_anna_content_contact_pg' ],
 			],
 
-			// ── Global brand ───────────────────────────────────────────────────
-			// footer_logo_id is listed as an exact key here so it goes to brand
-			// exports rather than the footer_social section's footer_ prefix.
+			// ── Global brand — still lives in anna_theme_options ───────────────
 			'brand' => [
 				'label'    => 'Global Brand',
 				'prefixes' => [
-					'color_',     // color_primary, color_accent, …
-					'font_',      // font_heading, font_body, font_size_base, …
-					'container_', // container_max, container_wide
-					'header_',    // header_style, header_cta_text, header_cta_url
+					'color_', 'font_', 'container_', 'header_',
 				],
 				'exact'    => [
 					'site_logo_id',
@@ -116,17 +132,11 @@ class Anna_Porter_Registry {
 				],
 			],
 
-			// ── Footer & Social ────────────────────────────────────────────────
-			// contact_* here covers global footer contact details (email, phone,
-			// address). Contact *page* fields use prefix contact_pg_ (separate section).
+			// ── Footer & Social — still lives in anna_theme_options ────────────
 			'footer_social' => [
 				'label'    => 'Footer & Social',
 				'prefixes' => [
-					'footer_',     // footer_description, etc. (footer_logo_id overridden above)
-					'social_',     // social_links array
-					'contact_',    // contact_email, contact_phone, contact_address, contact_hours
-					'newsletter_', // newsletter_heading, newsletter_text, …
-					'copyright_',  // copyright_text
+					'footer_', 'social_', 'contact_', 'newsletter_', 'copyright_',
 				],
 				'exact'    => [
 					'privacy_url',
@@ -136,8 +146,6 @@ class Anna_Porter_Registry {
 		];
 
 		// ── Dynamic scaffolded pages ───────────────────────────────────────────
-		// Guard with function_exists so the registry works even when the
-		// page-scaffolder plugin is inactive.
 		if ( function_exists( 'anna_get_scaffolded_pages' ) ) {
 			foreach ( anna_get_scaffolded_pages() as $page ) {
 				$code   = $page['code']          ?? '';
@@ -148,13 +156,13 @@ class Anna_Porter_Registry {
 					continue;
 				}
 
-				// Only add the scaffolded section if it has not already been
-				// defined in the static map above.
 				if ( ! isset( $sections[ $code ] ) ) {
 					$sections[ $code ] = [
-						'label'    => $title,
-						'prefixes' => [ $prefix ],
-						'exact'    => [],
+						'label'          => $title,
+						'prefixes'       => [ $prefix ],
+						'exact'          => [],
+						'post_meta_page' => str_replace( '_pg', '', $code ),
+						'post_meta_keys' => [ '_anna_content_' . rtrim( $code, '_' ) ],
 					];
 				}
 			}
@@ -165,14 +173,8 @@ class Anna_Porter_Registry {
 
 	/**
 	 * Given a list of section IDs and the full live anna_theme_options array,
-	 * returns all matching option keys using the following priority order:
-	 *
-	 *   1. Exact-key match (highest priority — immediate win).
-	 *   2. Longest-prefix-wins for prefix matches across the requested sections.
-	 *   3. Each key is assigned to exactly one section (no duplicates).
-	 *
-	 * Keys whose first character is `_` are NOT filtered out here; the
-	 * exporter/importer decides what to include.
+	 * returns all matching option keys (used for brand/footer sections that
+	 * still live in anna_theme_options).
 	 *
 	 * @param string[] $section_ids  Keys from get_sections() to include.
 	 * @param array    $all_options  Full anna_theme_options associative array.
@@ -181,7 +183,6 @@ class Anna_Porter_Registry {
 	public static function get_keys_for_sections( array $section_ids, array $all_options ): array {
 		$sections = static::get_sections();
 
-		// Build a filtered map containing only the requested sections.
 		$requested = [];
 		foreach ( $section_ids as $id ) {
 			if ( isset( $sections[ $id ] ) ) {
@@ -201,14 +202,12 @@ class Anna_Porter_Registry {
 			$exact_match      = false;
 
 			foreach ( $requested as $section_id => $section ) {
-				// ── 1. Exact-key match (trumps all prefix matches) ─────────────
 				if ( in_array( $key, $section['exact'], true ) ) {
 					$assigned_section = $section_id;
 					$exact_match      = true;
-					break; // Exact match wins immediately; stop checking sections.
+					break;
 				}
 
-				// ── 2. Prefix match (longest prefix wins) ──────────────────────
 				foreach ( $section['prefixes'] as $prefix ) {
 					if ( str_starts_with( $key, $prefix ) ) {
 						$prefix_len = strlen( $prefix );
@@ -225,25 +224,15 @@ class Anna_Porter_Registry {
 			}
 		}
 
-		// array_values + array_unique guarantees a clean, zero-indexed list
-		// with no duplicates (duplicates cannot arise given the algorithm, but
-		// this is a defensive measure).
 		return array_values( array_unique( $matched ) );
 	}
 
 	/**
-	 * Returns the section ID that owns the given key, or null if no registered
-	 * section claims it.
-	 *
-	 * Uses the same exact-match → longest-prefix-wins logic as
-	 * get_keys_for_sections(), but searches across ALL registered sections
-	 * rather than a restricted subset.
+	 * Returns the section ID that owns the given option key, or null if none.
 	 *
 	 * @param string $key         The option key to look up.
-	 * @param array  $all_options Full anna_theme_options array (used only to
-	 *                            confirm the key actually exists; the lookup
-	 *                            itself is registry-driven).
-	 * @return string|null  The section ID, or null if unregistered.
+	 * @param array  $all_options Full anna_theme_options array.
+	 * @return string|null
 	 */
 	public static function get_section_for_key( string $key, array $all_options ): ?string {
 		$sections        = static::get_sections();
@@ -251,12 +240,10 @@ class Anna_Porter_Registry {
 		$best_prefix_len = 0;
 
 		foreach ( $sections as $section_id => $section ) {
-			// ── 1. Exact-key match ─────────────────────────────────────────────
 			if ( in_array( $key, $section['exact'], true ) ) {
-				return $section_id; // Exact match wins immediately.
+				return $section_id;
 			}
 
-			// ── 2. Prefix match (longest prefix wins) ──────────────────────────
 			foreach ( $section['prefixes'] as $prefix ) {
 				if ( str_starts_with( $key, $prefix ) ) {
 					$prefix_len = strlen( $prefix );

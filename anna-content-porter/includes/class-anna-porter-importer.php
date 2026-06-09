@@ -2,8 +2,10 @@
 /**
  * Anna Porter Importer
  *
- * Validates an Export_Package, re-creates image attachments, sanitises
- * incoming values, and writes the result into anna_theme_options.
+ * Validates an Export_Package, re-creates image attachments, and writes the
+ * content back to the correct destination:
+ *   - 'pages'   → _anna_content_* post meta on pages found by slug
+ *   - 'content' → anna_theme_options (brand, footer, legacy)
  *
  * @package Anna_Content_Porter
  * @since   1.0.0
@@ -14,15 +16,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Handles the two-step import process: preview (read-only validation) and
- * the full import (image re-creation + option write).
+ * Handles the two-step import process: preview (read-only) and full import.
  */
 class Anna_Porter_Importer {
 
 	/**
-	 * Warnings accumulated during image re-creation.
-	 * Populated by recreate_images() so that import() can collect them.
-	 *
 	 * @var string[]
 	 */
 	private array $warnings = [];
@@ -32,20 +30,13 @@ class Anna_Porter_Importer {
 	// -------------------------------------------------------------------------
 
 	/**
-	 * Validates the package and returns preview data for the confirmation UI.
-	 * Does NOT write anything to the database.
+	 * Validates the package and returns preview data. Does not write anything.
 	 *
-	 * @param array $package  Decoded Export_Package (from json_decode $assoc=true).
-	 * @return array{
-	 *   exported_sections: string[],
-	 *   source_site_url: string,
-	 *   exported_at: string,
-	 *   content_key_count: int
-	 * }
+	 * @param array $package  Decoded Export_Package.
+	 * @return array
 	 * @throws InvalidArgumentException  If the package fails validation.
 	 */
 	public function preview( array $package ): array {
-		// Validate plugin marker.
 		if (
 			! isset( $package['meta']['plugin'] ) ||
 			$package['meta']['plugin'] !== 'anna-content-porter'
@@ -55,71 +46,106 @@ class Anna_Porter_Importer {
 			);
 		}
 
-		// Validate content array.
-		if ( ! isset( $package['content'] ) || ! is_array( $package['content'] ) ) {
-			throw new InvalidArgumentException(
-				'Invalid package: missing content.'
-			);
+		if (
+			! isset( $package['content'] ) ||
+			! is_array( $package['content'] )
+		) {
+			// v2 packages may have an empty content array — check pages instead.
+			if ( empty( $package['pages'] ) ) {
+				throw new InvalidArgumentException(
+					'Invalid package: missing both content and pages.'
+				);
+			}
 		}
+
+		$page_meta_count = 0;
+		foreach ( ( $package['pages'] ?? [] ) as $meta_data ) {
+			if ( is_array( $meta_data ) ) {
+				$page_meta_count += count( $meta_data );
+			}
+		}
+
+		$option_key_count = count( $package['content'] ?? [] );
 
 		return [
 			'exported_sections' => $package['meta']['exported_sections'] ?? [],
 			'source_site_url'   => $package['meta']['source_site_url']   ?? '',
 			'exported_at'       => $package['meta']['exported_at']       ?? '',
-			'content_key_count' => count( $package['content'] ),
+			'content_key_count' => $option_key_count + $page_meta_count,
+			'option_key_count'  => $option_key_count,
+			'page_meta_count'   => $page_meta_count,
+			'page_count'        => count( $package['pages'] ?? [] ),
 		];
 	}
 
 	/**
-	 * Performs the full import: re-creates images, sanitises values, applies
-	 * import mode, and writes the merged result to anna_theme_options.
+	 * Performs the full import.
 	 *
 	 * @param array  $package  Decoded Export_Package.
 	 * @param string $mode     'overwrite' or 'skip'.
-	 * @return array{
-	 *   written: int,
-	 *   skipped: int,
-	 *   images_created: int,
-	 *   warnings: string[]
-	 * }
+	 * @return array{ written: int, skipped: int, images_created: int, warnings: string[] }
 	 */
 	public function import( array $package, string $mode ): array {
-		// Reset warnings for this run.
 		$this->warnings = [];
 
-		// Fetch live options — used for skip-mode comparisons and the final merge.
-		$live_options = get_option( 'anna_theme_options', [] );
-
-		// Use the same live options array for Registry key checking.
-		$all_options = $live_options;
-
-		// Re-create images first so we have a complete $image_map before
-		// iterating content keys.
 		$image_map = $this->recreate_images( $package['images'] ?? [] );
-
-		// Collect any warnings produced by recreate_images().
-		$warnings = $this->warnings;
+		$warnings  = $this->warnings;
 
 		$written = 0;
 		$skipped = 0;
-		$merged  = [];
 
-		foreach ( $package['content'] as $key => $value ) {
-			// 1. Skip internal WP keys.
+		// ── Part 1: Post meta (pages — v2 format) ──────────────────────────────
+		foreach ( ( $package['pages'] ?? [] ) as $page_key => $meta_data ) {
+			if ( ! is_array( $meta_data ) ) {
+				continue;
+			}
+
+			$page_id = $this->resolve_import_page( $page_key );
+
+			if ( null === $page_id ) {
+				$warnings[] = sprintf(
+					'Could not find target page for "%s" — skipping all %d meta key(s) for this page.',
+					$page_key,
+					count( $meta_data )
+				);
+				$skipped += count( $meta_data );
+				continue;
+			}
+
+			foreach ( $meta_data as $meta_key => $value ) {
+				// Resolve image string references inside the value recursively.
+				$resolved = $this->resolve_images_in_value( $value, $image_map );
+
+				if ( 'skip' === $mode ) {
+					$existing = get_post_meta( $page_id, $meta_key, true );
+					if ( ! empty( $existing ) ) {
+						$skipped++;
+						continue;
+					}
+				}
+
+				update_post_meta( $page_id, $meta_key, $resolved );
+				$written++;
+			}
+		}
+
+		// ── Part 2: anna_theme_options (brand, footer, legacy v1 content) ──────
+		$live_options = get_option( 'anna_theme_options', [] );
+		$merged       = [];
+
+		foreach ( ( $package['content'] ?? [] ) as $key => $value ) {
 			if ( str_starts_with( $key, '_' ) ) {
 				continue;
 			}
 
-			// 2. Reject keys not registered in the Registry.
-			$section = Anna_Porter_Registry::get_section_for_key( $key, $all_options );
+			$section = Anna_Porter_Registry::get_section_for_key( $key, $live_options );
 			if ( null === $section ) {
 				$warnings[] = "Rejected unknown key: {$key}";
 				continue;
 			}
 
-			// 3. Resolve image string references.
+			// Resolve image references.
 			if ( is_string( $value ) && isset( $package['images'][ $value ] ) ) {
-				// Skip mode: if live value is already a non-zero media ID, leave it.
 				if ( 'skip' === $mode ) {
 					$live_val = $live_options[ $key ] ?? 0;
 					if ( is_int( $live_val ) && $live_val > 0 ) {
@@ -127,11 +153,8 @@ class Anna_Porter_Importer {
 						continue;
 					}
 				}
-
-				$new_id = $image_map[ $value ] ?? 0;
-				$value  = $new_id; // 0 when image creation failed.
+				$value = $image_map[ $value ] ?? 0;
 			} elseif (
-				// 4. Handle raw int media refs that could not be exported as base64.
 				is_int( $value ) &&
 				$value > 0 &&
 				isset( $package['images'][ (string) $value ] )
@@ -140,28 +163,23 @@ class Anna_Porter_Importer {
 				$value = 0;
 			}
 
-			// 5. Sanitise the value.
 			$sanitised = $this->sanitise_value( $key, $value );
 
-			// 6. Apply import mode — should we write this key?
 			if ( ! $this->should_write( $key, $sanitised, $live_options, $mode ) ) {
 				$skipped++;
 				continue;
 			}
 
-			// 7. Stage for merge.
 			$merged[ $key ] = $sanitised;
 			$written++;
 		}
 
-		// Merge staged keys over the live options.
-		$final = array_merge( $live_options, $merged );
-
-		// Persist. update_option returns false both when the value didn't change
-		// AND on genuine DB failure, so we only warn on actual divergence.
-		$updated = update_option( 'anna_theme_options', $final );
-		if ( false === $updated && $final !== $live_options ) {
-			$warnings[] = 'update_option failed: anna_theme_options could not be saved.';
+		if ( ! empty( $merged ) ) {
+			$final   = array_merge( $live_options, $merged );
+			$updated = update_option( 'anna_theme_options', $final );
+			if ( false === $updated && $final !== $live_options ) {
+				$warnings[] = 'update_option failed: anna_theme_options could not be saved.';
+			}
 		}
 
 		return [
@@ -177,48 +195,76 @@ class Anna_Porter_Importer {
 	// -------------------------------------------------------------------------
 
 	/**
-	 * Decodes base64 image payloads, uploads each file to the WP media library,
-	 * and returns a map of exported string key → new local attachment ID.
+	 * Resolves a page_key from the export package to a local post ID.
 	 *
-	 * Failures are recorded in $this->warnings; processing continues on error.
+	 * @param string $page_key  '__front__' or a page slug.
+	 * @return int|null
+	 */
+	private function resolve_import_page( string $page_key ): ?int {
+		if ( '__front__' === $page_key ) {
+			$id = (int) get_option( 'page_on_front' );
+			return $id > 0 ? $id : null;
+		}
+
+		$post = get_page_by_path( $page_key );
+		return $post ? $post->ID : null;
+	}
+
+	/**
+	 * Recursively walks a value and replaces any string image references
+	 * (e.g. "98") with the new local attachment ID from $image_map.
+	 *
+	 * @param mixed                $value
+	 * @param array<string, int>   $image_map
+	 * @return mixed
+	 */
+	private function resolve_images_in_value( $value, array $image_map ) {
+		if ( is_array( $value ) ) {
+			$result = [];
+			foreach ( $value as $k => $v ) {
+				$result[ $k ] = $this->resolve_images_in_value( $v, $image_map );
+			}
+			return $result;
+		}
+
+		if ( is_string( $value ) && isset( $image_map[ $value ] ) ) {
+			return $image_map[ $value ];
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Decodes base64 image payloads, uploads each to the WP media library,
+	 * and returns a map of exported string key to new local attachment ID.
 	 *
 	 * @param array $images  The 'images' object from the Export_Package.
-	 * @return array<string, int>  e.g. ['42' => 187, '55' => 188]
+	 * @return array<string, int>
 	 */
 	private function recreate_images( array $images ): array {
 		$image_map = [];
 
 		foreach ( $images as $string_key => $payload ) {
-			// Decode base64 data (strict mode — false on invalid input).
 			$decoded = base64_decode( $payload['base64_data'] ?? '', true );
 			if ( false === $decoded ) {
 				$this->warnings[] = "Base64 decode failed for image key {$string_key}";
 				continue;
 			}
 
-			// Sanitise the original filename.
-			$filename = sanitize_file_name( $payload['original_filename'] ?? 'import.jpg' );
+			$filename   = sanitize_file_name( $payload['original_filename'] ?? 'import.jpg' );
+			$tmp        = wp_tempnam( $filename );
+			file_put_contents( $tmp, $decoded ); // phpcs:ignore WordPress.WP.AlternativeFunctions
 
-			// Write decoded bytes to a temp file.
-			$tmp = wp_tempnam( $filename );
-			file_put_contents( $tmp, $decoded );
-
-			// Determine the upload destination.
 			$upload_dir = wp_upload_dir();
 			$dest       = $upload_dir['path'] . '/' . wp_unique_filename( $upload_dir['path'], $filename );
 
-			// Move temp file to the uploads directory.
 			if ( ! rename( $tmp, $dest ) ) {
-				// rename() failed — clean up and continue.
 				@unlink( $tmp ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 				$this->warnings[] = "Could not move temp file to uploads for image key {$string_key}";
 				continue;
 			}
 
-			// Detect MIME type from the destination filename.
-			$filetype = wp_check_filetype( basename( $dest ) );
-
-			// Build the attachment post array.
+			$filetype   = wp_check_filetype( basename( $dest ) );
 			$attachment = [
 				'post_mime_type' => $filetype['type'] ?: ( $payload['mime_type'] ?? 'image/jpeg' ),
 				'post_title'     => pathinfo( $filename, PATHINFO_FILENAME ),
@@ -234,7 +280,6 @@ class Anna_Porter_Importer {
 				continue;
 			}
 
-			// Generate and store attachment metadata (thumbnails, etc.).
 			require_once ABSPATH . 'wp-admin/includes/image.php';
 			$meta = wp_generate_attachment_metadata( $attach_id, $dest );
 			wp_update_attachment_metadata( $attach_id, $meta );
@@ -246,15 +291,13 @@ class Anna_Porter_Importer {
 	}
 
 	/**
-	 * Sanitises a single value using field-type rules inferred from the key name.
-	 * Arrays are processed recursively.
+	 * Sanitises a single option value (used for anna_theme_options keys).
 	 *
-	 * @param string $key    Option key (used to infer type hints).
-	 * @param mixed  $value  Raw value from the package.
-	 * @return mixed  Sanitised value.
+	 * @param string $key
+	 * @param mixed  $value
+	 * @return mixed
 	 */
 	private function sanitise_value( string $key, $value ) {
-		// Recurse into arrays (repeater fields).
 		if ( is_array( $value ) ) {
 			$sanitised = [];
 			foreach ( $value as $sub_key => $sub_value ) {
@@ -263,29 +306,24 @@ class Anna_Porter_Importer {
 			return $sanitised;
 		}
 
-		// URL fields.
 		if ( str_ends_with( $key, '_url' ) ) {
 			return esc_url_raw( (string) $value );
 		}
 
-		// Media / integer ID fields.
 		if ( str_ends_with( $key, '_id' ) ) {
 			return absint( $value );
 		}
 
-		// Color fields (hex validation).
 		if ( str_ends_with( $key, '_color' ) || str_starts_with( $key, 'color_' ) ) {
 			return preg_match( '/^#[0-9a-fA-F]{3,8}$/', (string) $value )
 				? (string) $value
 				: '';
 		}
 
-		// Boolean toggle fields.
 		if ( str_ends_with( $key, '_enabled' ) || str_ends_with( $key, '_toggle' ) ) {
 			return (bool) (int) $value;
 		}
 
-		// Textarea / long-text fields — preserve HTML (headings, strong, br, etc.).
 		if (
 			str_contains( $key, 'body' ) ||
 			str_contains( $key, 'description' ) ||
@@ -294,44 +332,33 @@ class Anna_Porter_Importer {
 			return wp_kses_post( (string) $value );
 		}
 
-		// Default: allow standard post-content HTML; strip only dangerous tags.
-		// wp_kses_post is used instead of sanitize_text_field so that inline HTML
-		// stored in theme options (e.g. <strong>, <em>, <br>) is not stripped.
 		return wp_kses_post( (string) $value );
 	}
 
 	/**
-	 * Determines whether a key should be written based on the import mode and
-	 * the current live value.
+	 * Determines whether a key should be written (used for anna_theme_options).
 	 *
-	 * Overwrite mode: always write.
-	 * Skip mode: only write when the live value is considered empty.
-	 *
-	 * @param string $key            Option key.
-	 * @param mixed  $incoming       Sanitised incoming value (not used in skip logic).
-	 * @param array  $live_options   Current anna_theme_options.
-	 * @param string $mode           'overwrite' or 'skip'.
-	 * @return bool  True if the key should be written.
+	 * @param string $key
+	 * @param mixed  $incoming
+	 * @param array  $live_options
+	 * @param string $mode
+	 * @return bool
 	 */
 	private function should_write( string $key, $incoming, array $live_options, string $mode ): bool {
 		if ( 'overwrite' === $mode ) {
 			return true;
 		}
 
-		// Skip mode: write only when the live value is empty.
 		$live = $live_options[ $key ] ?? null;
 
-		// Repeater / array field.
 		if ( is_array( $live ) ) {
 			return empty( $live );
 		}
 
-		// Media / integer field.
 		if ( is_int( $live ) || ( is_string( $live ) && ctype_digit( $live ) ) ) {
 			return 0 === absint( $live );
 		}
 
-		// Default scalar: empty string check.
 		return '' === trim( (string) ( $live ?? '' ) );
 	}
 }

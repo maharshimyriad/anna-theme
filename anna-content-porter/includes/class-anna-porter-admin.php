@@ -280,7 +280,20 @@ class Anna_Porter_Admin {
 						</tr>
 						<tr>
 							<th><?php esc_html_e( 'Content keys', 'anna-content-porter' ); ?></th>
-							<td><?php echo esc_html( $preview['content_key_count'] ); ?></td>
+							<td>
+								<?php echo esc_html( $preview['content_key_count'] ); ?>
+								<?php if ( ! empty( $preview['page_count'] ) ) : ?>
+									&mdash;
+									<?php echo esc_html( $preview['page_meta_count'] ); ?>
+									<?php esc_html_e( 'live page fields across', 'anna-content-porter' ); ?>
+									<?php echo esc_html( $preview['page_count'] ); ?>
+									<?php esc_html_e( 'page(s)', 'anna-content-porter' ); ?>
+									<?php if ( $preview['option_key_count'] > 0 ) : ?>
+										+ <?php echo esc_html( $preview['option_key_count'] ); ?>
+										<?php esc_html_e( 'global options', 'anna-content-porter' ); ?>
+									<?php endif; ?>
+								<?php endif; ?>
+							</td>
 						</tr>
 					</tbody>
 				</table>

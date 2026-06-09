@@ -2,9 +2,10 @@
 /**
  * Anna Porter Exporter
  *
- * Pulls the relevant keys from anna_theme_options, resolves any Media_Field
- * attachment IDs to base64 Image_Payload arrays, assembles the Export_Package
- * JSON structure, and streams it as a browser file-download.
+ * Reads live content from _anna_content_* post meta on specific pages
+ * (for page/section content) and from anna_theme_options (for global brand /
+ * footer data). Resolves attachment IDs to base64 payloads and streams the
+ * result as a JSON download.
  *
  * @package Anna_Content_Porter
  * @since   1.0.0
@@ -24,33 +25,22 @@ class Anna_Porter_Exporter {
 	// -------------------------------------------------------------------------
 
 	/**
-	 * Main entry point called from the admin-post handler.
+	 * Entry point called from the admin-post handler.
 	 *
-	 * Resolves the matched keys, assembles the Export_Package, sends the
-	 * appropriate download headers, echoes JSON, and exits.
+	 * Builds the package, validates it is non-empty, sends download headers,
+	 * echoes JSON, and exits.
 	 *
 	 * @param string[] $section_ids Section IDs selected by the admin user.
-	 * @return void  Never returns — calls exit after streaming the download.
+	 * @return void  Never returns.
 	 */
 	public function export( array $section_ids ): void {
-		// Clear any stale object-cache entry so we always read the latest saved
-		// data from the database, even when a persistent cache (Redis/Memcached)
-		// was not properly invalidated after the theme settings were last saved.
-		wp_cache_delete( 'anna_theme_options', 'options' );
-
-		$all_options = get_option( 'anna_theme_options', [] );
-		$matched     = Anna_Porter_Registry::get_keys_for_sections( $section_ids, $all_options );
-
-		if ( empty( $matched ) ) {
-			wp_die( 'No content found for the selected sections.' );
-		}
-
-		// Allow larger exports to complete without hitting the default PHP
-		// memory ceiling.  The @ suppressor is intentional — ini_set may be
-		// disabled on some hosts and the export should still proceed.
 		@ini_set( 'memory_limit', '256M' ); // phpcs:ignore WordPress.PHP.IniSet.Risky
 
 		$package = $this->build_package( $section_ids );
+
+		if ( empty( $package['content'] ) && empty( $package['pages'] ) ) {
+			wp_die( 'No content found for the selected sections.' );
+		}
 
 		$filename = 'anna-content-porter-' . gmdate( 'Y-m-d' ) . '.json';
 
@@ -65,78 +55,133 @@ class Anna_Porter_Exporter {
 	}
 
 	/**
-	 * Assembles the Export_Package array without sending any headers.
+	 * Assembles the Export_Package without sending headers.
 	 *
-	 * Separated from export() so it can be called independently (e.g. in
-	 * automated tests) without triggering a download.
+	 * For sections with post_meta_page/post_meta_keys defined in the registry,
+	 * reads from _anna_content_* post meta on the relevant page.
+	 * For sections without (brand, footer_social), reads from anna_theme_options.
 	 *
-	 * @param string[] $section_ids Section IDs to include in the package.
-	 * @return array{
-	 *   meta: array{
-	 *     plugin: string,
-	 *     theme_version: string,
-	 *     exported_at: string,
-	 *     source_site_url: string,
-	 *     exported_sections: string[]
-	 *   },
-	 *   content: array<string, mixed>,
-	 *   images: array<string, array{
-	 *     original_filename: string,
-	 *     mime_type: string,
-	 *     source_url: string,
-	 *     base64_data: string
-	 *   }>,
-	 *   export_warnings: string[]
-	 * }
+	 * @param string[] $section_ids Section IDs to include.
+	 * @return array
 	 */
 	public function build_package( array $section_ids ): array {
-		// Always fetch fresh data; the export() entry point has already cleared
-		// the cache so this call hits the in-memory-refreshed value.
+		// Bust the object cache so we always get fresh DB data.
 		wp_cache_delete( 'anna_theme_options', 'options' );
-		$all_options  = get_option( 'anna_theme_options', [] );
-		$matched_keys = Anna_Porter_Registry::get_keys_for_sections( $section_ids, $all_options );
+		$all_options = get_option( 'anna_theme_options', [] );
 
-		$content  = [];
-		$images   = [];
-		$warnings = [];
+		$sections = Anna_Porter_Registry::get_sections();
 
-		foreach ( $matched_keys as $key ) {
-			$value = $all_options[ $key ] ?? null;
+		$option_content = []; // anna_theme_options keys (brand, footer_social)
+		$page_content   = []; // _anna_content_* post meta keyed by page slug
+		$images         = [];
+		$warnings       = [];
 
-			if ( is_array( $value ) ) {
-				// ── Repeater_Field ─────────────────────────────────────────────
-				$content[ $key ] = $this->process_repeater( $value, $images, $warnings );
+		foreach ( $section_ids as $section_id ) {
+			if ( ! isset( $sections[ $section_id ] ) ) {
+				continue;
+			}
+			$section = $sections[ $section_id ];
 
-			} elseif ( is_int( $value ) && $value > 0 ) {
-				// ── Media_Field ────────────────────────────────────────────────
-				$payload = $this->resolve_image( $value );
+			if ( ! empty( $section['post_meta_page'] ) && ! empty( $section['post_meta_keys'] ) ) {
+				// ── Live post-meta source ─────────────────────────────────────
+				$page_id = $this->resolve_page_id(
+					$section['post_meta_page'],
+					$section['post_meta_keys']
+				);
 
-				if ( null !== $payload ) {
-					$images[ (string) $value ] = $payload;
-					$content[ $key ]           = (string) $value; // string reference
-				} else {
-					$content[ $key ] = $value; // keep raw int
-					$warnings[]      = sprintf(
-						'Could not read file for attachment ID %d (key: %s)',
-						$value,
-						$key
+				if ( null === $page_id ) {
+					$warnings[] = sprintf(
+						'Section "%s": could not find page "%s". Skipping.',
+						$section_id,
+						$section['post_meta_page']
 					);
+					continue;
+				}
+
+				$page      = get_post( $page_id );
+				$page_slug = ( '__front__' === $section['post_meta_page'] )
+					? '__front__'
+					: $page->post_name;
+
+				foreach ( $section['post_meta_keys'] as $meta_key ) {
+					$raw = get_post_meta( $page_id, $meta_key, true );
+
+					if ( '' === $raw || false === $raw ) {
+						$warnings[] = sprintf(
+							'Section "%s": meta key "%s" is empty on page %d.',
+							$section_id,
+							$meta_key,
+							$page_id
+						);
+						continue;
+					}
+
+					$value = is_array( $raw ) ? $raw : maybe_unserialize( $raw );
+
+					if ( is_array( $value ) ) {
+						$processed = $this->process_repeater( $value, $images, $warnings );
+					} elseif ( is_int( $value ) && $value > 0 ) {
+						$payload = $this->resolve_image( $value );
+						if ( null !== $payload ) {
+							$images[ (string) $value ] = $payload;
+							$processed                 = (string) $value;
+						} else {
+							$processed  = $value;
+							$warnings[] = sprintf(
+								'Could not read file for attachment ID %d (meta key: %s)',
+								$value,
+								$meta_key
+							);
+						}
+					} else {
+						$processed = $value;
+					}
+
+					$page_content[ $page_slug ][ $meta_key ] = $processed;
 				}
 			} else {
-				// ── Scalar_Field ───────────────────────────────────────────────
-				$content[ $key ] = $value;
+				// ── anna_theme_options fallback (brand, footer_social) ─────────
+				$matched_keys = Anna_Porter_Registry::get_keys_for_sections(
+					[ $section_id ],
+					$all_options
+				);
+
+				foreach ( $matched_keys as $key ) {
+					$value = $all_options[ $key ] ?? null;
+
+					if ( is_array( $value ) ) {
+						$option_content[ $key ] = $this->process_repeater( $value, $images, $warnings );
+					} elseif ( is_int( $value ) && $value > 0 ) {
+						$payload = $this->resolve_image( $value );
+						if ( null !== $payload ) {
+							$images[ (string) $value ]  = $payload;
+							$option_content[ $key ]     = (string) $value;
+						} else {
+							$option_content[ $key ] = $value;
+							$warnings[]             = sprintf(
+								'Could not read file for attachment ID %d (key: %s)',
+								$value,
+								$key
+							);
+						}
+					} else {
+						$option_content[ $key ] = $value;
+					}
+				}
 			}
 		}
 
 		return [
 			'meta'            => [
 				'plugin'            => 'anna-content-porter',
+				'format_version'    => 2,
 				'theme_version'     => $this->get_theme_version(),
 				'exported_at'       => gmdate( 'c' ),
 				'source_site_url'   => get_home_url(),
 				'exported_sections' => $this->get_section_labels( $section_ids ),
 			],
-			'content'         => $content,
+			'content'         => $option_content,
+			'pages'           => $page_content,
 			'images'          => $images,
 			'export_warnings' => $warnings,
 		];
@@ -147,22 +192,58 @@ class Anna_Porter_Exporter {
 	// -------------------------------------------------------------------------
 
 	/**
+	 * Resolves a page reference to a post ID.
+	 *
+	 * Priority:
+	 *   1. '__front__' → get_option('page_on_front')
+	 *   2. Slug match via get_page_by_path()
+	 *   3. Auto-discover: first published page with any of $meta_keys
+	 *
+	 * @param string   $page_ref   '__front__' or a page slug.
+	 * @param string[] $meta_keys  _anna_content_* keys to look for as fallback.
+	 * @return int|null
+	 */
+	private function resolve_page_id( string $page_ref, array $meta_keys ): ?int {
+		if ( '__front__' === $page_ref ) {
+			$id = (int) get_option( 'page_on_front' );
+			return $id > 0 ? $id : null;
+		}
+
+		$post = get_page_by_path( $page_ref );
+		if ( $post ) {
+			return $post->ID;
+		}
+
+		// Auto-discover: any published page that already has one of the meta keys.
+		global $wpdb;
+		foreach ( $meta_keys as $meta_key ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+			$post_id = $wpdb->get_var(
+				$wpdb->prepare(
+					"SELECT pm.post_id
+					 FROM {$wpdb->postmeta} pm
+					 INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id
+					 WHERE pm.meta_key = %s
+					   AND p.post_status = 'publish'
+					   AND p.post_type  = 'page'
+					 LIMIT 1",
+					$meta_key
+				)
+			);
+
+			if ( $post_id ) {
+				return (int) $post_id;
+			}
+		}
+
+		return null;
+	}
+
+	/**
 	 * Resolves a single attachment ID to an Image_Payload array.
 	 *
-	 * Reads the physical file from disk, base64-encodes its contents, and
-	 * bundles the result with metadata needed to recreate the attachment on
-	 * the destination site.
-	 *
-	 * Returns null when the attachment file cannot be found or read (e.g. the
-	 * file has been deleted from the server while the database record remains).
-	 *
 	 * @param int $attachment_id  WordPress attachment post ID.
-	 * @return array{
-	 *   original_filename: string,
-	 *   mime_type: string,
-	 *   source_url: string,
-	 *   base64_data: string
-	 * }|null  Null when the file is unreadable.
+	 * @return array|null  Null when the file is unreadable.
 	 */
 	private function resolve_image( int $attachment_id ): ?array {
 		$path = get_attached_file( $attachment_id );
@@ -184,48 +265,38 @@ class Anna_Porter_Exporter {
 	}
 
 	/**
-	 * Recursively walks a Repeater_Field array and resolves any sub-fields
-	 * that look like attachment IDs (key ends with `_id`, value is int > 0).
+	 * Recursively walks an array and resolves any sub-fields whose key ends
+	 * with `_id` and whose value is an int > 0 as attachment IDs.
 	 *
-	 * Sub-values that are themselves arrays are recursed into, allowing
-	 * arbitrarily nested repeaters.
-	 *
-	 * @param array              $items     The repeater rows to process.
-	 * @param array<string,array> &$images   Image payload map, passed by reference
-	 *                                        so resolved payloads are collected into
-	 *                                        the package-level images object.
-	 * @param string[]           &$warnings  Warning messages, passed by reference.
-	 * @return array  The processed repeater array.
+	 * @param array               $items
+	 * @param array<string,array> &$images
+	 * @param string[]            &$warnings
+	 * @return array
 	 */
 	private function process_repeater( array $items, array &$images, array &$warnings ): array {
 		$processed = [];
 
 		foreach ( $items as $row_key => $row_value ) {
 			if ( is_array( $row_value ) ) {
-				// ── Nested row / sub-repeater ──────────────────────────────────
 				$processed_row = [];
 
 				foreach ( $row_value as $sub_key => $sub_value ) {
 					if ( is_array( $sub_value ) ) {
-						// Sub-field is itself an array — recurse one level deeper.
 						$processed_row[ $sub_key ] = $this->process_repeater( $sub_value, $images, $warnings );
-
 					} elseif (
 						is_string( $sub_key )
 						&& str_ends_with( $sub_key, '_id' )
 						&& is_int( $sub_value )
 						&& $sub_value > 0
 					) {
-						// Sub-field looks like a Media_Field attachment ID.
 						$payload = $this->resolve_image( $sub_value );
-
 						if ( null !== $payload ) {
 							$images[ (string) $sub_value ] = $payload;
 							$processed_row[ $sub_key ]     = (string) $sub_value;
 						} else {
 							$processed_row[ $sub_key ] = $sub_value;
 							$warnings[]                = sprintf(
-								'Could not read file for attachment ID %d (repeater sub-key: %s)',
+								'Could not read file for attachment ID %d (sub-key: %s)',
 								$sub_value,
 								$sub_key
 							);
@@ -236,23 +307,20 @@ class Anna_Porter_Exporter {
 				}
 
 				$processed[ $row_key ] = $processed_row;
-
 			} elseif (
 				is_string( $row_key )
 				&& str_ends_with( $row_key, '_id' )
 				&& is_int( $row_value )
 				&& $row_value > 0
 			) {
-				// ── Top-level row that is itself a Media_Field ─────────────────
 				$payload = $this->resolve_image( $row_value );
-
 				if ( null !== $payload ) {
 					$images[ (string) $row_value ] = $payload;
 					$processed[ $row_key ]         = (string) $row_value;
 				} else {
 					$processed[ $row_key ] = $row_value;
 					$warnings[]            = sprintf(
-						'Could not read file for attachment ID %d (repeater key: %s)',
+						'Could not read file for attachment ID %d (key: %s)',
 						$row_value,
 						$row_key
 					);
@@ -268,23 +336,17 @@ class Anna_Porter_Exporter {
 	/**
 	 * Returns the Version string from the active theme's style.css header.
 	 *
-	 * Falls back to an empty string if the header is missing or the theme
-	 * object is unavailable (e.g. during CLI-driven unit tests).
-	 *
-	 * @return string  Theme version, e.g. "1.4.2", or "" if unavailable.
+	 * @return string
 	 */
 	private function get_theme_version(): string {
 		return wp_get_theme()->get( 'Version' ) ?: '';
 	}
 
 	/**
-	 * Returns an array of human-readable section labels for the given IDs.
+	 * Returns human-readable section labels for the given IDs.
 	 *
-	 * IDs that do not exist in the registry are silently skipped so the
-	 * package meta remains clean even if the caller passes stale section IDs.
-	 *
-	 * @param string[] $section_ids  Section IDs to look up.
-	 * @return string[]  Ordered list of label strings.
+	 * @param string[] $section_ids
+	 * @return string[]
 	 */
 	private function get_section_labels( array $section_ids ): array {
 		$sections = Anna_Porter_Registry::get_sections();
