@@ -802,126 +802,153 @@
 /* Form wrapper */
 .anna-oasis-page-waitlist .gform_wrapper {
   background: rgba(255, 255, 255, 0.05);
-  border-radius: var(--radius-lg);
-  padding: clamp(1.5rem, 3vw, 2rem);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  padding: clamp(1.5rem, 3vw, 2.25rem);
   margin-top: var(--space-8);
+  text-align: left;
+}
+
+/* Field grid — name + email side by side */
+.anna-oasis-page-waitlist .gform_fields {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: var(--space-5) var(--space-6) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Full-width fields (textarea) */
+.anna-oasis-page-waitlist .gfield--width-full {
+  grid-column: 1 / -1 !important;
 }
 
 /* Labels */
 .anna-oasis-page-waitlist .gfield_label,
-.anna-oasis-page-waitlist .gform-field-label {
+.anna-oasis-page-waitlist .gform-field-label:not(.gform-field-label--type-sub) {
+  display: block !important;
   color: rgba(250, 246, 239, 0.80) !important;
   font-family: var(--font-body) !important;
   font-size: var(--text-sm) !important;
-  font-weight: var(--font-weight-medium) !important;
+  font-weight: var(--font-weight-regular) !important;
   margin-bottom: var(--space-2) !important;
+  text-align: left !important;
 }
 
-/* Hide required text */
+/* Hide sub-label (First/Last) and required asterisk text */
+.anna-oasis-page-waitlist .gform-field-label--type-sub {
+  display: none !important;
+}
+
 .anna-oasis-page-waitlist .gfield_required_text {
-  color: rgba(250, 246, 239, 0.50) !important;
+  color: rgba(250, 246, 239, 0.45) !important;
   font-size: var(--text-xs) !important;
 }
 
-/* Inputs, email, textarea */
+/* Inputs + email */
 .anna-oasis-page-waitlist .gfield input[type="text"],
-.anna-oasis-page-waitlist .gfield input[type="email"],
-.anna-oasis-page-waitlist .gfield textarea {
+.anna-oasis-page-waitlist .gfield input[type="email"] {
   width: 100% !important;
   background: rgba(255, 255, 255, 0.15) !important;
-  border: 1px solid rgba(255, 255, 255, 0.22) !important;
-  border-radius: var(--radius-sm) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 12px !important;
   color: var(--color-white) !important;
   font-family: var(--font-body) !important;
   font-size: var(--text-sm) !important;
-  padding: 0.65rem 0.9rem !important;
+  padding: 0.75rem 1rem !important;
   outline: none !important;
-  transition: border-color var(--transition-fast) !important;
   box-shadow: none !important;
+  transition: border-color var(--transition-fast), background var(--transition-fast) !important;
 }
 
+/* Textarea */
+.anna-oasis-page-waitlist .gfield textarea {
+  width: 100% !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 12px !important;
+  color: var(--color-white) !important;
+  font-family: var(--font-body) !important;
+  font-size: var(--text-sm) !important;
+  padding: 0.75rem 1rem !important;
+  min-height: 7.5rem !important;
+  resize: vertical !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transition: border-color var(--transition-fast), background var(--transition-fast) !important;
+}
+
+/* Focus states */
 .anna-oasis-page-waitlist .gfield input[type="text"]:focus,
 .anna-oasis-page-waitlist .gfield input[type="email"]:focus,
 .anna-oasis-page-waitlist .gfield textarea:focus {
-  border-color: rgba(255, 255, 255, 0.55) !important;
+  border-color: rgba(255, 255, 255, 0.45) !important;
+  background: rgba(255, 255, 255, 0.20) !important;
   box-shadow: none !important;
   outline: none !important;
 }
 
+/* Placeholders */
 .anna-oasis-page-waitlist .gfield input::placeholder,
 .anna-oasis-page-waitlist .gfield textarea::placeholder {
   color: rgba(255, 255, 255, 0.45) !important;
 }
 
-/* Textarea height */
-.anna-oasis-page-waitlist .gfield textarea {
-  min-height: 7rem !important;
-  resize: vertical !important;
+/* Footer / submit row */
+.anna-oasis-page-waitlist .gform-body {
+  margin-bottom: 0 !important;
 }
 
-/* Two-column name + email row */
-.anna-oasis-page-waitlist .gform_fields {
-  display: grid !important;
-  grid-template-columns: 1fr 1fr !important;
-  gap: var(--space-5) var(--space-6) !important;
-}
-
-/* Full-width textarea field */
-.anna-oasis-page-waitlist .gfield--width-full {
-  grid-column: 1 / -1 !important;
-}
-
-/* Submit button */
 .anna-oasis-page-waitlist .gform_footer {
-  grid-column: 1 / -1;
-  margin-top: var(--space-2) !important;
+  margin-top: var(--space-5) !important;
   padding: 0 !important;
 }
 
+/* Submit button — pill, cream */
 .anna-oasis-page-waitlist .gform_button {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
+  display: block !important;
   width: 100% !important;
-  padding: var(--btn-padding-y-md) var(--btn-padding-x-md) !important;
+  padding: 0.9rem 2rem !important;
   border: none !important;
-  border-radius: var(--btn-radius) !important;
-  background: var(--color-white) !important;
+  border-radius: 999px !important;
+  background: #FAF6EF !important;
   color: var(--color-primary) !important;
   font-family: var(--font-body) !important;
-  font-size: var(--btn-font-size) !important;
-  font-weight: var(--btn-font-weight) !important;
-  letter-spacing: var(--btn-letter-spacing) !important;
+  font-size: var(--text-base) !important;
+  font-weight: var(--font-weight-semibold) !important;
+  letter-spacing: 0.01em !important;
   cursor: pointer !important;
   transition: background var(--transition-fast), color var(--transition-fast) !important;
+  text-align: center !important;
 }
 
 .anna-oasis-page-waitlist .gform_button:hover {
-  background: var(--oasis-cream) !important;
+  background: #efe9d7 !important;
   color: var(--color-primary-dark) !important;
 }
 
-/* Validation messages */
+/* Validation & confirmation */
 .anna-oasis-page-waitlist .validation_message,
 .anna-oasis-page-waitlist .gfield_description {
-  color: rgba(250, 246, 239, 0.70) !important;
+  color: rgba(250, 246, 239, 0.65) !important;
   font-size: var(--text-xs) !important;
+  margin-top: var(--space-1) !important;
 }
 
 .anna-oasis-page-waitlist .gform_confirmation_message {
   color: var(--color-white) !important;
   font-size: var(--text-base) !important;
-  text-align: center;
-  padding: var(--space-6) 0;
+  text-align: center !important;
+  padding: var(--space-6) 0 !important;
 }
 
-/* Hide honeypot spam field */
+/* Hide honeypot fields */
 .anna-oasis-page-waitlist .altEmail_container,
 .anna-oasis-page-waitlist .wpa_hidden_field {
   display: none !important;
 }
 
-/* Responsive — stack to single column on small screens */
+/* Responsive — single column on mobile */
 @media (max-width: 600px) {
   .anna-oasis-page-waitlist .gform_fields {
     grid-template-columns: 1fr !important;
