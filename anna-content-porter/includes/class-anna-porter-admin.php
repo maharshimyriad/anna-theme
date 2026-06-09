@@ -73,18 +73,25 @@ class Anna_Porter_Admin {
 	 * @param string $hook Current admin page hook suffix.
 	 */
 	public function enqueue_assets( string $hook ): void {
-		if ( $hook !== $this->page_hook ) {
+		$is_porter_page = (
+			$hook === $this->page_hook
+			|| ( isset( $_GET['page'] ) && 'anna-porter' === sanitize_key( wp_unslash( $_GET['page'] ) ) )
+		);
+
+		if ( ! $is_porter_page ) {
 			return;
 		}
 
 		$css_path = ANNA_PORTER_DIR . 'assets/css/admin.css';
 		$js_path  = ANNA_PORTER_DIR . 'assets/js/admin.js';
 
+		wp_enqueue_style( 'dashicons' );
+
 		if ( file_exists( $css_path ) ) {
 			wp_enqueue_style(
 				'anna-porter-admin',
 				ANNA_PORTER_URL . 'assets/css/admin.css',
-				[],
+				[ 'dashicons' ],
 				filemtime( $css_path )
 			);
 		}
@@ -130,7 +137,10 @@ class Anna_Porter_Admin {
 				$this->render_preview_panel();
 				$this->render_export_panel();
 				$this->render_import_panel();
-				$this->render_debug_panel();
+
+				if ( isset( $_GET['porter_debug'] ) && current_user_can( 'manage_options' ) ) {
+					$this->render_debug_panel();
+				}
 			?>
 
 		</div>

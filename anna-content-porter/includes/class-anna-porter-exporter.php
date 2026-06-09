@@ -138,6 +138,13 @@ class Anna_Porter_Exporter {
 					}
 
 					$page_content[ $page_slug ][ $meta_key ] = $processed;
+
+					// Also expose a flat, legacy-compatible mirror in `content` so
+					// anyone inspecting the JSON sees the current live values instead
+					// of stale/default anna_theme_options values like hero_description.
+					foreach ( $this->flatten_post_meta_content( $meta_key, $processed ) as $flat_key => $flat_value ) {
+						$option_content[ $flat_key ] = $flat_value;
+					}
 				}
 			} else {
 				// ── anna_theme_options fallback (brand, footer_social) ─────────
@@ -237,6 +244,59 @@ class Anna_Porter_Exporter {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Flattens a _anna_content_* post-meta array into legacy anna_theme_options
+	 * style keys for export compatibility and easier JSON inspection.
+	 *
+	 * @param string $meta_key  The _anna_content_* meta key.
+	 * @param mixed  $value     Processed meta value.
+	 * @return array<string,mixed>
+	 */
+	private function flatten_post_meta_content( string $meta_key, $value ): array {
+		if ( ! is_array( $value ) ) {
+			return [];
+		}
+
+		$prefix_map = [
+			'_anna_content_hero'         => 'hero_',
+			'_anna_content_intro'        => '',
+			'_anna_content_services'     => 'services_',
+			'_anna_content_about'        => 'about_',
+			'_anna_content_testimonials' => 'testimonials_',
+			'_anna_content_cta'          => 'cta_',
+			'_anna_content_about_pg'     => 'about_pg_',
+			'_anna_content_coaching_pg'  => 'coaching_pg_',
+			'_anna_content_oasis_pg'     => 'oasis_pg_',
+			'_anna_content_speaking_pg'  => 'speaking_pg_',
+			'_anna_content_mhs_pg'       => 'mhs_pg_',
+			'_anna_content_move_pg'      => 'move_pg_',
+			'_anna_content_reviews_pg'   => 'reviews_pg_',
+			'_anna_content_contact_pg'   => 'contact_pg_',
+		];
+
+		$prefix = $prefix_map[ $meta_key ] ?? '';
+		$flat   = [];
+
+		foreach ( $value as $field_key => $field_value ) {
+			$field_key = (string) $field_key;
+
+			// Intro meta already stores many fully-prefixed keys such as
+			// intro_body and recognition_items_text. Keep those as-is.
+			if (
+				'' === $prefix
+				|| str_starts_with( $field_key, $prefix )
+				|| str_starts_with( $field_key, 'intro_' )
+				|| str_starts_with( $field_key, 'recognition_' )
+			) {
+				$flat[ $field_key ] = $field_value;
+			} else {
+				$flat[ $prefix . $field_key ] = $field_value;
+			}
+		}
+
+		return $flat;
 	}
 
 	/**
