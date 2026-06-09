@@ -22,14 +22,30 @@ if ( ! $copy ) {
 ?>
 
 	<footer class="anna-footer" id="site-footer" role="contentinfo">
-		<div class="anna-footer__top anna-container anna-container--wide">
+		<div class="anna-footer__top anna-container anna-container--max">
 			<div class="anna-footer__grid">
 				<div class="anna-footer__col anna-footer__col--brand">
 					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="anna-footer__logo">
-						<img 
-							src="https://mediumseagreen-barracuda-518910.hostingersite.com/wp-content/uploads/2026/05/Footer-logo.png" 
-							alt="<?php bloginfo( 'name' ); ?>"
-						>
+						<?php
+						$footer_logo_id  = absint( anna_get_option( 'footer_logo_id', 0 ) );
+						$fallback_logo_id = anna_get_site_logo_id();
+						$logo_id         = $footer_logo_id ?: $fallback_logo_id;
+
+						if ( $logo_id ) {
+							$logo_src = wp_get_attachment_image_src( $logo_id, 'full' );
+							if ( $logo_src ) {
+								printf(
+									'<img src="%1$s" alt="%2$s" width="%3$s" height="%4$s" loading="lazy" decoding="async">',
+									esc_url( $logo_src[0] ),
+									esc_attr( get_bloginfo( 'name' ) ),
+									esc_attr( $logo_src[1] ),
+									esc_attr( $logo_src[2] )
+								);
+							}
+						} else {
+							echo esc_html( get_bloginfo( 'name' ) );
+						}
+						?>
 					</a>
 
 					<p class="anna-footer__brand-text">

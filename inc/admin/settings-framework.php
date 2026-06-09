@@ -362,6 +362,7 @@ add_action( 'admin_init', 'anna_migrate_about_page_copy_20260528', 30 );
 function anna_get_default_options() {
 	$defaults = array(
 		'site_logo_id'        => '',
+		'footer_logo_id'      => '',
 		'color_primary'       => '#007063',
 		'color_accent'        => '#4CA591',
 		'color_bg_soft'       => '#F2F6F2',

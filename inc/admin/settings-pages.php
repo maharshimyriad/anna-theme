@@ -412,6 +412,8 @@ function anna_render_settings_page() {
 					<?php anna_field_text( 'cta_secondary_url', __( 'Button URL', 'anna-baylis' ), '', 'url' ); ?>
 
 				<?php elseif ( 'footer' === $active_tab ) : ?>
+					<?php anna_field_heading( __( 'Footer Logo', 'anna-baylis' ) ); ?>
+					<?php anna_field_media( 'footer_logo_id', __( 'Footer Logo', 'anna-baylis' ), __( 'Logo shown in the footer. Falls back to the site logo if left empty.', 'anna-baylis' ) ); ?>
 					<?php anna_field_heading( __( 'Footer Content', 'anna-baylis' ) ); ?>
 					<?php anna_field_textarea( 'footer_description', __( 'Brand Description', 'anna-baylis' ), '', 5 ); ?>
 					<?php anna_field_text( 'contact_email', __( 'Email', 'anna-baylis' ), '', 'email' ); ?>
