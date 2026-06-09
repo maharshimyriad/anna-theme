@@ -146,7 +146,7 @@ function anna_render_settings_page() {
 					<?php anna_field_heading( __( 'Header', 'anna-baylis' ) ); ?>
 					<p class="description"><?php esc_html_e( 'The site header always uses a solid background.', 'anna-baylis' ); ?></p>
 					<?php anna_field_text( 'header_cta_text', __( 'CTA Button Text', 'anna-baylis' ) ); ?>
-					<?php anna_field_text( 'header_cta_url', __( 'CTA Button URL', 'anna-baylis' ), '', 'url' ); ?>
+					<?php anna_field_text( 'header_cta_url', __( 'CTA Button URL', 'anna-baylis' ), '', 'text' ); ?>
 
 				<?php elseif ( 'hero' === $active_tab ) : ?>
 					<?php anna_field_heading( __( 'Hero Section', 'anna-baylis' ) ); ?>
@@ -194,7 +194,7 @@ function anna_render_settings_page() {
 					<?php anna_field_text( 'services_heading', __( 'Heading', 'anna-baylis' ) ); ?>
 					<?php anna_field_textarea( 'services_description', __( 'Description', 'anna-baylis' ) ); ?>
 					<?php anna_field_text( 'services_cta_text', __( 'CTA Button Text', 'anna-baylis' ) ); ?>
-					<?php anna_field_text( 'services_cta_url', __( 'CTA Button URL', 'anna-baylis' ), '', 'url' ); ?>
+					<?php anna_field_text( 'services_cta_url', __( 'CTA Button URL', 'anna-baylis' ), '', 'text' ); ?>
 
 					<?php anna_field_heading( __( 'About Section', 'anna-baylis' ) ); ?>
 					<?php anna_field_text( 'about_eyebrow', __( 'Eyebrow', 'anna-baylis' ) ); ?>
@@ -206,14 +206,14 @@ function anna_render_settings_page() {
 					<?php anna_field_textarea( 'about_quote', __( 'Pull Quote', 'anna-baylis' ) ); ?>
 					<?php anna_field_textarea( 'about_expertise_text', __( 'Expertise Tags', 'anna-baylis' ), __( 'One tag per line.', 'anna-baylis' ), 8 ); ?>
 					<?php anna_field_text( 'about_cta_text', __( 'CTA Button Text', 'anna-baylis' ) ); ?>
-					<?php anna_field_text( 'about_cta_url', __( 'CTA Button URL', 'anna-baylis' ), '', 'url' ); ?>
+					<?php anna_field_text( 'about_cta_url', __( 'CTA Button URL', 'anna-baylis' ), '', 'text' ); ?>
 
 					<?php anna_field_heading( __( 'Testimonials Section', 'anna-baylis' ) ); ?>
 					<?php anna_field_text( 'testimonials_eyebrow', __( 'Eyebrow', 'anna-baylis' ) ); ?>
 					<?php anna_field_text( 'testimonials_heading', __( 'Heading', 'anna-baylis' ) ); ?>
 					<?php anna_field_text( 'testimonials_summary', __( 'Summary Line', 'anna-baylis' ) ); ?>
 					<?php anna_field_text( 'testimonials_cta_text', __( 'Reviews Link Text', 'anna-baylis' ) ); ?>
-					<?php anna_field_text( 'testimonials_cta_url', __( 'Reviews Link URL', 'anna-baylis' ), '', 'url' ); ?>
+					<?php anna_field_text( 'testimonials_cta_url', __( 'Reviews Link URL', 'anna-baylis' ), '', 'text' ); ?>
 
 				<?php elseif ( 'about_page' === $active_tab ) : ?>
 					<?php anna_field_heading( __( 'About Page Hero', 'anna-baylis' ), __( 'Content for the About page template. Defaults match the design; edit here without touching code.', 'anna-baylis' ) ); ?>
@@ -240,7 +240,7 @@ function anna_render_settings_page() {
 					<?php anna_field_text( 'about_pg_coach_title', __( 'Heading', 'anna-baylis' ) ); ?>
 					<?php anna_field_textarea( 'about_pg_coach_body', __( 'Body Copy', 'anna-baylis' ), __( 'One paragraph per blank line.', 'anna-baylis' ), 8 ); ?>
 					<?php anna_field_text( 'about_pg_coach_button_text', __( 'Button Text', 'anna-baylis' ) ); ?>
-					<?php anna_field_text( 'about_pg_coach_button_url', __( 'Button URL', 'anna-baylis' ), '', 'url' ); ?>
+					<?php anna_field_text( 'about_pg_coach_button_url', __( 'Button URL', 'anna-baylis' ), '', 'text' ); ?>
 					<?php anna_field_media( 'about_pg_coach_image_id', __( 'Right Image', 'anna-baylis' ) ); ?>
 
 					<?php anna_field_heading( __( 'How I Work', 'anna-baylis' ) ); ?>
@@ -381,7 +381,7 @@ function anna_render_settings_page() {
 					<?php anna_field_text( 'about_pg_connect_eyebrow', __( 'Intro line', 'anna-baylis' ) ); ?>
 					<?php anna_field_text( 'about_pg_connect_heading', __( 'Heading', 'anna-baylis' ) ); ?>
 					<?php anna_field_text( 'about_pg_connect_button_text', __( 'Button Text', 'anna-baylis' ) ); ?>
-					<?php anna_field_text( 'about_pg_connect_button_url', __( 'Button URL', 'anna-baylis' ), '', 'url' ); ?>
+					<?php anna_field_text( 'about_pg_connect_button_url', __( 'Button URL', 'anna-baylis' ), '', 'text' ); ?>
 
 				<?php elseif ( 'coaching_page' === $active_tab ) : ?>
 					<?php anna_render_coaching_page_settings_fields(); ?>
@@ -406,10 +406,10 @@ function anna_render_settings_page() {
 					<?php anna_field_media( 'cta_image_id', __( 'CTA Background Image', 'anna-baylis' ), __( 'Optional background image for the CTA section.', 'anna-baylis' ) ); ?>
 					<?php anna_field_heading( __( 'Primary CTA Button', 'anna-baylis' ) ); ?>
 					<?php anna_field_text( 'cta_primary_text', __( 'Button Text', 'anna-baylis' ) ); ?>
-					<?php anna_field_text( 'cta_primary_url', __( 'Button URL', 'anna-baylis' ), '', 'url' ); ?>
+					<?php anna_field_text( 'cta_primary_url', __( 'Button URL', 'anna-baylis' ), '', 'text' ); ?>
 					<?php anna_field_heading( __( 'Secondary CTA Button', 'anna-baylis' ) ); ?>
 					<?php anna_field_text( 'cta_secondary_text', __( 'Button Text', 'anna-baylis' ) ); ?>
-					<?php anna_field_text( 'cta_secondary_url', __( 'Button URL', 'anna-baylis' ), '', 'url' ); ?>
+					<?php anna_field_text( 'cta_secondary_url', __( 'Button URL', 'anna-baylis' ), '', 'text' ); ?>
 
 				<?php elseif ( 'footer' === $active_tab ) : ?>
 					<?php anna_field_heading( __( 'Footer Logo', 'anna-baylis' ) ); ?>
@@ -426,8 +426,8 @@ function anna_render_settings_page() {
 					<?php anna_field_text( 'newsletter_email_placeholder', __( 'Newsletter Email Placeholder', 'anna-baylis' ) ); ?>
 					<?php anna_field_text( 'newsletter_button_text', __( 'Newsletter Button Text', 'anna-baylis' ) ); ?>
 					<?php anna_field_text( 'copyright_text', __( 'Copyright Text', 'anna-baylis' ), __( 'Leave blank for auto year/name', 'anna-baylis' ) ); ?>
-					<?php anna_field_text( 'privacy_url', __( 'Privacy Policy URL', 'anna-baylis' ), '', 'url' ); ?>
-					<?php anna_field_text( 'terms_url', __( 'Terms of Service URL', 'anna-baylis' ), '', 'url' ); ?>
+					<?php anna_field_text( 'privacy_url', __( 'Privacy Policy URL', 'anna-baylis' ), '', 'text' ); ?>
+					<?php anna_field_text( 'terms_url', __( 'Terms of Service URL', 'anna-baylis' ), '', 'text' ); ?>
 
 				<?php elseif ( 'social' === $active_tab ) : ?>
 					<?php anna_field_heading( __( 'Social Media Links', 'anna-baylis' ), __( 'Enter the full URL for each profile.', 'anna-baylis' ) ); ?>
