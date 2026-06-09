@@ -105,8 +105,7 @@ class Anna_Porter_Admin {
 	// ──────────────────────────────────────────────────────────────────────────
 
 	/**
-	 * Renders the full admin page including capability check, notices, optional
-	 * import preview panel, export section, and import section.
+	 * Renders the full admin page.
 	 */
 	public function render_page(): void {
 		if ( ! current_user_can( 'manage_options' ) ) {
@@ -114,180 +113,364 @@ class Anna_Porter_Admin {
 		}
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'Content Porter', 'anna-content-porter' ); ?></h1>
+
+			<!-- ── Page header ───────────────────────────────────────────────── -->
+			<div class="anna-porter-header">
+				<div class="anna-porter-header-icon">
+					<span class="dashicons dashicons-migrate"></span>
+				</div>
+				<div class="anna-porter-header-text">
+					<h1><?php esc_html_e( 'Content Porter', 'anna-content-porter' ); ?></h1>
+					<p><?php esc_html_e( 'Export and import Anna Baylis theme content between installations.', 'anna-content-porter' ); ?></p>
+				</div>
+			</div>
 
 			<?php
-			// ── Error notice ───────────────────────────────────────────────────
-			if ( isset( $_GET['porter_error'] ) ) {
-				?>
-				<div class="notice notice-error is-dismissible">
-					<p><?php echo esc_html( sanitize_text_field( wp_unslash( $_GET['porter_error'] ) ) ); ?></p>
-				</div>
-				<?php
-			}
-
-			// ── Import result notice ───────────────────────────────────────────
-			if ( isset( $_GET['porter_done'] ) ) {
-				$written    = absint( $_GET['written']    ?? 0 );
-				$skipped    = absint( $_GET['skipped']   ?? 0 );
-				$images     = absint( $_GET['images']    ?? 0 );
-				$warn_token = sanitize_key( $_GET['warn_token'] ?? '' );
-
-				// Retrieve and immediately consume any stored warning messages.
-				$import_warnings = [];
-				if ( $warn_token ) {
-					$stored = get_transient( "anna_porter_warn_{$warn_token}" );
-					if ( is_array( $stored ) ) {
-						$import_warnings = $stored;
-						delete_transient( "anna_porter_warn_{$warn_token}" );
-					}
-				}
-
-				$summary = sprintf(
-					/* translators: 1: keys written 2: keys skipped 3: images created */
-					__( 'Import complete. %1$d keys written, %2$d skipped, %3$d images created.', 'anna-content-porter' ),
-					$written, $skipped, $images
-				);
-
-				if ( 0 === $written && 0 === $skipped ) {
-					?>
-					<div class="notice notice-error is-dismissible">
-						<p><?php echo esc_html( $summary ); ?> <?php esc_html_e( 'No content was imported — all keys were rejected. See warnings below.', 'anna-content-porter' ); ?></p>
-					</div>
-					<?php
-				} elseif ( empty( $import_warnings ) ) {
-					?>
-					<div class="notice notice-success is-dismissible">
-						<p><?php echo esc_html( $summary ); ?></p>
-					</div>
-					<?php
-				} else {
-					?>
-					<div class="notice notice-warning is-dismissible">
-						<p><?php echo esc_html( $summary ); ?> <?php echo esc_html( sprintf( __( '(%d warning(s) — see below)', 'anna-content-porter' ), count( $import_warnings ) ) ); ?></p>
-					</div>
-					<?php
-				}
-
-				if ( ! empty( $import_warnings ) ) {
-					?>
-					<div class="anna-porter-box anna-porter-warnings-box">
-						<h2><?php esc_html_e( 'Import Warnings', 'anna-content-porter' ); ?></h2>
-						<ul>
-							<?php foreach ( $import_warnings as $w ) : ?>
-								<li><?php echo esc_html( $w ); ?></li>
-							<?php endforeach; ?>
-						</ul>
-					</div>
-					<?php
-				}
-			}
-
-			// ── Preview panel ──────────────────────────────────────────────────
-			if ( isset( $_GET['porter_preview'] ) && isset( $_GET['porter_token'] ) ) {
-				$token   = sanitize_key( $_GET['porter_token'] ?? '' );
-				$package = get_transient( "anna_porter_pkg_{$token}" );
-
-				if ( false === $package ) {
-					?>
-					<div class="notice notice-error is-dismissible">
-						<p><?php esc_html_e( 'Session expired. Please upload the file again.', 'anna-content-porter' ); ?></p>
-					</div>
-					<?php
-				} else {
-					$preview = null;
-					try {
-						$preview = ( new Anna_Porter_Importer() )->preview( $package );
-					} catch ( InvalidArgumentException $e ) {
-						?>
-						<div class="notice notice-error is-dismissible">
-							<p><?php echo esc_html( $e->getMessage() ); ?></p>
-						</div>
-						<?php
-					}
-
-					if ( null !== $preview ) {
-						?>
-						<div class="anna-porter-box anna-porter-preview-box">
-							<h2><?php esc_html_e( 'Import Preview', 'anna-content-porter' ); ?></h2>
-							<table class="form-table"><tbody>
-								<tr>
-									<th><?php esc_html_e( 'Source site', 'anna-content-porter' ); ?></th>
-									<td><?php echo esc_html( $preview['source_site_url'] ); ?></td>
-								</tr>
-								<tr>
-									<th><?php esc_html_e( 'Exported at', 'anna-content-porter' ); ?></th>
-									<td><?php echo esc_html( $preview['exported_at'] ); ?></td>
-								</tr>
-								<tr>
-									<th><?php esc_html_e( 'Sections', 'anna-content-porter' ); ?></th>
-									<td><?php echo esc_html( implode( ', ', $preview['exported_sections'] ) ); ?></td>
-								</tr>
-								<tr>
-									<th><?php esc_html_e( 'Content keys', 'anna-content-porter' ); ?></th>
-									<td><?php echo esc_html( $preview['content_key_count'] ); ?></td>
-								</tr>
-							</tbody></table>
-							<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
-								<?php wp_nonce_field( 'anna_porter_import_confirm', 'anna_porter_nonce' ); ?>
-								<input type="hidden" name="action" value="anna_porter_import_confirm">
-								<input type="hidden" name="porter_token" value="<?php echo esc_attr( $token ); ?>">
-								<p><strong><?php esc_html_e( 'Import mode:', 'anna-content-porter' ); ?></strong></p>
-								<p>
-									<label><input type="radio" name="import_mode" value="overwrite" checked> <?php esc_html_e( 'Overwrite — replace existing values', 'anna-content-porter' ); ?></label><br>
-									<label><input type="radio" name="import_mode" value="skip"> <?php esc_html_e( 'Skip — only fill empty/missing keys', 'anna-content-porter' ); ?></label>
-								</p>
-								<p>
-									<button type="submit" class="button button-primary"><?php esc_html_e( 'Confirm Import', 'anna-content-porter' ); ?></button>
-									<a href="<?php echo esc_url( admin_url( 'admin.php?page=anna-porter' ) ); ?>" class="button"><?php esc_html_e( 'Cancel', 'anna-content-porter' ); ?></a>
-								</p>
-							</form>
-						</div>
-						<?php
-					}
-				}
-			}
+			$this->render_notices();
+			$this->render_preview_panel();
+			$this->render_export_panel();
+			$this->render_import_panel();
 			?>
 
-			<div class="anna-porter-box">
-				<h2><?php esc_html_e( 'Export', 'anna-content-porter' ); ?></h2>
-				<p><?php esc_html_e( 'Select the page sections to export. A JSON file will be downloaded.', 'anna-content-porter' ); ?></p>
+		</div>
+		<?php
+	}
+
+	// ──────────────────────────────────────────────────────────────────────────
+	// Render helpers
+	// ──────────────────────────────────────────────────────────────────────────
+
+	/**
+	 * Renders error and success/warning notices from GET params.
+	 */
+	private function render_notices(): void {
+
+		// ── Error notice ───────────────────────────────────────────────────────
+		if ( isset( $_GET['porter_error'] ) ) {
+			?>
+			<div class="notice notice-error is-dismissible">
+				<p><?php echo esc_html( sanitize_text_field( wp_unslash( $_GET['porter_error'] ) ) ); ?></p>
+			</div>
+			<?php
+		}
+
+		// ── Import result notice ───────────────────────────────────────────────
+		if ( ! isset( $_GET['porter_done'] ) ) {
+			return;
+		}
+
+		$written    = absint( $_GET['written']   ?? 0 );
+		$skipped    = absint( $_GET['skipped']   ?? 0 );
+		$images     = absint( $_GET['images']    ?? 0 );
+		$warn_token = sanitize_key( $_GET['warn_token'] ?? '' );
+
+		$import_warnings = [];
+		if ( $warn_token ) {
+			$stored = get_transient( "anna_porter_warn_{$warn_token}" );
+			if ( is_array( $stored ) ) {
+				$import_warnings = $stored;
+				delete_transient( "anna_porter_warn_{$warn_token}" );
+			}
+		}
+
+		$summary = sprintf(
+			/* translators: 1: keys written 2: keys skipped 3: images created */
+			__( 'Import complete — %1$d keys written, %2$d skipped, %3$d images created.', 'anna-content-porter' ),
+			$written, $skipped, $images
+		);
+
+		if ( 0 === $written && 0 === $skipped ) {
+			?>
+			<div class="notice notice-error is-dismissible">
+				<p>
+					<?php echo esc_html( $summary ); ?>
+					<?php esc_html_e( 'No content was imported — all keys were rejected. Check the warnings below.', 'anna-content-porter' ); ?>
+				</p>
+			</div>
+			<?php
+		} elseif ( empty( $import_warnings ) ) {
+			?>
+			<div class="notice notice-success is-dismissible">
+				<p><?php echo esc_html( $summary ); ?></p>
+			</div>
+			<?php
+		} else {
+			?>
+			<div class="notice notice-warning is-dismissible">
+				<p>
+					<?php echo esc_html( $summary ); ?>
+					<?php echo esc_html( sprintf( __( '(%d warning(s) — see below)', 'anna-content-porter' ), count( $import_warnings ) ) ); ?>
+				</p>
+			</div>
+			<?php
+		}
+
+		if ( ! empty( $import_warnings ) ) {
+			?>
+			<div class="anna-porter-box anna-porter-warnings-box">
+				<div class="anna-porter-box-header">
+					<span class="dashicons dashicons-warning"></span>
+					<h2><?php esc_html_e( 'Import Warnings', 'anna-content-porter' ); ?></h2>
+				</div>
+				<div class="anna-porter-box-body">
+					<ul>
+						<?php foreach ( $import_warnings as $w ) : ?>
+							<li><?php echo esc_html( $w ); ?></li>
+						<?php endforeach; ?>
+					</ul>
+				</div>
+			</div>
+			<?php
+		}
+	}
+
+	/**
+	 * Renders the import preview panel when a valid porter_preview token is present.
+	 */
+	private function render_preview_panel(): void {
+		if ( ! isset( $_GET['porter_preview'], $_GET['porter_token'] ) ) {
+			return;
+		}
+
+		$token   = sanitize_key( $_GET['porter_token'] );
+		$package = get_transient( "anna_porter_pkg_{$token}" );
+
+		if ( false === $package ) {
+			?>
+			<div class="notice notice-error is-dismissible">
+				<p><?php esc_html_e( 'Preview session expired. Please upload the file again.', 'anna-content-porter' ); ?></p>
+			</div>
+			<?php
+			return;
+		}
+
+		$preview = null;
+		try {
+			$preview = ( new Anna_Porter_Importer() )->preview( $package );
+		} catch ( InvalidArgumentException $e ) {
+			?>
+			<div class="notice notice-error is-dismissible">
+				<p><?php echo esc_html( $e->getMessage() ); ?></p>
+			</div>
+			<?php
+			return;
+		}
+		?>
+		<div class="anna-porter-box anna-porter-preview-box">
+			<div class="anna-porter-box-header">
+				<span class="dashicons dashicons-visibility"></span>
+				<h2><?php esc_html_e( 'Import Preview', 'anna-content-porter' ); ?></h2>
+			</div>
+			<div class="anna-porter-box-body">
+
+				<table class="anna-porter-meta-table">
+					<tbody>
+						<tr>
+							<th><?php esc_html_e( 'Source site', 'anna-content-porter' ); ?></th>
+							<td><?php echo esc_html( $preview['source_site_url'] ); ?></td>
+						</tr>
+						<tr>
+							<th><?php esc_html_e( 'Exported at', 'anna-content-porter' ); ?></th>
+							<td><?php echo esc_html( $preview['exported_at'] ); ?></td>
+						</tr>
+						<tr>
+							<th><?php esc_html_e( 'Sections', 'anna-content-porter' ); ?></th>
+							<td><?php echo esc_html( implode( ', ', $preview['exported_sections'] ) ); ?></td>
+						</tr>
+						<tr>
+							<th><?php esc_html_e( 'Content keys', 'anna-content-porter' ); ?></th>
+							<td><?php echo esc_html( $preview['content_key_count'] ); ?></td>
+						</tr>
+					</tbody>
+				</table>
+
 				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+					<?php wp_nonce_field( 'anna_porter_import_confirm', 'anna_porter_nonce' ); ?>
+					<input type="hidden" name="action"       value="anna_porter_import_confirm">
+					<input type="hidden" name="porter_token" value="<?php echo esc_attr( $token ); ?>">
+
+					<span class="anna-porter-mode-label"><?php esc_html_e( 'Import Mode', 'anna-content-porter' ); ?></span>
+					<div class="anna-porter-mode-group">
+						<label class="anna-porter-mode-option">
+							<input type="radio" name="import_mode" value="overwrite" checked>
+							<div class="anna-porter-mode-card">
+								<strong><?php esc_html_e( 'Overwrite', 'anna-content-porter' ); ?></strong>
+								<span><?php esc_html_e( 'Replace all existing values with the imported ones', 'anna-content-porter' ); ?></span>
+							</div>
+						</label>
+						<label class="anna-porter-mode-option">
+							<input type="radio" name="import_mode" value="skip">
+							<div class="anna-porter-mode-card">
+								<strong><?php esc_html_e( 'Skip Existing', 'anna-content-porter' ); ?></strong>
+								<span><?php esc_html_e( 'Only fill in empty or missing fields, leave existing values alone', 'anna-content-porter' ); ?></span>
+							</div>
+						</label>
+					</div>
+
+					<div class="anna-porter-btn-row">
+						<button type="submit" class="button button-primary">
+							<span class="dashicons dashicons-yes-alt"></span>
+							<?php esc_html_e( 'Confirm Import', 'anna-content-porter' ); ?>
+						</button>
+						<a href="<?php echo esc_url( admin_url( 'admin.php?page=anna-porter' ) ); ?>" class="button">
+							<?php esc_html_e( 'Cancel', 'anna-content-porter' ); ?>
+						</a>
+					</div>
+				</form>
+
+			</div>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Renders the Export panel.
+	 */
+	private function render_export_panel(): void {
+		$sections      = Anna_Porter_Registry::get_sections();
+		$section_count = count( $sections );
+		?>
+		<div class="anna-porter-box">
+			<div class="anna-porter-box-header">
+				<span class="dashicons dashicons-download"></span>
+				<h2><?php esc_html_e( 'Export Content', 'anna-content-porter' ); ?></h2>
+				<span class="anna-porter-box-badge">
+					<?php
+					echo esc_html(
+						sprintf(
+							/* translators: %d number of sections */
+							_n( '%d section available', '%d sections available', $section_count, 'anna-content-porter' ),
+							$section_count
+						)
+					);
+					?>
+				</span>
+			</div>
+			<div class="anna-porter-box-body">
+				<p class="anna-porter-desc">
+					<?php esc_html_e( 'Select the page sections to include in the export. A portable JSON file will be downloaded with the latest saved content.', 'anna-content-porter' ); ?>
+				</p>
+
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" id="anna-porter-export-form">
 					<?php wp_nonce_field( 'anna_porter_export', 'anna_porter_nonce' ); ?>
 					<input type="hidden" name="action" value="anna_porter_export">
-					<div class="anna-porter-sections-grid">
-						<?php foreach ( Anna_Porter_Registry::get_sections() as $id => $section ) : ?>
-							<label class="anna-porter-section-label">
-								<input type="checkbox" name="sections[]" value="<?php echo esc_attr( $id ); ?>" class="anna-porter-section-cb">
-								<?php echo esc_html( $section['label'] ); ?>
-							</label>
-						<?php endforeach; ?>
-					</div>
-					<p class="anna-porter-select-all-wrap">
+
+					<div class="anna-porter-grid-toolbar">
+						<span class="anna-porter-grid-label"><?php esc_html_e( 'Page Sections', 'anna-content-porter' ); ?></span>
 						<a href="#" id="anna-porter-select-all"
 							data-label-select="<?php esc_attr_e( 'Select All', 'anna-content-porter' ); ?>"
 							data-label-deselect="<?php esc_attr_e( 'Deselect All', 'anna-content-porter' ); ?>">
 							<?php esc_html_e( 'Select All', 'anna-content-porter' ); ?>
 						</a>
-					</p>
-					<p>
+					</div>
+
+					<div class="anna-porter-sections-grid">
+						<?php foreach ( $sections as $id => $section ) : ?>
+							<label class="anna-porter-section-label">
+								<span class="porter-checkbox">
+									<span class="dashicons dashicons-yes"></span>
+								</span>
+								<input
+									type="checkbox"
+									name="sections[]"
+									value="<?php echo esc_attr( $id ); ?>"
+									class="anna-porter-section-cb"
+								>
+								<?php echo esc_html( $section['label'] ); ?>
+							</label>
+						<?php endforeach; ?>
+					</div>
+
+					<div class="anna-porter-selection-bar" id="anna-porter-sel-bar">
+						<span>
+							<span id="anna-porter-selected-count" class="anna-porter-sel-count">0</span>
+							<span class="anna-porter-sel-total">
+								<?php
+								echo esc_html(
+									sprintf(
+										/* translators: %d total number of sections */
+										__( ' of %d sections selected', 'anna-content-porter' ),
+										$section_count
+									)
+								);
+								?>
+							</span>
+						</span>
+						<span
+							id="anna-porter-sel-hint"
+							class="anna-porter-sel-hint"
+							data-hint-pending="<?php esc_attr_e( 'Select at least one section to export', 'anna-content-porter' ); ?>"
+							data-hint-ready="<?php esc_attr_e( 'Ready to export', 'anna-content-porter' ); ?>"
+						>
+							<?php esc_html_e( 'Select at least one section to export', 'anna-content-porter' ); ?>
+						</span>
+					</div>
+
+					<div class="anna-porter-btn-row">
 						<button type="submit" id="anna-porter-export-btn" class="button button-primary" disabled>
+							<span class="porter-spinner"></span>
+							<span class="dashicons dashicons-download porter-btn-icon"></span>
 							<?php esc_html_e( 'Export Selected Sections', 'anna-content-porter' ); ?>
 						</button>
-					</p>
+					</div>
 				</form>
 			</div>
+		</div>
+		<?php
+	}
 
-			<div class="anna-porter-box">
-				<h2><?php esc_html_e( 'Import', 'anna-content-porter' ); ?></h2>
-				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" enctype="multipart/form-data">
+	/**
+	 * Renders the Import panel.
+	 */
+	private function render_import_panel(): void {
+		?>
+		<div class="anna-porter-box">
+			<div class="anna-porter-box-header">
+				<span class="dashicons dashicons-upload"></span>
+				<h2><?php esc_html_e( 'Import Content', 'anna-content-porter' ); ?></h2>
+			</div>
+			<div class="anna-porter-box-body">
+				<p class="anna-porter-desc">
+					<?php esc_html_e( 'Upload a Content Porter JSON file to preview its contents before committing the import.', 'anna-content-porter' ); ?>
+				</p>
+
+				<form
+					method="post"
+					action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"
+					enctype="multipart/form-data"
+					id="anna-porter-import-form"
+				>
 					<?php wp_nonce_field( 'anna_porter_import_preview', 'anna_porter_nonce' ); ?>
 					<input type="hidden" name="action" value="anna_porter_import_preview">
-					<p><input type="file" name="import_file" accept=".json" required></p>
-					<p><button type="submit" class="button button-primary"><?php esc_html_e( 'Upload & Preview', 'anna-content-porter' ); ?></button></p>
+
+					<div class="anna-porter-upload-area" id="anna-porter-upload-area">
+						<input
+							type="file"
+							name="import_file"
+							accept=".json"
+							required
+							id="anna-porter-file-input"
+						>
+						<div class="anna-porter-upload-default">
+							<span class="dashicons dashicons-media-code anna-porter-upload-icon"></span>
+							<div class="anna-porter-upload-title">
+								<?php esc_html_e( 'Choose a file or drag it here', 'anna-content-porter' ); ?>
+							</div>
+							<div class="anna-porter-upload-hint">
+								<?php esc_html_e( 'Only .json files exported by Anna Content Porter are accepted', 'anna-content-porter' ); ?>
+							</div>
+						</div>
+						<div class="anna-porter-upload-filename" id="anna-porter-upload-filename"></div>
+					</div>
+
+					<div class="anna-porter-btn-row">
+						<button type="submit" class="button button-primary">
+							<span class="dashicons dashicons-visibility"></span>
+							<?php esc_html_e( 'Upload & Preview', 'anna-content-porter' ); ?>
+						</button>
+					</div>
 				</form>
 			</div>
-
 		</div>
 		<?php
 	}

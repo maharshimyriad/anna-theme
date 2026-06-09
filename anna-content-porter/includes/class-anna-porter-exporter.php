@@ -33,6 +33,11 @@ class Anna_Porter_Exporter {
 	 * @return void  Never returns — calls exit after streaming the download.
 	 */
 	public function export( array $section_ids ): void {
+		// Clear any stale object-cache entry so we always read the latest saved
+		// data from the database, even when a persistent cache (Redis/Memcached)
+		// was not properly invalidated after the theme settings were last saved.
+		wp_cache_delete( 'anna_theme_options', 'options' );
+
 		$all_options = get_option( 'anna_theme_options', [] );
 		$matched     = Anna_Porter_Registry::get_keys_for_sections( $section_ids, $all_options );
 
@@ -85,6 +90,9 @@ class Anna_Porter_Exporter {
 	 * }
 	 */
 	public function build_package( array $section_ids ): array {
+		// Always fetch fresh data; the export() entry point has already cleared
+		// the cache so this call hits the in-memory-refreshed value.
+		wp_cache_delete( 'anna_theme_options', 'options' );
 		$all_options  = get_option( 'anna_theme_options', [] );
 		$matched_keys = Anna_Porter_Registry::get_keys_for_sections( $section_ids, $all_options );
 
