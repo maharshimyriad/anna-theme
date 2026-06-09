@@ -282,6 +282,155 @@ a.anna-contact-page-info__value:hover {
   text-align: center;
 }
 
+/* ── Gravity Forms overrides (form id 2) ────────────────────────────────── */
+
+.anna-contact-page-form .gform_wrapper {
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Remove GF heading wrapper gap */
+.anna-contact-page-form .gform_heading {
+  display: none !important;
+}
+
+/* Field rows */
+.anna-contact-page-form .gform_fields {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: var(--space-5) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Labels */
+.anna-contact-page-form .gfield_label,
+.anna-contact-page-form .gform-field-label:not(.gform-field-label--type-sub) {
+  display: block !important;
+  font-family: var(--font-body) !important;
+  font-size: var(--text-sm) !important;
+  font-weight: var(--font-weight-semibold) !important;
+  color: var(--color-heading) !important;
+  letter-spacing: 0.01em !important;
+  margin-bottom: var(--space-2) !important;
+}
+
+/* Hide sub-labels and required text */
+.anna-contact-page-form .gform-field-label--type-sub,
+.anna-contact-page-form .gfield_required_text {
+  display: none !important;
+}
+
+/* Text, email, textarea inputs */
+.anna-contact-page-form .gfield input[type="text"],
+.anna-contact-page-form .gfield input[type="email"],
+.anna-contact-page-form .gfield textarea {
+  width: 100% !important;
+  padding: var(--space-3-5) var(--space-4) !important;
+  border: 1.5px solid var(--color-border) !important;
+  border-radius: var(--radius-sm) !important;
+  background: var(--color-white) !important;
+  color: var(--color-heading) !important;
+  font-family: var(--font-body) !important;
+  font-size: var(--text-base) !important;
+  line-height: 1.5 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  box-sizing: border-box !important;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast) !important;
+}
+
+.anna-contact-page-form .gfield input[type="text"]:focus,
+.anna-contact-page-form .gfield input[type="email"]:focus,
+.anna-contact-page-form .gfield textarea:focus {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 3px rgba(0, 112, 99, 0.12) !important;
+  outline: none !important;
+}
+
+.anna-contact-page-form .gfield input::placeholder,
+.anna-contact-page-form .gfield textarea::placeholder {
+  color: var(--color-text-light) !important;
+}
+
+/* Textarea */
+.anna-contact-page-form .gfield textarea {
+  min-height: 9rem !important;
+  resize: vertical !important;
+}
+
+/* Character counter */
+.anna-contact-page-form .ginput_counter {
+  font-size: var(--text-xs) !important;
+  color: var(--color-text-muted) !important;
+  margin-top: var(--space-1) !important;
+}
+
+/* Field description */
+.anna-contact-page-form .gfield_description {
+  font-size: var(--text-xs) !important;
+  color: var(--color-text-muted) !important;
+  margin-bottom: var(--space-2) !important;
+}
+
+/* Footer / submit */
+.anna-contact-page-form .gform_footer {
+  margin-top: var(--space-5) !important;
+  padding: 0 !important;
+}
+
+.anna-contact-page-form .gform_button {
+  display: block !important;
+  width: 100% !important;
+  padding: var(--space-4) var(--space-8) !important;
+  border: none !important;
+  border-radius: var(--btn-radius) !important;
+  background: var(--color-primary) !important;
+  color: var(--color-white) !important;
+  font-family: var(--font-body) !important;
+  font-size: var(--text-base) !important;
+  font-weight: var(--font-weight-semibold) !important;
+  letter-spacing: 0.02em !important;
+  cursor: pointer !important;
+  text-align: center !important;
+  transition: background var(--transition-fast) !important;
+}
+
+.anna-contact-page-form .gform_button:hover {
+  background: var(--color-primary-dark) !important;
+}
+
+/* Validation errors */
+.anna-contact-page-form .validation_message {
+  font-size: var(--text-xs) !important;
+  color: #991b1b !important;
+  margin-top: var(--space-1) !important;
+}
+
+.anna-contact-page-form .gform_validation_errors {
+  background: #fef2f2 !important;
+  border: 1px solid #fca5a5 !important;
+  border-radius: var(--radius-sm) !important;
+  padding: var(--space-4) var(--space-5) !important;
+  margin-bottom: var(--space-6) !important;
+  color: #991b1b !important;
+  font-size: var(--text-sm) !important;
+}
+
+/* Confirmation message */
+.anna-contact-page-form .gform_confirmation_message {
+  padding: var(--space-5) var(--space-6) !important;
+  background: #ecfdf5 !important;
+  border: 1px solid #6ee7b7 !important;
+  border-radius: var(--radius-sm) !important;
+  color: #065f46 !important;
+  font-size: var(--text-sm) !important;
+  font-weight: var(--font-weight-medium) !important;
+}
+
 /* ── Responsive ──────────────────────────────────────────────────────────── */
 @media (max-width: 900px) {
   .anna-contact-page-body__grid {
