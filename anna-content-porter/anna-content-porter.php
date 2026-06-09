@@ -18,6 +18,9 @@ define( 'ANNA_PORTER_URL', plugin_dir_url( __FILE__ ) );
 
 /**
  * Bootstrap the Content Porter.
+ *
+ * When loaded via functions.php (inside the theme), plugins_loaded has already
+ * fired, so we initialise directly rather than hooking into it.
  */
 function anna_content_porter_bootstrap() {
 	require_once ANNA_PORTER_DIR . 'includes/class-anna-porter-registry.php';
@@ -25,8 +28,6 @@ function anna_content_porter_bootstrap() {
 	require_once ANNA_PORTER_DIR . 'includes/class-anna-porter-importer.php';
 	require_once ANNA_PORTER_DIR . 'includes/class-anna-porter-admin.php';
 
-	add_action( 'plugins_loaded', static function () {
-		( new Anna_Porter_Admin() )->init();
-	} );
+	( new Anna_Porter_Admin() )->init();
 }
 anna_content_porter_bootstrap();
