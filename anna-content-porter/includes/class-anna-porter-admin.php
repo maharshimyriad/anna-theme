@@ -727,6 +727,149 @@ class Anna_Porter_Admin {
 				<?php endif; ?>
 				<?php endif; ?>
 
+				<!-- Section E: broad LIKE search across postmeta using every registry prefix -->
+				<h3 class="anna-porter-debug-heading">
+					<?php esc_html_e( 'E - Broad post meta search using all registry prefixes (catches any key variant)', 'anna-content-porter' ); ?>
+				</h3>
+				<?php
+				$all_prefixes = [];
+				foreach ( Anna_Porter_Registry::get_sections() as $sec ) {
+					foreach ( $sec['prefixes'] as $pfx ) {
+						$all_prefixes[] = $pfx;
+					}
+				}
+				$all_prefixes = array_values( array_unique( $all_prefixes ) );
+
+				if ( ! empty( $all_prefixes ) ) :
+					$like_where = implode( ' OR ', array_fill( 0, count( $all_prefixes ), 'pm.meta_key LIKE %s' ) );
+					$like_vals  = array_map( function( $p ) { return $p . '%'; }, $all_prefixes );
+
+					// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+					$broad_meta = $wpdb->get_results(
+						$wpdb->prepare(
+							"SELECT pm.post_id, p.post_title, p.post_type, p.post_status,
+							        pm.meta_key, LEFT(pm.meta_value, 120) AS val_preview
+							 FROM {$wpdb->postmeta} pm
+							 INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id
+							 WHERE ($like_where)
+							   AND p.post_status NOT IN ('trash','auto-draft')
+							 ORDER BY p.post_title, pm.meta_key
+							 LIMIT 300",
+							...$like_vals
+						)
+					);
+					// phpcs:enable
+
+					if ( empty( $broad_meta ) ) :
+				?>
+						<div class="anna-porter-debug-alert is-ok">
+							<?php esc_html_e( 'No post meta found for any registry prefix. Data is NOT in post meta at all.', 'anna-content-porter' ); ?>
+						</div>
+				<?php else : ?>
+						<div class="anna-porter-debug-alert is-warning">
+							<?php
+							printf(
+								esc_html__( 'Found %d post meta row(s) matching registry prefixes (possibly private _keys or variants).', 'anna-content-porter' ),
+								count( $broad_meta )
+							);
+							?>
+						</div>
+						<table class="anna-porter-debug-table">
+							<thead><tr>
+								<th><?php esc_html_e( 'post_id', 'anna-content-porter' ); ?></th>
+								<th><?php esc_html_e( 'Title', 'anna-content-porter' ); ?></th>
+								<th><?php esc_html_e( 'Type', 'anna-content-porter' ); ?></th>
+								<th><?php esc_html_e( 'meta_key', 'anna-content-porter' ); ?></th>
+								<th><?php esc_html_e( 'meta_value', 'anna-content-porter' ); ?></th>
+							</tr></thead>
+							<tbody>
+								<?php foreach ( $broad_meta as $brow ) : ?>
+									<tr>
+										<td><?php echo esc_html( $brow->post_id ); ?></td>
+										<td><?php echo esc_html( $brow->post_title ); ?></td>
+										<td><?php echo esc_html( $brow->post_type . ' / ' . $brow->post_status ); ?></td>
+										<td class="anna-porter-debug-key"><?php echo esc_html( $brow->meta_key ); ?></td>
+										<td class="anna-porter-debug-val"><?php echo esc_html( $brow->val_preview ); ?></td>
+									</tr>
+								<?php endforeach; ?>
+							</tbody>
+						</table>
+				<?php endif; ?>
+				<?php endif; ?>
+
+				<!-- Section F: staleness check — when was anna_theme_options last touched -->
+				<h3 class="anna-porter-debug-heading">
+					<?php esc_html_e( 'F - Staleness: compare anna_theme_options to recently-edited pages', 'anna-content-porter' ); ?>
+				</h3>
+				<?php
+				// Snapshot the serialized byte length of the option as a rough change indicator.
+				$opt_byte_len = $raw_row ? strlen( $raw_row->option_value ) : 0;
+
+				// Grab pages modified in the last 30 days.
+				$recent_pages = $wpdb->get_results(
+					"SELECT ID, post_title, post_modified, post_status
+					 FROM {$wpdb->posts}
+					 WHERE post_type IN ('page','post')
+					   AND post_status NOT IN ('trash','auto-draft')
+					 ORDER BY post_modified DESC
+					 LIMIT 10"
+				);
+				?>
+				<table class="anna-porter-debug-table">
+					<thead><tr>
+						<th><?php esc_html_e( 'Item', 'anna-content-porter' ); ?></th>
+						<th><?php esc_html_e( 'Detail', 'anna-content-porter' ); ?></th>
+					</tr></thead>
+					<tbody>
+						<tr>
+							<td class="anna-porter-debug-key"><?php esc_html_e( 'anna_theme_options serialised size', 'anna-content-porter' ); ?></td>
+							<td><?php echo esc_html( number_format( $opt_byte_len ) . ' bytes' ); ?></td>
+						</tr>
+						<tr>
+							<td class="anna-porter-debug-key"><?php esc_html_e( 'Current server time (UTC)', 'anna-content-porter' ); ?></td>
+							<td><?php echo esc_html( gmdate( 'Y-m-d H:i:s' ) ); ?></td>
+						</tr>
+					</tbody>
+				</table>
+				<?php if ( ! empty( $recent_pages ) ) : ?>
+					<p style="font-size:12px;color:var(--porter-muted);margin:6px 0 10px">
+						<?php esc_html_e( '10 most recently edited pages/posts (if any of these are newer than when you last saved your hero/section fields, the option is stale):', 'anna-content-porter' ); ?>
+					</p>
+					<table class="anna-porter-debug-table">
+						<thead><tr>
+							<th><?php esc_html_e( 'ID', 'anna-content-porter' ); ?></th>
+							<th><?php esc_html_e( 'Title', 'anna-content-porter' ); ?></th>
+							<th><?php esc_html_e( 'Status', 'anna-content-porter' ); ?></th>
+							<th><?php esc_html_e( 'Last modified', 'anna-content-porter' ); ?></th>
+						</tr></thead>
+						<tbody>
+							<?php foreach ( $recent_pages as $pg ) : ?>
+								<tr>
+									<td><?php echo esc_html( $pg->ID ); ?></td>
+									<td><?php echo esc_html( $pg->post_title ); ?></td>
+									<td><?php echo esc_html( $pg->post_status ); ?></td>
+									<td><?php echo esc_html( $pg->post_modified ); ?></td>
+								</tr>
+							<?php endforeach; ?>
+						</tbody>
+					</table>
+				<?php endif; ?>
+
+				<!-- Section G: action hint -->
+				<h3 class="anna-porter-debug-heading">
+					<?php esc_html_e( 'G - What to do next', 'anna-content-porter' ); ?>
+				</h3>
+				<div class="anna-porter-debug-alert is-warning">
+					<strong><?php esc_html_e( 'Diagnosis: the porter is reading the right option, but anna_theme_options is stale.', 'anna-content-porter' ); ?></strong><br><br>
+					<?php esc_html_e( 'The hero/section edit panel on your page editor saves to anna_theme_options via its own save action (usually a separate Save button or an AJAX call). Clicking the WP Update button on the page does NOT automatically flush those fields into anna_theme_options.', 'anna-content-porter' ); ?><br><br>
+					<?php esc_html_e( 'Steps to confirm:', 'anna-content-porter' ); ?>
+					<ol style="margin:8px 0 0 18px;font-size:12px">
+						<li><?php esc_html_e( 'Open the page with the hero panel. Edit any field. Look for a dedicated Save/Update button INSIDE that panel (not the top WP Update button) and click it. Then reload this debug panel and check if anna_theme_options updated.', 'anna-content-porter' ); ?></li>
+						<li><?php esc_html_e( 'If no separate Save button exists, open your browser DevTools (F12 > Network) while clicking WP Update. Check whether an AJAX POST to admin-ajax.php or admin-post.php is made with action containing anna or theme_options. If that call returns an error, the save is silently failing.', 'anna-content-porter' ); ?></li>
+						<li><?php esc_html_e( 'If you do find a save_post hook that updates anna_theme_options, check whether a nonce field named after the meta box is present in the form and passing verification.', 'anna-content-porter' ); ?></li>
+					</ol>
+				</div>
+
 			</div>
 		</details>
 		<?php
