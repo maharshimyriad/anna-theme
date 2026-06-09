@@ -590,3 +590,130 @@
     width: 16px;
     height: 16px;
 }
+
+/* ── Debug panel ─────────────────────────────────────────────────────────── */
+
+.anna-porter-debug-box {
+    border-left: 4px solid #8c8f94;
+    opacity: 0.92;
+}
+
+.anna-porter-debug-box > summary {
+    list-style: none;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.anna-porter-debug-box > summary::-webkit-details-marker {
+    display: none;
+}
+
+.anna-porter-debug-box > summary .anna-porter-box-header {
+    /* summary IS the header row */
+    display: flex;
+}
+
+.anna-porter-debug-box[open] > summary .anna-porter-box-badge::after {
+    content: " (open)";
+}
+
+.anna-porter-debug-body {
+    font-size: 12px;
+}
+
+.anna-porter-debug-heading {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--porter-muted);
+    margin: 20px 0 8px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--porter-border-lite);
+}
+
+.anna-porter-debug-heading:first-child {
+    margin-top: 0;
+}
+
+.anna-porter-debug-alert {
+    padding: 8px 12px;
+    border-radius: var(--porter-radius);
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.anna-porter-debug-alert.is-ok {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+}
+
+.anna-porter-debug-alert.is-warning {
+    background: var(--porter-amber-light);
+    border: 1px solid #f5d67a;
+    color: var(--porter-amber);
+}
+
+.anna-porter-debug-alert.is-error {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+}
+
+.anna-porter-debug-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin-bottom: 14px;
+    border: 1px solid var(--porter-border-lite);
+    border-radius: var(--porter-radius);
+    overflow: hidden;
+}
+
+.anna-porter-debug-table th,
+.anna-porter-debug-table td {
+    padding: 7px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--porter-border-lite);
+    vertical-align: top;
+}
+
+.anna-porter-debug-table th {
+    background: var(--porter-surface);
+    font-weight: 600;
+    color: var(--porter-muted);
+    white-space: nowrap;
+}
+
+.anna-porter-debug-table tr:last-child td,
+.anna-porter-debug-table tr:last-child th {
+    border-bottom: none;
+}
+
+.anna-porter-debug-key {
+    font-family: Consolas, "Courier New", monospace;
+    color: #1d2327;
+    white-space: nowrap;
+}
+
+.anna-porter-debug-val {
+    color: var(--porter-muted);
+    font-family: Consolas, "Courier New", monospace;
+    word-break: break-all;
+    max-width: 420px;
+}
+
+.anna-porter-debug-pre {
+    background: var(--porter-surface);
+    border: 1px solid var(--porter-border-lite);
+    border-radius: var(--porter-radius);
+    padding: 10px 14px;
+    font-size: 11px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+    color: var(--porter-muted);
+}

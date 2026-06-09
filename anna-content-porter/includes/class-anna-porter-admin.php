@@ -127,9 +127,10 @@ class Anna_Porter_Admin {
 
 			<?php
 			$this->render_notices();
-			$this->render_preview_panel();
-			$this->render_export_panel();
-			$this->render_import_panel();
+				$this->render_preview_panel();
+				$this->render_export_panel();
+				$this->render_import_panel();
+				$this->render_debug_panel();
 			?>
 
 		</div>
@@ -475,9 +476,180 @@ class Anna_Porter_Admin {
 		<?php
 	}
 
-	// ──────────────────────────────────────────────────────────────────────────
+	// -------------------------------------------------------------------------
+	// Debug panel
+	// -------------------------------------------------------------------------
+
+	/**
+	 * Debug panel — reads straight from the DB (no cache) to reveal exactly
+	 * what is stored, which options contain "anna", and what each registry
+	 * section would export. Remove this panel once the data source is confirmed.
+	 */
+	private function render_debug_panel(): void {
+		global $wpdb;
+
+		// ── 1. Direct DB read of anna_theme_options ────────────────────────────
+		$raw_row = $wpdb->get_row(
+			$wpdb->prepare(
+				"SELECT option_value FROM {$wpdb->options} WHERE option_name = %s LIMIT 1",
+				'anna_theme_options'
+			)
+		);
+
+		$db_value    = $raw_row ? maybe_unserialize( $raw_row->option_value ) : null;
+		$option_exists = ( null !== $raw_row );
+		$is_array      = is_array( $db_value );
+		$key_count     = $is_array ? count( $db_value ) : 0;
+
+		// ── 2. All options whose name contains "anna" ──────────────────────────
+		$anna_options = $wpdb->get_results(
+			"SELECT option_name, LENGTH(option_value) AS val_len
+			 FROM {$wpdb->options}
+			 WHERE option_name LIKE '%anna%'
+			 ORDER BY option_name"
+		);
+
+		// ── 3. Registry match preview (uses the direct DB value) ──────────────
+		$sections        = Anna_Porter_Registry::get_sections();
+		$options_for_reg = $is_array ? $db_value : [];
+		$section_matches = [];
+		foreach ( $sections as $sid => $sdata ) {
+			$keys = Anna_Porter_Registry::get_keys_for_sections( [ $sid ], $options_for_reg );
+			$section_matches[ $sid ] = [
+				'label' => $sdata['label'],
+				'keys'  => $keys,
+			];
+		}
+		?>
+		<details class="anna-porter-box anna-porter-debug-box" id="anna-porter-debug">
+			<summary class="anna-porter-box-header">
+				<span class="dashicons dashicons-search"></span>
+				<h2><?php esc_html_e( 'Debug — Data Source Inspector', 'anna-content-porter' ); ?></h2>
+				<span class="anna-porter-box-badge" style="margin-left:auto">
+					<?php esc_html_e( 'Click to expand', 'anna-content-porter' ); ?>
+				</span>
+			</summary>
+			<div class="anna-porter-box-body anna-porter-debug-body">
+
+				<!-- ── Section A: anna_theme_options status ──────────────────── -->
+				<h3 class="anna-porter-debug-heading">
+					<?php esc_html_e( 'A — anna_theme_options (direct DB read, no cache)', 'anna-content-porter' ); ?>
+				</h3>
+				<?php if ( ! $option_exists ) : ?>
+					<div class="anna-porter-debug-alert is-error">
+						&#x274C; <?php esc_html_e( 'Row does NOT exist in wp_options. The theme is not saving to this option name.', 'anna-content-porter' ); ?>
+					</div>
+				<?php elseif ( ! $is_array || 0 === $key_count ) : ?>
+					<div class="anna-porter-debug-alert is-warning">
+						&#x26A0; <?php esc_html_e( 'Row exists but is empty or not an array. No exportable keys found.', 'anna-content-porter' ); ?>
+					</div>
+					<pre class="anna-porter-debug-pre"><?php echo esc_html( var_export( $db_value, true ) ); ?></pre>
+				<?php else : ?>
+					<div class="anna-porter-debug-alert is-ok">
+						&#x2705;
+						<?php
+						echo esc_html(
+							sprintf(
+								/* translators: %d number of keys */
+								__( 'Found %d top-level keys in anna_theme_options.', 'anna-content-porter' ),
+								$key_count
+							)
+						);
+						?>
+					</div>
+					<table class="anna-porter-debug-table">
+						<thead><tr>
+							<th><?php esc_html_e( 'Key', 'anna-content-porter' ); ?></th>
+							<th><?php esc_html_e( 'Type', 'anna-content-porter' ); ?></th>
+							<th><?php esc_html_e( 'Value (truncated)', 'anna-content-porter' ); ?></th>
+						</tr></thead>
+						<tbody>
+							<?php foreach ( $db_value as $k => $v ) : ?>
+								<tr>
+									<td class="anna-porter-debug-key"><?php echo esc_html( $k ); ?></td>
+									<td><?php echo esc_html( gettype( $v ) ); ?></td>
+									<td class="anna-porter-debug-val"><?php
+										if ( is_array( $v ) ) {
+											echo esc_html( '[ ' . count( $v ) . ' items ]' );
+										} else {
+											$display = (string) $v;
+											echo esc_html( strlen( $display ) > 120 ? substr( $display, 0, 120 ) . '…' : $display );
+										}
+									?></td>
+								</tr>
+							<?php endforeach; ?>
+						</tbody>
+					</table>
+				<?php endif; ?>
+
+				<!-- Section B: all options whose name contains 'anna' -->
+				<h3 class="anna-porter-debug-heading">
+					<?php esc_html_e( 'B - All wp_options rows whose name contains anna', 'anna-content-porter' ); ?>
+				</h3>
+				<?php if ( empty( $anna_options ) ) : ?>
+					<div class="anna-porter-debug-alert is-error">
+						<?php esc_html_e( 'No options found. The theme may use a completely different prefix.', 'anna-content-porter' ); ?>
+					</div>
+				<?php else : ?>
+					<table class="anna-porter-debug-table">
+						<thead><tr>
+							<th><?php esc_html_e( 'option_name', 'anna-content-porter' ); ?></th>
+							<th><?php esc_html_e( 'Stored bytes', 'anna-content-porter' ); ?></th>
+							<th><?php esc_html_e( 'Note', 'anna-content-porter' ); ?></th>
+						</tr></thead>
+						<tbody>
+							<?php foreach ( $anna_options as $opt ) : ?>
+								<tr>
+									<td class="anna-porter-debug-key"><?php echo esc_html( $opt->option_name ); ?></td>
+									<td><?php echo esc_html( number_format( (int) $opt->val_len ) ); ?></td>
+									<td>
+										<?php if ( $opt->option_name === 'anna_theme_options' ) : ?>
+											<strong style="color:#2271b1"><?php esc_html_e( 'THIS is what the porter reads', 'anna-content-porter' ); ?></strong>
+										<?php else : ?>
+											<span style="color:#d63638"><?php esc_html_e( 'NOT read by porter', 'anna-content-porter' ); ?></span>
+										<?php endif; ?>
+									</td>
+								</tr>
+							<?php endforeach; ?>
+						</tbody>
+					</table>
+				<?php endif; ?>
+
+				<!-- Section C: registry match preview per section -->
+				<h3 class="anna-porter-debug-heading">
+					<?php esc_html_e( 'C - Registry match preview (keys the porter would export per section)', 'anna-content-porter' ); ?>
+				</h3>
+				<table class="anna-porter-debug-table">
+					<thead><tr>
+						<th><?php esc_html_e( 'Section', 'anna-content-porter' ); ?></th>
+						<th><?php esc_html_e( 'Keys matched', 'anna-content-porter' ); ?></th>
+						<th><?php esc_html_e( 'Key names', 'anna-content-porter' ); ?></th>
+					</tr></thead>
+					<tbody>
+						<?php foreach ( $section_matches as $sid => $info ) : ?>
+							<tr>
+								<td class="anna-porter-debug-key"><?php echo esc_html( $info['label'] . ' (' . $sid . ')' ); ?></td>
+								<td>
+									<?php if ( empty( $info['keys'] ) ) : ?>
+										<span style="color:#d63638">0</span>
+									<?php else : ?>
+										<strong style="color:#00a32a"><?php echo esc_html( count( $info['keys'] ) ); ?></strong>
+									<?php endif; ?>
+								</td>
+								<td class="anna-porter-debug-val"><?php echo esc_html( implode( ', ', $info['keys'] ) ); ?></td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+
+			</div>
+		</details>
+		<?php
+	}
+
+	// -------------------------------------------------------------------------
 	// Form handlers
-	// ──────────────────────────────────────────────────────────────────────────
+	// -------------------------------------------------------------------------
 
 	/**
 	 * Handles the export POST action.
