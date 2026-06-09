@@ -27,6 +27,10 @@ function anna_get_theme_field_value( $key, $default = '' ) {
 }
 
 function anna_field_text( $key, $label, $desc = '', $type = 'text', $placeholder = '' ) {
+	// Use plain text input for URL fields to allow anchors (#) and relative paths.
+	if ( 'url' === $type ) {
+		$type = 'text';
+	}
 	$value = anna_get_theme_field_value( $key );
 	?>
 	<tr>

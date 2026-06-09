@@ -19,7 +19,6 @@ function anna_get_tab_fields_map() {
 	$tab_map = array(
 		'brand' => array(
 			'site_logo_id',
-			'footer_logo_id',
 			'color_primary', 'color_accent', 'color_bg_soft', 'color_text', 'color_heading',
 		),
 		'typography' => array(
@@ -80,6 +79,7 @@ function anna_get_tab_fields_map() {
 			'cta_primary_text', 'cta_primary_url', 'cta_secondary_text', 'cta_secondary_url',
 		),
 		'footer' => array(
+			'footer_logo_id',
 			'footer_description', 'contact_email', 'contact_phone', 'contact_address', 'contact_hours',
 			'newsletter_heading', 'newsletter_text', 'newsletter_name_placeholder', 'newsletter_email_placeholder', 'newsletter_button_text',
 			'copyright_text', 'privacy_url', 'terms_url',
