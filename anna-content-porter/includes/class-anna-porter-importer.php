@@ -285,17 +285,19 @@ class Anna_Porter_Importer {
 			return (bool) (int) $value;
 		}
 
-		// Textarea / long-text fields.
+		// Textarea / long-text fields — preserve HTML (headings, strong, br, etc.).
 		if (
 			str_contains( $key, 'body' ) ||
 			str_contains( $key, 'description' ) ||
 			str_contains( $key, 'items_text' )
 		) {
-			return sanitize_textarea_field( (string) $value );
+			return wp_kses_post( (string) $value );
 		}
 
-		// Default: plain text scalar.
-		return sanitize_text_field( (string) $value );
+		// Default: allow standard post-content HTML; strip only dangerous tags.
+		// wp_kses_post is used instead of sanitize_text_field so that inline HTML
+		// stored in theme options (e.g. <strong>, <em>, <br>) is not stripped.
+		return wp_kses_post( (string) $value );
 	}
 
 	/**

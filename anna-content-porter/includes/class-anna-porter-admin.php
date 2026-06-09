@@ -77,20 +77,27 @@ class Anna_Porter_Admin {
 			return;
 		}
 
-		wp_enqueue_style(
-			'anna-porter-admin',
-			ANNA_PORTER_URL . 'assets/css/admin.css',
-			[],
-			filemtime( ANNA_PORTER_DIR . 'assets/css/admin.css' )
-		);
+		$css_path = ANNA_PORTER_DIR . 'assets/css/admin.css';
+		$js_path  = ANNA_PORTER_DIR . 'assets/js/admin.js';
 
-		wp_enqueue_script(
-			'anna-porter-admin',
-			ANNA_PORTER_URL . 'assets/js/admin.js',
-			[],
-			filemtime( ANNA_PORTER_DIR . 'assets/js/admin.js' ),
-			true
-		);
+		if ( file_exists( $css_path ) ) {
+			wp_enqueue_style(
+				'anna-porter-admin',
+				ANNA_PORTER_URL . 'assets/css/admin.css',
+				[],
+				filemtime( $css_path )
+			);
+		}
+
+		if ( file_exists( $js_path ) ) {
+			wp_enqueue_script(
+				'anna-porter-admin',
+				ANNA_PORTER_URL . 'assets/js/admin.js',
+				[],
+				filemtime( $js_path ),
+				true
+			);
+		}
 	}
 
 	// ──────────────────────────────────────────────────────────────────────────
@@ -121,14 +128,34 @@ class Anna_Porter_Admin {
 
 			// ── Import result notice ───────────────────────────────────────────
 			if ( isset( $_GET['porter_done'] ) ) {
-				$written = absint( $_GET['written'] ?? 0 );
-				$skipped = absint( $_GET['skipped'] ?? 0 );
-				$images  = absint( $_GET['images']  ?? 0 );
-				$warn    = absint( $_GET['warn']    ?? 0 );
+				$written    = absint( $_GET['written']    ?? 0 );
+				$skipped    = absint( $_GET['skipped']   ?? 0 );
+				$images     = absint( $_GET['images']    ?? 0 );
+				$warn_token = sanitize_key( $_GET['warn_token'] ?? '' );
 
-				$summary = "Import complete. {$written} keys written, {$skipped} skipped, {$images} images created.";
+				// Retrieve and immediately consume any stored warning messages.
+				$import_warnings = [];
+				if ( $warn_token ) {
+					$stored = get_transient( "anna_porter_warn_{$warn_token}" );
+					if ( is_array( $stored ) ) {
+						$import_warnings = $stored;
+						delete_transient( "anna_porter_warn_{$warn_token}" );
+					}
+				}
 
-				if ( 0 === $warn ) {
+				$summary = sprintf(
+					/* translators: 1: keys written 2: keys skipped 3: images created */
+					__( 'Import complete. %1$d keys written, %2$d skipped, %3$d images created.', 'anna-content-porter' ),
+					$written, $skipped, $images
+				);
+
+				if ( 0 === $written && 0 === $skipped ) {
+					?>
+					<div class="notice notice-error is-dismissible">
+						<p><?php echo esc_html( $summary ); ?> <?php esc_html_e( 'No content was imported — all keys were rejected. See warnings below.', 'anna-content-porter' ); ?></p>
+					</div>
+					<?php
+				} elseif ( empty( $import_warnings ) ) {
 					?>
 					<div class="notice notice-success is-dismissible">
 						<p><?php echo esc_html( $summary ); ?></p>
@@ -137,7 +164,20 @@ class Anna_Porter_Admin {
 				} else {
 					?>
 					<div class="notice notice-warning is-dismissible">
-						<p><?php echo esc_html( "{$summary} ({$warn} warning(s) — check server error log for details.)" ); ?></p>
+						<p><?php echo esc_html( $summary ); ?> <?php echo esc_html( sprintf( __( '(%d warning(s) — see below)', 'anna-content-porter' ), count( $import_warnings ) ) ); ?></p>
+					</div>
+					<?php
+				}
+
+				if ( ! empty( $import_warnings ) ) {
+					?>
+					<div class="anna-porter-box anna-porter-warnings-box">
+						<h2><?php esc_html_e( 'Import Warnings', 'anna-content-porter' ); ?></h2>
+						<ul>
+							<?php foreach ( $import_warnings as $w ) : ?>
+								<li><?php echo esc_html( $w ); ?></li>
+							<?php endforeach; ?>
+						</ul>
 					</div>
 					<?php
 				}
@@ -223,7 +263,13 @@ class Anna_Porter_Admin {
 							</label>
 						<?php endforeach; ?>
 					</div>
-					<p><a href="#" id="anna-porter-select-all"><?php esc_html_e( 'Select All', 'anna-content-porter' ); ?></a></p>
+					<p class="anna-porter-select-all-wrap">
+						<a href="#" id="anna-porter-select-all"
+							data-label-select="<?php esc_attr_e( 'Select All', 'anna-content-porter' ); ?>"
+							data-label-deselect="<?php esc_attr_e( 'Deselect All', 'anna-content-porter' ); ?>">
+							<?php esc_html_e( 'Select All', 'anna-content-porter' ); ?>
+						</a>
+					</p>
 					<p>
 						<button type="submit" id="anna-porter-export-btn" class="button button-primary" disabled>
 							<?php esc_html_e( 'Export Selected Sections', 'anna-content-porter' ); ?>
@@ -364,13 +410,21 @@ class Anna_Porter_Admin {
 		$mode   = ( 'skip' === ( $_POST['import_mode'] ?? '' ) ) ? 'skip' : 'overwrite';
 		$result = ( new Anna_Porter_Importer() )->import( $package, $mode );
 
+		// Store warning messages in a short-lived transient so the result page
+		// can display them without bloating the redirect URL.
+		$warn_token = '';
+		if ( ! empty( $result['warnings'] ) ) {
+			$warn_token = substr( md5( uniqid( 'apw_', true ) ), 0, 16 );
+			set_transient( "anna_porter_warn_{$warn_token}", $result['warnings'], 5 * MINUTE_IN_SECONDS );
+		}
+
 		wp_redirect( add_query_arg( [
 			'page'        => 'anna-porter',
 			'porter_done' => '1',
 			'written'     => $result['written'],
 			'skipped'     => $result['skipped'],
 			'images'      => $result['images_created'],
-			'warn'        => count( $result['warnings'] ),
+			'warn_token'  => $warn_token,
 		], admin_url( 'admin.php' ) ) );
 		exit;
 	}

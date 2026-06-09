@@ -1,85 +1,69 @@
-/**
- * Anna Content Porter — Admin JS
- *
- * Handles the export button enable/disable state and the
- * Select All / Deselect All toggle for section checkboxes.
- *
- * No jQuery dependency — vanilla JS only.
- *
- * @package Anna_Content_Porter
- * @since   1.0.0
- */
+/* Anna Content Porter – Admin UI */
+(function () {
+  "use strict";
 
-document.addEventListener( 'DOMContentLoaded', function () {
+  document.addEventListener("DOMContentLoaded", function () {
+    var checkboxes = document.querySelectorAll(".anna-porter-section-cb");
+    var exportBtn = document.getElementById("anna-porter-export-btn");
+    var selectAllLink = document.getElementById("anna-porter-select-all");
 
-	var exportBtn   = document.getElementById( 'anna-porter-export-btn' );
-	var selectAll   = document.getElementById( 'anna-porter-select-all' );
-	var checkboxes  = document.querySelectorAll( 'input[name="sections[]"]' );
+    if (!exportBtn || !checkboxes.length) {
+      return;
+    }
 
-	// Guard: exit early if the export button is not present (not on the porter page).
-	if ( ! exportBtn ) {
-		return;
-	}
+    // Labels are stored as data attributes on the link so PHP i18n works.
+    var labelSelect = selectAllLink
+      ? selectAllLink.dataset.labelSelect || "Select All"
+      : "";
+    var labelDeselect = selectAllLink
+      ? selectAllLink.dataset.labelDeselect || "Deselect All"
+      : "";
 
-	// ── Export button enable / disable ────────────────────────────────────────
+    function checkedCount() {
+      var n = 0;
+      checkboxes.forEach(function (cb) {
+        if (cb.checked) {
+          n++;
+        }
+      });
+      return n;
+    }
 
-	/**
-	 * Enables the export button when at least one section checkbox is checked;
-	 * disables it when none are checked.
-	 */
-	function updateExportButton() {
-		var anyChecked = false;
+    function syncButton() {
+      exportBtn.disabled = checkedCount() === 0;
+    }
 
-		for ( var i = 0; i < checkboxes.length; i++ ) {
-			if ( checkboxes[ i ].checked ) {
-				anyChecked = true;
-				break;
-			}
-		}
+    function syncSelectAllLabel() {
+      if (!selectAllLink) {
+        return;
+      }
+      selectAllLink.textContent =
+        checkedCount() === checkboxes.length ? labelDeselect : labelSelect;
+    }
 
-		exportBtn.disabled = ! anyChecked;
-	}
+    // React to individual checkbox changes.
+    checkboxes.forEach(function (cb) {
+      cb.addEventListener("change", function () {
+        syncButton();
+        syncSelectAllLabel();
+      });
+    });
 
-	// Set initial state on page load.
-	updateExportButton();
+    // Select All / Deselect All toggle.
+    if (selectAllLink) {
+      selectAllLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        var allChecked = checkedCount() === checkboxes.length;
+        checkboxes.forEach(function (cb) {
+          cb.checked = !allChecked;
+        });
+        syncButton();
+        syncSelectAllLabel();
+      });
+    }
 
-	// Update state whenever a checkbox changes.
-	for ( var i = 0; i < checkboxes.length; i++ ) {
-		checkboxes[ i ].addEventListener( 'change', updateExportButton );
-	}
-
-	// ── Select All / Deselect All toggle ──────────────────────────────────────
-
-	if ( selectAll ) {
-		selectAll.addEventListener( 'click', function ( event ) {
-			event.preventDefault();
-
-			// Check whether every checkbox is currently checked.
-			var allChecked = true;
-
-			for ( var j = 0; j < checkboxes.length; j++ ) {
-				if ( ! checkboxes[ j ].checked ) {
-					allChecked = false;
-					break;
-				}
-			}
-
-			if ( allChecked ) {
-				// All are checked — uncheck everything and reset link text.
-				for ( var j = 0; j < checkboxes.length; j++ ) {
-					checkboxes[ j ].checked = false;
-				}
-				selectAll.textContent = 'Select All';
-			} else {
-				// At least one is unchecked — check everything and update link text.
-				for ( var j = 0; j < checkboxes.length; j++ ) {
-					checkboxes[ j ].checked = true;
-				}
-				selectAll.textContent = 'Deselect All';
-			}
-
-			updateExportButton();
-		} );
-	}
-
-} );
+    // Set initial state.
+    syncButton();
+    syncSelectAllLabel();
+  });
+})();
