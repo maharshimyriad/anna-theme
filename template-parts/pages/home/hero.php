@@ -20,9 +20,9 @@ $stats        = $hero_content['stats'];
 $hero_eyebrow = $hero_content['eyebrow'];
 $hero_trust   = $hero_content['trust_text'];
 
-if ( empty( $cta_second['text'] ) ) {
-	$cta_second['text'] = __( 'Learn about my approach', 'anna-baylis' );
-}
+// if ( empty( $cta_second['text'] ) ) {
+// 	$cta_second['text'] = __( 'Learn about my approach', 'anna-baylis' );
+// }
 
 if ( empty( $cta_second['url'] ) || '#' === $cta_second['url'] ) {
 	$cta_second['url'] = '#intro';
@@ -58,7 +58,7 @@ if ( empty( $cta_second['url'] ) || '#' === $cta_second['url'] ) {
 					</a>
 					<a href="<?php echo esc_url( $cta_second['url'] ); ?>" class="anna-btn anna-btn--hero-link anna-btn--lg">
 						<?php echo esc_html( $cta_second['text'] ); ?>
-						<span class="anna-btn__icon" aria-hidden="true">&rarr;</span>
+<!-- 						<span class="anna-btn__icon" aria-hidden="true">&rarr;</span> -->
 					</a>
 				</div>
 
