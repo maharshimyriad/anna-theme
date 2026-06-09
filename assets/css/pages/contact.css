@@ -344,7 +344,7 @@ a.anna-contact-page-info__value:hover {
     font-family: var(--font-body) !important;
     font-size: var(--text-sm) !important;
     font-weight: var(--font-weight-semibold) !important;
-    color: #0f1f1b !important;
+    color: var(--color-primary) !important;
     letter-spacing: 0.01em !important;
     margin-bottom: var(--space-2) !important;
 }
@@ -369,8 +369,8 @@ a.anna-contact-page-info__value:hover {
     padding: var(--space-3-5) var(--space-4) !important;
     border: 1.5px solid #e5e7eb !important;
     border-radius: var(--radius-sm) !important;
-    background: #ffffff !important;
-    background-color: #ffffff !important;
+    background: #f0f5ee !important;
+    background-color: #f0f5ee !important;
     color: #0f1f1b !important;
     font-family: var(--font-body) !important;
     font-size: var(--text-base) !important;

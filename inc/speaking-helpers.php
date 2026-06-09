@@ -173,7 +173,7 @@ function anna_get_speaking_default_content()
         "book_card_body" =>
             "Send me a message with details about your event and I'll get back to you within 48 hours.",
         "book_card_button_text" => "Send an enquiry",
-        "book_card_button_url" => "#contact",
+        "book_card_button_url" => anna_get_discovery_call_url(),
         "book_card_contact_prefix" => "Or email me directly at",
         "book_card_email" => "info@annabaylis.com.au",
         "book_card_footer" => "I respond to all speaking enquiries personally.",

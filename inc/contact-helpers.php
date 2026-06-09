@@ -30,7 +30,7 @@ function anna_get_contact_default_content()
         "cta_card_body" =>
             "Start with a complimentary discovery call to see if we're the right fit.",
         "cta_card_button_text" => "Book a Discovery Call",
-        "cta_card_button_url" => "#contact",
+        "cta_card_button_url" => anna_get_discovery_call_url(),
         "form_heading" => "Send a Message",
         "form_name_label" => "Name",
         "form_email_label" => "Email",
