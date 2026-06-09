@@ -19,26 +19,10 @@ $email   = anna_get_option( 'contact_email', 'info@annabaylis.com.au' );
 $phone   = anna_get_option( 'contact_phone', '' );
 $address = anna_get_option( 'contact_address', '' );
 $hours   = anna_get_option( 'contact_hours', '' );
-
-$form_action = ! empty( $contact['form_action_url'] ) ? $contact['form_action_url'] : '';
-
-// Success/error notice from form submission redirect.
-$form_status = isset( $_GET['contact'] ) ? sanitize_key( wp_unslash( $_GET['contact'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 ?>
 
 <section class="anna-contact-page-body">
 	<div class="anna-container anna-container--max">
-
-		<?php if ( 'sent' === $form_status ) : ?>
-			<div class="anna-contact-page-notice anna-contact-page-notice--success" role="status">
-				<?php esc_html_e( 'Thank you — your message has been sent. I \'ll be in touch soon.', 'anna-baylis' ); ?>
-			</div>
-		<?php elseif ( 'error' === $form_status ) : ?>
-			<div class="anna-contact-page-notice anna-contact-page-notice--error" role="alert">
-				<?php esc_html_e( 'Something went wrong. Please check your details and try again.', 'anna-baylis' ); ?>
-			</div>
-		<?php endif; ?>
-
 		<div class="anna-contact-page-body__grid">
 
 			<!-- ── Left: Contact Information ──────────────────────────── -->
@@ -125,86 +109,9 @@ $form_status = isset( $_GET['contact'] ) ? sanitize_key( wp_unslash( $_GET['cont
 				<?php endif; ?>
 			</div>
 
-			<!-- ── Right: Contact Form ────────────────────────────────── -->
+			<!-- ── Right: Gravity Form ────────────────────────────────── -->
 			<div class="anna-contact-page-form anna-reveal--right">
-				<?php if ( ! empty( $contact['form_heading'] ) ) : ?>
-					<h2 class="anna-contact-page-form__heading"><?php echo esc_html( $contact['form_heading'] ); ?></h2>
-				<?php endif; ?>
-
-				<form
-					class="anna-contact-page-form__form"
-					method="post"
-					action="<?php echo $form_action ? esc_url( $form_action ) : esc_url( admin_url( 'admin-post.php' ) ); ?>"
-					novalidate
-				>
-					<?php if ( ! $form_action ) : ?>
-						<input type="hidden" name="action" value="anna_contact_form">
-						<?php wp_nonce_field( 'anna_contact_form', 'anna_contact_nonce' ); ?>
-					<?php endif; ?>
-
-					<div class="anna-contact-page-form__field">
-						<label for="anna-contact-name" class="anna-contact-page-form__label">
-							<?php echo esc_html( $contact['form_name_label'] ); ?>
-						</label>
-						<input
-							type="text"
-							id="anna-contact-name"
-							name="contact_name"
-							class="anna-contact-page-form__input"
-							placeholder="<?php esc_attr_e( 'Your name', 'anna-baylis' ); ?>"
-							required
-						>
-					</div>
-
-					<div class="anna-contact-page-form__field">
-						<label for="anna-contact-email" class="anna-contact-page-form__label">
-							<?php echo esc_html( $contact['form_email_label'] ); ?>
-						</label>
-						<input
-							type="email"
-							id="anna-contact-email"
-							name="contact_email"
-							class="anna-contact-page-form__input"
-							placeholder="<?php esc_attr_e( 'your@email.com', 'anna-baylis' ); ?>"
-							required
-						>
-					</div>
-
-					<div class="anna-contact-page-form__field">
-						<label for="anna-contact-subject" class="anna-contact-page-form__label">
-							<?php echo esc_html( $contact['form_subject_label'] ); ?>
-						</label>
-						<input
-							type="text"
-							id="anna-contact-subject"
-							name="contact_subject"
-							class="anna-contact-page-form__input"
-							placeholder="<?php esc_attr_e( 'What is your message about?', 'anna-baylis' ); ?>"
-						>
-					</div>
-
-					<div class="anna-contact-page-form__field">
-						<label for="anna-contact-message" class="anna-contact-page-form__label">
-							<?php echo esc_html( $contact['form_message_label'] ); ?>
-						</label>
-						<textarea
-							id="anna-contact-message"
-							name="contact_message"
-							rows="6"
-							class="anna-contact-page-form__textarea"
-							placeholder="<?php esc_attr_e( "Tell me about what you're looking for...", 'anna-baylis' ); ?>"
-							required
-						></textarea>
-					</div>
-
-					<button type="submit" class="anna-btn anna-btn--primary anna-contact-page-form__submit">
-						<?php echo esc_html( $contact['form_button_text'] ); ?>
-					</button>
-
-					<?php if ( ! empty( $contact['form_response_note'] ) ) : ?>
-						<p class="anna-contact-page-form__note"><?php echo wp_kses_post( $contact['form_response_note'] ); ?></p>
-					<?php endif; ?>
-				</form>
+				<?php echo do_shortcode( '[gravityform id="2" title="false"]' ); ?>
 			</div>
 
 		</div>
