@@ -372,32 +372,38 @@ function anna_get_intro_section_content()
  */
 function anna_get_services_section_content()
 {
+    $default_cards = [
+        [ 'number' => '01', 'title' => '1-1 Life Coaching',        'excerpt' => 'Deep, personalised work using a bottom-up approach that accesses the subconscious through the body and the nervous system. We get to the root of what is actually running underneath and change it.',                                                                                                                                                                                                               'link' => 'Find out more',            'url' => '' ],
+        [ 'number' => '02', 'title' => 'Oasis Community',           'excerpt' => 'A womens wellness community for sustainable health and wellbeing. Ongoing live guidance, daily practices, guided movement, nutrition, meditation, breathwork and community connection. A space to come back to yourself week after week.',                                                                                                                                                                              'link' => 'Find out more',            'url' => '' ],
+        [ 'number' => '03', 'title' => 'Speaking and Workshops',    'excerpt' => 'Keynotes and interactive sessions for conferences, corporate events and womens gatherings. Drawing on Olympic experience, deep coaching expertise and lived transformation. Topics include stress and the nervous system, building resilience, the mind-body connection and more.',                                                                                                                                       'link' => 'Enquire about speaking',   'url' => '' ],
+    ];
+
     $content = [
-        "eyebrow" => anna_get_option("services_eyebrow", ""),
-        "heading" => anna_get_option(
-            "services_heading",
-            'What\'s the change you\'re needing?',
-        ),
+        "eyebrow"     => anna_get_option("services_eyebrow", ""),
+        "heading"     => anna_get_option("services_heading", 'What\'s the change you\'re needing?'),
         "description" => anna_get_option("services_description", ""),
-        "cta_text" => anna_get_option("services_cta_text", ""),
-        "cta_url" => anna_get_option("services_cta_url", "#"),
+        "cta_text"    => anna_get_option("services_cta_text", ""),
+        "cta_url"     => anna_get_option("services_cta_url", "#"),
+        "cards"       => $default_cards,
     ];
 
     $post_id = anna_get_current_page_content_id();
     if ($post_id && function_exists("anna_content_get_page_section")) {
         $data = anna_content_get_page_section($post_id, "services");
-        foreach (
-            ["eyebrow", "heading", "description", "cta_text", "cta_url"]
-            as $key
-        ) {
-            if (
-                isset($data[$key]) &&
-                (!empty($data[$key]) ||
-                    anna_is_intentionally_blank($data[$key]))
-            ) {
-                $content[$key] = anna_is_intentionally_blank($data[$key])
-                    ? ""
-                    : $data[$key];
+        foreach (["eyebrow", "heading", "description", "cta_text", "cta_url"] as $key) {
+            if (isset($data[$key]) && (!empty($data[$key]) || anna_is_intentionally_blank($data[$key]))) {
+                $content[$key] = anna_is_intentionally_blank($data[$key]) ? "" : $data[$key];
+            }
+        }
+
+        // Merge editable card data over the defaults.
+        for ($i = 1; $i <= 3; $i++) {
+            $idx = $i - 1;
+            foreach (['title', 'excerpt', 'link', 'url'] as $field) {
+                $key = 'card_' . $i . '_' . $field;
+                if (!empty($data[$key])) {
+                    $content['cards'][$idx][$field] = $data[$key];
+                }
             }
         }
     }

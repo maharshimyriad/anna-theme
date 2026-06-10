@@ -13,27 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $section_data  = anna_get_services_section_content();
 $heading       = $section_data['heading'];
 $desc          = $section_data['description'];
-
-$static_services = array(
-	array(
-		'number'  => '01',
-		'title'   => '1-1 Life Coaching',
-		'excerpt' => 'Deep, personalised work using a bottom-up approach that accesses the subconscious through the body and the nervous system. We get to the root of what is actually running underneath and change it.',
-		'link'    => 'Find out more',
-	),
-	array(
-		'number'  => '02',
-		'title'   => 'Oasis Community',
-		'excerpt' => 'A womens wellness community for sustainable health and wellbeing. Ongoing live guidance, daily practices, guided movement, nutrition, meditation, breathwork and community connection. A space to come back to yourself week after week.',
-		'link'    => 'Find out more',
-	),
-	array(
-		'number'  => '03',
-		'title'   => 'Speaking and Workshops',
-		'excerpt' => 'Keynotes and interactive sessions for conferences, corporate events and womens gatherings. Drawing on Olympic experience, deep coaching expertise and lived transformation. Topics include stress and the nervous system, building resilience, the mind- body connection and',
-		'link'    => 'Enquire about speaking',
-	),
-);
+$services      = $section_data['cards'];
 ?>
 
 <section class="anna-services anna-section anna-section--lg" id="services" aria-labelledby="services-heading">
@@ -49,13 +29,15 @@ $static_services = array(
 		</header>
 
 		<ul class="anna-services__grid" role="list">
-			<?php foreach ( $static_services as $service ) : ?>
+			<?php foreach ( $services as $service ) : ?>
 				<li class="anna-reveal--scale">
 					<article class="anna-service-card anna-service-card--feature">
 						<span class="anna-service-card__number"><?php echo esc_html( $service['number'] ); ?></span>
 						<h3 class="anna-service-card__title"><?php echo esc_html( $service['title'] ); ?></h3>
 						<p class="anna-service-card__excerpt"><?php echo esc_html( $service['excerpt'] ); ?></p>
-						<a href="#" class="anna-service-card__link"><?php echo esc_html( $service['link'] ); ?></a>
+						<?php if ( ! empty( $service['link'] ) ) : ?>
+							<a href="<?php echo esc_url( $service['url'] ?: '#' ); ?>" class="anna-service-card__link"><?php echo esc_html( $service['link'] ); ?></a>
+						<?php endif; ?>
 					</article>
 				</li>
 			<?php endforeach; ?>

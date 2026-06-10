@@ -352,6 +352,24 @@ function anna_render_home_page_content_meta_box($post)
             <?php anna_home_admin_text("services", "cta_text", __("CTA text", "anna-baylis"), $content); ?>
             <?php anna_home_admin_text("services", "cta_url", __("CTA URL", "anna-baylis"), $content); ?>
 
+            <tr><td colspan="2"><h4 style="margin:8px 0 4px"><?php esc_html_e("Card 1", "anna-baylis"); ?></h4></td></tr>
+            <?php anna_home_admin_text("services", "card_1_title", __("Card 1 Title", "anna-baylis"), $content); ?>
+            <?php anna_home_admin_textarea("services", "card_1_excerpt", __("Card 1 Excerpt", "anna-baylis"), $content, 3); ?>
+            <?php anna_home_admin_text("services", "card_1_link", __("Card 1 Link text", "anna-baylis"), $content); ?>
+            <?php anna_home_admin_text("services", "card_1_url", __("Card 1 URL", "anna-baylis"), $content); ?>
+
+            <tr><td colspan="2"><h4 style="margin:8px 0 4px"><?php esc_html_e("Card 2", "anna-baylis"); ?></h4></td></tr>
+            <?php anna_home_admin_text("services", "card_2_title", __("Card 2 Title", "anna-baylis"), $content); ?>
+            <?php anna_home_admin_textarea("services", "card_2_excerpt", __("Card 2 Excerpt", "anna-baylis"), $content, 3); ?>
+            <?php anna_home_admin_text("services", "card_2_link", __("Card 2 Link text", "anna-baylis"), $content); ?>
+            <?php anna_home_admin_text("services", "card_2_url", __("Card 2 URL", "anna-baylis"), $content); ?>
+
+            <tr><td colspan="2"><h4 style="margin:8px 0 4px"><?php esc_html_e("Card 3", "anna-baylis"); ?></h4></td></tr>
+            <?php anna_home_admin_text("services", "card_3_title", __("Card 3 Title", "anna-baylis"), $content); ?>
+            <?php anna_home_admin_textarea("services", "card_3_excerpt", __("Card 3 Excerpt", "anna-baylis"), $content, 3); ?>
+            <?php anna_home_admin_text("services", "card_3_link", __("Card 3 Link text", "anna-baylis"), $content); ?>
+            <?php anna_home_admin_text("services", "card_3_url", __("Card 3 URL", "anna-baylis"), $content); ?>
+
             <tr><td colspan="2"><h3><?php esc_html_e("About", "anna-baylis"); ?></h3></td></tr>
             <?php anna_home_admin_text("about", "eyebrow", __("Eyebrow", "anna-baylis"), $content); ?>
             <?php anna_home_admin_textarea("about", "heading", __("Heading", "anna-baylis"), $content, 3); ?>
@@ -457,13 +475,17 @@ function anna_save_home_page_content_meta_box($post_id)
     $schema = [
         "hero" => ["eyebrow", "heading", "description", "trust_text", "image_id", "primary_button_text", "primary_button_url", "secondary_button_text", "secondary_button_url", "stat_1_value", "stat_1_label", "stat_2_value", "stat_2_label", "stat_3_value", "stat_3_label"],
         "intro" => ["intro_eyebrow", "intro_heading", "intro_body", "intro_quote", "intro_quote_cite", "recognition_eyebrow", "recognition_heading", "recognition_description", "recognition_items_text"],
-        "services" => ["eyebrow", "heading", "description", "cta_text", "cta_url"],
+        "services" => ["eyebrow", "heading", "description", "cta_text", "cta_url",
+            "card_1_title", "card_1_excerpt", "card_1_link", "card_1_url",
+            "card_2_title", "card_2_excerpt", "card_2_link", "card_2_url",
+            "card_3_title", "card_3_excerpt", "card_3_link", "card_3_url",
+        ],
         "about" => ["eyebrow", "heading", "body", "quote", "image_id", "badge_number", "badge_text", "expertise_text", "cta_text", "cta_url"],
         "testimonials" => ["eyebrow", "heading", "summary", "cta_text", "cta_url"],
         "cta" => ["eyebrow", "heading", "description", "trust_text", "primary_button_text", "primary_button_url", "secondary_button_text", "secondary_button_url"],
     ];
-    $textarea_keys = ["heading", "description", "intro_heading", "intro_body", "intro_quote", "recognition_description", "recognition_items_text", "body", "quote", "expertise_text", "summary"];
-    $url_keys = ["primary_button_url", "secondary_button_url", "cta_url"];
+    $textarea_keys = ["heading", "description", "intro_heading", "intro_body", "intro_quote", "recognition_description", "recognition_items_text", "body", "quote", "expertise_text", "summary", "card_1_excerpt", "card_2_excerpt", "card_3_excerpt"];
+    $url_keys = ["primary_button_url", "secondary_button_url", "cta_url", "card_1_url", "card_2_url", "card_3_url"];
 
     $saved = [];
     foreach ($schema as $section => $keys) {
