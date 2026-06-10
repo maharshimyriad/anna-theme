@@ -189,9 +189,15 @@ function anna_get_custom_content_templates()
         "page-mental-health-support.php",
         "page-move.php",
         "page-contact.php",
+        "page-contact-test.php",
         "page-reviews.php",
         "page-blog.php",
     ];
+
+    $theme_templates = wp_get_theme()->get_page_templates(null, "page");
+    if (is_array($theme_templates)) {
+        $templates = array_merge($templates, array_values($theme_templates));
+    }
 
     // Include any pages scaffolded via the Anna Page Scaffolder.
     if (function_exists("anna_get_scaffolded_pages")) {
@@ -202,7 +208,32 @@ function anna_get_custom_content_templates()
         }
     }
 
-    return $templates;
+    $templates = array_values(array_unique(array_filter($templates)));
+
+    return apply_filters("anna_custom_content_templates", $templates);
+}
+
+/**
+ * Check whether a page uses an Anna template that manages its own content.
+ *
+ * @param int $post_id Page ID.
+ * @return bool
+ */
+function anna_is_custom_content_template_page($post_id)
+{
+    $post_id = absint($post_id);
+    if (!$post_id || "page" !== get_post_type($post_id)) {
+        return false;
+    }
+
+    $post = get_post($post_id);
+    if ($post && "life-coach" === $post->post_name) {
+        return true;
+    }
+
+    $template = get_post_meta($post_id, "_wp_page_template", true);
+
+    return in_array($template, anna_get_custom_content_templates(), true);
 }
 
 /**
@@ -222,8 +253,7 @@ function anna_disable_block_editor_for_custom_templates(
     if (!$post || "page" !== $post->post_type) {
         return $use_block_editor;
     }
-    $template = get_post_meta($post->ID, "_wp_page_template", true);
-    if (in_array($template, anna_get_custom_content_templates(), true)) {
+    if (anna_is_custom_content_template_page($post->ID)) {
         return false;
     }
     return $use_block_editor;
@@ -251,9 +281,30 @@ function anna_remove_editor_for_custom_templates()
     if (!$post_id) {
         return;
     }
-    $template = get_post_meta($post_id, "_wp_page_template", true);
-    if (in_array($template, anna_get_custom_content_templates(), true)) {
+    if (anna_is_custom_content_template_page($post_id)) {
         remove_post_type_support("page", "editor");
     }
 }
 add_action("admin_init", "anna_remove_editor_for_custom_templates");
+
+/**
+ * Hide the classic editor post area as a fallback for admin screens/plugins that
+ * render it even after editor support has been removed.
+ */
+function anna_hide_postarea_for_custom_template_pages()
+{
+    $post_id = absint($_GET["post"] ?? 0);
+    if (!anna_is_custom_content_template_page($post_id)) {
+        return;
+    }
+    ?>
+    <style>
+        #postdivrich,
+        #postdiv,
+        #wp-content-wrap {
+            display: none !important;
+        }
+    </style>
+    <?php
+}
+add_action("admin_head-post.php", "anna_hide_postarea_for_custom_template_pages");
