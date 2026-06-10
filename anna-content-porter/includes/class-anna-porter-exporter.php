@@ -105,11 +105,11 @@ class Anna_Porter_Exporter {
 						}
 					}
 				}
-			} elseif ( ! empty( $section['post_meta_page'] ) && ! empty( $section['post_meta_keys'] ) ) {
-				// ── Live post-meta source ─────────────────────────────────────
+			} elseif ( ! empty( $section['post_meta_page'] ) ) {
+				// ── Live post-meta source for one page ─────────────────────────
 				$page_id = $this->resolve_page_id(
 					$section['post_meta_page'],
-					$section['post_meta_keys']
+					$section['post_meta_keys'] ?? []
 				);
 
 				if ( null === $page_id ) {
@@ -121,52 +121,33 @@ class Anna_Porter_Exporter {
 					continue;
 				}
 
-				$page      = get_post( $page_id );
-				$page_slug = ( '__front__' === $section['post_meta_page'] )
-					? '__front__'
-					: $page->post_name;
+				$page_slug = $this->page_key_for_post( $page_id );
+				$rows      = $this->get_page_content_meta_rows( $page_id );
 
-				foreach ( $section['post_meta_keys'] as $meta_key ) {
-					$raw = get_post_meta( $page_id, $meta_key, true );
+				if ( empty( $rows ) ) {
+					$warnings[] = sprintf(
+						'Section "%s": page %d has no _anna_content_* meta rows.',
+						$section_id,
+						$page_id
+					);
+					continue;
+				}
 
-					if ( '' === $raw || false === $raw ) {
-						$warnings[] = sprintf(
-							'Section "%s": meta key "%s" is empty on page %d.',
-							$section_id,
-							$meta_key,
-							$page_id
-						);
-						continue;
-					}
-
-					$value = is_array( $raw ) ? $raw : maybe_unserialize( $raw );
+				foreach ( $rows as $row ) {
+					$value = maybe_unserialize( $row->meta_value );
 
 					if ( is_array( $value ) ) {
 						$processed = $this->process_repeater( $value, $images, $warnings );
-					} elseif ( is_int( $value ) && $value > 0 ) {
-						$payload = $this->resolve_image( $value );
-						if ( null !== $payload ) {
-							$images[ (string) $value ] = $payload;
-							$processed                 = (string) $value;
-						} else {
-							$processed  = $value;
-							$warnings[] = sprintf(
-								'Could not read file for attachment ID %d (meta key: %s)',
-								$value,
-								$meta_key
-							);
-						}
 					} else {
 						$processed = $value;
 					}
 
-					$page_content[ $page_slug ][ $meta_key ] = $processed;
+					$page_content[ $page_slug ][ $row->meta_key ] = $processed;
 
-					// Also expose the front page as a flat, legacy-compatible mirror
-					// so home fields like hero_description show the current post-meta
-					// value in old tooling that reads `content`.
+					// Only mirror the front page into legacy flat content, because
+					// multiple inner pages can share field names.
 					if ( '__front__' === $page_slug ) {
-						foreach ( $this->flatten_post_meta_content( $meta_key, $processed ) as $flat_key => $flat_value ) {
+						foreach ( $this->flatten_post_meta_content( $row->meta_key, $processed ) as $flat_key => $flat_value ) {
 							$option_content[ $flat_key ] = $flat_value;
 						}
 					}
@@ -222,6 +203,33 @@ class Anna_Porter_Exporter {
 	// -------------------------------------------------------------------------
 	// Private helpers
 	// -------------------------------------------------------------------------
+
+	/**
+	 * Returns every _anna_content_* meta row for one page.
+	 *
+	 * @param int $page_id Page/post ID.
+	 * @return array<int, object>
+	 */
+	private function get_page_content_meta_rows( int $page_id ): array {
+		global $wpdb;
+
+		$like = $wpdb->esc_like( '_anna_content_' ) . '%';
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+		$rows = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT meta_key, meta_value
+				 FROM {$wpdb->postmeta}
+				 WHERE post_id = %d
+				   AND meta_key LIKE %s
+				 ORDER BY meta_key ASC",
+				$page_id,
+				$like
+			)
+		);
+
+		return is_array( $rows ) ? $rows : [];
+	}
 
 	/**
 	 * Returns every page/post meta row that stores live Anna content.
