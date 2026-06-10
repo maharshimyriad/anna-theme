@@ -81,7 +81,7 @@ trait Anna_Mhs_Page_Content {
 			<?php $this->render_text_field( $prefix, 'ready_subheading', __( 'Subheading', 'anna-baylis' ), $data['ready_subheading'] ?? '' ); ?>
 			<?php $this->render_textarea_field( $prefix, 'ready_body', __( 'Body', 'anna-baylis' ), $data['ready_body'] ?? '', 3 ); ?>
 			<?php $this->render_text_field( $prefix, 'ready_button_primary_text', __( 'Primary Button Text', 'anna-baylis' ), $data['ready_button_primary_text'] ?? '' ); ?>
-			<?php $this->render_text_field( $prefix, 'ready_button_primary_url', __( 'Primary Button URL', 'anna-baylis' ), $data['ready_button_primary_url'] ?? '' ); ?>
+			<?php $this->render_discovery_url_notice(); ?>
 			<?php $this->render_text_field( $prefix, 'ready_button_secondary_text', __( 'Secondary Button Text', 'anna-baylis' ), $data['ready_button_secondary_text'] ?? '' ); ?>
 			<?php $this->render_text_field( $prefix, 'ready_button_secondary_url', __( 'Secondary Button URL', 'anna-baylis' ), $data['ready_button_secondary_url'] ?? '' ); ?>
 			<?php $this->render_text_field( $prefix, 'ready_button_tertiary_text', __( 'Tertiary Button Text', 'anna-baylis' ), $data['ready_button_tertiary_text'] ?? '' ); ?>
@@ -113,6 +113,19 @@ trait Anna_Mhs_Page_Content {
 				if ( ! $this->is_blank_section_value( $default_value, $key ) ) {
 					$merged[ $key ] = $default_value;
 				}
+			}
+		}
+
+		// Replace stale #contact with the real discovery call URL at read time.
+		$discovery_url = function_exists( 'anna_get_discovery_call_url' ) ? anna_get_discovery_call_url() : '';
+		$contact_url   = function_exists( 'home_url' ) ? home_url( '/contact/' ) : '/contact/';
+		$url_map = array(
+			'ready_button_primary_url' => $discovery_url,
+			'practice_link_url'        => $contact_url,
+		);
+		foreach ( $url_map as $field => $replacement ) {
+			if ( isset( $merged[ $field ] ) && ( '#contact' === $merged[ $field ] || empty( $merged[ $field ] ) ) ) {
+				$merged[ $field ] = $replacement;
 			}
 		}
 
@@ -154,7 +167,7 @@ trait Anna_Mhs_Page_Content {
 		);
 		$url_keys = array(
 			'practice_link_url',
-			'ready_button_primary_url', 'ready_button_secondary_url', 'ready_button_tertiary_url',
+			'ready_button_secondary_url', 'ready_button_tertiary_url',
 		);
 		$textarea_keys = array(
 			'opening_body', 'programs_body', 'inner_body', 'work_body', 'practice_body', 'ready_body',
@@ -168,6 +181,8 @@ trait Anna_Mhs_Page_Content {
 		foreach ( $url_keys as $key ) {
 			$data[ $key ] = esc_url_raw( $input[ $key ] ?? '' );
 		}
+		// Discovery call button always uses the global URL from theme settings.
+		$data['ready_button_primary_url'] = function_exists( 'anna_get_discovery_call_url' ) ? anna_get_discovery_call_url() : ANNA_DISCOVERY_CALL_URL;
 		foreach ( $textarea_keys as $key ) {
 			$data[ $key ] = sanitize_textarea_field( $input[ $key ] ?? '' );
 		}

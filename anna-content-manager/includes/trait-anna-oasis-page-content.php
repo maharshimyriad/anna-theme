@@ -360,6 +360,14 @@ trait Anna_Oasis_Page_Content {
 		$merged['ready_items']           = $this->resolve_oasis_text_items( $stored, $defaults, 'ready_items' );
 		$merged['faq_items']             = $this->resolve_oasis_faq_items( $stored, $defaults );
 
+		// Replace stale #contact with the contact page URL at read time.
+		$contact_url = function_exists( 'home_url' ) ? home_url( '/contact/' ) : '/contact/';
+		foreach ( array( 'waitlist_button_url' ) as $field ) {
+			if ( isset( $merged[ $field ] ) && ( '#contact' === $merged[ $field ] || empty( $merged[ $field ] ) ) ) {
+				$merged[ $field ] = $contact_url;
+			}
+		}
+
 		return $merged;
 	}
 

@@ -808,6 +808,28 @@ final class Anna_Content_Manager {
 	}
 
 	/**
+	 * Render a notice row explaining that enquiry buttons link to the Contact page.
+	 */
+	private function render_contact_url_notice() {
+		$contact_url = function_exists( 'home_url' ) ? home_url( '/contact/' ) : '/contact/';
+		?>
+		<tr>
+			<th scope="row"><?php esc_html_e( 'Button URL', 'anna-baylis' ); ?></th>
+			<td>
+				<p class="description" style="padding:6px 10px;background:#f0f6fc;border-left:3px solid #72aee6;border-radius:2px;margin:0;">
+					<?php
+					printf(
+						wp_kses( __( 'This button always links to the <strong>Contact page</strong> (<a href="%1$s" target="_blank">%1$s</a>).', 'anna-baylis' ), array( 'strong' => array(), 'a' => array( 'href' => array(), 'target' => array() ) ) ),
+						esc_url( $contact_url )
+					);
+					?>
+				</p>
+			</td>
+		</tr>
+		<?php
+	}
+
+	/**
 	 * Save page content meta.
 	 *
 	 * @param int $post_id Current post ID.

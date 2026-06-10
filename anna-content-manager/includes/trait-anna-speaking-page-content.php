@@ -76,12 +76,7 @@ trait Anna_Speaking_Page_Content
        __("Primary Button Text", "anna-baylis"),
        $data["hero_button_text"],
    ); ?>
-			<?php $this->render_text_field(
-       $prefix,
-       "hero_button_url",
-       __("Primary Button URL", "anna-baylis"),
-       $data["hero_button_url"],
-   ); ?>
+			<?php $this->render_contact_url_notice(); ?>
 			<?php $this->render_text_field(
        $prefix,
        "hero_secondary_text",
@@ -145,12 +140,7 @@ trait Anna_Speaking_Page_Content
        __("Button Text", "anna-baylis"),
        $data["bring_button_text"],
    ); ?>
-			<?php $this->render_text_field(
-       $prefix,
-       "bring_button_url",
-       __("Button URL", "anna-baylis"),
-       $data["bring_button_url"],
-   ); ?>
+			<?php $this->render_contact_url_notice(); ?>
 		</table>
 
 		<h3><?php esc_html_e("Speaking Topics", "anna-baylis"); ?></h3>
@@ -659,6 +649,14 @@ trait Anna_Speaking_Page_Content
             "takeaway_items",
         );
 
+        // Replace stale #contact with the contact page URL at read time.
+        $contact_url = function_exists( 'home_url' ) ? home_url( '/contact/' ) : '/contact/';
+        foreach ( array( 'hero_button_url', 'bring_button_url' ) as $field ) {
+            if ( isset( $merged[ $field ] ) && ( '#contact' === $merged[ $field ] || empty( $merged[ $field ] ) ) ) {
+                $merged[ $field ] = $contact_url;
+            }
+        }
+
         return $merged;
     }
 
@@ -834,12 +832,11 @@ trait Anna_Speaking_Page_Content
             "experience_testimonial_role",
         ];
         $url_keys = [
-            "hero_button_url",
             "hero_secondary_url",
-            "bring_button_url",
             "book_card_button_url",
             "experience_link_url",
         ];
+        $contact_url = function_exists( 'home_url' ) ? home_url( '/contact/' ) : '/contact/';
         $textarea_keys = [
             "hero_heading",
             "hero_body",
@@ -861,6 +858,9 @@ trait Anna_Speaking_Page_Content
         foreach ($url_keys as $key) {
             $data[$key] = esc_url_raw($input[$key] ?? "");
         }
+        // Enquiry buttons always link to the contact page.
+        $data["hero_button_url"]  = $contact_url;
+        $data["bring_button_url"] = $contact_url;
         foreach ($textarea_keys as $key) {
             $data[$key] = sanitize_textarea_field($input[$key] ?? "");
         }
