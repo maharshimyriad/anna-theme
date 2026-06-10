@@ -319,11 +319,6 @@ function anna_render_home_page_content_meta_box($post)
     <div class="anna-home-admin-fields">
         <p class="description"><?php esc_html_e("Homepage content is saved in one database meta row. Use the normal Update button to save.", "anna-baylis"); ?></p>
         <table class="form-table" role="presentation"><tbody>
-            <tr><td colspan="2"><h3><?php esc_html_e("Visible sections", "anna-baylis"); ?></h3></td></tr>
-            <?php foreach (["hero", "intro", "recognition", "services", "about", "testimonials", "cta"] as $section): ?>
-                <?php anna_home_admin_checkbox("sections", $section, ucwords(str_replace("_", " ", $section)), $content); ?>
-            <?php endforeach; ?>
-
             <tr><td colspan="2"><h3><?php esc_html_e("Hero", "anna-baylis"); ?></h3></td></tr>
             <?php anna_home_admin_text("hero", "eyebrow", __("Eyebrow", "anna-baylis"), $content); ?>
             <?php anna_home_admin_textarea("hero", "heading", __("Heading", "anna-baylis"), $content, 3); ?>
@@ -428,7 +423,7 @@ function anna_home_admin_media($section, $key, $label, $content)
     $value = absint($content[$section][$key] ?? 0);
     $image_url = $value ? wp_get_attachment_image_url($value, "thumbnail") : "";
     ?>
-    <tr><th scope="row"><label for="<?php echo esc_attr($id); ?>"><?php echo esc_html($label); ?></label></th><td><div class="anna-media-field"><input type="hidden" id="<?php echo esc_attr($id); ?>" name="anna_home_page_content[<?php echo esc_attr($section); ?>][<?php echo esc_attr($key); ?>]" value="<?php echo esc_attr($value); ?>"><div class="anna-media-preview" id="<?php echo esc_attr($preview_id); ?>"><?php if ($image_url): ?><img src="<?php echo esc_url($image_url); ?>" alt="" style="max-width:150px;height:auto;border-radius:8px;"><?php endif; ?></div><button type="button" class="button anna-media-upload-btn" data-target="<?php echo esc_attr($id); ?>" data-preview="<?php echo esc_attr($preview_id); ?>"><?php esc_html_e("Select Image", "anna-baylis"); ?></button> <button type="button" class="button anna-media-remove-btn" data-target="<?php echo esc_attr($id); ?>" data-preview="<?php echo esc_attr($preview_id); ?>" <?php echo !$value ? 'style="display:none;"' : ''; ?>><?php esc_html_e("Remove", "anna-baylis"); ?></button></div></td></tr>
+    <tr><th scope="row"><label for="<?php echo esc_attr($id); ?>"><?php echo esc_html($label); ?></label></th><td><div class="anna-media-field"><input type="hidden" id="<?php echo esc_attr($id); ?>" name="anna_home_page_content[<?php echo esc_attr($section); ?>][<?php echo esc_attr($key); ?>]" value="<?php echo esc_attr($value); ?>"><div class="anna-media-preview" id="<?php echo esc_attr($preview_id); ?>"><?php if ($image_url): ?><img src="<?php echo esc_url($image_url); ?>" alt="" style="max-width:150px;height:auto;border-radius:8px;"><?php endif; ?></div><button type="button" class="button anna-content-media-select" data-target="<?php echo esc_attr($id); ?>" data-preview="<?php echo esc_attr($preview_id); ?>"><?php esc_html_e("Select Image", "anna-baylis"); ?></button> <button type="button" class="button anna-content-media-remove" data-target="<?php echo esc_attr($id); ?>" data-preview="<?php echo esc_attr($preview_id); ?>" <?php echo !$value ? 'style="display:none;"' : ''; ?>><?php esc_html_e("Remove", "anna-baylis"); ?></button></div></td></tr>
     <?php
 }
 
@@ -470,11 +465,7 @@ function anna_save_home_page_content_meta_box($post_id)
     $textarea_keys = ["heading", "description", "intro_heading", "intro_body", "intro_quote", "recognition_description", "recognition_items_text", "body", "quote", "expertise_text", "summary"];
     $url_keys = ["primary_button_url", "secondary_button_url", "cta_url"];
 
-    $saved = ["sections" => []];
-    foreach (["hero", "intro", "recognition", "services", "about", "testimonials", "cta"] as $section) {
-        $saved["sections"][$section] = !empty($raw["sections"][$section]);
-    }
-
+    $saved = [];
     foreach ($schema as $section => $keys) {
         $saved[$section] = [];
         foreach ($keys as $key) {
@@ -494,3 +485,40 @@ function anna_save_home_page_content_meta_box($post_id)
     update_post_meta($post_id, anna_get_home_content_meta_key(), $saved);
 }
 add_action("save_post_page", "anna_save_home_page_content_meta_box");
+
+/**
+ * Enqueue media library and content manager JS for the home page edit screen.
+ *
+ * @param string $hook Current admin page hook.
+ */
+function anna_home_page_admin_enqueue( $hook ) {
+    if ( ! in_array( $hook, [ 'post.php', 'post-new.php' ], true ) ) {
+        return;
+    }
+
+    $screen = get_current_screen();
+    if ( ! $screen || 'page' !== $screen->post_type ) {
+        return;
+    }
+
+    $post_id = isset( $_GET['post'] ) ? absint( $_GET['post'] ) : 0;
+    if ( ! $post_id || ! anna_is_home_content_page( $post_id ) ) {
+        return;
+    }
+
+    wp_enqueue_media();
+
+    // Reuse the content manager plugin JS — it already handles
+    // .anna-content-media-select and .anna-content-media-remove.
+    if ( defined( 'ANNA_CONTENT_MANAGER_URL' ) && defined( 'ANNA_CONTENT_MANAGER_DIR' ) ) {
+        $js_path = ANNA_CONTENT_MANAGER_DIR . 'assets/js/admin-page-content.js';
+        wp_enqueue_script(
+            'anna-content-manager-admin',
+            ANNA_CONTENT_MANAGER_URL . 'assets/js/admin-page-content.js',
+            [ 'jquery' ],
+            file_exists( $js_path ) ? (string) filemtime( $js_path ) : null,
+            true
+        );
+    }
+}
+add_action( 'admin_enqueue_scripts', 'anna_home_page_admin_enqueue' );
