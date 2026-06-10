@@ -34,7 +34,11 @@ $services_bg   = $section_data['bg_image_id'] ?? 0;
 		<ul class="anna-services__grid" role="list">
 			<?php foreach ( $services as $service ) : ?>
 				<li class="anna-reveal--scale">
-					<article class="anna-service-card anna-service-card--feature">
+					<article class="anna-service-card anna-service-card--feature"
+						<?php if ( ! empty( $service['image_id'] ) ) : ?>
+							style="background-image:url('<?php echo esc_url( anna_responsive_image_url( $service['image_id'], 'large' ) ); ?>');"
+						<?php endif; ?>
+					>
 						<span class="anna-service-card__number"><?php echo esc_html( $service['number'] ); ?></span>
 						<h3 class="anna-service-card__title"><?php echo esc_html( $service['title'] ); ?></h3>
 						<p class="anna-service-card__excerpt"><?php echo esc_html( $service['excerpt'] ); ?></p>
