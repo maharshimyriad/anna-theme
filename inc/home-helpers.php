@@ -200,58 +200,47 @@ function anna_apply_home_page_section_content($content, $saved, $section)
  */
 function anna_get_home_page_content_for_admin($post_id)
 {
-    $saved = anna_get_home_page_saved_content($post_id);
-    if (!empty($saved)) {
-        return $saved;
-    }
+    $saved   = anna_get_home_page_saved_content($post_id);
+    $opts    = anna_get_default_options();
 
-    $defaults = anna_get_default_options();
-
-    return [
-        "sections" => [
-            "hero" => (bool) anna_get_option("section_hero_enabled", $defaults["section_hero_enabled"] ?? true),
-            "intro" => (bool) anna_get_option("section_intro_enabled", $defaults["section_intro_enabled"] ?? true),
-            "recognition" => (bool) anna_get_option("section_recognition_enabled", $defaults["section_recognition_enabled"] ?? true),
-            "services" => (bool) anna_get_option("section_services_enabled", $defaults["section_services_enabled"] ?? true),
-            "about" => (bool) anna_get_option("section_about_enabled", $defaults["section_about_enabled"] ?? true),
-            "testimonials" => (bool) anna_get_option("section_testimonials_enabled", $defaults["section_testimonials_enabled"] ?? true),
-            "cta" => (bool) anna_get_option("section_cta_enabled", $defaults["section_cta_enabled"] ?? true),
-        ],
+    // Full defaults — used both when no saved data exists AND to fill in
+    // any keys missing from an existing (but incomplete) saved row.
+    $defaults = [
         "hero" => [
-            "eyebrow" => anna_get_option("hero_eyebrow", $defaults["hero_eyebrow"] ?? ""),
-            "heading" => anna_get_option("hero_heading", $defaults["hero_heading"] ?? ""),
-            "description" => anna_get_option("hero_description", $defaults["hero_description"] ?? ""),
-            "trust_text" => anna_get_option("hero_trust_text", $defaults["hero_trust_text"] ?? ""),
-            "image_id" => absint(anna_get_option("hero_image_id", $defaults["hero_image_id"] ?? 0)),
-            "primary_button_text" => anna_get_option("cta_primary_text", $defaults["cta_primary_text"] ?? ""),
-            "primary_button_url" => anna_get_option("cta_primary_url", $defaults["cta_primary_url"] ?? ""),
-            "secondary_button_text" => anna_get_option("cta_secondary_text", $defaults["cta_secondary_text"] ?? ""),
-            "secondary_button_url" => anna_get_option("cta_secondary_url", $defaults["cta_secondary_url"] ?? ""),
-            "stat_1_value" => anna_get_option("stat_1_value", $defaults["stat_1_value"] ?? ""),
-            "stat_1_label" => anna_get_option("stat_1_label", $defaults["stat_1_label"] ?? ""),
-            "stat_2_value" => anna_get_option("stat_2_value", $defaults["stat_2_value"] ?? ""),
-            "stat_2_label" => anna_get_option("stat_2_label", $defaults["stat_2_label"] ?? ""),
-            "stat_3_value" => anna_get_option("stat_3_value", $defaults["stat_3_value"] ?? ""),
-            "stat_3_label" => anna_get_option("stat_3_label", $defaults["stat_3_label"] ?? ""),
+            "eyebrow"              => anna_get_option("hero_eyebrow",          $opts["hero_eyebrow"]          ?? ""),
+            "heading"              => anna_get_option("hero_heading",           $opts["hero_heading"]           ?? ""),
+            "description"          => anna_get_option("hero_description",       $opts["hero_description"]       ?? ""),
+            "trust_text"           => anna_get_option("hero_trust_text",        $opts["hero_trust_text"]        ?? ""),
+            "image_id"             => absint(anna_get_option("hero_image_id",   $opts["hero_image_id"]         ?? 0)),
+            "primary_button_text"  => anna_get_option("cta_primary_text",       $opts["cta_primary_text"]       ?? ""),
+            "primary_button_url"   => anna_get_option("cta_primary_url",        $opts["cta_primary_url"]        ?? ""),
+            "secondary_button_text"=> anna_get_option("cta_secondary_text",     $opts["cta_secondary_text"]     ?? ""),
+            "secondary_button_url" => anna_get_option("cta_secondary_url",      $opts["cta_secondary_url"]      ?? ""),
+            "stat_1_value"         => anna_get_option("stat_1_value",           $opts["stat_1_value"]           ?? ""),
+            "stat_1_label"         => anna_get_option("stat_1_label",           $opts["stat_1_label"]           ?? ""),
+            "stat_2_value"         => anna_get_option("stat_2_value",           $opts["stat_2_value"]           ?? ""),
+            "stat_2_label"         => anna_get_option("stat_2_label",           $opts["stat_2_label"]           ?? ""),
+            "stat_3_value"         => anna_get_option("stat_3_value",           $opts["stat_3_value"]           ?? ""),
+            "stat_3_label"         => anna_get_option("stat_3_label",           $opts["stat_3_label"]           ?? ""),
         ],
         "intro" => [
-            "intro_eyebrow" => anna_get_option("intro_eyebrow", $defaults["intro_eyebrow"] ?? ""),
-            "intro_heading" => anna_get_option("intro_heading", $defaults["intro_heading"] ?? ""),
-            "intro_body" => anna_get_option("intro_body", $defaults["intro_body"] ?? ""),
-            "intro_quote" => anna_get_option("intro_quote", $defaults["intro_quote"] ?? ""),
-            "intro_quote_cite" => anna_get_option("intro_quote_cite", $defaults["intro_quote_cite"] ?? ""),
-            "recognition_eyebrow" => anna_get_option("recognition_eyebrow", $defaults["recognition_eyebrow"] ?? ""),
-            "recognition_heading" => anna_get_option("recognition_heading", $defaults["recognition_heading"] ?? ""),
-            "recognition_description" => anna_get_option("recognition_description", $defaults["recognition_description"] ?? ""),
-            "recognition_items_text" => anna_get_option("recognition_items_text", $defaults["recognition_items_text"] ?? ""),
+            "intro_eyebrow"           => anna_get_option("intro_eyebrow",           $opts["intro_eyebrow"]           ?? ""),
+            "intro_heading"           => anna_get_option("intro_heading",           $opts["intro_heading"]           ?? ""),
+            "intro_body"              => anna_get_option("intro_body",              $opts["intro_body"]              ?? ""),
+            "intro_quote"             => anna_get_option("intro_quote",             $opts["intro_quote"]             ?? ""),
+            "intro_quote_cite"        => anna_get_option("intro_quote_cite",        $opts["intro_quote_cite"]        ?? ""),
+            "recognition_eyebrow"     => anna_get_option("recognition_eyebrow",     $opts["recognition_eyebrow"]     ?? ""),
+            "recognition_heading"     => anna_get_option("recognition_heading",     $opts["recognition_heading"]     ?? ""),
+            "recognition_description" => anna_get_option("recognition_description", $opts["recognition_description"] ?? ""),
+            "recognition_items_text"  => anna_get_option("recognition_items_text",  $opts["recognition_items_text"]  ?? ""),
         ],
         "services" => [
-            "eyebrow"     => anna_get_option("services_eyebrow", $defaults["services_eyebrow"] ?? ""),
-            "heading"     => anna_get_option("services_heading", $defaults["services_heading"] ?? "What's the change you're needing?"),
-            "description" => anna_get_option("services_description", $defaults["services_description"] ?? ""),
-            "cta_text"    => anna_get_option("services_cta_text", $defaults["services_cta_text"] ?? ""),
-            "cta_url"     => anna_get_option("services_cta_url", $defaults["services_cta_url"] ?? ""),
-            "bg_image_id" => 0,
+            "eyebrow"        => anna_get_option("services_eyebrow",     $opts["services_eyebrow"]     ?? ""),
+            "heading"        => anna_get_option("services_heading",     $opts["services_heading"]     ?? "What's the change you're needing?"),
+            "description"    => anna_get_option("services_description", $opts["services_description"] ?? ""),
+            "cta_text"       => anna_get_option("services_cta_text",    $opts["services_cta_text"]    ?? ""),
+            "cta_url"        => anna_get_option("services_cta_url",     $opts["services_cta_url"]     ?? ""),
+            "bg_image_id"    => 0,
             "card_1_title"   => "1-1 Life Coaching",
             "card_1_excerpt" => "Deep, personalised work using a bottom-up approach that accesses the subconscious through the body and the nervous system. We get to the root of what is actually running underneath and change it.",
             "card_1_link"    => "Find out more",
@@ -266,35 +255,56 @@ function anna_get_home_page_content_for_admin($post_id)
             "card_3_url"     => "",
         ],
         "about" => [
-            "eyebrow" => anna_get_option("about_eyebrow", $defaults["about_eyebrow"] ?? ""),
-            "heading" => anna_get_option("about_heading", $defaults["about_heading"] ?? ""),
-            "body" => anna_get_option("about_body", $defaults["about_body"] ?? ""),
-            "quote" => anna_get_option("about_quote", $defaults["about_quote"] ?? ""),
-            "image_id" => absint(anna_get_option("about_image_id", $defaults["about_image_id"] ?? 0)),
-            "badge_number" => anna_get_option("about_badge_number", $defaults["about_badge_number"] ?? ""),
-            "badge_text" => anna_get_option("about_badge_text", $defaults["about_badge_text"] ?? ""),
-            "expertise_text" => anna_get_option("about_expertise_text", $defaults["about_expertise_text"] ?? ""),
-            "cta_text" => anna_get_option("about_cta_text", $defaults["about_cta_text"] ?? ""),
-            "cta_url" => anna_get_option("about_cta_url", $defaults["about_cta_url"] ?? ""),
+            "eyebrow"        => anna_get_option("about_eyebrow",        $opts["about_eyebrow"]        ?? ""),
+            "heading"        => anna_get_option("about_heading",        $opts["about_heading"]        ?? ""),
+            "body"           => anna_get_option("about_body",           $opts["about_body"]           ?? ""),
+            "quote"          => anna_get_option("about_quote",          $opts["about_quote"]          ?? ""),
+            "image_id"       => absint(anna_get_option("about_image_id",$opts["about_image_id"]       ?? 0)),
+            "badge_number"   => anna_get_option("about_badge_number",   $opts["about_badge_number"]   ?? ""),
+            "badge_text"     => anna_get_option("about_badge_text",     $opts["about_badge_text"]     ?? ""),
+            "expertise_text" => anna_get_option("about_expertise_text", $opts["about_expertise_text"] ?? ""),
+            "cta_text"       => anna_get_option("about_cta_text",       $opts["about_cta_text"]       ?? ""),
+            "cta_url"        => anna_get_option("about_cta_url",        $opts["about_cta_url"]        ?? ""),
         ],
         "testimonials" => [
-            "eyebrow" => anna_get_option("testimonials_eyebrow", $defaults["testimonials_eyebrow"] ?? ""),
-            "heading" => anna_get_option("testimonials_heading", $defaults["testimonials_heading"] ?? ""),
-            "summary" => anna_get_option("testimonials_summary", $defaults["testimonials_summary"] ?? ""),
-            "cta_text" => anna_get_option("testimonials_cta_text", $defaults["testimonials_cta_text"] ?? ""),
-            "cta_url" => anna_get_option("testimonials_cta_url", $defaults["testimonials_cta_url"] ?? ""),
+            "eyebrow"  => anna_get_option("testimonials_eyebrow",  $opts["testimonials_eyebrow"]  ?? ""),
+            "heading"  => anna_get_option("testimonials_heading",  $opts["testimonials_heading"]  ?? ""),
+            "summary"  => anna_get_option("testimonials_summary",  $opts["testimonials_summary"]  ?? ""),
+            "cta_text" => anna_get_option("testimonials_cta_text", $opts["testimonials_cta_text"] ?? ""),
+            "cta_url"  => anna_get_option("testimonials_cta_url",  $opts["testimonials_cta_url"]  ?? ""),
         ],
         "cta" => [
-            "eyebrow" => anna_get_option("cta_eyebrow", $defaults["cta_eyebrow"] ?? ""),
-            "heading" => anna_get_option("cta_heading", $defaults["cta_heading"] ?? ""),
-            "description" => anna_get_option("cta_description", $defaults["cta_description"] ?? ""),
-            "trust_text" => anna_get_option("cta_trust", $defaults["cta_trust"] ?? ""),
-            "primary_button_text" => anna_get_option("cta_primary_text", $defaults["cta_primary_text"] ?? ""),
-            "primary_button_url" => anna_get_option("cta_primary_url", $defaults["cta_primary_url"] ?? ""),
-            "secondary_button_text" => anna_get_option("cta_secondary_text", $defaults["cta_secondary_text"] ?? ""),
-            "secondary_button_url" => anna_get_option("cta_secondary_url", $defaults["cta_secondary_url"] ?? ""),
+            "eyebrow"               => anna_get_option("cta_eyebrow",        $opts["cta_eyebrow"]        ?? ""),
+            "heading"               => anna_get_option("cta_heading",        $opts["cta_heading"]        ?? ""),
+            "description"           => anna_get_option("cta_description",    $opts["cta_description"]    ?? ""),
+            "trust_text"            => anna_get_option("cta_trust",          $opts["cta_trust"]          ?? ""),
+            "primary_button_text"   => anna_get_option("cta_primary_text",   $opts["cta_primary_text"]   ?? ""),
+            "primary_button_url"    => anna_get_option("cta_primary_url",    $opts["cta_primary_url"]    ?? ""),
+            "secondary_button_text" => anna_get_option("cta_secondary_text", $opts["cta_secondary_text"] ?? ""),
+            "secondary_button_url"  => anna_get_option("cta_secondary_url",  $opts["cta_secondary_url"]  ?? ""),
         ],
     ];
+
+    if ( empty( $saved ) ) {
+        return $defaults;
+    }
+
+    // Saved row exists — merge defaults into each section so newly-added
+    // fields (like card_* and bg_image_id) always show their default values
+    // instead of blank when they haven't been saved yet.
+    foreach ( $defaults as $section => $section_defaults ) {
+        if ( ! isset( $saved[ $section ] ) || ! is_array( $saved[ $section ] ) ) {
+            $saved[ $section ] = $section_defaults;
+            continue;
+        }
+        foreach ( $section_defaults as $key => $default_value ) {
+            if ( ! array_key_exists( $key, $saved[ $section ] ) || $saved[ $section ][ $key ] === '' || $saved[ $section ][ $key ] === 0 ) {
+                $saved[ $section ][ $key ] = $default_value;
+            }
+        }
+    }
+
+    return $saved;
 }
 
 /**
