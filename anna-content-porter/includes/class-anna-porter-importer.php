@@ -88,7 +88,9 @@ class Anna_Porter_Importer {
 	public function import( array $package, string $mode ): array {
 		$this->warnings = [];
 
-		$image_map = $this->recreate_images( $package['images'] ?? [] );
+		// Content-only import: do NOT recreate or overwrite images. Recreating
+		// base64 images and thumbnails is slow and can cause 504 timeouts on hosts.
+		$image_map = [];
 		$warnings  = $this->warnings;
 
 		$written = 0;
@@ -113,16 +115,16 @@ class Anna_Porter_Importer {
 			}
 
 			foreach ( $meta_data as $meta_key => $value ) {
-				// Resolve image string references inside the value recursively.
-				$resolved = $this->resolve_images_in_value( $value, $image_map );
+				$existing = get_post_meta( $page_id, $meta_key, true );
 
-				if ( 'skip' === $mode ) {
-					$existing = get_post_meta( $page_id, $meta_key, true );
-					if ( ! empty( $existing ) ) {
-						$skipped++;
-						continue;
-					}
+				if ( 'skip' === $mode && ! empty( $existing ) ) {
+					$skipped++;
+					continue;
 				}
+
+				// Content-only import: merge incoming text/content fields over the
+				// existing meta array while preserving image/media ID fields.
+				$resolved = $this->merge_without_image_fields( $value, $existing );
 
 				update_post_meta( $page_id, $meta_key, $resolved );
 				$written++;
@@ -144,23 +146,10 @@ class Anna_Porter_Importer {
 				continue;
 			}
 
-			// Resolve image references.
-			if ( is_string( $value ) && isset( $package['images'][ $value ] ) ) {
-				if ( 'skip' === $mode ) {
-					$live_val = $live_options[ $key ] ?? 0;
-					if ( is_int( $live_val ) && $live_val > 0 ) {
-						$skipped++;
-						continue;
-					}
-				}
-				$value = $image_map[ $value ] ?? 0;
-			} elseif (
-				is_int( $value ) &&
-				$value > 0 &&
-				isset( $package['images'][ (string) $value ] )
-			) {
-				$warnings[] = "Non-portable attachment ID {$value} for key {$key}";
-				$value = 0;
+			// Content-only import: never overwrite media/image option fields.
+			if ( $this->is_image_field_key( $key ) ) {
+				$skipped++;
+				continue;
 			}
 
 			$sanitised = $this->sanitise_value( $key, $value );
@@ -185,7 +174,7 @@ class Anna_Porter_Importer {
 		return [
 			'written'        => $written,
 			'skipped'        => $skipped,
-			'images_created' => count( $image_map ),
+			'images_created' => 0,
 			'warnings'       => $warnings,
 		];
 	}
@@ -211,27 +200,60 @@ class Anna_Porter_Importer {
 	}
 
 	/**
-	 * Recursively walks a value and replaces any string image references
-	 * (e.g. "98") with the new local attachment ID from $image_map.
+	 * Returns true when a field key represents an image/media attachment ID.
+	 * These fields are preserved during imports to avoid overwriting local media.
 	 *
-	 * @param mixed                $value
-	 * @param array<string, int>   $image_map
+	 * @param string|int $key Field key.
+	 * @return bool
+	 */
+	private function is_image_field_key( $key ): bool {
+		$key = (string) $key;
+
+		return (
+			'image_id' === $key
+			|| 'logo_id' === $key
+			|| str_ends_with( $key, '_image_id' )
+			|| str_ends_with( $key, '_logo_id' )
+			|| str_ends_with( $key, '_media_id' )
+			|| str_ends_with( $key, '_attachment_id' )
+			|| str_ends_with( $key, '_id' )
+		);
+	}
+
+	/**
+	 * Merges incoming content over existing content while preserving image fields.
+	 *
+	 * If an incoming array contains image_id / *_id fields, the existing local
+	 * value is kept. This makes imports content-only and prevents 504 timeouts
+	 * caused by image recreation and thumbnail generation.
+	 *
+	 * @param mixed $incoming Incoming package value.
+	 * @param mixed $existing Existing local value.
 	 * @return mixed
 	 */
-	private function resolve_images_in_value( $value, array $image_map ) {
-		if ( is_array( $value ) ) {
-			$result = [];
-			foreach ( $value as $k => $v ) {
-				$result[ $k ] = $this->resolve_images_in_value( $v, $image_map );
+	private function merge_without_image_fields( $incoming, $existing ) {
+		if ( ! is_array( $incoming ) ) {
+			return $incoming;
+		}
+
+		$result = is_array( $existing ) ? $existing : [];
+
+		foreach ( $incoming as $key => $value ) {
+			if ( $this->is_image_field_key( $key ) ) {
+				continue;
 			}
-			return $result;
+
+			if ( is_array( $value ) ) {
+				$result[ $key ] = $this->merge_without_image_fields(
+					$value,
+					$result[ $key ] ?? []
+				);
+			} else {
+				$result[ $key ] = $value;
+			}
 		}
 
-		if ( is_string( $value ) && isset( $image_map[ $value ] ) ) {
-			return $image_map[ $value ];
-		}
-
-		return $value;
+		return $result;
 	}
 
 	/**
