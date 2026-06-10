@@ -886,6 +886,14 @@ final class Anna_Content_Manager {
 		// wp_parse_args keeps an empty people_items array from saved meta; fill from defaults/theme.
 		$merged['people_items'] = $this->resolve_about_people_items( $stored, $defaults );
 
+		// Always resolve discovery-call URL fields at read time so stale #contact values are never shown.
+		$discovery_url = function_exists( 'anna_get_discovery_call_url' ) ? anna_get_discovery_call_url() : ANNA_DISCOVERY_CALL_URL;
+		foreach ( array( 'coach_button_url', 'connect_button_url' ) as $url_field ) {
+			if ( empty( $merged[ $url_field ] ) || '#contact' === $merged[ $url_field ] ) {
+				$merged[ $url_field ] = $discovery_url;
+			}
+		}
+
 		return $merged;
 	}
 
@@ -1775,6 +1783,14 @@ final class Anna_Content_Manager {
 		if ( ! empty( $merged['hero_tags'] ) && is_string( $merged['hero_tags'] ) ) {
 			$tags = preg_split( '/\r\n|\r|\n/', $merged['hero_tags'] );
 			$merged['hero_tags'] = array_values( array_filter( array_map( 'trim', (array) $tags ) ) );
+		}
+
+		// Always resolve discovery-call URL fields at read time so stale #contact values are never shown.
+		$discovery_url = function_exists( 'anna_get_discovery_call_url' ) ? anna_get_discovery_call_url() : ANNA_DISCOVERY_CALL_URL;
+		foreach ( array( 'hero_button_url', 'what_button_url', 'expect_button_url' ) as $url_field ) {
+			if ( empty( $merged[ $url_field ] ) || '#contact' === $merged[ $url_field ] ) {
+				$merged[ $url_field ] = $discovery_url;
+			}
 		}
 
 		return $merged;
