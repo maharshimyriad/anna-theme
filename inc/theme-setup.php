@@ -437,6 +437,9 @@ function anna_get_home_template_option_keys()
 function anna_get_home_template_content_meta_keys()
 {
     return [
+        // New single-row key (slug changed to "home", all sections in one meta row).
+        "_anna_content_home_page",
+        // Legacy per-section keys from the old multi-metabox system.
         "_anna_content_hero",
         "_anna_content_intro",
         "_anna_content_services",
@@ -453,6 +456,67 @@ function anna_get_home_template_content_meta_keys()
         "anna_content_recognition",
     ];
 }
+
+/**
+ * One-time migration: merge the legacy 6-row home page meta into the new
+ * single _anna_content_home_page row, then delete the old rows.
+ *
+ * Runs once on admin_init and is guarded by a flag so it never runs again.
+ */
+function anna_maybe_migrate_home_page_meta()
+{
+    if ( get_option( 'anna_home_meta_migrated_v1' ) ) {
+        return;
+    }
+
+    $front_id = absint( get_option( 'page_on_front' ) );
+    if ( ! $front_id ) {
+        return;
+    }
+
+    // If the new single key already has data, just clean up old rows and flag done.
+    $existing_new = get_post_meta( $front_id, '_anna_content_home_page', true );
+    $has_new      = is_array( $existing_new ) && ! empty( array_filter( $existing_new ) );
+
+    if ( ! $has_new ) {
+        // Build the new single row from old per-section rows.
+        $hero         = get_post_meta( $front_id, '_anna_content_hero', true );
+        $intro        = get_post_meta( $front_id, '_anna_content_intro', true );
+        $services     = get_post_meta( $front_id, '_anna_content_services', true );
+        $about        = get_post_meta( $front_id, '_anna_content_about', true );
+        $testimonials = get_post_meta( $front_id, '_anna_content_testimonials', true );
+        $cta          = get_post_meta( $front_id, '_anna_content_cta', true );
+
+        $has_old = array_filter( [ $hero, $intro, $services, $about, $testimonials, $cta ], 'is_array' );
+
+        if ( ! empty( $has_old ) ) {
+            $merged = [];
+            if ( is_array( $hero ) )         $merged['hero']         = $hero;
+            if ( is_array( $intro ) )         $merged['intro']        = $intro;
+            if ( is_array( $services ) )      $merged['services']     = $services;
+            if ( is_array( $about ) )         $merged['about']        = $about;
+            if ( is_array( $testimonials ) )  $merged['testimonials'] = $testimonials;
+            if ( is_array( $cta ) )           $merged['cta']          = $cta;
+
+            update_post_meta( $front_id, '_anna_content_home_page', $merged );
+        }
+    }
+
+    // Delete all legacy per-section rows regardless.
+    $legacy_keys = [
+        '_anna_content_hero', '_anna_content_intro', '_anna_content_services',
+        '_anna_content_about', '_anna_content_testimonials', '_anna_content_cta',
+        '_anna_content_recognition', 'anna_content_hero', 'anna_content_intro',
+        'anna_content_services', 'anna_content_about', 'anna_content_testimonials',
+        'anna_content_cta', 'anna_content_recognition',
+    ];
+    foreach ( $legacy_keys as $key ) {
+        delete_post_meta( $front_id, $key );
+    }
+
+    update_option( 'anna_home_meta_migrated_v1', 1 );
+}
+add_action( 'admin_init', 'anna_maybe_migrate_home_page_meta' );
 
 /**
  * Check whether a page is the Anna homepage/front-page content page.

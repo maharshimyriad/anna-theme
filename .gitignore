@@ -3,3 +3,6 @@ Designs-image/
 Docs/
 *.sql
 *.swp
+
+# Windows reserved device name — created accidentally, cannot be tracked by Git
+nul
