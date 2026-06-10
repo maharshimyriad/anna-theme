@@ -791,11 +791,12 @@ function anna_template_page_reset_admin_notice()
         return;
     }
 
-    $deleted_meta = absint($_GET["anna_deleted_meta"] ?? 0);
+    $deleted_meta    = absint($_GET["anna_deleted_meta"]    ?? 0);
     $deleted_options = absint($_GET["anna_deleted_options"] ?? 0);
+    $message = 'Anna template content reset. Deleted ' . $deleted_meta . ' content meta key(s) and ' . $deleted_options . ' theme option key(s). The page is now using theme defaults.';
     ?>
     <div class="notice notice-success is-dismissible">
-        <p><?php echo esc_html(sprintf(__("Anna template content reset. Deleted %1$d content meta keys and %2$d theme option keys. The page is now using theme defaults.", "anna-baylis"), $deleted_meta, $deleted_options)); ?></p>
+        <p><?php echo esc_html( $message ); ?></p>
     </div>
     <?php
 }
