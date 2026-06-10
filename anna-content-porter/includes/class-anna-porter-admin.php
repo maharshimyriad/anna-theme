@@ -119,7 +119,7 @@ class Anna_Porter_Admin {
 			wp_die( __( 'Insufficient permissions.', 'anna-content-porter' ) );
 		}
 		?>
-		<div class="wrap">
+		<div class="wrap anna-porter-page">
 
 			<!-- ── Page header ───────────────────────────────────────────────── -->
 			<div class="anna-porter-header">

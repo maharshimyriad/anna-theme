@@ -82,7 +82,30 @@ class Anna_Porter_Exporter {
 			}
 			$section = $sections[ $section_id ];
 
-			if ( ! empty( $section['post_meta_page'] ) && ! empty( $section['post_meta_keys'] ) ) {
+			if ( ! empty( $section['post_meta_page'] ) && '__all__' === $section['post_meta_page'] ) {
+				// ── Export every live page-content meta row across the site ───
+				foreach ( $this->get_all_page_content_meta_rows() as $row ) {
+					$page_key = $this->page_key_for_post( (int) $row->post_id );
+					$value    = maybe_unserialize( $row->meta_value );
+
+					if ( is_array( $value ) ) {
+						$processed = $this->process_repeater( $value, $images, $warnings );
+					} else {
+						$processed = $value;
+					}
+
+					$page_content[ $page_key ][ $row->meta_key ] = $processed;
+
+					// Keep the legacy flat mirror only for the front page. Multiple
+					// pages can have fields with the same names, so `pages` is the
+					// authoritative multi-page export format.
+					if ( '__front__' === $page_key ) {
+						foreach ( $this->flatten_post_meta_content( $row->meta_key, $processed ) as $flat_key => $flat_value ) {
+							$option_content[ $flat_key ] = $flat_value;
+						}
+					}
+				}
+			} elseif ( ! empty( $section['post_meta_page'] ) && ! empty( $section['post_meta_keys'] ) ) {
 				// ── Live post-meta source ─────────────────────────────────────
 				$page_id = $this->resolve_page_id(
 					$section['post_meta_page'],
@@ -139,11 +162,13 @@ class Anna_Porter_Exporter {
 
 					$page_content[ $page_slug ][ $meta_key ] = $processed;
 
-					// Also expose a flat, legacy-compatible mirror in `content` so
-					// anyone inspecting the JSON sees the current live values instead
-					// of stale/default anna_theme_options values like hero_description.
-					foreach ( $this->flatten_post_meta_content( $meta_key, $processed ) as $flat_key => $flat_value ) {
-						$option_content[ $flat_key ] = $flat_value;
+					// Also expose the front page as a flat, legacy-compatible mirror
+					// so home fields like hero_description show the current post-meta
+					// value in old tooling that reads `content`.
+					if ( '__front__' === $page_slug ) {
+						foreach ( $this->flatten_post_meta_content( $meta_key, $processed ) as $flat_key => $flat_value ) {
+							$option_content[ $flat_key ] = $flat_value;
+						}
 					}
 				}
 			} else {
@@ -197,6 +222,53 @@ class Anna_Porter_Exporter {
 	// -------------------------------------------------------------------------
 	// Private helpers
 	// -------------------------------------------------------------------------
+
+	/**
+	 * Returns every page/post meta row that stores live Anna content.
+	 *
+	 * @return array<int, object>
+	 */
+	private function get_all_page_content_meta_rows(): array {
+		global $wpdb;
+
+		$like = $wpdb->esc_like( '_anna_content_' ) . '%';
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+		$rows = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT pm.post_id, pm.meta_key, pm.meta_value
+				 FROM {$wpdb->postmeta} pm
+				 INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id
+				 WHERE pm.meta_key LIKE %s
+				   AND p.post_type = 'page'
+				   AND p.post_status NOT IN ('trash','auto-draft')
+				 ORDER BY p.menu_order ASC, p.post_title ASC, pm.meta_key ASC",
+				$like
+			)
+		);
+
+		return is_array( $rows ) ? $rows : [];
+	}
+
+	/**
+	 * Returns the package page key for a post ID.
+	 *
+	 * @param int $post_id Page ID.
+	 * @return string
+	 */
+	private function page_key_for_post( int $post_id ): string {
+		$front_id = (int) get_option( 'page_on_front' );
+		if ( $front_id > 0 && $post_id === $front_id ) {
+			return '__front__';
+		}
+
+		$post = get_post( $post_id );
+		if ( $post && ! empty( $post->post_name ) ) {
+			return $post->post_name;
+		}
+
+		return 'page-' . $post_id;
+	}
 
 	/**
 	 * Resolves a page reference to a post ID.

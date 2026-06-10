@@ -52,6 +52,15 @@ class Anna_Porter_Registry {
 				],
 			],
 
+			// ── Everything stored as live page content ─────────────────────────
+			'all_pages' => [
+				'label'          => 'All Pages',
+				'prefixes'       => [],
+				'exact'          => [],
+				'post_meta_page' => '__all__',
+				'post_meta_keys' => [ '_anna_content_%' ],
+			],
+
 			// ── Standalone page sections ───────────────────────────────────────
 			'about_pg' => [
 				'label'          => 'About Page',

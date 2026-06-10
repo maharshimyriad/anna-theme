@@ -1,375 +1,238 @@
-/* ─────────────────────────────────────────────────────────────────────────
-   Anna Content Porter – Admin Styles
-   ───────────────────────────────────────────────────────────────────────── */
+/* Anna Content Porter – clean admin UI */
 
-:root {
-    --porter-blue: #2271b1;
-    --porter-blue-mid: #d0e6f7;
-    --porter-blue-light: #f0f6fc;
-    --porter-green: #00a32a;
-    --porter-green-light: #f0fdf4;
-    --porter-amber: #996800;
-    --porter-amber-light: #fef9ee;
-    --porter-border: #c3c4c7;
-    --porter-border-lite: #e2e4e7;
-    --porter-bg: #ffffff;
-    --porter-surface: #f6f7f7;
-    --porter-text: #1d2327;
-    --porter-muted: #50575e;
-    --porter-radius: 6px;
-    --porter-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+.anna-porter-page {
+    max-width: 1120px;
+    color: #1d2327;
 }
 
-/* ── Page header ─────────────────────────────────────────────────────────── */
+.anna-porter-page * {
+    box-sizing: border-box;
+}
 
+/* Hide decorative icons for a quieter UI. */
+.anna-porter-page .dashicons,
+.anna-porter-page .porter-btn-icon,
+.anna-porter-page .anna-porter-upload-icon {
+    display: none !important;
+}
+
+/* Header */
 .anna-porter-header {
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    margin: 0 0 28px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--porter-border-lite);
-    max-width: 860px;
+    margin: 22px 0 22px;
+    padding: 0 0 18px;
+    border-bottom: 1px solid #dcdcde;
+    max-width: 960px;
 }
 
 .anna-porter-header-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    background: var(--porter-blue-light);
-    border: 1px solid var(--porter-blue-mid);
-    border-radius: var(--porter-radius);
-    flex-shrink: 0;
-}
-
-.anna-porter-header-icon .dashicons {
-    color: var(--porter-blue);
-    font-size: 24px;
-    width: 24px;
-    height: 24px;
+    display: none;
 }
 
 .anna-porter-header-text h1 {
-    margin: 0 0 4px;
-    font-size: 1.35em;
+    margin: 0 0 6px;
+    font-size: 24px;
+    line-height: 1.25;
     font-weight: 600;
-    color: var(--porter-text);
-    line-height: 1.3;
 }
 
 .anna-porter-header-text p {
+    max-width: 680px;
     margin: 0;
-    color: var(--porter-muted);
-    font-size: 13px;
-    line-height: 1.5;
+    color: #646970;
+    font-size: 14px;
+    line-height: 1.55;
 }
 
-/* ── Layout card ─────────────────────────────────────────────────────────── */
-
+/* Cards */
 .anna-porter-box {
-    background: var(--porter-bg);
-    border: 1px solid var(--porter-border);
-    border-radius: var(--porter-radius);
-    margin-bottom: 24px;
-    max-width: 860px;
-    box-shadow: var(--porter-shadow);
+    max-width: 960px;
+    margin: 0 0 18px;
+    background: #fff;
+    border: 1px solid #dcdcde;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
     overflow: hidden;
 }
 
-/* Card header row */
 .anna-porter-box-header {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 14px 20px;
-    background: var(--porter-surface);
-    border-bottom: 1px solid var(--porter-border);
-}
-
-.anna-porter-box-header .dashicons {
-    color: var(--porter-blue);
-    font-size: 20px;
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
+    gap: 12px;
+    padding: 16px 20px;
+    background: #fff;
+    border-bottom: 1px solid #edf0f2;
 }
 
 .anna-porter-box-header h2 {
     margin: 0;
-    font-size: 1rem;
+    font-size: 16px;
+    line-height: 1.35;
     font-weight: 600;
-    color: var(--porter-text);
 }
 
 .anna-porter-box-badge {
     margin-left: auto;
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--porter-muted);
-    background: var(--porter-bg);
-    border: 1px solid var(--porter-border);
-    border-radius: 20px;
-    padding: 2px 10px;
+    color: #646970;
+    background: #f6f7f7;
+    border: 1px solid #dcdcde;
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 12px;
+    line-height: 1.2;
     white-space: nowrap;
 }
 
-/* Card body */
 .anna-porter-box-body {
-    padding: 20px 24px 24px;
+    padding: 20px;
 }
 
-.anna-porter-box-body > .anna-porter-desc {
-    margin: 0 0 18px;
-    color: var(--porter-muted);
-    font-size: 13px;
+.anna-porter-desc {
+    margin: 0 0 16px;
+    color: #50575e;
+    font-size: 14px;
     line-height: 1.6;
 }
 
-/* ── Preview box ─────────────────────────────────────────────────────────── */
-
-.anna-porter-preview-box {
-    border-left: 4px solid var(--porter-blue);
-}
-
-.anna-porter-preview-box > .anna-porter-box-header {
-    background: var(--porter-blue-light);
-    border-bottom-color: var(--porter-blue-mid);
-}
-
-/* ── Warnings box ─────────────────────────────────────────────────────────── */
-
-.anna-porter-warnings-box {
-    border-left: 4px solid #dba617;
-}
-
-.anna-porter-warnings-box > .anna-porter-box-header {
-    background: var(--porter-amber-light);
-    border-bottom-color: #f5d67a;
-}
-
-.anna-porter-warnings-box > .anna-porter-box-header .dashicons {
-    color: var(--porter-amber);
-}
-
-.anna-porter-warnings-box ul {
-    margin: 0;
-    padding: 0 0 0 18px;
-    list-style: disc;
-}
-
-.anna-porter-warnings-box li {
-    font-size: 12px;
-    color: var(--porter-muted);
-    margin-bottom: 5px;
-    font-family: Consolas, "Courier New", monospace;
-    line-height: 1.6;
-}
-
-/* ── Section grid toolbar ─────────────────────────────────────────────────── */
-
+/* Section selector */
 .anna-porter-grid-toolbar {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
+    gap: 12px;
     margin-bottom: 10px;
 }
 
 .anna-porter-grid-label {
-    font-size: 11px;
-    font-weight: 700;
+    color: #50575e;
+    font-size: 12px;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--porter-muted);
+    letter-spacing: 0.03em;
 }
 
 #anna-porter-select-all {
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 13px;
     text-decoration: none;
-    color: var(--porter-blue);
 }
 
 #anna-porter-select-all:hover {
     text-decoration: underline;
 }
 
-/* ── Section checkbox grid ─────────────────────────────────────────────────── */
-
 .anna-porter-sections-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-    gap: 8px;
-    margin-bottom: 14px;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px;
+    margin: 0 0 14px;
 }
 
 .anna-porter-section-label {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 10px 12px;
-    border: 1.5px solid var(--porter-border);
-    border-radius: var(--porter-radius);
+    min-height: 42px;
+    padding: 10px 12px 10px 38px;
+    border: 1px solid #dcdcde;
+    border-radius: 6px;
+    background: #fff;
+    color: #1d2327;
     cursor: pointer;
     font-size: 13px;
-    font-weight: 500;
-    color: var(--porter-text);
-    background: var(--porter-bg);
+    line-height: 1.3;
     transition:
-        border-color 0.15s,
-        background 0.15s,
-        box-shadow 0.15s;
-    -webkit-user-select: none;
-    user-select: none;
-    position: relative;
+        border-color 0.12s,
+        background-color 0.12s,
+        box-shadow 0.12s;
 }
 
 .anna-porter-section-label:hover {
-    border-color: var(--porter-blue);
-    background: var(--porter-blue-light);
-    box-shadow: 0 0 0 2px var(--porter-blue-mid);
+    border-color: #8c8f94;
+    background: #f6f7f7;
 }
 
 .anna-porter-section-label.is-checked {
-    border-color: var(--porter-blue);
-    background: var(--porter-blue-light);
-    color: var(--porter-blue);
-    box-shadow: 0 0 0 2px var(--porter-blue-mid);
+    border-color: #2271b1;
+    background: #f0f6fc;
+    box-shadow: inset 0 0 0 1px #2271b1;
 }
 
-/* Hidden native checkbox — still included in form submission */
 .anna-porter-section-cb {
     position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
+    left: 12px;
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    margin: -8px 0 0;
+    opacity: 1;
     pointer-events: none;
 }
 
-/* Custom checkbox box */
 .porter-checkbox {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 18px;
-    height: 18px;
-    border: 2px solid var(--porter-border);
-    border-radius: 3px;
-    flex-shrink: 0;
-    background: var(--porter-bg);
-    transition:
-        border-color 0.15s,
-        background 0.15s;
+    display: none;
 }
-
-.anna-porter-section-label.is-checked .porter-checkbox {
-    border-color: var(--porter-blue);
-    background: var(--porter-blue);
-}
-
-.porter-checkbox .dashicons {
-    font-size: 14px;
-    width: 14px;
-    height: 14px;
-    color: #fff;
-    opacity: 0;
-    transition: opacity 0.12s;
-}
-
-.anna-porter-section-label.is-checked .porter-checkbox .dashicons {
-    opacity: 1;
-}
-
-/* ── Selection summary bar ────────────────────────────────────────────────── */
 
 .anna-porter-selection-bar {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    padding: 10px 14px;
-    margin-bottom: 18px;
-    background: var(--porter-surface);
-    border: 1px solid var(--porter-border-lite);
-    border-radius: var(--porter-radius);
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 16px;
+    padding: 11px 13px;
+    border-radius: 6px;
+    background: #f6f7f7;
+    color: #50575e;
     font-size: 13px;
-    transition:
-        background 0.2s,
-        border-color 0.2s;
 }
 
 .anna-porter-selection-bar.has-selection {
-    background: var(--porter-blue-light);
-    border-color: var(--porter-blue-mid);
+    background: #f0f6fc;
+    color: #1d2327;
 }
 
 .anna-porter-sel-count {
+    color: #2271b1;
     font-weight: 700;
-    color: var(--porter-blue);
-}
-
-.anna-porter-sel-total {
-    color: var(--porter-muted);
-}
-
-.anna-porter-sel-hint {
-    font-size: 12px;
-    color: var(--porter-muted);
 }
 
 .anna-porter-sel-hint.is-ready {
-    color: var(--porter-green);
-    font-weight: 500;
+    color: #008a20;
+    font-weight: 600;
 }
 
-/* ── Export button ────────────────────────────────────────────────────────── */
-
-#anna-porter-export-btn {
-    display: inline-flex;
+/* Buttons */
+.anna-porter-btn-row {
+    display: flex;
     align-items: center;
-    gap: 6px;
-    height: 36px;
-    padding: 0 16px;
-    font-size: 13px;
-    font-weight: 500;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
-#anna-porter-export-btn .porter-btn-icon {
-    font-size: 16px;
-    width: 16px;
-    height: 16px;
+.anna-porter-btn-row .button,
+#anna-porter-export-btn {
+    min-height: 36px;
+    padding: 3px 16px;
+    font-weight: 600;
 }
 
 #anna-porter-export-btn:disabled {
     opacity: 0.55;
     cursor: not-allowed;
-    pointer-events: none;
 }
 
-#anna-porter-export-btn.is-loading {
-    opacity: 0.8;
-    cursor: wait;
-    pointer-events: none;
-}
-
-#anna-porter-export-btn.is-loading .porter-btn-icon {
-    display: none;
-}
-
-#anna-porter-export-btn.is-loading .porter-spinner {
-    display: inline-block;
-}
-
-/* Spinner */
 .porter-spinner {
     display: none;
     width: 14px;
     height: 14px;
+    margin-right: 6px;
     border: 2px solid rgba(255, 255, 255, 0.4);
     border-top-color: #fff;
     border-radius: 50%;
-    animation: porter-spin 0.65s linear infinite;
-    flex-shrink: 0;
+    vertical-align: -2px;
+    animation: porter-spin 0.7s linear infinite;
+}
+
+#anna-porter-export-btn.is-loading .porter-spinner {
+    display: inline-block;
 }
 
 @keyframes porter-spin {
@@ -378,35 +241,36 @@
     }
 }
 
-/* ── File upload drop area ─────────────────────────────────────────────────── */
-
+/* Upload */
 .anna-porter-upload-area {
     position: relative;
-    border: 2px dashed var(--porter-border);
-    border-radius: var(--porter-radius);
-    padding: 36px 24px;
+    display: block;
+    width: 100%;
+    min-height: 128px;
+    margin: 0 0 16px;
+    padding: 28px 20px;
+    border: 1.5px dashed #c3c4c7;
+    border-radius: 8px;
+    background: #fbfbfc;
     text-align: center;
     cursor: pointer;
     transition:
-        border-color 0.15s,
-        background 0.15s;
-    margin-bottom: 18px;
-    overflow: hidden;
+        border-color 0.12s,
+        background-color 0.12s;
 }
 
 .anna-porter-upload-area:hover,
 .anna-porter-upload-area.is-drag-over {
-    border-color: var(--porter-blue);
-    background: var(--porter-blue-light);
+    border-color: #2271b1;
+    background: #f0f6fc;
 }
 
 .anna-porter-upload-area.has-file {
-    border-color: var(--porter-green);
-    background: var(--porter-green-light);
     border-style: solid;
+    border-color: #00a32a;
+    background: #f0fdf4;
 }
 
-/* Invisible native file input stretched over the whole area */
 .anna-porter-upload-area input[type="file"] {
     position: absolute;
     inset: 0;
@@ -414,48 +278,27 @@
     height: 100%;
     opacity: 0;
     cursor: pointer;
-    z-index: 2;
-}
-
-.anna-porter-upload-icon {
-    font-size: 38px;
-    width: 38px;
-    height: 38px;
-    color: var(--porter-muted);
-    margin: 0 auto 10px;
-    display: block;
-    transition: color 0.15s;
-}
-
-.anna-porter-upload-area.has-file .anna-porter-upload-icon {
-    color: var(--porter-green);
 }
 
 .anna-porter-upload-title {
+    margin: 0 0 4px;
     font-size: 14px;
     font-weight: 600;
-    color: var(--porter-text);
-    margin-bottom: 5px;
 }
 
 .anna-porter-upload-hint {
-    font-size: 12px;
-    color: var(--porter-muted);
+    color: #646970;
+    font-size: 13px;
 }
 
 .anna-porter-upload-filename {
-    font-size: 13px;
+    display: none;
+    color: #008a20;
+    font-size: 14px;
     font-weight: 600;
-    color: var(--porter-green);
-    display: none;
-    margin-top: 6px;
 }
 
-.anna-porter-upload-area.has-file .anna-porter-upload-title {
-    display: none;
-}
-
-.anna-porter-upload-area.has-file .anna-porter-upload-hint {
+.anna-porter-upload-area.has-file .anna-porter-upload-default {
     display: none;
 }
 
@@ -463,257 +306,175 @@
     display: block;
 }
 
-/* ── Preview metadata table ───────────────────────────────────────────────── */
-
-.anna-porter-meta-table {
+/* Preview/import */
+.anna-porter-meta-table,
+.anna-porter-debug-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 13px;
-    margin-bottom: 22px;
-    border: 1px solid var(--porter-border-lite);
-    border-radius: var(--porter-radius);
+    margin: 0 0 16px;
+    border: 1px solid #dcdcde;
+    border-radius: 6px;
     overflow: hidden;
+    font-size: 13px;
 }
 
 .anna-porter-meta-table th,
-.anna-porter-meta-table td {
-    padding: 10px 16px;
+.anna-porter-meta-table td,
+.anna-porter-debug-table th,
+.anna-porter-debug-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #edf0f2;
     text-align: left;
-    border-bottom: 1px solid var(--porter-border-lite);
-    vertical-align: middle;
+    vertical-align: top;
 }
 
-.anna-porter-meta-table th {
-    width: 170px;
+.anna-porter-meta-table th,
+.anna-porter-debug-table th {
+    width: 180px;
+    background: #f6f7f7;
+    color: #50575e;
     font-weight: 600;
-    font-size: 12px;
-    color: var(--porter-muted);
-    background: var(--porter-surface);
-    white-space: nowrap;
-}
-
-.anna-porter-meta-table td {
-    color: var(--porter-text);
 }
 
 .anna-porter-meta-table tr:last-child th,
-.anna-porter-meta-table tr:last-child td {
-    border-bottom: none;
+.anna-porter-meta-table tr:last-child td,
+.anna-porter-debug-table tr:last-child th,
+.anna-porter-debug-table tr:last-child td {
+    border-bottom: 0;
 }
 
-/* ── Import mode cards ────────────────────────────────────────────────────── */
-
 .anna-porter-mode-label {
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--porter-muted);
     display: block;
-    margin-bottom: 10px;
+    margin: 0 0 8px;
+    color: #50575e;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
 }
 
 .anna-porter-mode-group {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 22px;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+    margin: 0 0 16px;
 }
 
 .anna-porter-mode-option {
-    flex: 1;
-    min-width: 200px;
     cursor: pointer;
 }
 
 .anna-porter-mode-option input[type="radio"] {
     position: absolute;
     opacity: 0;
-    width: 0;
-    height: 0;
 }
 
 .anna-porter-mode-card {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding: 14px 16px;
-    border: 2px solid var(--porter-border);
-    border-radius: var(--porter-radius);
-    transition:
-        border-color 0.15s,
-        background 0.15s,
-        box-shadow 0.15s;
-}
-
-.anna-porter-mode-option:hover .anna-porter-mode-card {
-    border-color: var(--porter-blue);
-    background: var(--porter-blue-light);
+    padding: 13px 14px;
+    border: 1px solid #dcdcde;
+    border-radius: 6px;
+    background: #fff;
 }
 
 .anna-porter-mode-option input:checked + .anna-porter-mode-card {
-    border-color: var(--porter-blue);
-    background: var(--porter-blue-light);
-    box-shadow: 0 0 0 2px var(--porter-blue-mid);
+    border-color: #2271b1;
+    background: #f0f6fc;
+    box-shadow: inset 0 0 0 1px #2271b1;
 }
 
 .anna-porter-mode-card strong {
-    font-size: 13px;
-    color: var(--porter-text);
+    display: block;
+    margin-bottom: 3px;
 }
 
 .anna-porter-mode-card span {
-    font-size: 12px;
-    color: var(--porter-muted);
-    line-height: 1.5;
+    color: #646970;
+    font-size: 13px;
+    line-height: 1.45;
 }
 
-/* ── Button row ────────────────────────────────────────────────────────────── */
-
-.anna-porter-btn-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.anna-porter-btn-row .button {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    height: 34px;
-    padding: 0 14px;
-}
-
-.anna-porter-btn-row .button .dashicons {
-    font-size: 16px;
-    width: 16px;
-    height: 16px;
-}
-
-/* ── Debug panel ─────────────────────────────────────────────────────────── */
-
+/* Debug page (only visible with &porter_debug=1) */
 .anna-porter-debug-box {
-    border-left: 4px solid #8c8f94;
-    opacity: 0.92;
+    margin-top: 24px;
+    opacity: 0.96;
 }
 
 .anna-porter-debug-box > summary {
-    list-style: none;
     cursor: pointer;
-    -webkit-user-select: none;
-    user-select: none;
+    list-style: none;
 }
 
 .anna-porter-debug-box > summary::-webkit-details-marker {
     display: none;
 }
 
-.anna-porter-debug-box > summary .anna-porter-box-header {
-    /* summary IS the header row */
-    display: flex;
-}
-
-.anna-porter-debug-box[open] > summary .anna-porter-box-badge::after {
-    content: " (open)";
-}
-
-.anna-porter-debug-body {
-    font-size: 12px;
-}
-
 .anna-porter-debug-heading {
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-    color: var(--porter-muted);
-    margin: 20px 0 8px;
-    padding-bottom: 5px;
-    border-bottom: 1px solid var(--porter-border-lite);
-}
-
-.anna-porter-debug-heading:first-child {
-    margin-top: 0;
+    margin: 20px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #dcdcde;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 .anna-porter-debug-alert {
-    padding: 8px 12px;
-    border-radius: var(--porter-radius);
-    font-size: 12px;
-    font-weight: 500;
-    margin-bottom: 10px;
+    margin: 0 0 12px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    background: #f6f7f7;
+    border: 1px solid #dcdcde;
+    font-size: 13px;
 }
 
 .anna-porter-debug-alert.is-ok {
     background: #f0fdf4;
-    border: 1px solid #bbf7d0;
+    border-color: #bbf7d0;
     color: #166534;
 }
 
 .anna-porter-debug-alert.is-warning {
-    background: var(--porter-amber-light);
-    border: 1px solid #f5d67a;
-    color: var(--porter-amber);
+    background: #fff8e5;
+    border-color: #f0c36d;
+    color: #674400;
 }
 
 .anna-porter-debug-alert.is-error {
-    background: #fef2f2;
-    border: 1px solid #fecaca;
-    color: #991b1b;
+    background: #fcf0f1;
+    border-color: #f2b8c0;
+    color: #8a2424;
 }
 
-.anna-porter-debug-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 12px;
-    margin-bottom: 14px;
-    border: 1px solid var(--porter-border-lite);
-    border-radius: var(--porter-radius);
-    overflow: hidden;
-}
-
-.anna-porter-debug-table th,
-.anna-porter-debug-table td {
-    padding: 7px 12px;
-    text-align: left;
-    border-bottom: 1px solid var(--porter-border-lite);
-    vertical-align: top;
-}
-
-.anna-porter-debug-table th {
-    background: var(--porter-surface);
-    font-weight: 600;
-    color: var(--porter-muted);
-    white-space: nowrap;
-}
-
-.anna-porter-debug-table tr:last-child td,
-.anna-porter-debug-table tr:last-child th {
-    border-bottom: none;
-}
-
-.anna-porter-debug-key {
-    font-family: Consolas, "Courier New", monospace;
-    color: #1d2327;
-    white-space: nowrap;
+.anna-porter-debug-key,
+.anna-porter-debug-val,
+.anna-porter-debug-pre {
+    font-family: Consolas, Monaco, monospace;
 }
 
 .anna-porter-debug-val {
-    color: var(--porter-muted);
-    font-family: Consolas, "Courier New", monospace;
-    word-break: break-all;
-    max-width: 420px;
+    word-break: break-word;
 }
 
 .anna-porter-debug-pre {
-    background: var(--porter-surface);
-    border: 1px solid var(--porter-border-lite);
-    border-radius: var(--porter-radius);
-    padding: 10px 14px;
-    font-size: 11px;
-    overflow-x: auto;
+    padding: 12px;
+    background: #f6f7f7;
+    border: 1px solid #dcdcde;
+    border-radius: 6px;
+    overflow: auto;
     white-space: pre-wrap;
-    word-break: break-all;
-    color: var(--porter-muted);
+}
+
+@media (max-width: 782px) {
+    .anna-porter-box-header,
+    .anna-porter-selection-bar,
+    .anna-porter-grid-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .anna-porter-box-badge {
+        margin-left: 0;
+    }
+
+    .anna-porter-sections-grid {
+        grid-template-columns: 1fr;
+    }
 }
