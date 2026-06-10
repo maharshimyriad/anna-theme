@@ -420,7 +420,7 @@ final class Anna_Content_Manager {
 			<?php $this->render_text_field( 'anna_content_about_page', 'coach_title', __( 'Heading', 'anna-baylis' ), $data['coach_title'] ); ?>
 			<?php $this->render_editor_field( 'anna_content_about_page', 'coach_body', __( 'Body', 'anna-baylis' ), $data['coach_body'], $post->ID ); ?>
 			<?php $this->render_text_field( 'anna_content_about_page', 'coach_button_text', __( 'Button Text', 'anna-baylis' ), $data['coach_button_text'] ); ?>
-			<?php $this->render_text_field( 'anna_content_about_page', 'coach_button_url', __( 'Button URL', 'anna-baylis' ), $data['coach_button_url'] ); ?>
+			<?php $this->render_discovery_url_notice(); ?>
 			<?php $this->render_media_field( 'anna_content_about_page', 'coach_image_id', __( 'Right Image', 'anna-baylis' ), $data['coach_image_id'] ); ?>
 		</table>
 
@@ -562,7 +562,7 @@ final class Anna_Content_Manager {
 			<?php $this->render_text_field( 'anna_content_about_page', 'connect_eyebrow', __( 'Eyebrow', 'anna-baylis' ), $data['connect_eyebrow'] ); ?>
 			<?php $this->render_text_field( 'anna_content_about_page', 'connect_heading', __( 'Heading', 'anna-baylis' ), $data['connect_heading'] ); ?>
 			<?php $this->render_text_field( 'anna_content_about_page', 'connect_button_text', __( 'Button Text', 'anna-baylis' ), $data['connect_button_text'] ); ?>
-			<?php $this->render_text_field( 'anna_content_about_page', 'connect_button_url', __( 'Button URL', 'anna-baylis' ), $data['connect_button_url'] ); ?>
+			<?php $this->render_discovery_url_notice(); ?>
 		</table>
 		<?php
 	}
@@ -779,6 +779,29 @@ final class Anna_Content_Manager {
 				</div>
 				<button type="button" class="button anna-content-media-select" data-target="<?php echo esc_attr( $id ); ?>" data-preview="<?php echo esc_attr( $preview ); ?>"><?php esc_html_e( 'Select Image', 'anna-baylis' ); ?></button>
 				<button type="button" class="button anna-content-media-remove" data-target="<?php echo esc_attr( $id ); ?>" data-preview="<?php echo esc_attr( $preview ); ?>"><?php esc_html_e( 'Remove', 'anna-baylis' ); ?></button>
+			</td>
+		</tr>
+		<?php
+	}
+
+	/**
+	 * Render a notice row explaining that the Discovery Call URL is controlled globally.
+	 */
+	private function render_discovery_url_notice() {
+		$settings_url = admin_url( 'admin.php?page=anna-theme-settings' );
+		?>
+		<tr>
+			<th scope="row"><?php esc_html_e( 'Button URL', 'anna-baylis' ); ?></th>
+			<td>
+				<p class="description" style="padding:6px 10px;background:#f0f6fc;border-left:3px solid #72aee6;border-radius:2px;margin:0;">
+					<?php
+					printf(
+						/* translators: %s: link to theme settings */
+						wp_kses( __( 'This button always uses the <strong>Discovery Call URL</strong> set in <a href="%s">Anna Theme → Header</a>. Change it there to update all booking buttons at once.', 'anna-baylis' ), array( 'strong' => array(), 'a' => array( 'href' => array() ) ) ),
+						esc_url( $settings_url )
+					);
+					?>
+				</p>
 			</td>
 		</tr>
 		<?php
@@ -1029,7 +1052,6 @@ final class Anna_Content_Manager {
 			'coach_eyebrow',
 			'coach_title',
 			'coach_button_text',
-			'coach_button_url',
 			'work_eyebrow',
 			'work_heading',
 			'work_card_1_title',
@@ -1042,7 +1064,6 @@ final class Anna_Content_Manager {
 			'connect_eyebrow',
 			'connect_heading',
 			'connect_button_text',
-			'connect_button_url',
 		);
 
 		$textarea_fields = array(
@@ -1077,7 +1098,7 @@ final class Anna_Content_Manager {
 		}
 
 		foreach ( array( 'coach_button_url', 'connect_button_url' ) as $url_field ) {
-			$data[ $url_field ] = esc_url_raw( $input[ $url_field ] ?? '' );
+			$data[ $url_field ] = function_exists( 'anna_get_discovery_call_url' ) ? anna_get_discovery_call_url() : esc_url_raw( $input[ $url_field ] ?? '' );
 		}
 
 		foreach ( $textarea_fields as $field ) {
@@ -1516,7 +1537,7 @@ final class Anna_Content_Manager {
 			<?php $this->render_textarea_field( 'anna_content_coaching_page', 'hero_description', __( 'Description', 'anna-baylis' ), $data['hero_description'], 3 ); ?>
 			<?php $this->render_media_field( 'anna_content_coaching_page', 'hero_image_id', __( 'Hero Background Image', 'anna-baylis' ), $data['hero_image_id'] ); ?>
 			<?php $this->render_text_field( 'anna_content_coaching_page', 'hero_button_text', __( 'Button Text', 'anna-baylis' ), $data['hero_button_text'] ); ?>
-			<?php $this->render_text_field( 'anna_content_coaching_page', 'hero_button_url', __( 'Button URL', 'anna-baylis' ), $data['hero_button_url'] ); ?>
+			<?php $this->render_discovery_url_notice(); ?>
 		</table>
 
 		<h3><?php esc_html_e( 'What This Is', 'anna-baylis' ); ?></h3>
@@ -1525,7 +1546,7 @@ final class Anna_Content_Manager {
 			<?php $this->render_text_field( 'anna_content_coaching_page', 'what_heading', __( 'Heading', 'anna-baylis' ), $data['what_heading'] ); ?>
 			<?php $this->render_textarea_field( 'anna_content_coaching_page', 'what_body', __( 'Body', 'anna-baylis' ), $data['what_body'], 8 ); ?>
 			<?php $this->render_text_field( 'anna_content_coaching_page', 'what_button_text', __( 'Button Text', 'anna-baylis' ), $data['what_button_text'] ); ?>
-			<?php $this->render_text_field( 'anna_content_coaching_page', 'what_button_url', __( 'Button URL', 'anna-baylis' ), $data['what_button_url'] ); ?>
+			<?php $this->render_discovery_url_notice(); ?>
 			<?php $this->render_text_field( 'anna_content_coaching_page', 'what_card_heading', __( 'Card Heading', 'anna-baylis' ), $data['what_card_heading'] ); ?>
 			<?php $this->render_coaching_text_repeater_field( 'what_card_items', $data['what_card_items'] ?? array(), __( 'Card List', 'anna-baylis' ) ); ?>
 		</table>
@@ -1554,7 +1575,7 @@ final class Anna_Content_Manager {
 			<?php $this->render_textarea_field( 'anna_content_coaching_page', 'expect_body', __( 'Body', 'anna-baylis' ), $data['expect_body'], 6 ); ?>
 			<?php $this->render_textarea_field( 'anna_content_coaching_page', 'expect_quote', __( 'Quote', 'anna-baylis' ), $data['expect_quote'], 3 ); ?>
 			<?php $this->render_text_field( 'anna_content_coaching_page', 'expect_button_text', __( 'Button Text', 'anna-baylis' ), $data['expect_button_text'] ); ?>
-			<?php $this->render_text_field( 'anna_content_coaching_page', 'expect_button_url', __( 'Button URL', 'anna-baylis' ), $data['expect_button_url'] ); ?>
+			<?php $this->render_discovery_url_notice(); ?>
 			<?php $this->render_coaching_info_cards_repeater_field( $data['expect_info_cards'] ?? array() ); ?>
 		</table>
 
@@ -1904,18 +1925,20 @@ final class Anna_Content_Manager {
 	 * @return array
 	 */
 	private function sanitize_coaching_page_content( $input ) {
+		$discovery_url = function_exists( 'anna_get_discovery_call_url' ) ? anna_get_discovery_call_url() : ANNA_DISCOVERY_CALL_URL;
+
 		$data = array(
 			'hero_eyebrow'         => sanitize_text_field( $input['hero_eyebrow'] ?? '' ),
 			'hero_heading'         => sanitize_textarea_field( $input['hero_heading'] ?? '' ),
 			'hero_description'     => sanitize_textarea_field( $input['hero_description'] ?? '' ),
 			'hero_image_id'        => absint( $input['hero_image_id'] ?? 0 ),
 			'hero_button_text'     => sanitize_text_field( $input['hero_button_text'] ?? '' ),
-			'hero_button_url'      => esc_url_raw( $input['hero_button_url'] ?? '' ),
+			'hero_button_url'      => $discovery_url,
 			'what_eyebrow'         => sanitize_text_field( $input['what_eyebrow'] ?? '' ),
 			'what_heading'         => sanitize_text_field( $input['what_heading'] ?? '' ),
 			'what_body'            => sanitize_textarea_field( $input['what_body'] ?? '' ),
 			'what_button_text'     => sanitize_text_field( $input['what_button_text'] ?? '' ),
-			'what_button_url'      => esc_url_raw( $input['what_button_url'] ?? '' ),
+			'what_button_url'      => $discovery_url,
 			'what_card_heading'    => sanitize_text_field( $input['what_card_heading'] ?? '' ),
 			'pillars_eyebrow'      => sanitize_text_field( $input['pillars_eyebrow'] ?? '' ),
 			'pillars_heading'      => sanitize_text_field( $input['pillars_heading'] ?? '' ),
@@ -1928,7 +1951,7 @@ final class Anna_Content_Manager {
 			'expect_body'          => sanitize_textarea_field( $input['expect_body'] ?? '' ),
 			'expect_quote'         => sanitize_textarea_field( $input['expect_quote'] ?? '' ),
 			'expect_button_text'   => sanitize_text_field( $input['expect_button_text'] ?? '' ),
-			'expect_button_url'    => esc_url_raw( $input['expect_button_url'] ?? '' ),
+			'expect_button_url'    => $discovery_url,
 			'faq_heading'          => sanitize_text_field( $input['faq_heading'] ?? '' ),
 		);
 
