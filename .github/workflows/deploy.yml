@@ -18,7 +18,13 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: 65002
           script: |
-           cd ~/websites/JYlmTfvrV/public_html/wp-content/themes/anna-theme
-         
-           GIT_SSH_COMMAND="ssh -i /home/u683649031/websites/JYlmTfvrV/.h5g/gitkey/id_ed25519 -o UserKnownHostsFile=/home/u683649031/websites/JYlmTfvrV/.h5g/gitkey/known_hosts -o StrictHostKeyChecking=yes" \
-           git pull origin main
+            THEME_DIR=~/websites/JYlmTfvrV/public_html/wp-content/themes/anna-theme
+            GIT_SSH="GIT_SSH_COMMAND=\"ssh -i /home/u683649031/websites/JYlmTfvrV/.h5g/gitkey/id_ed25519 -o UserKnownHostsFile=/home/u683649031/websites/JYlmTfvrV/.h5g/gitkey/known_hosts -o StrictHostKeyChecking=yes\""
+
+            # Pull main theme
+            cd "$THEME_DIR"
+            eval $GIT_SSH git pull origin main
+
+            # Deactivate standalone plugin if still active (safe to run repeatedly)
+            cd ~/websites/JYlmTfvrV/public_html
+            wp plugin is-active anna-content-manager 2>/dev/null && wp plugin deactivate anna-content-manager --quiet || true

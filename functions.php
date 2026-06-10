@@ -35,6 +35,9 @@ require_once ANNA_DIR . "/inc/helpers.php";
 require_once ANNA_DIR . "/inc/home-helpers.php";
 require_once ANNA_DIR . "/inc/page-registry.php";
 
+// ─── Bundled Content Manager ──────────────────────────────────────────────────
+require_once ANNA_DIR . "/anna-content-manager/anna-content-manager.php";
+
 if (file_exists(ANNA_DIR . "/anna-page-scaffolder/anna-page-scaffolder.php")) {
     require_once ANNA_DIR . "/anna-page-scaffolder/anna-page-scaffolder.php";
 }
