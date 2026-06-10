@@ -248,9 +248,9 @@ class Anna_Porter_Admin {
 		}
 
 		$token   = sanitize_key( $_GET['porter_token'] );
-		$package = get_transient( "anna_porter_pkg_{$token}" );
+		$package = $this->load_import_package( $token );
 
-		if ( false === $package ) {
+		if ( null === $package ) {
 			?>
 			<div class="notice notice-error is-dismissible">
 				<p><?php esc_html_e( 'Preview session expired. Please upload the file again.', 'anna-content-porter' ); ?></p>
@@ -938,9 +938,17 @@ class Anna_Porter_Admin {
 			exit;
 		}
 
-		// ── Store package in transient & redirect ──────────────────────────────
-		$token = substr( md5( uniqid( 'anna_porter_', true ) ), 0, 16 );
-		set_transient( "anna_porter_pkg_{$token}", $package, 30 * MINUTE_IN_SECONDS );
+		// ── Store package in a temporary uploads file and redirect ─────────────
+		// Large exports with embedded base64 images can exceed transient / object
+		// cache limits, causing "session expired" between preview and confirm.
+		$token  = substr( md5( uniqid( 'anna_porter_', true ) ), 0, 16 );
+		$stored = $this->store_import_package( $token, $package );
+
+		if ( ! $stored ) {
+			$err = rawurlencode( 'Could not store the uploaded import package. Please check uploads folder permissions.' );
+			wp_redirect( add_query_arg( [ 'page' => 'anna-porter', 'porter_error' => $err ], admin_url( 'admin.php' ) ) );
+			exit;
+		}
 
 		wp_redirect( add_query_arg( [
 			'page'           => 'anna-porter',
@@ -965,16 +973,16 @@ class Anna_Porter_Admin {
 		}
 
 		$token   = sanitize_key( $_POST['porter_token'] ?? '' );
-		$package = get_transient( "anna_porter_pkg_{$token}" );
+		$package = $this->load_import_package( $token );
 
-		if ( false === $package ) {
+		if ( null === $package ) {
 			$err = rawurlencode( 'Session expired. Please upload the file again.' );
 			wp_redirect( add_query_arg( [ 'page' => 'anna-porter', 'porter_error' => $err ], admin_url( 'admin.php' ) ) );
 			exit;
 		}
 
-		// Consume the transient immediately so it cannot be replayed.
-		delete_transient( "anna_porter_pkg_{$token}" );
+		// Consume the stored package immediately so it cannot be replayed.
+		$this->delete_import_package( $token );
 
 		$mode   = ( 'skip' === ( $_POST['import_mode'] ?? '' ) ) ? 'skip' : 'overwrite';
 		$result = ( new Anna_Porter_Importer() )->import( $package, $mode );
@@ -1001,6 +1009,119 @@ class Anna_Porter_Admin {
 	// ──────────────────────────────────────────────────────────────────────────
 	// Private helpers
 	// ──────────────────────────────────────────────────────────────────────────
+
+	/**
+	 * Returns the temporary import package directory, creating it if necessary.
+	 *
+	 * @return string|null
+	 */
+	private function import_package_dir(): ?string {
+		$upload = wp_upload_dir();
+
+		if ( ! empty( $upload['error'] ) || empty( $upload['basedir'] ) ) {
+			return null;
+		}
+
+		$dir = trailingslashit( $upload['basedir'] ) . 'anna-content-porter';
+
+		if ( ! wp_mkdir_p( $dir ) ) {
+			return null;
+		}
+
+		// Prevent casual directory browsing on hosts that serve indexes.
+		$index = trailingslashit( $dir ) . 'index.html';
+		if ( ! file_exists( $index ) ) {
+			file_put_contents( $index, '' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
+		}
+
+		return $dir;
+	}
+
+	/**
+	 * Returns a token-scoped package file path.
+	 *
+	 * @param string $token Import token.
+	 * @return string|null
+	 */
+	private function import_package_path( string $token ): ?string {
+		$token = sanitize_key( $token );
+
+		if ( '' === $token ) {
+			return null;
+		}
+
+		$dir = $this->import_package_dir();
+		if ( null === $dir ) {
+			return null;
+		}
+
+		return trailingslashit( $dir ) . 'package-' . $token . '.json';
+	}
+
+	/**
+	 * Stores an import package on disk to avoid transient/object-cache size limits.
+	 *
+	 * @param string $token   Import token.
+	 * @param array  $package Decoded JSON package.
+	 * @return bool
+	 */
+	private function store_import_package( string $token, array $package ): bool {
+		$path = $this->import_package_path( $token );
+
+		if ( null === $path ) {
+			return false;
+		}
+
+		$json = wp_json_encode( $package );
+		if ( false === $json ) {
+			return false;
+		}
+
+		return false !== file_put_contents( $path, $json, LOCK_EX ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
+	}
+
+	/**
+	 * Loads a stored import package from disk.
+	 *
+	 * @param string $token Import token.
+	 * @return array|null
+	 */
+	private function load_import_package( string $token ): ?array {
+		$path = $this->import_package_path( $token );
+
+		if ( null === $path || ! is_readable( $path ) ) {
+			return null;
+		}
+
+		// Expire files older than 30 minutes.
+		$mtime = filemtime( $path );
+		if ( false !== $mtime && ( time() - $mtime ) > ( 30 * MINUTE_IN_SECONDS ) ) {
+			$this->delete_import_package( $token );
+			return null;
+		}
+
+		$raw = file_get_contents( $path ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+		if ( false === $raw || '' === $raw ) {
+			return null;
+		}
+
+		$package = json_decode( $raw, true );
+		return is_array( $package ) ? $package : null;
+	}
+
+	/**
+	 * Deletes a stored import package.
+	 *
+	 * @param string $token Import token.
+	 * @return void
+	 */
+	private function delete_import_package( string $token ): void {
+		$path = $this->import_package_path( $token );
+
+		if ( null !== $path && file_exists( $path ) ) {
+			@unlink( $path ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+		}
+	}
 
 	/**
 	 * Returns a human-readable message for a PHP file-upload error code.
