@@ -227,7 +227,10 @@ function anna_is_custom_content_template_page($post_id)
     }
 
     $post = get_post($post_id);
-    if ($post && "home" === $post->post_name) {
+    if (
+        $post &&
+        ("home" === $post->post_name || absint(get_option("page_on_front")) === $post_id)
+    ) {
         return true;
     }
 
@@ -426,6 +429,53 @@ function anna_get_home_template_option_keys()
 }
 
 /**
+ * Return the known homepage content meta keys. The homepage uses multiple
+ * section metaboxes, unlike inner pages which usually use one meta row.
+ *
+ * @return string[]
+ */
+function anna_get_home_template_content_meta_keys()
+{
+    return [
+        "_anna_content_hero",
+        "_anna_content_intro",
+        "_anna_content_services",
+        "_anna_content_about",
+        "_anna_content_testimonials",
+        "_anna_content_cta",
+        "_anna_content_recognition",
+        "anna_content_hero",
+        "anna_content_intro",
+        "anna_content_services",
+        "anna_content_about",
+        "anna_content_testimonials",
+        "anna_content_cta",
+        "anna_content_recognition",
+    ];
+}
+
+/**
+ * Check whether a page is the Anna homepage/front-page content page.
+ *
+ * @param int $post_id Page ID.
+ * @return bool
+ */
+function anna_is_home_template_page($post_id)
+{
+    $post_id = absint($post_id);
+    $post = get_post($post_id);
+    if (!$post || "page" !== $post->post_type) {
+        return false;
+    }
+
+    $template = get_post_meta($post_id, "_wp_page_template", true);
+
+    return "home" === $post->post_name ||
+        "front-page.php" === $template ||
+        absint(get_option("page_on_front")) === $post_id;
+}
+
+/**
  * Return reset config for a page using an Anna template.
  *
  * @param int $post_id Page ID.
@@ -467,11 +517,7 @@ function anna_get_template_page_reset_config($post_id)
         }
     }
 
-    if (
-        "front-page.php" === $template ||
-        "home" === $post->post_name ||
-        absint(get_option("page_on_front")) === absint($post->ID)
-    ) {
+    if (anna_is_home_template_page($post->ID)) {
         $option_keys = array_merge($option_keys, anna_get_home_template_option_keys());
     }
 
@@ -574,11 +620,26 @@ add_action("admin_post_anna_reset_template_page", "anna_handle_template_page_res
  */
 function anna_delete_template_page_content_meta($post_id)
 {
+    $post_id = absint($post_id);
     $all_meta = get_post_meta($post_id);
-    $deleted = 0;
+    $delete_keys = [];
 
     foreach (array_keys($all_meta) as $meta_key) {
-        if (str_starts_with((string) $meta_key, "_anna_content_")) {
+        $meta_key = (string) $meta_key;
+        if (str_starts_with($meta_key, "_anna_content_") || str_starts_with($meta_key, "anna_content_")) {
+            $delete_keys[$meta_key] = true;
+        }
+    }
+
+    if (anna_is_home_template_page($post_id)) {
+        foreach (anna_get_home_template_content_meta_keys() as $meta_key) {
+            $delete_keys[$meta_key] = true;
+        }
+    }
+
+    $deleted = 0;
+    foreach (array_keys($delete_keys) as $meta_key) {
+        if (metadata_exists("post", $post_id, $meta_key)) {
             delete_post_meta($post_id, $meta_key);
             $deleted++;
         }
