@@ -14,9 +14,12 @@ $section_data  = anna_get_services_section_content();
 $heading       = $section_data['heading'];
 $desc          = $section_data['description'];
 $services      = $section_data['cards'];
+$services_bg   = $section_data['bg_image_id'] ?? 0;
 ?>
 
-<section class="anna-services anna-section anna-section--lg" id="services" aria-labelledby="services-heading">
+<section class="anna-services anna-section anna-section--lg" id="services" aria-labelledby="services-heading"
+	<?php if ( $services_bg ) : ?>style="background-image:url('<?php echo esc_url( anna_responsive_image_url( $services_bg, 'full' ) ); ?>');"<?php endif; ?>
+>
 	<div class="anna-container">
 		<header class="anna-services__header anna-reveal">
 			<?php if ( $section_data['eyebrow'] ) : ?>

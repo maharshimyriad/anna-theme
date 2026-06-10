@@ -246,11 +246,24 @@ function anna_get_home_page_content_for_admin($post_id)
             "recognition_items_text" => anna_get_option("recognition_items_text", $defaults["recognition_items_text"] ?? ""),
         ],
         "services" => [
-            "eyebrow" => anna_get_option("services_eyebrow", $defaults["services_eyebrow"] ?? ""),
-            "heading" => anna_get_option("services_heading", $defaults["services_heading"] ?? ""),
+            "eyebrow"     => anna_get_option("services_eyebrow", $defaults["services_eyebrow"] ?? ""),
+            "heading"     => anna_get_option("services_heading", $defaults["services_heading"] ?? "What's the change you're needing?"),
             "description" => anna_get_option("services_description", $defaults["services_description"] ?? ""),
-            "cta_text" => anna_get_option("services_cta_text", $defaults["services_cta_text"] ?? ""),
-            "cta_url" => anna_get_option("services_cta_url", $defaults["services_cta_url"] ?? ""),
+            "cta_text"    => anna_get_option("services_cta_text", $defaults["services_cta_text"] ?? ""),
+            "cta_url"     => anna_get_option("services_cta_url", $defaults["services_cta_url"] ?? ""),
+            "bg_image_id" => 0,
+            "card_1_title"   => "1-1 Life Coaching",
+            "card_1_excerpt" => "Deep, personalised work using a bottom-up approach that accesses the subconscious through the body and the nervous system. We get to the root of what is actually running underneath and change it.",
+            "card_1_link"    => "Find out more",
+            "card_1_url"     => "",
+            "card_2_title"   => "Oasis Community",
+            "card_2_excerpt" => "A womens wellness community for sustainable health and wellbeing. Ongoing live guidance, daily practices, guided movement, nutrition, meditation, breathwork and community connection. A space to come back to yourself week after week.",
+            "card_2_link"    => "Find out more",
+            "card_2_url"     => "",
+            "card_3_title"   => "Speaking and Workshops",
+            "card_3_excerpt" => "Keynotes and interactive sessions for conferences, corporate events and womens gatherings. Drawing on Olympic experience, deep coaching expertise and lived transformation. Topics include stress and the nervous system, building resilience, the mind-body connection and more.",
+            "card_3_link"    => "Enquire about speaking",
+            "card_3_url"     => "",
         ],
         "about" => [
             "eyebrow" => anna_get_option("about_eyebrow", $defaults["about_eyebrow"] ?? ""),
@@ -351,6 +364,7 @@ function anna_render_home_page_content_meta_box($post)
             <?php anna_home_admin_textarea("services", "description", __("Description", "anna-baylis"), $content, 3); ?>
             <?php anna_home_admin_text("services", "cta_text", __("CTA text", "anna-baylis"), $content); ?>
             <?php anna_home_admin_text("services", "cta_url", __("CTA URL", "anna-baylis"), $content); ?>
+            <?php anna_home_admin_media("services", "bg_image_id", __("Background Image", "anna-baylis"), $content); ?>
 
             <tr><td colspan="2"><h4 style="margin:8px 0 4px"><?php esc_html_e("Card 1", "anna-baylis"); ?></h4></td></tr>
             <?php anna_home_admin_text("services", "card_1_title", __("Card 1 Title", "anna-baylis"), $content); ?>
@@ -475,7 +489,7 @@ function anna_save_home_page_content_meta_box($post_id)
     $schema = [
         "hero" => ["eyebrow", "heading", "description", "trust_text", "image_id", "primary_button_text", "primary_button_url", "secondary_button_text", "secondary_button_url", "stat_1_value", "stat_1_label", "stat_2_value", "stat_2_label", "stat_3_value", "stat_3_label"],
         "intro" => ["intro_eyebrow", "intro_heading", "intro_body", "intro_quote", "intro_quote_cite", "recognition_eyebrow", "recognition_heading", "recognition_description", "recognition_items_text"],
-        "services" => ["eyebrow", "heading", "description", "cta_text", "cta_url",
+        "services" => ["eyebrow", "heading", "description", "cta_text", "cta_url", "bg_image_id",
             "card_1_title", "card_1_excerpt", "card_1_link", "card_1_url",
             "card_2_title", "card_2_excerpt", "card_2_link", "card_2_url",
             "card_3_title", "card_3_excerpt", "card_3_link", "card_3_url",
@@ -492,7 +506,7 @@ function anna_save_home_page_content_meta_box($post_id)
         $saved[$section] = [];
         foreach ($keys as $key) {
             $value = isset($raw[$section][$key]) ? (string) $raw[$section][$key] : "";
-            if ("image_id" === $key) {
+            if (str_ends_with($key, "_id")) {
                 $saved[$section][$key] = absint($value);
             } elseif (in_array($key, $url_keys, true)) {
                 $saved[$section][$key] = esc_url_raw($value);

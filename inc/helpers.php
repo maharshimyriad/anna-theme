@@ -384,6 +384,7 @@ function anna_get_services_section_content()
         "description" => anna_get_option("services_description", ""),
         "cta_text"    => anna_get_option("services_cta_text", ""),
         "cta_url"     => anna_get_option("services_cta_url", "#"),
+        "bg_image_id" => 0,
         "cards"       => $default_cards,
     ];
 
@@ -394,6 +395,10 @@ function anna_get_services_section_content()
             if (isset($data[$key]) && (!empty($data[$key]) || anna_is_intentionally_blank($data[$key]))) {
                 $content[$key] = anna_is_intentionally_blank($data[$key]) ? "" : $data[$key];
             }
+        }
+
+        if (!empty($data["bg_image_id"])) {
+            $content["bg_image_id"] = absint($data["bg_image_id"]);
         }
 
         // Merge editable card data over the defaults.
