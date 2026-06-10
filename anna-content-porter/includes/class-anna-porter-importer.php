@@ -82,10 +82,11 @@ class Anna_Porter_Importer {
 	 * Performs the full import.
 	 *
 	 * @param array  $package  Decoded Export_Package.
-	 * @param string $mode     'overwrite' or 'skip'.
+	 * @param string         $mode     'overwrite' or 'skip'.
+	 * @param array<string,int> $page_map Source package page key => destination post ID.
 	 * @return array{ written: int, skipped: int, images_created: int, warnings: string[] }
 	 */
-	public function import( array $package, string $mode ): array {
+	public function import( array $package, string $mode, array $page_map = [] ): array {
 		$this->warnings = [];
 
 		// Content-only import: do NOT recreate or overwrite images. Recreating
@@ -102,7 +103,7 @@ class Anna_Porter_Importer {
 				continue;
 			}
 
-			$page_id = $this->resolve_import_page( $page_key );
+			$page_id = $this->resolve_import_page( $page_key, $page_map );
 
 			if ( null === $page_id ) {
 				$warnings[] = sprintf(
@@ -186,10 +187,16 @@ class Anna_Porter_Importer {
 	/**
 	 * Resolves a page_key from the export package to a local post ID.
 	 *
-	 * @param string $page_key  '__front__' or a page slug.
+	 * @param string            $page_key  '__front__' or a page slug.
+	 * @param array<string,int> $page_map  Source package page key => destination post ID.
 	 * @return int|null
 	 */
-	private function resolve_import_page( string $page_key ): ?int {
+	private function resolve_import_page( string $page_key, array $page_map = [] ): ?int {
+		if ( isset( $page_map[ $page_key ] ) && (int) $page_map[ $page_key ] > 0 ) {
+			$post = get_post( (int) $page_map[ $page_key ] );
+			return ( $post && 'trash' !== $post->post_status ) ? $post->ID : null;
+		}
+
 		if ( '__front__' === $page_key ) {
 			$id = (int) get_option( 'page_on_front' );
 			return $id > 0 ? $id : null;

@@ -316,6 +316,59 @@ class Anna_Porter_Admin {
 					<input type="hidden" name="action"       value="anna_porter_import_confirm">
 					<input type="hidden" name="porter_token" value="<?php echo esc_attr( $token ); ?>">
 
+					<?php if ( ! empty( $package['pages'] ) && is_array( $package['pages'] ) ) : ?>
+						<?php
+						$local_pages = get_pages( [
+							'sort_column' => 'post_title',
+							'sort_order'  => 'ASC',
+							'post_status' => [ 'publish', 'draft', 'private' ],
+						] );
+						$front_id = (int) get_option( 'page_on_front' );
+						?>
+						<span class="anna-porter-mode-label"><?php esc_html_e( 'Map Imported Pages', 'anna-content-porter' ); ?></span>
+						<p class="anna-porter-desc">
+							<?php esc_html_e( 'Choose which page on this website should receive each imported page’s content.', 'anna-content-porter' ); ?>
+						</p>
+						<table class="anna-porter-meta-table">
+							<thead>
+								<tr>
+									<th><?php esc_html_e( 'Source page', 'anna-content-porter' ); ?></th>
+									<th><?php esc_html_e( 'Content groups', 'anna-content-porter' ); ?></th>
+									<th><?php esc_html_e( 'Import into', 'anna-content-porter' ); ?></th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php foreach ( $package['pages'] as $source_key => $meta_data ) : ?>
+									<?php
+									$source_key = (string) $source_key;
+									$default_id = 0;
+									if ( '__front__' === $source_key ) {
+										$default_id = $front_id;
+									} else {
+										$matched_page = get_page_by_path( $source_key );
+										$default_id   = $matched_page ? (int) $matched_page->ID : 0;
+									}
+									$source_label = ( '__front__' === $source_key ) ? __( 'Front page', 'anna-content-porter' ) : $source_key;
+									?>
+									<tr>
+										<td><strong><?php echo esc_html( $source_label ); ?></strong><br><code><?php echo esc_html( $source_key ); ?></code></td>
+										<td><?php echo esc_html( is_array( $meta_data ) ? count( $meta_data ) : 0 ); ?></td>
+										<td>
+											<select name="page_map[<?php echo esc_attr( $source_key ); ?>]" required style="width:100%;max-width:360px">
+												<option value=""><?php esc_html_e( 'Select destination page…', 'anna-content-porter' ); ?></option>
+												<?php foreach ( $local_pages as $local_page ) : ?>
+													<option value="<?php echo esc_attr( $local_page->ID ); ?>" <?php selected( $default_id, (int) $local_page->ID ); ?>>
+														<?php echo esc_html( $local_page->post_title . ' (#' . $local_page->ID . ')' ); ?>
+													</option>
+												<?php endforeach; ?>
+											</select>
+										</td>
+									</tr>
+								<?php endforeach; ?>
+							</tbody>
+						</table>
+					<?php endif; ?>
+
 					<span class="anna-porter-mode-label"><?php esc_html_e( 'Import Mode', 'anna-content-porter' ); ?></span>
 					<div class="anna-porter-mode-group">
 						<label class="anna-porter-mode-option">
@@ -392,7 +445,7 @@ class Anna_Porter_Admin {
 									name="sections[]"
 									value="<?php echo esc_attr( $id ); ?>"
 									class="anna-porter-section-cb"
-									<?php checked( 'all_pages', $id ); ?>
+									<?php ( 'all_pages', $id ); ?>
 								>
 								<span><?php echo esc_html( $section['label'] ); ?></span>
 							</label>
@@ -981,11 +1034,24 @@ class Anna_Porter_Admin {
 			exit;
 		}
 
-		// Consume the stored package immediately so it cannot be replayed.
-		$this->delete_import_package( $token );
+		$mode     = ( 'skip' === ( $_POST['import_mode'] ?? '' ) ) ? 'skip' : 'overwrite';
+		$page_map = [];
 
-		$mode   = ( 'skip' === ( $_POST['import_mode'] ?? '' ) ) ? 'skip' : 'overwrite';
-		$result = ( new Anna_Porter_Importer() )->import( $package, $mode );
+		if ( isset( $_POST['page_map'] ) && is_array( $_POST['page_map'] ) ) {
+			foreach ( wp_unslash( $_POST['page_map'] ) as $source_key => $target_id ) {
+				$source_key = sanitize_text_field( (string) $source_key );
+				$target_id  = absint( $target_id );
+
+				if ( '' !== $source_key && $target_id > 0 ) {
+					$page_map[ $source_key ] = $target_id;
+				}
+			}
+		}
+
+		$result = ( new Anna_Porter_Importer() )->import( $package, $mode, $page_map );
+
+		// Consume the stored package after a successful import attempt.
+		$this->delete_import_package( $token );
 
 		// Store warning messages in a short-lived transient so the result page
 		// can display them without bloating the redirect URL.
