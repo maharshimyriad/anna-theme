@@ -620,15 +620,47 @@ add_action("add_meta_boxes_page", "anna_register_template_page_reset_meta_box");
  */
 function anna_render_template_page_reset_meta_box($post)
 {
+    $nonce = wp_create_nonce( 'anna_reset_template_page_' . $post->ID );
     ?>
     <p><?php esc_html_e("Reset this page back to the theme defaults by deleting saved Anna template content from the database.", "anna-baylis"); ?></p>
     <p><strong><?php esc_html_e("This cannot be undone.", "anna-baylis"); ?></strong></p>
-    <form method="post" action="<?php echo esc_url(admin_url("admin-post.php")); ?>" onsubmit="return confirm('<?php echo esc_js(__("Delete all saved Anna template content for this page and reset it to theme defaults?", "anna-baylis")); ?>');">
-        <?php wp_nonce_field("anna_reset_template_page_" . $post->ID, "anna_reset_template_page_nonce"); ?>
-        <input type="hidden" name="action" value="anna_reset_template_page">
-        <input type="hidden" name="post_id" value="<?php echo esc_attr($post->ID); ?>">
-        <?php submit_button(__("Reset to Theme Defaults", "anna-baylis"), "delete", "submit", false); ?>
-    </form>
+    <button
+        type="button"
+        class="button delete"
+        id="anna-template-reset-btn"
+        data-post-id="<?php echo esc_attr( $post->ID ); ?>"
+        data-nonce="<?php echo esc_attr( $nonce ); ?>"
+        data-action-url="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"
+        data-confirm="<?php echo esc_attr( __( 'Delete all saved Anna template content for this page and reset it to theme defaults?', 'anna-baylis' ) ); ?>"
+    >
+        <?php esc_html_e( 'Reset to Theme Defaults', 'anna-baylis' ); ?>
+    </button>
+    <script>
+    (function() {
+        var btn = document.getElementById('anna-template-reset-btn');
+        if (!btn) return;
+        btn.addEventListener('click', function() {
+            if (!window.confirm(btn.dataset.confirm)) return;
+            var form = document.createElement('form');
+            form.method = 'post';
+            form.action = btn.dataset.actionUrl;
+            var fields = {
+                action: 'anna_reset_template_page',
+                post_id: btn.dataset.postId,
+                anna_reset_template_page_nonce: btn.dataset.nonce
+            };
+            Object.keys(fields).forEach(function(key) {
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = fields[key];
+                form.appendChild(input);
+            });
+            document.body.appendChild(form);
+            form.submit();
+        });
+    })();
+    </script>
     <?php
 }
 
