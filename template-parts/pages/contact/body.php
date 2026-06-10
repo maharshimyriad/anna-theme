@@ -15,10 +15,11 @@ if (empty($contact)) {
     $contact = anna_get_contact_page_content();
 }
 
-$email = anna_get_option("contact_email", "info@annabaylis.com.au");
-$phone = anna_get_option("contact_phone", "");
-$address = anna_get_option("contact_address", "");
-$hours = anna_get_option("contact_hours", "");
+$email = $contact["info_email"] ?? anna_get_option("contact_email", "info@annabaylis.com.au");
+$phone = $contact["info_phone"] ?? anna_get_option("contact_phone", "");
+$address = $contact["info_address"] ?? anna_get_option("contact_address", "");
+$hours = $contact["info_hours"] ?? anna_get_option("contact_hours", "");
+$form_shortcode = trim((string) ($contact["form_shortcode"] ?? '[gravityform id="2" title="false"]'));
 ?>
 
 <section class="anna-contact-page-body">
@@ -152,7 +153,9 @@ $hours = anna_get_option("contact_hours", "");
      ); ?></h2>
 				<?php endif; ?>
 
-				<?php echo do_shortcode('[gravityform id="2" title="false"]'); ?>
+				<?php if ($form_shortcode): ?>
+					<?php echo do_shortcode($form_shortcode); ?>
+				<?php endif; ?>
 
 				<?php if (!empty($contact["form_response_note"])): ?>
 					<p class="anna-contact-page-form__note"><?php echo wp_kses(

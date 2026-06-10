@@ -5,258 +5,532 @@
  * @since   1.0.0
  */
 
+:root {
+    --color-bg-soft: #f1f5e8;
+}
+
 .anna-reviews-page-main {
-  background: var(--color-white);
-  --reviews-section-padding: clamp(4.5rem, 8vw, 7rem);
+    background: var(--color-white);
+    --reviews-section-padding: clamp(4.5rem, 8vw, 7rem);
 }
 
 /* ── Hero ───────────────────────────────────────────────────────────────── */
 .anna-reviews-page-hero {
-  position: relative;
-  min-height: clamp(42vh, 58vh, 720px);
-  display: flex;
-  align-items: center;
-  margin-top: var(--header-height);
-  background-color: #071a16;
-  background-image:
-    radial-gradient(900px 520px at 70% 50%, rgba(0, 148, 128, 0.40) 0%, rgba(0, 148, 128, 0.18) 42%, rgba(0, 148, 128, 0) 65%),
-    linear-gradient(135deg, rgba(7, 26, 22, 0.96) 0%, rgba(7, 26, 22, 0.88) 100%);
-  background-size: cover;
-  background-position: center;
-  color: var(--color-white);
-  overflow: hidden;
+    position: relative;
+    min-height: clamp(42vh, 58vh, 720px);
+    display: flex;
+    align-items: center;
+    margin-top: var(--header-height);
+    background-color: #071a16;
+    background-image:
+        radial-gradient(
+            900px 520px at 70% 50%,
+            rgba(0, 148, 128, 0.4) 0%,
+            rgba(0, 148, 128, 0.18) 42%,
+            rgba(0, 148, 128, 0) 65%
+        ),
+        linear-gradient(
+            135deg,
+            rgba(7, 26, 22, 0.96) 0%,
+            rgba(7, 26, 22, 0.88) 100%
+        );
+    background-size: cover;
+    background-position: center;
+    color: var(--color-white);
+    overflow: hidden;
 }
 
 .anna-reviews-page-hero--has-image {
-  background-image: none;
+    background-image: none;
+}
+
+.anna-reviews-page-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(7, 20, 17, 0.9) 0%,
+        rgba(7, 20, 17, 0.68) 50%,
+        rgba(7, 20, 17, 0.4) 100%
+    );
+    pointer-events: none;
 }
 
 .anna-reviews-page-hero .anna-container {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-	    margin: 150px auto;
+    position: relative;
+    z-index: 1;
+    width: 100%;
 }
 
 .anna-reviews-page-hero__content {
-  padding-block: clamp(3rem, 8vh, 5rem);
-  max-width: 48rem;
+    padding-block: clamp(3rem, 8vh, 5rem);
+    max-width: 48rem;
 }
 
 .anna-reviews-page-hero__eyebrow {
-letter-spacing: 0.12em;
-    animation: annaHeroOverlineDrift 7s ease-in-out infinite;
-    font-family: 'Lexend Giga', sans-serif;
+    margin: 0 0 var(--space-5);
+    font-family: "Lexend Giga", sans-serif;
     font-size: 12px;
     font-weight: 500;
-    letter-spacing: 3.2px;
-    color: white;
+    letter-spacing: 4.4px;
+    color: #f5efd9;
+    text-transform: uppercase;
 }
 
 .anna-reviews-page-hero__heading {
-      margin: 0;
-    font-size: clamp(32px, 4vw, 60px);
-    line-height: 1.4;
-    font-weight: 700;
+    margin: 0 0 var(--space-7);
     color: var(--color-white);
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 2.2rem + 1.4vw, 3.75rem);
+    line-height: 1.08;
+    font-weight: var(--font-weight-regular);
+    letter-spacing: var(--tracking-snug);
 }
 
 .anna-reviews-page-hero__rating {
-  display: flex;
-  align-items: center;
-  gap: var(--space-4);
-  flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
 }
 
 .anna-reviews-page-hero__rating-text {
-  font-size: var(--text-sm);
-  color: rgba(255, 255, 255, 0.80);
-  font-family: var(--font-body);
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.8);
+    font-family: var(--font-body);
 }
 
 /* ── Stars ──────────────────────────────────────────────────────────────── */
 .anna-star-rating {
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-  color: #F5C842;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    color: #f5c842;
 }
 
 .anna-star-rating__star {
-  width: 18px;
-  height: 18px;
-  fill: currentColor;
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
 }
 
 /* ── Grid ───────────────────────────────────────────────────────────────── */
 .anna-reviews-page-grid {
-  padding: var(--reviews-section-padding) 0;
+    --color-bg-soft: #f1f5e8;
+    padding: var(--reviews-section-padding) 0 0;
+    background: var(--color-white);
 }
 
 .anna-reviews-page-grid__cards {
-  display: grid;
+    /* display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(var(--space-5), 2.5vw, var(--space-7));
-  margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+  gap: clamp(var(--space-5), 2.5vw, var(--space-7)); */
+    margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
 }
 
 .anna-review-card {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-5);
-  padding: clamp(1.5rem, 3vw, 2rem);
-  border-radius: var(--radius-lg);
-  background: #F1F5E8;
-/*   box-shadow: var(--shadow-sm); */
-  transition: box-shadow var(--transition-base), transform var(--transition-base);
-	    border: 1px solid #0000000D;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding: clamp(1.5rem, 3vw, 2rem);
+    border-radius: var(--radius-lg);
+    background: var(--color-white);
+    box-shadow: var(--shadow-sm);
+    transition:
+        box-shadow var(--transition-base),
+        transform var(--transition-base);
 }
 
 .anna-review-card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
 }
 
 .anna-review-card__header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--space-3);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-3);
 }
 
 .anna-review-card__meta {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
 }
 
 .anna-review-card__name {
-  font-family: var(--font-heading);
-  font-size: var(--text-sm);
-  font-weight: var(--font-weight-semibold);
-  color: #0E5C53;
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-heading);
 }
 
 .anna-review-card__date {
-  font-size: var(--text-xs);
-  color: var(--color-text-muted);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
 }
 
 .anna-review-card__stars {
-  flex-shrink: 0;
+    flex-shrink: 0;
 }
 
 .anna-review-card__stars .anna-star-rating__star {
-  width: 14px;
-  height: 14px;
+    width: 14px;
+    height: 14px;
 }
 
 .anna-review-card__quote {
-  margin: 0;
-  padding: 0;
-  border: none;
+    margin: 0;
+    padding: 0;
+    border: none;
 }
 
 .anna-review-card__quote p {
-    color: #4A5568;
-    line-height: 1.8;
-    font-size: 15px;
-	font-family: 'Mulish';
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--color-text);
+    line-height: 1.7;
+    font-style: normal;
 }
 
 /* ── Grid footer ────────────────────────────────────────────────────────── */
 .anna-reviews-page-grid__footer {
-  text-align: center;
+    text-align: center;
 }
 
 .anna-reviews-page-grid__all-link {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-3) var(--space-6);
-  border-radius: var(--radius-full);
-  border: 1.5px solid var(--color-primary);
-  color: var(--color-primary);
-  font-size: var(--text-sm);
-  font-weight: var(--font-weight-semibold);
-  text-decoration: none;
-  transition: background var(--transition-fast), color var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-full);
+    border: 1.5px solid var(--color-primary);
+    color: var(--color-primary);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    text-decoration: none;
+    transition:
+        background var(--transition-fast),
+        color var(--transition-fast);
 }
 
 .anna-reviews-page-grid__all-link:hover {
-  background: var(--color-primary);
-  color: var(--color-white);
+    background: var(--color-primary);
+    color: var(--color-white);
 }
 
 .anna-reviews-page-grid__empty {
-  text-align: center;
-  color: var(--color-text-muted);
-  padding: var(--space-12) 0;
+    text-align: center;
+    color: var(--color-text-muted);
+    padding: var(--space-12) 0;
 }
 
 /* ── CTA section ────────────────────────────────────────────────────────── */
 .anna-reviews-page-cta {
-  padding: var(--reviews-section-padding) 0;
-  background: #FFFBE780;
-  text-align: center;
+    padding: var(--reviews-section-padding) 0;
+    background: #fffbe7;
+    color: var(--color-primary);
+    text-align: center;
 }
 
 .anna-reviews-page-cta__inner {
-  max-width: 42rem;
-  margin-inline: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-6);
+    max-width: 42rem;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-6);
 }
 
 .anna-reviews-page-cta__heading {
-  margin: 0;
-  font-family: var(--font-heading);
-  font-size: clamp(1.875rem, 3vw, 2.75rem);
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.1;
-  color: #0E5C53CC;
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: clamp(1.875rem, 3vw, 2.75rem);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.1;
+    color: var(--color-primary);
 }
 
 .anna-reviews-page-cta__body {
-  margin: 0;
-  font-size: var(--text-lg);
-  color: #0E5C53CC;
-  line-height: 1.6;
+    margin: 0;
+    font-size: var(--text-lg);
+    color: var(--color-primary);
+    line-height: 1.6;
 }
 
 .anna-reviews-page-cta__btn {
-  background: #0E5C53;
-  color: white;
-  font-weight: var(--font-weight-semibold);
+    background: var(--color-primary);
+    font-weight: var(--font-weight-semibold);
 }
 
 .anna-reviews-page-cta__btn:hover {
-  background: #f3f4f6;
-  color: var(--color-primary-dark);
+    background: #f3f4f6;
+    color: var(--color-primary-dark);
+}
+
+/* ── Plugin review card overrides (business-reviews-bundle) ─────────────── */
+
+/* Slide height */
+.anna-reviews-page-grid__cards .rplgsw-slide {
+    height: auto;
+}
+
+/* Re-order: name/date row above stars/quote block */
+.anna-reviews-page-grid__cards .rplg-slider-review {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* Author row — rendered first in DOM but visually on top */
+.anna-reviews-page-grid__cards .rplg-row {
+    order: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    padding: 0 !important;
+    background: var(--color-bg-soft);
+    border-top: none;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    margin-bottom: 0;
+}
+
+.anna-reviews-page-grid__cards .rplg-slider .rplg-box .rplg-box-content:before {
+    display: none !important;
+}
+
+/* Hide avatar */
+.anna-reviews-page-grid__cards .rplg-row-left {
+    display: none;
+}
+
+.anna-reviews-page-grid__cards .rplg-row-right {
+    width: 100%;
+}
+
+/* Reviewer name */
+.anna-reviews-page-grid__cards .rplg .rplg-review-name,
+.anna-reviews-page-grid__cards .rplg a.rplg-review-name {
+    display: block !important;
+    font-family: var(--font-heading) !important;
+    font-size: var(--text-sm) !important;
+    font-weight: var(--font-weight-bold) !important;
+    color: var(--color-primary) !important;
+    text-decoration: none !important;
+    line-height: 1.3 !important;
+}
+
+.anna-reviews-page-grid__cards .rplg a.rplg-review-name:hover {
+    color: var(--color-primary-dark);
+    text-decoration: none;
+}
+
+/* Date */
+.anna-reviews-page-grid__cards .rplg-review-time {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    line-height: 1.4;
+    margin-top: var(--space-0-5);
+}
+
+/* Outer card box — sits below the row */
+.anna-reviews-page-grid__cards .rplg-box {
+    order: 1;
+    background-color: var(--color-bg-soft) !important;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    box-shadow: none;
+    border: none;
+    overflow: hidden;
+    padding: 0;
+    transition:
+        box-shadow var(--transition-base),
+        transform var(--transition-base);
+    margin: 0 !important;
+    border: none !important;
+}
+
+.anna-reviews-page-grid__cards .rplg-box:hover {
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-2px);
+}
+
+/* Inner content */
+.anna-reviews-page-grid__cards .rplg-slider .rplg-box .rplg-box-content {
+    background: var(--color-bg-soft);
+    padding: clamp(1.4rem, 2.5vw, 1.75rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+    margin: 0rem 1.5rem 1.25rem !important;
+}
+
+/* Hide Google badge */
+.anna-reviews-page-grid__cards .rplg-review-badge {
+    display: none;
+}
+
+/* Stars */
+.anna-reviews-page-grid__cards .rplg-stars {
+    display: inline-flex;
+    align-items: center;
+    gap: 1px;
+    margin: var(--space-2) 0 var(--space-3);
+}
+
+.anna-reviews-page-grid__cards .rplg-stars svg {
+    width: 16px;
+    height: 16px;
+}
+
+.anna-reviews-page-grid__cards .rplg-stars svg use {
+    fill: var(--color-primary);
+}
+
+/* Quote text */
+.anna-reviews-page-grid__cards .rplg-review-text {
+    display: block;
+    font-size: var(--text-sm);
+    color: var(--color-text);
+    line-height: 1.7;
+    font-style: italic;
+    font-family: var(--font-body);
+    font-weight: var(--font-weight-light);
+    margin: 0;
+}
+
+/* ── Plugin pagination "Next Reviews" link ───────────────────────────────── */
+.anna-reviews-page-grid__cards .rplg .rplg-url,
+.anna-reviews-page-grid .rplg .rplg-url {
+    display: block !important;
+    width: fit-content !important;
+    margin: var(--space-8) auto 0 !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 9px 18px;
+    border-radius: 6px;
+    border: 1.5px solid var(--color-primary) !important;
+    background: transparent !important;
+    color: var(--color-primary) !important;
+    font-family: var(--font-body) !important;
+    font-size: var(--btn-font-size) !important;
+    font-weight: var(--btn-font-weight) !important;
+    letter-spacing: var(--btn-letter-spacing) !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+    transition:
+        background var(--transition-fast),
+        color var(--transition-fast),
+        border-color var(--transition-fast) !important;
+}
+
+.anna-reviews-page-grid__cards .rplg .rplg-url:hover,
+.anna-reviews-page-grid .rplg .rplg-url:hover {
+    background: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+    color: var(--color-white) !important;
+    text-decoration: none !important;
+}
+
+/* ── "read more" toggle ──────────────────────────────────────────────────── */
+.anna-reviews-page-grid__cards .rplg .rplg-more-toggle,
+.anna-reviews-page-grid .rplg .rplg-more-toggle {
+    color: var(--color-primary) !important;
+    cursor: pointer !important;
+}
+
+.anna-reviews-page-grid__cards .rplg .rplg-more-toggle:hover,
+.anna-reviews-page-grid .rplg .rplg-more-toggle:hover {
+    color: var(--color-primary-dark) !important;
+}
+
+/* ── Slider nav arrows ───────────────────────────────────────────────────── */
+
+/* Base button */
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-prev,
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-next {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: var(--radius-full) !important;
+    background: var(--color-white) !important;
+    border: 1.5px solid var(--color-primary) !important;
+    box-shadow: none !important;
+    cursor: pointer !important;
+    transition:
+        background var(--transition-fast),
+        border-color var(--transition-fast) !important;
+}
+
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-prev:hover,
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-next:hover {
+    background: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+}
+
+/* Hide the plugin's ‹ › text character */
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-prev span,
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-next span {
+    display: none !important;
+}
+
+/* Draw chevron via pseudo-element */
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-prev::before,
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-next::before {
+    content: "" !important;
+    display: block !important;
+    width: 9px !important;
+    height: 9px !important;
+    border-top: 2px solid var(--color-primary) !important;
+    border-right: 2px solid var(--color-primary) !important;
+    transition: border-color var(--transition-fast) !important;
+}
+
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-prev {
+    left: -5% !important;
+}
+
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-next {
+    right: -5% !important;
+}
+
+/* Prev: point left */
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-prev::before {
+    transform: rotate(-135deg) translate(-1px, 1px) !important;
+}
+
+/* Next: point right */
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-next::before {
+    transform: rotate(45deg) translate(-1px, 1px) !important;
+}
+
+/* Chevron turns white on hover */
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-prev:hover::before,
+.anna-reviews-page-grid__cards .rplg-slider .rplg-slider-next:hover::before {
+    border-color: var(--color-white) !important;
 }
 
 /* ── Responsive ──────────────────────────────────────────────────────────── */
 @media (max-width: 1100px) {
-  .anna-reviews-page-grid__cards {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+    .anna-reviews-page-grid__cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
 
 @media (max-width: 640px) {
-	.anna-reviews-page-hero .anna-container{
-		margin: 0 auto;
-	}
-  .anna-reviews-page-grid__cards {
-    grid-template-columns: 1fr;
-  }
+    .anna-reviews-page-grid__cards {
+        grid-template-columns: 1fr;
+    }
 
-  .anna-reviews-page-hero__content {
-    max-width: none;
-  }
+    .anna-reviews-page-hero__content {
+        max-width: none;
+    }
 
-  .anna-reviews-page-hero__overlay {
-    background: rgba(7, 20, 17, 0.78);
-  }
+    .anna-reviews-page-hero__overlay {
+        background: rgba(7, 20, 17, 0.78);
+    }
 }
