@@ -37,7 +37,7 @@ This plan implements the Anna Content Porter WordPress plugin in 9 sequential ta
   - Implement static `get_section_for_key(string $key, array $all_options): ?string` using the same resolution logic across all registered sections
   - _Requirements: 2.1, 2.2, 2.3, 2.4_
 
-- [~] 3. Exporter class
+- [ ] 3. Exporter class
   - Create `anna-content-porter/includes/class-anna-porter-exporter.php` defining the `Anna_Porter_Exporter` class
   - Implement `export(array $section_ids): void` — calls `get_keys_for_sections`, aborts with `wp_die` if no keys found, calls `build_package`, sends `Content-Type: application/json`, `Content-Disposition: attachment; filename="anna-content-porter-{Y-m-d}.json"`, and `Cache-Control: no-cache` headers, then `echo json_encode($package, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)` and `exit`
   - Implement `build_package(array $section_ids): array` — reads `get_option('anna_theme_options')`, filters to matched keys, iterates each value: for scalar int > 0 call `resolve_image()` and replace value with string key or keep original int + add warning; for arrays recursively walk sub-fields looking for sub-keys ending in `_id` with int > 0 and apply the same replace logic; assemble `meta`, `content`, `images`, and `export_warnings` arrays
@@ -46,7 +46,7 @@ This plan implements the Anna Content Porter WordPress plugin in 9 sequential ta
   - _Depends on: task 2_
   - _Requirements: 3.3, 3.4, 3.5, 3.6, 4.1, 4.2, 4.3, 4.4, 4.5_
 
-- [~] 4. Importer class
+- [ ] 4. Importer class
   - Create `anna-content-porter/includes/class-anna-porter-importer.php` defining the `Anna_Porter_Importer` class
   - Implement `preview(array $package): array` — validates `meta.plugin === 'anna-content-porter'`, validates `content` is an array, returns `['exported_sections', 'source_site_url', 'exported_at', 'content_key_count']`; throws `InvalidArgumentException` on failure
   - Implement `import(array $package, string $mode): array` — calls `recreate_images`, iterates `$package['content']`, rejects keys not in the Registry allowlist (records warning), resolves image string references via `$image_map`, resolves unresolvable raw int media references to 0 with warning, calls `sanitise_value` on each value, calls `should_write` to apply mode logic, then calls `update_option('anna_theme_options', $merged)` and returns `['written', 'skipped', 'images_created', 'warnings']`
@@ -56,7 +56,7 @@ This plan implements the Anna Content Porter WordPress plugin in 9 sequential ta
   - _Depends on: task 2_
   - _Requirements: 5.2, 5.3, 5.4, 5.7, 5.8, 6.1, 6.2, 7.1, 7.2, 8.1, 8.2, 8.3, 8.4, 8.5, 8.6, 9.1, 9.2, 9.3, 9.4, 9.5_
 
-- [~] 5. Admin page class
+- [ ] 5. Admin page class
   - Create `anna-content-porter/includes/class-anna-porter-admin.php` defining the `Anna_Porter_Admin` class
   - Implement `init(): void` — registers `admin_menu`, `admin_enqueue_scripts`, and three `admin_post_*` actions: `anna_porter_export`, `anna_porter_import_preview`, `anna_porter_import_confirm`
   - Implement `register_menu(): void` — calls `add_submenu_page` under parent slug `anna-theme-settings`, page slug `anna-porter`, capability `manage_options`, title "Content Porter", callback `[$this, 'render_page']`; store the returned hook suffix for asset enqueuing
@@ -67,7 +67,7 @@ This plan implements the Anna Content Porter WordPress plugin in 9 sequential ta
   - _Depends on: task 2_
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 5.1, 5.2, 5.3, 5.4_
 
-- [~] 6. Admin UI template
+- [ ] 6. Admin UI template
   - Implement the full `render_page()` method body in `class-anna-porter-admin.php`
   - Render the page wrapper with `<div class="wrap">` and an `<h1>` title; check for `porter_error` query param and display a dismissible `notice-error` div with `esc_html` output
   - Render the Export section: `<form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">` with hidden `action=anna_porter_export`, `wp_nonce_field('anna_porter_export')`, a 2-column checkbox grid iterating `Anna_Porter_Registry::get_sections()` with checkboxes named `sections[]` valued by section key, a "Select All" toggle link (`id="anna-porter-select-all"`), and a submit button (`id="anna-porter-export-btn"`)
@@ -78,7 +78,7 @@ This plan implements the Anna Content Porter WordPress plugin in 9 sequential ta
   - _Depends on: task 5_
   - _Requirements: 1.1, 3.1, 3.2, 5.1, 5.5, 5.6, 10.1, 10.2, 10.3_
 
-- [~] 7. Admin CSS
+- [ ] 7. Admin CSS
   - Create `anna-content-porter/assets/css/admin.css`
   - Style the checkbox grid as a 2-column CSS grid (`display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px`) inside the export section
   - Style the "Select All" link with reduced font size and appropriate margin
@@ -89,14 +89,14 @@ This plan implements the Anna Content Porter WordPress plugin in 9 sequential ta
   - _Depends on: task 5_
   - _Requirements: 3.1, 5.5, 5.6, 10.2, 10.3_
 
-- [~] 8. Admin JS
+- [ ] 8. Admin JS
   - Create `anna-content-porter/assets/js/admin.js` using vanilla JS with no jQuery dependency
   - On `DOMContentLoaded`, locate the export submit button (`#anna-porter-export-btn`) and all checkboxes named `sections[]`; add a `change` listener to each checkbox that disables the button when zero are checked and enables it when one or more are checked; evaluate initial state immediately on load
   - Implement Select All / Deselect All toggle: locate `#anna-porter-select-all`; on click, if not all checkboxes are checked then check all and set link text to "Deselect All"; if all are checked then uncheck all and set link text to "Select All"; dispatch a `change` event on one checkbox afterwards to update button state; call `event.preventDefault()` on the link
   - _Depends on: task 5_
   - _Requirements: 3.2_
 
-- [~] 9. Wire up plugin
+- [ ] 9. Wire up plugin
   - Verify the plugin header in `anna-content-porter/anna-content-porter.php` is valid so WordPress can detect it as a standalone plugin
   - Inspect `functions.php` for the pattern used to load `anna-page-scaffolder` or other co-located plugins; if such a pattern exists, add a matching `require_once` or `include_once` for `anna-content-porter/anna-content-porter.php` using the same conditional guard so the plugin loads from the theme directory without requiring separate WP plugin activation
   - Confirm the plugin initialises without PHP errors, that the "Content Porter" submenu appears under "Anna Theme", and that the admin page renders at `wp-admin/admin.php?page=anna-porter`

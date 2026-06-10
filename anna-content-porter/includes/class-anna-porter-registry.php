@@ -43,12 +43,7 @@ class Anna_Porter_Registry {
 				'exact'          => [],
 				'post_meta_page' => '__front__',
 				'post_meta_keys' => [
-					'_anna_content_hero',
-					'_anna_content_intro',
-					'_anna_content_services',
-					'_anna_content_about',
-					'_anna_content_testimonials',
-					'_anna_content_cta',
+					'_anna_content_home_page',
 				],
 			],
 

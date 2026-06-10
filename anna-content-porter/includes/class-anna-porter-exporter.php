@@ -340,12 +340,9 @@ class Anna_Porter_Exporter {
 		}
 
 		$prefix_map = [
-			'_anna_content_hero'         => 'hero_',
-			'_anna_content_intro'        => '',
-			'_anna_content_services'     => 'services_',
-			'_anna_content_about'        => 'about_',
-			'_anna_content_testimonials' => 'testimonials_',
-			'_anna_content_cta'          => 'cta_',
+			// New single-row home page format — sections are nested arrays, not flat keys.
+			// We skip flattening for this key; the nested structure is already canonical.
+			'_anna_content_home_page'    => null,
 			'_anna_content_about_pg'     => 'about_pg_',
 			'_anna_content_coaching_pg'  => 'coaching_pg_',
 			'_anna_content_oasis_pg'     => 'oasis_pg_',
@@ -355,6 +352,11 @@ class Anna_Porter_Exporter {
 			'_anna_content_reviews_pg'   => 'reviews_pg_',
 			'_anna_content_contact_pg'   => 'contact_pg_',
 		];
+
+		// null prefix means the value is a nested structure — do not flatten.
+		if ( array_key_exists( $meta_key, $prefix_map ) && null === $prefix_map[ $meta_key ] ) {
+			return [];
+		}
 
 		$prefix = $prefix_map[ $meta_key ] ?? '';
 		$flat   = [];
