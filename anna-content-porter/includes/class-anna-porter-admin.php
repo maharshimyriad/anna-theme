@@ -85,13 +85,11 @@ class Anna_Porter_Admin {
 		$css_path = ANNA_PORTER_DIR . 'assets/css/admin.css';
 		$js_path  = ANNA_PORTER_DIR . 'assets/js/admin.js';
 
-		wp_enqueue_style( 'dashicons' );
-
 		if ( file_exists( $css_path ) ) {
 			wp_enqueue_style(
 				'anna-porter-admin',
 				ANNA_PORTER_URL . 'assets/css/admin.css',
-				[ 'dashicons' ],
+				[],
 				filemtime( $css_path )
 			);
 		}
@@ -120,16 +118,11 @@ class Anna_Porter_Admin {
 		}
 		?>
 		<div class="wrap anna-porter-page">
+			<?php $this->render_inline_styles(); ?>
 
-			<!-- ── Page header ───────────────────────────────────────────────── -->
 			<div class="anna-porter-header">
-				<div class="anna-porter-header-icon">
-					<span class="dashicons dashicons-migrate"></span>
-				</div>
-				<div class="anna-porter-header-text">
-					<h1><?php esc_html_e( 'Content Porter', 'anna-content-porter' ); ?></h1>
-					<p><?php esc_html_e( 'Export and import Anna Baylis theme content between installations.', 'anna-content-porter' ); ?></p>
-				</div>
+				<h1><?php esc_html_e( 'Content Porter', 'anna-content-porter' ); ?></h1>
+				<p><?php esc_html_e( 'Export and import Anna Baylis theme content between installations.', 'anna-content-porter' ); ?></p>
 			</div>
 
 			<?php
@@ -150,6 +143,18 @@ class Anna_Porter_Admin {
 	// ──────────────────────────────────────────────────────────────────────────
 	// Render helpers
 	// ──────────────────────────────────────────────────────────────────────────
+
+	/**
+	 * Prints critical fallback styles inline so the admin UI remains clean even
+	 * when the external CSS file is cached, blocked, or not enqueued by the host.
+	 */
+	private function render_inline_styles(): void {
+		?>
+		<style>
+			.anna-porter-page{max-width:1040px;margin-top:24px;color:#1d2327}.anna-porter-page *{box-sizing:border-box}.anna-porter-page .dashicons,.anna-porter-page .porter-checkbox,.anna-porter-page .porter-spinner{display:none!important}.anna-porter-header{margin:0 0 22px;padding-bottom:18px;border-bottom:1px solid #dcdcde}.anna-porter-header h1{margin:0 0 6px;font-size:24px;line-height:1.25;font-weight:600}.anna-porter-header p{max-width:720px;margin:0;color:#646970;font-size:14px;line-height:1.55}.anna-porter-box{max-width:940px;margin:0 0 20px;background:#fff;border:1px solid #dcdcde;border-radius:8px;box-shadow:0 1px 2px rgba(0,0,0,.04);overflow:hidden}.anna-porter-box-header{display:flex;align-items:center;gap:12px;padding:16px 20px;background:#fff;border-bottom:1px solid #edf0f2}.anna-porter-box-header h2{margin:0;font-size:16px;line-height:1.35;font-weight:600}.anna-porter-box-badge{margin-left:auto;padding:4px 10px;border:1px solid #dcdcde;border-radius:999px;background:#f6f7f7;color:#646970;font-size:12px}.anna-porter-box-body{padding:20px}.anna-porter-desc{margin:0 0 16px;color:#50575e;font-size:14px;line-height:1.6}.anna-porter-section-help{margin:0 0 12px;padding:10px 12px;border-radius:6px;background:#f6f7f7;color:#50575e;font-size:13px}.anna-porter-sections-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:10px;margin:0 0 16px}.anna-porter-section-label{position:relative;display:flex;align-items:center;min-height:42px;padding:10px 12px 10px 38px;border:1px solid #dcdcde;border-radius:6px;background:#fff;color:#1d2327;cursor:pointer;font-size:13px;line-height:1.3}.anna-porter-section-label:hover{border-color:#8c8f94;background:#f6f7f7}.anna-porter-section-label:has(input:checked),.anna-porter-section-label.is-checked{border-color:#2271b1;background:#f0f6fc;box-shadow:inset 0 0 0 1px #2271b1}.anna-porter-section-cb{position:absolute;left:12px;top:50%;width:16px;height:16px;margin:-8px 0 0}.anna-porter-btn-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.anna-porter-btn-row .button,#anna-porter-export-btn{min-height:36px;padding:3px 16px;font-weight:600}.anna-porter-upload-area{position:relative;display:block;width:100%;min-height:120px;margin:0 0 16px;padding:28px 20px;border:1.5px dashed #c3c4c7;border-radius:8px;background:#fbfbfc;text-align:center;cursor:pointer}.anna-porter-upload-area:hover,.anna-porter-upload-area.is-drag-over{border-color:#2271b1;background:#f0f6fc}.anna-porter-upload-area.has-file{border-style:solid;border-color:#00a32a;background:#f0fdf4}.anna-porter-upload-area input[type=file]{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}.anna-porter-upload-title{margin:0 0 4px;font-size:14px;font-weight:600}.anna-porter-upload-hint{color:#646970;font-size:13px}.anna-porter-upload-filename{display:none;color:#008a20;font-size:14px;font-weight:600}.anna-porter-upload-area.has-file .anna-porter-upload-default{display:none}.anna-porter-upload-area.has-file .anna-porter-upload-filename{display:block}.anna-porter-meta-table,.anna-porter-debug-table{width:100%;border-collapse:collapse;margin:0 0 16px;border:1px solid #dcdcde;border-radius:6px;overflow:hidden;font-size:13px}.anna-porter-meta-table th,.anna-porter-meta-table td,.anna-porter-debug-table th,.anna-porter-debug-table td{padding:10px 12px;border-bottom:1px solid #edf0f2;text-align:left;vertical-align:top}.anna-porter-meta-table th,.anna-porter-debug-table th{width:180px;background:#f6f7f7;color:#50575e;font-weight:600}.anna-porter-mode-label{display:block;margin:0 0 8px;color:#50575e;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.03em}.anna-porter-mode-group{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:0 0 16px}.anna-porter-mode-option{cursor:pointer}.anna-porter-mode-option input[type=radio]{position:absolute;opacity:0}.anna-porter-mode-card{padding:13px 14px;border:1px solid #dcdcde;border-radius:6px;background:#fff}.anna-porter-mode-option input:checked+.anna-porter-mode-card{border-color:#2271b1;background:#f0f6fc;box-shadow:inset 0 0 0 1px #2271b1}.anna-porter-mode-card strong{display:block;margin-bottom:3px}.anna-porter-mode-card span{color:#646970;font-size:13px;line-height:1.45}@media(max-width:782px){.anna-porter-box-header{align-items:flex-start;flex-direction:column}.anna-porter-box-badge{margin-left:0}.anna-porter-sections-grid{grid-template-columns:1fr}}
+		</style>
+		<?php
+	}
 
 	/**
 	 * Renders error and success/warning notices from GET params.
@@ -220,7 +225,6 @@ class Anna_Porter_Admin {
 			?>
 			<div class="anna-porter-box anna-porter-warnings-box">
 				<div class="anna-porter-box-header">
-					<span class="dashicons dashicons-warning"></span>
 					<h2><?php esc_html_e( 'Import Warnings', 'anna-content-porter' ); ?></h2>
 				</div>
 				<div class="anna-porter-box-body">
@@ -269,7 +273,6 @@ class Anna_Porter_Admin {
 		?>
 		<div class="anna-porter-box anna-porter-preview-box">
 			<div class="anna-porter-box-header">
-				<span class="dashicons dashicons-visibility"></span>
 				<h2><?php esc_html_e( 'Import Preview', 'anna-content-porter' ); ?></h2>
 			</div>
 			<div class="anna-porter-box-body">
@@ -333,7 +336,6 @@ class Anna_Porter_Admin {
 
 					<div class="anna-porter-btn-row">
 						<button type="submit" class="button button-primary">
-							<span class="dashicons dashicons-yes-alt"></span>
 							<?php esc_html_e( 'Confirm Import', 'anna-content-porter' ); ?>
 						</button>
 						<a href="<?php echo esc_url( admin_url( 'admin.php?page=anna-porter' ) ); ?>" class="button">
@@ -356,7 +358,6 @@ class Anna_Porter_Admin {
 		?>
 		<div class="anna-porter-box">
 			<div class="anna-porter-box-header">
-				<span class="dashicons dashicons-download"></span>
 				<h2><?php esc_html_e( 'Export Content', 'anna-content-porter' ); ?></h2>
 				<span class="anna-porter-box-badge">
 					<?php
@@ -379,61 +380,27 @@ class Anna_Porter_Admin {
 					<?php wp_nonce_field( 'anna_porter_export', 'anna_porter_nonce' ); ?>
 					<input type="hidden" name="action" value="anna_porter_export">
 
-					<div class="anna-porter-grid-toolbar">
-						<span class="anna-porter-grid-label"><?php esc_html_e( 'Page Sections', 'anna-content-porter' ); ?></span>
-						<a href="#" id="anna-porter-select-all"
-							data-label-select="<?php esc_attr_e( 'Select All', 'anna-content-porter' ); ?>"
-							data-label-deselect="<?php esc_attr_e( 'Deselect All', 'anna-content-porter' ); ?>">
-							<?php esc_html_e( 'Select All', 'anna-content-porter' ); ?>
-						</a>
-					</div>
+					<p class="anna-porter-section-help">
+						<?php esc_html_e( 'Choose “All Pages” for a full site export, or select specific sections below.', 'anna-content-porter' ); ?>
+					</p>
 
 					<div class="anna-porter-sections-grid">
 						<?php foreach ( $sections as $id => $section ) : ?>
 							<label class="anna-porter-section-label">
-								<span class="porter-checkbox">
-									<span class="dashicons dashicons-yes"></span>
-								</span>
 								<input
 									type="checkbox"
 									name="sections[]"
 									value="<?php echo esc_attr( $id ); ?>"
 									class="anna-porter-section-cb"
+									<?php checked( 'all_pages', $id ); ?>
 								>
-								<?php echo esc_html( $section['label'] ); ?>
+								<span><?php echo esc_html( $section['label'] ); ?></span>
 							</label>
 						<?php endforeach; ?>
 					</div>
 
-					<div class="anna-porter-selection-bar" id="anna-porter-sel-bar">
-						<span>
-							<span id="anna-porter-selected-count" class="anna-porter-sel-count">0</span>
-							<span class="anna-porter-sel-total">
-								<?php
-								echo esc_html(
-									sprintf(
-										/* translators: %d total number of sections */
-										__( ' of %d sections selected', 'anna-content-porter' ),
-										$section_count
-									)
-								);
-								?>
-							</span>
-						</span>
-						<span
-							id="anna-porter-sel-hint"
-							class="anna-porter-sel-hint"
-							data-hint-pending="<?php esc_attr_e( 'Select at least one section to export', 'anna-content-porter' ); ?>"
-							data-hint-ready="<?php esc_attr_e( 'Ready to export', 'anna-content-porter' ); ?>"
-						>
-							<?php esc_html_e( 'Select at least one section to export', 'anna-content-porter' ); ?>
-						</span>
-					</div>
-
 					<div class="anna-porter-btn-row">
-						<button type="submit" id="anna-porter-export-btn" class="button button-primary" disabled>
-							<span class="porter-spinner"></span>
-							<span class="dashicons dashicons-download porter-btn-icon"></span>
+						<button type="submit" id="anna-porter-export-btn" class="button button-primary">
 							<?php esc_html_e( 'Export Selected Sections', 'anna-content-porter' ); ?>
 						</button>
 					</div>
@@ -450,7 +417,6 @@ class Anna_Porter_Admin {
 		?>
 		<div class="anna-porter-box">
 			<div class="anna-porter-box-header">
-				<span class="dashicons dashicons-upload"></span>
 				<h2><?php esc_html_e( 'Import Content', 'anna-content-porter' ); ?></h2>
 			</div>
 			<div class="anna-porter-box-body">
@@ -476,7 +442,6 @@ class Anna_Porter_Admin {
 							id="anna-porter-file-input"
 						>
 						<div class="anna-porter-upload-default">
-							<span class="dashicons dashicons-media-code anna-porter-upload-icon"></span>
 							<div class="anna-porter-upload-title">
 								<?php esc_html_e( 'Choose a file or drag it here', 'anna-content-porter' ); ?>
 							</div>
@@ -489,7 +454,6 @@ class Anna_Porter_Admin {
 
 					<div class="anna-porter-btn-row">
 						<button type="submit" class="button button-primary">
-							<span class="dashicons dashicons-visibility"></span>
 							<?php esc_html_e( 'Upload & Preview', 'anna-content-porter' ); ?>
 						</button>
 					</div>
@@ -546,7 +510,6 @@ class Anna_Porter_Admin {
 		?>
 		<details class="anna-porter-box anna-porter-debug-box" id="anna-porter-debug">
 			<summary class="anna-porter-box-header">
-				<span class="dashicons dashicons-search"></span>
 				<h2><?php esc_html_e( 'Debug — Data Source Inspector', 'anna-content-porter' ); ?></h2>
 				<span class="anna-porter-box-badge" style="margin-left:auto">
 					<?php esc_html_e( 'Click to expand', 'anna-content-porter' ); ?>
