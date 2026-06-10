@@ -161,6 +161,10 @@ function anna_seed_scaffolded_page_theme_defaults( $page ) {
 		return;
 	}
 
+	if ( function_exists( 'anna_is_page_option_prefix_reset' ) && anna_is_page_option_prefix_reset( $prefix ) ) {
+		return;
+	}
+
 	$defaults = anna_get_default_options();
 	$options  = get_option( 'anna_theme_options', array() );
 	if ( ! is_array( $options ) ) {

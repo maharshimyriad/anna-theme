@@ -308,3 +308,338 @@ function anna_hide_postarea_for_custom_template_pages()
     <?php
 }
 add_action("admin_head-post.php", "anna_hide_postarea_for_custom_template_pages");
+
+// ─── Reset custom template content ────────────────────────────────────────────
+
+/**
+ * Option name that stores page option prefixes whose DB defaults should not be
+ * re-seeded after an admin resets a template page.
+ *
+ * @return string
+ */
+function anna_get_reset_option_prefixes_option_name()
+{
+    return "anna_reset_page_option_prefixes";
+}
+
+/**
+ * Check whether a page-option prefix has been intentionally reset.
+ *
+ * @param string $prefix Option key prefix.
+ * @return bool
+ */
+function anna_is_page_option_prefix_reset($prefix)
+{
+    $prefixes = get_option(anna_get_reset_option_prefixes_option_name(), []);
+    if (!is_array($prefixes)) {
+        return false;
+    }
+
+    return in_array($prefix, $prefixes, true);
+}
+
+/**
+ * Remember that these option prefixes should stay deleted until manually saved.
+ *
+ * @param string[] $prefixes Option key prefixes.
+ */
+function anna_mark_page_option_prefixes_reset($prefixes)
+{
+    $existing = get_option(anna_get_reset_option_prefixes_option_name(), []);
+    if (!is_array($existing)) {
+        $existing = [];
+    }
+
+    $prefixes = array_filter(array_map("strval", $prefixes));
+    update_option(
+        anna_get_reset_option_prefixes_option_name(),
+        array_values(array_unique(array_merge($existing, $prefixes))),
+        false,
+    );
+}
+
+/**
+ * Return exact home-page option keys managed by the theme template.
+ *
+ * @return string[]
+ */
+function anna_get_home_template_option_keys()
+{
+    return [
+        "section_hero_enabled",
+        "section_intro_enabled",
+        "section_recognition_enabled",
+        "section_services_enabled",
+        "section_about_enabled",
+        "section_testimonials_enabled",
+        "section_cta_enabled",
+        "hero_eyebrow",
+        "hero_heading",
+        "hero_description",
+        "hero_trust_text",
+        "hero_image_id",
+        "stat_1_value",
+        "stat_1_label",
+        "stat_2_value",
+        "stat_2_label",
+        "stat_3_value",
+        "stat_3_label",
+        "intro_eyebrow",
+        "intro_heading",
+        "intro_body",
+        "intro_quote",
+        "intro_quote_cite",
+        "intro_image_id",
+        "recognition_eyebrow",
+        "recognition_heading",
+        "recognition_description",
+        "recognition_items_text",
+        "recognition_image_id",
+        "services_eyebrow",
+        "services_heading",
+        "services_description",
+        "services_cta_text",
+        "services_cta_url",
+        "about_eyebrow",
+        "about_heading",
+        "about_body",
+        "about_image_id",
+        "about_quote",
+        "about_expertise_text",
+        "about_cta_text",
+        "about_cta_url",
+        "testimonials_eyebrow",
+        "testimonials_heading",
+        "testimonials_summary",
+        "testimonials_cta_text",
+        "testimonials_cta_url",
+        "cta_eyebrow",
+        "cta_heading",
+        "cta_description",
+        "cta_trust",
+        "cta_image_id",
+        "cta_primary_text",
+        "cta_primary_url",
+        "cta_secondary_text",
+        "cta_secondary_url",
+    ];
+}
+
+/**
+ * Return reset config for a page using an Anna template.
+ *
+ * @param int $post_id Page ID.
+ * @return array{option_prefixes:string[], option_keys:string[]}
+ */
+function anna_get_template_page_reset_config($post_id)
+{
+    $post = get_post($post_id);
+    if (!$post || "page" !== $post->post_type) {
+        return ["option_prefixes" => [], "option_keys" => []];
+    }
+
+    $template = get_post_meta($post->ID, "_wp_page_template", true);
+    $option_prefixes = [];
+    $option_keys = [];
+
+    $prefix_map = [
+        "page-about.php" => "about_pg_",
+        "page-coaching.php" => "coaching_pg_",
+        "page-oasis.php" => "oasis_pg_",
+        "page-speaking.php" => "speaking_pg_",
+        "page-mental-health-support.php" => "mhs_pg_",
+        "page-move.php" => "move_pg_",
+        "page-reviews.php" => "reviews_pg_",
+        "page-contact.php" => "contact_pg_",
+        "page-contact-test.php" => "contact_pg_",
+        "page-blog.php" => "blog_pg_",
+    ];
+
+    if (isset($prefix_map[$template])) {
+        $option_prefixes[] = $prefix_map[$template];
+    }
+
+    if (function_exists("anna_get_scaffolded_pages")) {
+        foreach (anna_get_scaffolded_pages() as $page) {
+            if (($page["template_file"] ?? "") === $template && !empty($page["option_prefix"])) {
+                $option_prefixes[] = (string) $page["option_prefix"];
+            }
+        }
+    }
+
+    if (
+        "front-page.php" === $template ||
+        "life-coach" === $post->post_name ||
+        absint(get_option("page_on_front")) === absint($post->ID)
+    ) {
+        $option_keys = array_merge($option_keys, anna_get_home_template_option_keys());
+    }
+
+    return [
+        "option_prefixes" => array_values(array_unique(array_filter($option_prefixes))),
+        "option_keys" => array_values(array_unique(array_filter($option_keys))),
+    ];
+}
+
+/**
+ * Register the reset box on Anna template page edit screens.
+ *
+ * @param WP_Post $post Current page.
+ */
+function anna_register_template_page_reset_meta_box($post)
+{
+    if (!anna_is_custom_content_template_page($post->ID)) {
+        return;
+    }
+
+    add_meta_box(
+        "anna_template_page_reset",
+        __("Anna Template Reset", "anna-baylis"),
+        "anna_render_template_page_reset_meta_box",
+        "page",
+        "side",
+        "low",
+    );
+}
+add_action("add_meta_boxes_page", "anna_register_template_page_reset_meta_box");
+
+/**
+ * Render the reset box.
+ *
+ * @param WP_Post $post Current page.
+ */
+function anna_render_template_page_reset_meta_box($post)
+{
+    ?>
+    <p><?php esc_html_e("Reset this page back to the theme defaults by deleting saved Anna template content from the database.", "anna-baylis"); ?></p>
+    <p><strong><?php esc_html_e("This cannot be undone.", "anna-baylis"); ?></strong></p>
+    <form method="post" action="<?php echo esc_url(admin_url("admin-post.php")); ?>" onsubmit="return confirm('<?php echo esc_js(__("Delete all saved Anna template content for this page and reset it to theme defaults?", "anna-baylis")); ?>');">
+        <?php wp_nonce_field("anna_reset_template_page_" . $post->ID, "anna_reset_template_page_nonce"); ?>
+        <input type="hidden" name="action" value="anna_reset_template_page">
+        <input type="hidden" name="post_id" value="<?php echo esc_attr($post->ID); ?>">
+        <?php submit_button(__("Reset to Theme Defaults", "anna-baylis"), "delete", "submit", false); ?>
+    </form>
+    <?php
+}
+
+/**
+ * Delete saved Anna template content for one page and redirect back to edit page.
+ */
+function anna_handle_template_page_reset()
+{
+    $post_id = absint($_POST["post_id"] ?? 0);
+    if (!$post_id || !current_user_can("edit_post", $post_id)) {
+        wp_die(esc_html__("You do not have permission to reset this page.", "anna-baylis"));
+    }
+
+    $nonce = sanitize_text_field(wp_unslash($_POST["anna_reset_template_page_nonce"] ?? ""));
+    if (!wp_verify_nonce($nonce, "anna_reset_template_page_" . $post_id)) {
+        wp_die(esc_html__("Reset link expired. Please try again.", "anna-baylis"));
+    }
+
+    if (!anna_is_custom_content_template_page($post_id)) {
+        wp_die(esc_html__("This page is not using an Anna custom template.", "anna-baylis"));
+    }
+
+    $deleted_meta = anna_delete_template_page_content_meta($post_id);
+    $deleted_options = anna_delete_template_page_options($post_id);
+
+    wp_update_post([
+        "ID" => $post_id,
+        "post_content" => "",
+        "post_excerpt" => "",
+    ]);
+
+    $redirect = add_query_arg(
+        [
+            "post" => $post_id,
+            "action" => "edit",
+            "anna_template_reset" => 1,
+            "anna_deleted_meta" => $deleted_meta,
+            "anna_deleted_options" => $deleted_options,
+        ],
+        admin_url("post.php"),
+    );
+
+    wp_safe_redirect($redirect);
+    exit();
+}
+add_action("admin_post_anna_reset_template_page", "anna_handle_template_page_reset");
+
+/**
+ * Delete all Anna content meta rows for a page.
+ *
+ * @param int $post_id Page ID.
+ * @return int Number of meta keys deleted.
+ */
+function anna_delete_template_page_content_meta($post_id)
+{
+    $all_meta = get_post_meta($post_id);
+    $deleted = 0;
+
+    foreach (array_keys($all_meta) as $meta_key) {
+        if (str_starts_with((string) $meta_key, "_anna_content_")) {
+            delete_post_meta($post_id, $meta_key);
+            $deleted++;
+        }
+    }
+
+    return $deleted;
+}
+
+/**
+ * Delete page-specific Anna theme option keys for a page.
+ *
+ * @param int $post_id Page ID.
+ * @return int Number of option keys deleted.
+ */
+function anna_delete_template_page_options($post_id)
+{
+    $config = anna_get_template_page_reset_config($post_id);
+    $options = get_option("anna_theme_options", []);
+    if (!is_array($options)) {
+        return 0;
+    }
+
+    $delete_keys = array_fill_keys($config["option_keys"], true);
+    foreach (array_keys($options) as $key) {
+        foreach ($config["option_prefixes"] as $prefix) {
+            if (str_starts_with((string) $key, $prefix)) {
+                $delete_keys[$key] = true;
+                break;
+            }
+        }
+    }
+
+    $deleted = 0;
+    foreach (array_keys($delete_keys) as $key) {
+        if (array_key_exists($key, $options)) {
+            unset($options[$key]);
+            $deleted++;
+        }
+    }
+
+    update_option("anna_theme_options", $options);
+    anna_mark_page_option_prefixes_reset($config["option_prefixes"]);
+
+    return $deleted;
+}
+
+/**
+ * Show a success notice after reset.
+ */
+function anna_template_page_reset_admin_notice()
+{
+    if (empty($_GET["anna_template_reset"])) {
+        return;
+    }
+
+    $deleted_meta = absint($_GET["anna_deleted_meta"] ?? 0);
+    $deleted_options = absint($_GET["anna_deleted_options"] ?? 0);
+    ?>
+    <div class="notice notice-success is-dismissible">
+        <p><?php echo esc_html(sprintf(__("Anna template content reset. Deleted %1$d content meta keys and %2$d theme option keys. The page is now using theme defaults.", "anna-baylis"), $deleted_meta, $deleted_options)); ?></p>
+    </div>
+    <?php
+}
+add_action("admin_notices", "anna_template_page_reset_admin_notice");

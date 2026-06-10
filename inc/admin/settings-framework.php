@@ -39,6 +39,10 @@ function anna_seed_about_page_defaults()
         return;
     }
 
+    if (function_exists("anna_is_page_option_prefix_reset") && anna_is_page_option_prefix_reset("about_pg_")) {
+        return;
+    }
+
     $defaults = anna_get_default_options();
     $options = get_option("anna_theme_options", []);
 
@@ -862,6 +866,10 @@ function anna_seed_coaching_page_defaults()
         return;
     }
 
+    if (function_exists("anna_is_page_option_prefix_reset") && anna_is_page_option_prefix_reset("coaching_pg_")) {
+        return;
+    }
+
     $defaults = anna_get_default_options();
     $options = get_option("anna_theme_options", []);
 
@@ -920,6 +928,10 @@ function anna_seed_oasis_page_defaults()
         return;
     }
 
+    if (function_exists("anna_is_page_option_prefix_reset") && anna_is_page_option_prefix_reset("oasis_pg_")) {
+        return;
+    }
+
     $defaults = anna_get_default_options();
     $options = get_option("anna_theme_options", []);
 
@@ -970,6 +982,10 @@ add_action("admin_init", "anna_seed_oasis_page_defaults", 20);
 function anna_seed_speaking_page_defaults()
 {
     if (!is_admin()) {
+        return;
+    }
+
+    if (function_exists("anna_is_page_option_prefix_reset") && anna_is_page_option_prefix_reset("speaking_pg_")) {
         return;
     }
 
@@ -1025,6 +1041,10 @@ add_action("admin_init", "anna_seed_speaking_page_defaults", 20);
 function anna_seed_page_theme_defaults($prefix)
 {
     if (!is_admin()) {
+        return;
+    }
+
+    if (function_exists("anna_is_page_option_prefix_reset") && anna_is_page_option_prefix_reset($prefix)) {
         return;
     }
 
