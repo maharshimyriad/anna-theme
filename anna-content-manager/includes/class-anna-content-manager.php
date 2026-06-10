@@ -967,13 +967,22 @@ final class Anna_Content_Manager {
 			return;
 		}
 
-		if ( get_post_meta( $post_id, '_anna_about_meta_backfilled_v2', true ) ) {
+		if ( get_post_meta( $post_id, '_anna_about_meta_backfilled_v3', true ) ) {
 			return;
 		}
 
 		$stored  = get_post_meta( $post_id, '_anna_content_about_page', true );
 		$stored  = is_array( $stored ) ? $stored : array();
 		$changed = false;
+
+		// Replace any legacy #contact placeholder with the real discovery call URL.
+		$discovery_url = function_exists( 'anna_get_discovery_call_url' ) ? anna_get_discovery_call_url() : ANNA_DISCOVERY_CALL_URL;
+		foreach ( array( 'coach_button_url', 'connect_button_url' ) as $url_field ) {
+			if ( isset( $stored[ $url_field ] ) && '#contact' === $stored[ $url_field ] ) {
+				$stored[ $url_field ] = $discovery_url;
+				$changed              = true;
+			}
+		}
 
 		foreach ( $data as $key => $value ) {
 			if ( 'people_items' === $key ) {
@@ -1002,7 +1011,7 @@ final class Anna_Content_Manager {
 			update_post_meta( $post_id, '_anna_content_about_page', $stored );
 		}
 
-		update_post_meta( $post_id, '_anna_about_meta_backfilled_v2', 1 );
+		update_post_meta( $post_id, '_anna_about_meta_backfilled_v3', 1 );
 	}
 
 	/**
@@ -1839,13 +1848,22 @@ final class Anna_Content_Manager {
 			return;
 		}
 
-		if ( get_post_meta( $post_id, '_anna_coaching_meta_backfilled_v1', true ) ) {
+		if ( get_post_meta( $post_id, '_anna_coaching_meta_backfilled_v2', true ) ) {
 			return;
 		}
 
 		$stored  = get_post_meta( $post_id, '_anna_content_coaching_page', true );
 		$stored  = is_array( $stored ) ? $stored : array();
 		$changed = false;
+
+		// Replace any legacy #contact placeholder with the real discovery call URL.
+		$discovery_url = function_exists( 'anna_get_discovery_call_url' ) ? anna_get_discovery_call_url() : ANNA_DISCOVERY_CALL_URL;
+		foreach ( array( 'hero_button_url', 'what_button_url', 'expect_button_url' ) as $url_field ) {
+			if ( isset( $stored[ $url_field ] ) && '#contact' === $stored[ $url_field ] ) {
+				$stored[ $url_field ] = $discovery_url;
+				$changed              = true;
+			}
+		}
 
 		foreach ( $data as $key => $value ) {
 			if ( in_array( $key, array( 'work_topics_items', 'work_gains_items', 'expect_info_cards', 'faq_items' ), true ) ) {
@@ -1876,7 +1894,7 @@ final class Anna_Content_Manager {
 			update_post_meta( $post_id, '_anna_content_coaching_page', $stored );
 		}
 
-		update_post_meta( $post_id, '_anna_coaching_meta_backfilled_v1', 1 );
+		update_post_meta( $post_id, '_anna_coaching_meta_backfilled_v2', 1 );
 	}
 
 	/**

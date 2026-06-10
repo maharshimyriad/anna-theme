@@ -13,8 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'ANNA_PORTER_DIR', plugin_dir_path( __FILE__ ) );
-define( 'ANNA_PORTER_URL', plugin_dir_url( __FILE__ ) );
+define( 'ANNA_PORTER_DIR', get_template_directory() . '/anna-content-porter/' );
+define( 'ANNA_PORTER_URL', get_template_directory_uri() . '/anna-content-porter/' );
 
 /**
  * Bootstrap the Content Porter.
