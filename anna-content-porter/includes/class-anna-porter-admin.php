@@ -445,7 +445,6 @@ class Anna_Porter_Admin {
 									name="sections[]"
 									value="<?php echo esc_attr( $id ); ?>"
 									class="anna-porter-section-cb"
-									<?php ( 'all_pages', $id ); ?>
 								>
 								<span><?php echo esc_html( $section['label'] ); ?></span>
 							</label>
