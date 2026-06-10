@@ -227,7 +227,7 @@ function anna_is_custom_content_template_page($post_id)
     }
 
     $post = get_post($post_id);
-    if ($post && "life-coach" === $post->post_name) {
+    if ($post && "home" === $post->post_name) {
         return true;
     }
 
@@ -469,7 +469,7 @@ function anna_get_template_page_reset_config($post_id)
 
     if (
         "front-page.php" === $template ||
-        "life-coach" === $post->post_name ||
+        "home" === $post->post_name ||
         absint(get_option("page_on_front")) === absint($post->ID)
     ) {
         $option_keys = array_merge($option_keys, anna_get_home_template_option_keys());
