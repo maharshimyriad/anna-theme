@@ -10,8 +10,13 @@
 
     frame.on('select', function () {
       var attachment = frame.state().get('selection').first().toJSON();
+      // Use the full-size registered size URL when available so we get the
+      // original file rather than the WordPress auto-generated -scaled variant.
+      var previewUrl = ( attachment.sizes && attachment.sizes.full )
+        ? attachment.sizes.full.url
+        : attachment.url;
       $('#' + targetId).val(attachment.id);
-      $('#' + previewId).html('<img src="' + attachment.url + '" alt="" style="max-width:240px;height:auto;border-radius:10px;">');
+      $('#' + previewId).html('<img src="' + previewUrl + '" alt="" style="max-width:240px;height:auto;border-radius:10px;">');
     });
 
     frame.open();
