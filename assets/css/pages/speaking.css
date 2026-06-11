@@ -909,5 +909,6 @@
 
   .anna-speaking-page-experience.anna-speaking-page-section .anna-container--max {
     grid-template-columns: 1fr;
+    
   }
 }
