@@ -55,43 +55,45 @@
 
 .anna-speaking-page-hero__content {
   max-width: 40rem;
-/*   padding-block: clamp(3rem, 8vh, 5rem); */
-	    padding-top: 150px;
-    padding-bottom: 100px;
+  /*   padding-block: clamp(3rem, 8vh, 5rem); */
+  padding-top: 150px;
+  padding-bottom: 100px;
 }
 
 .anna-speaking-page-hero__eyebrow {
   margin: 0 0 var(--space-8);
-    color: #FFFFFF;
-    font-family: 'Lexend Giga', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 4.4px;
+  color: #FFFFFF;
+  font-family: 'Lexend Giga', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 4.4px;
 }
 
 .anna-speaking-page-hero__heading {
   margin: 0;
   font-family: var(--font-heading);
-  font-size: clamp(2.5rem, 2.2rem + 1.2vw, 3.5rem);
+  font-size: var(--heading-section);
   line-height: 1.08;
   font-weight: var(--font-weight-regular);
-	color: #FFFFFFE5;
+  color: #FFFFFFE5;
 }
+
 .anna-speaking-page-hero__heading_span {
   margin: 0;
   font-family: var(--font-heading);
-  font-size: clamp(2.5rem, 2.2rem + 1.2vw, 3.5rem);
+  font-size: var(--heading-section);
   line-height: 1.08;
   font-weight: 300;
-	color: #FFFFFFE5;
-	margin-top: var(--space-5);
+  color: #FFFFFFE5;
+  margin-top: var(--space-5);
 }
+
 .anna-speaking-page-hero__description {
   margin: var(--space-8) 0 0;
   color: #FDF6D8CC;
   font-size: clamp(1rem, 1rem + 0.2vw, 1.15rem);
   line-height: 1.65;
-	font-weight: 300;
+  font-weight: 300;
 }
 
 .anna-speaking-page-hero__actions {
@@ -191,13 +193,13 @@
 }
 
 .anna-speaking-page-bring__eyebrow {
-    margin: 0 0 var(--space-5);
-    font-family: 'Lexend Giga', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 4.4px;
+  margin: 0 0 var(--space-5);
+  font-family: 'Lexend Giga', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 4.4px;
   color: #0A5D47;
-  
+
 }
 
 .anna-speaking-page-bring__heading {
@@ -206,27 +208,27 @@
   flex-direction: column;
   gap: 0.15em;
   font-family: var(--font-heading);
-  font-size: clamp(2rem, 3.2vw, 2.75rem);
+  font-size: var(--heading-section);
   line-height: 1.1;
   font-weight: var(--font-weight-semibold);
 }
 
 .anna-speaking-page-bring__heading-line--primary {
   color: var(--speaking-accent);
-    margin: 0;
-    font-family: 'Lexend', sans-serif;
-    font-size: clamp(2rem, 3.2vw, 3.2rem);
-    line-height: 1.12;
-    font-weight: var(--font-weight-semibold);
+  margin: 0;
+  font-family: 'Lexend', sans-serif;
+  font-size: var(--heading-section);
+  line-height: 1.12;
+  font-weight: var(--font-weight-semibold);
 }
 
 .anna-speaking-page-bring__heading-line--accent {
   color: #0A5D4799;
-	margin: 0;
-    font-family: 'Lexend', sans-serif;
-    font-size: clamp(2rem, 3.2vw, 3.2rem);
-    line-height: 1.12;
-    font-weight: 400;
+  margin: 0;
+  font-family: 'Lexend', sans-serif;
+  font-size: var(--heading-section);
+  line-height: 1.12;
+  font-weight: 400;
 }
 
 .anna-speaking-page-bring__copy {
@@ -234,10 +236,12 @@
   font-size: var(--text-base);
   line-height: 1.75;
 }
-.anna-speaking-page-bring__copy p{
+
+.anna-speaking-page-bring__copy p {
   margin-top: var(--space-8);
-	
+
 }
+
 .anna-speaking-page-bring__quote {
   margin: var(--space-8) 0 0;
   padding: 0 0 0 var(--space-6);
@@ -251,8 +255,8 @@
 
 .anna-speaking-page-bring__quote p {
   margin: 0;
-	color: #3A9176;
-	    font-weight: 400;
+  color: #3A9176;
+  font-weight: 400;
 }
 
 .anna-speaking-page-bring__btn {
@@ -295,21 +299,21 @@
 }
 
 .anna-speaking-page-topics__eyebrow {
-     margin: 0 0 var(--space-5);
-    font-family: 'Lexend Giga', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 4.4px;
+  margin: 0 0 var(--space-5);
+  font-family: 'Lexend Giga', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 4.4px;
   color: #0A5D47;
 }
 
 .anna-speaking-page-topics__heading {
   color: var(--speaking-accent);
-    margin: 0;
-    font-family: 'Lexend', sans-serif;
-    font-size: clamp(2rem, 3.2vw, 3.2rem);
-    line-height: 1.12;
-    font-weight: var(--font-weight-semibold);
+  margin: 0;
+  font-family: 'Lexend', sans-serif;
+  font-size: var(--heading-section);
+  line-height: 1.12;
+  font-weight: var(--font-weight-semibold);
 }
 
 .anna-speaking-page-topics__intro {
@@ -349,7 +353,7 @@
   height: 2.5rem;
   margin-bottom: var(--space-5);
   border-radius: 20%;
-/*   border: 1.5px solid rgba(0, 112, 99, 0.35); */
+  /*   border: 1.5px solid rgba(0, 112, 99, 0.35); */
   background-color: rgba(0, 112, 99, 0.08);
   background-repeat: no-repeat;
   background-position: center;
@@ -402,21 +406,21 @@
 }
 
 .anna-speaking-page-formats__eyebrow {
-      margin: 0 0 var(--space-5);
-    font-family: 'Lexend Giga', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 4.4px;
-    color: #0A5D47;
+  margin: 0 0 var(--space-5);
+  font-family: 'Lexend Giga', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 4.4px;
+  color: #0A5D47;
 }
 
 .anna-speaking-page-formats__heading {
-      color: #007063;
-    margin: 0;
-    font-family: 'Lexend', sans-serif;
-    font-size: clamp(2rem, 3.2vw, 3.2rem);
-    line-height: 1.12;
-    font-weight: var(--font-weight-semibold);
+  color: #007063;
+  margin: 0;
+  font-family: 'Lexend', sans-serif;
+  font-size: var(--heading-section);
+  line-height: 1.12;
+  font-weight: var(--font-weight-semibold);
 }
 
 .anna-speaking-page-formats__grid {
@@ -463,12 +467,12 @@
 }
 
 .anna-speaking-page-format-card__title {
-     margin: 0 0 var(--space-4);
-    font-family: var(--font-heading);
-    font-size: var(--text-md);
-    font-weight: var(--font-weight-semibold);
-    line-height: 1.35;
-    color: #0A5D47;
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-heading);
+  font-size: var(--text-md);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.35;
+  color: #0A5D47;
 }
 
 .anna-speaking-page-format-card__body {
@@ -487,12 +491,12 @@
 }
 
 .anna-speaking-page-formats__audience-heading {
-      margin: 0 0 var(--space-4);
-    font-family: var(--font-heading);
-    font-size: var(--text-md);
-    font-weight: var(--font-weight-semibold);
-    line-height: 1.35;
-    color: #0A5D47;
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-heading);
+  font-size: var(--text-md);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.35;
+  color: #0A5D47;
 }
 
 .anna-speaking-page-formats__audience-list {
@@ -547,19 +551,19 @@
 }
 
 .anna-speaking-page-takeaway__eyebrow {
-      margin: 0 0 var(--space-5);
-    font-family: 'Lexend Giga', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 4.4px;
-    color: #D9E89A;
+  margin: 0 0 var(--space-5);
+  font-family: 'Lexend Giga', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 4.4px;
+  color: #D9E89A;
 }
 
 .anna-speaking-page-takeaway__heading {
   margin: 0;
   color: var(--color-white);
   font-family: var(--font-heading);
-  font-size: clamp(2rem, 3.2vw, 2.75rem);
+  font-size: var(--heading-section);
   font-weight: var(--font-weight-semibold);
   line-height: 1.12;
 }
@@ -570,12 +574,14 @@
   font-size: var(--text-base);
   line-height: 1.75;
 }
-.anna-speaking-page-takeaway__copy p{
-	color: #fff;
-	    font-weight: 100;
-	    letter-spacing: .6px;
-	    margin-top: var(--space-8);
+
+.anna-speaking-page-takeaway__copy p {
+  color: #fff;
+  font-weight: 100;
+  letter-spacing: .6px;
+  margin-top: var(--space-8);
 }
+
 .anna-speaking-page-takeaway__list {
   margin: 0;
   padding: 0;
@@ -609,8 +615,8 @@
 .anna-speaking-page-takeaway__text {
   font-size: .8rem;
   line-height: 1.55;
-	font-weight: 200 !important;
-	    letter-spacing: .6px;
+  font-weight: 200 !important;
+  letter-spacing: .6px;
 }
 
 .anna-speaking-page-takeaway__text strong {
@@ -623,14 +629,16 @@
   background: var(--color-white);
 }
 
-.anna-speaking-page-experience.anna-speaking-page-section .anna-container--max{
-	display: flex;
-	align-items: center;
-	gap: 100px;
+.anna-speaking-page-experience.anna-speaking-page-section .anna-container--max {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5vw;
 }
-.anna-speaking-page-experience__grid blockquote{
-	border-left: none;
+
+.anna-speaking-page-experience__grid blockquote {
+  border-left: none;
 }
+
 @media (min-width: 900px) {
   .anna-speaking-page-experience__grid {
     grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
@@ -657,9 +665,9 @@
 .anna-speaking-page-experience__quote {
   margin: 0;
   color: var(--color-text);
-  font-size: var(--text-xl);
+  font-size: var(--text-lg);
   line-height: 1.65;
-	    font-family: 'Mulish';
+  font-family: 'Mulish';
 }
 
 .anna-speaking-page-experience__name {
@@ -680,11 +688,11 @@
 
 .anna-speaking-page-experience__eyebrow {
   margin: 0 0 var(--space-5);
-    font-family: 'Lexend Giga', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 4.4px;
-    color: #0A5D47;
+  font-family: 'Lexend Giga', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 4.4px;
+  color: #0A5D47;
 }
 
 .anna-speaking-page-experience__heading {
@@ -693,7 +701,7 @@
   flex-wrap: wrap;
   gap: 0.35em;
   font-family: var(--font-heading);
-  font-size: clamp(2rem, 3.2vw, 2.75rem);
+  font-size: var(--heading-section);
   line-height: 1.1;
   font-weight: var(--font-weight-semibold);
 }
@@ -712,10 +720,12 @@
   font-size: var(--text-base);
   line-height: 1.75;
 }
-.anna-speaking-page-experience__copy p{
+
+.anna-speaking-page-experience__copy p {
   margin-top: var(--space-8);
-	
+
 }
+
 .anna-speaking-page-experience__link-wrap {
   margin-top: var(--space-6);
   color: var(--color-text);
@@ -734,6 +744,7 @@
 
 /* Responsive */
 @media (max-width: 1024px) {
+
   .anna-speaking-page-bring__grid,
   .anna-speaking-page-takeaway__grid,
   .anna-speaking-page-experience__grid {
@@ -750,9 +761,10 @@
         rgba(7, 20, 17, 0.72) 55%,
         rgba(7, 20, 17, 0.5) 100%);
   }
-	.anna-speaking-page-book__grid{
-		flex-direction: column;
-	}
+
+  .anna-speaking-page-book__grid {
+    flex-direction: column;
+  }
 
   .anna-speaking-page-hero__stat {
     border-right: none;
@@ -764,114 +776,124 @@
   .anna-speaking-page-hero__content {
     max-width: none;
   }
-	.anna-speaking-page-book__grid{
-		flex-direction: column;
-	}
+
+  .anna-speaking-page-book__grid {
+    flex-direction: column;
+  }
 }
 
 
 
 
 
-.anna-speaking-page-formats__heading span{
-	color: #238B74E5;
-	font-weight: 400;
+.anna-speaking-page-formats__heading span {
+  color: #238B74E5;
+  font-weight: 400;
 }
+
 .speaker-section .anna-speaking-page-formats__heading {
-	margin-bottom: var(--space-8);
-	margin-top: var(--space-8);
+  margin-bottom: var(--space-8);
+  margin-top: var(--space-8);
 }
+
 .container {
-    width: 90%;
-    max-width: 1240px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    gap: 60px;
-    align-items: flex-start;
+  width: 90%;
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 60px;
+  align-items: flex-start;
 }
 
 .content {
-    flex: 1;
-    max-width: 600px;
+  flex: 1;
+  max-width: 600px;
 }
 
 .eyebrow {
-    display: inline-block;
-    color: #0f6b57;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 2px;
-    margin-bottom: 20px;
-    text-transform: none;
+  display: inline-block;
+  color: #0f6b57;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  text-transform: none;
 }
 
 
 .enquiry-card {
-    width: 100%;
-    background: #E6EFE566;
-    padding: 55px 50px;
-    border-radius: 15px;
+  width: 100%;
+  background: #E6EFE566;
+  padding: 55px 50px;
+  border-radius: 15px;
 }
 
 .enquiry-card h2 {
-    font-size: var(--text-xl);
-    color: #0A5D47;
-    margin-bottom: 24px;
-    line-height: 1.2;
+  font-size: var(--text-xl);
+  color: #0A5D47;
+  margin-bottom: 24px;
+  line-height: 1.2;
 }
 
 .enquiry-card p {
-    font-size: 14px;
-    line-height: 1.6;
-    color: #666;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #666;
 }
 
-.enquiry-card_btn{
-	    display: inline-flex;
-    margin: 2rem 0;
-    padding: .6rem 1.75rem;
-    border-radius: 3px;
-    background: #007063;
-    color: var(--color-white);
-    font-weight: var(--font-weight-semibold);
-    text-decoration: none;
-	width: 100%;
-	    justify-content: center;
-}
-.enquiry-card-contact{
-	font-size: 12px;
-	color: #1A2B2599;
-	font-weight: 700;
+.enquiry-card_btn {
+  display: inline-flex;
+  margin: 2rem 0;
+  padding: .6rem 1.75rem;
+  border-radius: 3px;
+  background: #007063;
+  color: var(--color-white);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  width: 100%;
+  justify-content: center;
 }
 
-.anna-speaking-page-book__grid{
-	display: flex;
-	gap: 50px;
-	
+.enquiry-card-contact {
+  font-size: 12px;
+  color: #1A2B2599;
+  font-weight: 700;
 }
-.anna-speaking-page-book__heading{
-	    color: #007063;
-    font-family: var(--font-heading);
-    font-size: clamp(2rem, 3.2vw, 2.75rem);
-    font-weight: var(--font-weight-semibold);
-    line-height: 1.12;
+
+.anna-speaking-page-book__grid {
+  display: flex;
+  gap: 50px;
+
 }
-.anna-speaking-page-book{
-	padding: 100px 0;
+
+.anna-speaking-page-book__heading {
+  color: #007063;
+  font-family: var(--font-heading);
+  font-size: var(--heading-section);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.12;
 }
-.anna-speaking-page-book__copy{
-	margin-top: var(--space-5);
+
+.anna-speaking-page-book {
+  padding: 100px 0;
 }
-.anna-speaking-page-book__copy p{
-color: #59656f;
-    line-height: 1.9;
-	font-size: var(--text-md);}
-.anna-speaking-page-book__eyebrow{
-	animation: annaHeroOverlineDrift 7s ease-in-out infinite;
-    font-family: 'Lexend Giga', sans-serif;
-    font-size: 12px;
-    font-weight: bold;
-    letter-spacing: 3.2px;
-    color: #128266;
+
+.anna-speaking-page-book__copy {
+  margin-top: var(--space-5);
+}
+
+.anna-speaking-page-book__copy p {
+  color: #59656f;
+  line-height: 1.9;
+  font-size: var(--text-md);
+}
+
+.anna-speaking-page-book__eyebrow {
+  animation: annaHeroOverlineDrift 7s ease-in-out infinite;
+  font-family: 'Lexend Giga', sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 3.2px;
+  color: #128266;
 }

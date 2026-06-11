@@ -21,13 +21,13 @@
 
 .anna-blog-page-hero__content {
   max-width: 50rem;
-	text-align: left;
+  text-align: left;
 }
 
 .anna-blog-page-hero__heading {
   margin: 0 0 var(--space-5);
   font-family: var(--font-heading);
-  font-size: clamp(2.25rem, 2rem + 1.5vw, 3.25rem);
+  font-size: var(--heading-section);
   font-weight: var(--font-weight-regular);
   letter-spacing: var(--tracking-snug);
   line-height: 1.1;
@@ -40,8 +40,8 @@
   line-height: 1.7;
   color: #fff;
   max-width: 38rem;
-	text-align: left;
-	
+  text-align: left;
+
 }
 
 /* ── Posts section ──────────────────────────────────────────────────────── */
@@ -111,9 +111,11 @@
   border-color: var(--color-primary);
   color: var(--color-primary);
 }
-.anna-blog-page-posts__cat-btn.is-active a:not(.anna-btn):hover{
-	color: white !important;
+
+.anna-blog-page-posts__cat-btn.is-active a:not(.anna-btn):hover {
+  color: white !important;
 }
+
 .anna-blog-page-posts__cat-btn.is-active {
   background: #1B4D44;
   border-color: var(--color-primary);
@@ -195,15 +197,17 @@
   border-radius: var(--radius-full);
   background: #E6F2EE;
   color: #1B4D44;
-	    font-family: 'Lexend';
+  font-family: 'Lexend';
   font-size: var(--text-xs);
   font-weight: 600 !important;
   letter-spacing: 0.03em;
   text-decoration: none;
 }
-.anna-blog-card__cat.anna-badge{
-	text-transform: none;
+
+.anna-blog-card__cat.anna-badge {
+  text-transform: none;
 }
+
 /* ── Title ────────────────────────────────────────────────────────────── */
 .anna-blog-card__title {
   margin: 0;
@@ -238,7 +242,7 @@
   align-items: center;
   gap: var(--space-5);
   padding-top: var(--space-3);
-	    border-top: 1px solid #F9FAFB;
+  border-top: 1px solid #F9FAFB;
   margin-top: auto;
 }
 

@@ -30,13 +30,13 @@
   padding-inline: var(--container-gutter, clamp(1.25rem, 4vw, 2.5rem));
 }
 
-.anna-oasis-page-what .anna-container{
-	max-width:75rem;
+.anna-oasis-page-what .anna-container {
+  max-width: 75rem;
 }
 
 .anna-oasis-page-section [class*="__eyebrow"] {
 
-  		color: var(--oasis-accent);
+  color: var(--oasis-accent);
   margin: 0 0 var(--space-5);
   font-family: 'Lexend Giga', sans-serif;
   font-size: 12px;
@@ -48,7 +48,7 @@
   margin: 0;
   color: var(--oasis-accent);
   font-family: 'Lexend', sans-serif;
-  font-size: clamp(2rem, 3.2vw, 3.2rem);
+  font-size: var(--heading-section);
   line-height: 1.12;
   font-weight: var(--font-weight-semibold);
 }
@@ -104,14 +104,14 @@
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 4.4px;
-/*   text-transform: uppercase; */
+  /*   text-transform: uppercase; */
 }
 
 .anna-oasis-page-hero__heading {
   margin: 0;
   color: var(--color-white);
   font-family: var(--font-heading);
-  font-size: clamp(3rem, 2.55rem + 1.45vw, 4.75rem);
+  font-size: var(--heading-section);
   line-height: 1.08;
   font-weight: var(--font-weight-regular);
   letter-spacing: var(--tracking-snug);
@@ -136,7 +136,7 @@
 
 .anna-oasis-page-hero__copy p {
   margin: 0 0 var(--space-8);
-  color:#FFFFFF;
+  color: #FFFFFF;
   font-weight: 300;
   font-family: 'Mulish', sans-serif;
   font-size: 15px;
@@ -193,8 +193,8 @@
 
 .anna-oasis-page-what__body p {
   margin: auto;
-	max-width: 45rem;
-    font-size: var(--text-lg);
+  max-width: 45rem;
+  font-size: var(--text-lg);
 }
 
 .anna-oasis-page-what__link-wrap {
@@ -228,14 +228,18 @@
   padding: 0;
   list-style: none;
 }
-@media (max-width: 700px){
-	.anna-oasis-page-begun__media-col, .anna-oasis-page-begun__content{
-		width: 100% !important;
-	}
-	.anna-oasis-page-begun__grid{
-		flex-wrap: wrap;
-		    gap: 20px !important;
-	}
+
+@media (max-width: 700px) {
+
+  .anna-oasis-page-begun__media-col,
+  .anna-oasis-page-begun__content {
+    width: 100% !important;
+  }
+
+  .anna-oasis-page-begun__grid {
+    flex-wrap: wrap;
+    gap: 20px !important;
+  }
 }
 
 @media (min-width: 700px) {
@@ -287,15 +291,18 @@
 .anna-oasis-page-inside__eyebrow {
   color: var(--oasis-mint);
 }
-.anna-oasis-page-inside.anna-oasis-page-section [class*="__eyebrow"]{
-	text-align: left;
-	color: white;
+
+.anna-oasis-page-inside.anna-oasis-page-section [class*="__eyebrow"] {
+  text-align: left;
+  color: white;
 }
+
 .anna-oasis-page-inside .anna-oasis-page-inside__heading,
 .anna-oasis-page-waitlist .anna-oasis-page-waitlist__heading {
   color: var(--color-white);
-	text-align: left;
-	    letter-spacing: 1px;
+  text-align: left;
+  letter-spacing: 1px;
+  font-size: var(--heading-section);
 }
 
 .anna-oasis-page-inside__intro {
@@ -304,7 +311,7 @@
   color: rgba(255, 255, 255, 0.88);
   font-size: var(--text-base);
   line-height: 1.65;
-	text-align: left;
+  text-align: left;
 }
 
 .anna-oasis-page-inside__grid {
@@ -318,7 +325,7 @@
   .anna-oasis-page-inside__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-	
+
 }
 
 @media (min-width: 1100px) {
@@ -355,18 +362,18 @@
 .anna-oasis-page-inside-card__body {
   margin: 0;
   color: rgba(255, 255, 255, 0.88);
-  font-size: 14px	;
+  font-size: 14px;
   line-height: 1.6;
-	font-weight: 300;
+  font-weight: 300;
 }
 
 .anna-oasis-page-inside__footer {
-      max-width: 100%;
-    margin: clamp(2rem, 4vw, 4.75rem) auto 0;
-    color: white;
-    font-size: var(--text-sm);
-    line-height: 1.55;
-    text-align: left;
+  max-width: 100%;
+  margin: clamp(2rem, 4vw, 4.75rem) auto 0;
+  color: white;
+  font-size: var(--text-sm);
+  line-height: 1.55;
+  text-align: left;
 }
 
 /* ── How it works (cream, two columns) ──────────────────────────────────── */
@@ -397,26 +404,26 @@
   padding: 0;
   list-style: none;
   display: flex;
-/*   flex-direction: column; */
-	    flex-wrap: wrap;
+  /*   flex-direction: column; */
+  flex-wrap: wrap;
   gap: var(--space-3);
 }
 
 .anna-oasis-page-how__link-item {
-	    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: .5rem 1.85rem;
-    border: 1px solid #DCE8E4;
-    border-radius: 999px;
-    background: #dce8e42b;
-    color: var(--oasis-accent);
-    font-family: var(--font-body);
-        font-size: 14px;
-    font-weight: var(--font-weight-semibold);
-    text-decoration: none;
-    transition: background 0.2s ease, transform 0.2s ease;
-	
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: .5rem 1.85rem;
+  border: 1px solid #DCE8E4;
+  border-radius: 999px;
+  background: #dce8e42b;
+  color: var(--oasis-accent);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.2s ease;
+
 }
 
 .anna-oasis-page-how__features-list {
@@ -426,11 +433,11 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-	background: #F2F6F2;
-	border-radius: 30px;
-	border: 1px solid #E8E3D980;
-	    padding: 20px;
-	
+  background: #F2F6F2;
+  border-radius: 30px;
+  border: 1px solid #E8E3D980;
+  padding: 20px;
+
 }
 
 .anna-oasis-page-how__feature {
@@ -440,8 +447,8 @@
   align-items: start;
   padding: 10px;
   border-radius: 14px;
-/*   background: var(--color-white); */
-/*   box-shadow: 0 8px 28px rgba(15, 31, 27, 0.06); */
+  /*   background: var(--color-white); */
+  /*   box-shadow: 0 8px 28px rgba(15, 31, 27, 0.06); */
 }
 
 .anna-oasis-page-how__feature-icon {
@@ -477,7 +484,7 @@
   color: #4B5563;
   font-size: var(--text-base);
   line-height: 1.6;
-	font-weight: 600;
+  font-weight: 600;
 }
 
 .anna-oasis-page-choose__grid {
@@ -488,7 +495,7 @@
 }
 
 @media (min-width: 800px) {
-	
+
   .anna-oasis-page-choose__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-8);
@@ -508,7 +515,7 @@
   background: #007063;
   color: var(--color-white);
   border-color: transparent;
-	position: relative;
+  position: relative;
 }
 
 .anna-oasis-page-plan--featured .anna-oasis-page-plan__title,
@@ -524,19 +531,19 @@
 }
 
 .anna-oasis-page-plan__badge {
-    display: inline-block;
-    margin-bottom: var(--space-4);
-    padding: 0.35rem 1.75rem;
-    background: #197E73;
-    color: var(--color-white);
-    font-size: 0.7rem;
-    font-weight: var(--font-weight-bold);
-    letter-spacing: .1rem;
-    top: -1px;
-    right: -1px;
-    position: absolute;
-    border-top-right-radius: 15px;
-	border-bottom-left-radius: 15px;
+  display: inline-block;
+  margin-bottom: var(--space-4);
+  padding: 0.35rem 1.75rem;
+  background: #197E73;
+  color: var(--color-white);
+  font-size: 0.7rem;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: .1rem;
+  top: -1px;
+  right: -1px;
+  position: absolute;
+  border-top-right-radius: 15px;
+  border-bottom-left-radius: 15px;
 }
 
 .anna-oasis-page-plan__title {
@@ -550,8 +557,8 @@
 .anna-oasis-page-plan__price {
   margin: var(--space-5) 0 0;
   font-size: var(--text-base);
-	font-weight: 600;
-	color: #6B7280;
+  font-weight: 600;
+  color: #6B7280;
 }
 
 .anna-oasis-page-plan__price strong {
@@ -561,33 +568,37 @@
   color: black;
 }
 
-.anna-oasis-page-plan__founding{
-	padding: 5px 20px 5px 20px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    width: fit-content;
-	font-size: 12px;
-	    margin-bottom: 40px;	
-	
+.anna-oasis-page-plan__founding {
+  padding: 5px 20px 5px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  width: fit-content;
+  font-size: 12px;
+  margin-bottom: 40px;
+
 }
-.anna-oasis-page-plan .anna-oasis-page-plan__founding{
-	color: #007063;
-    background: #E8E3D980;
-    border-radius: 25px;
-	font-size: 12px;
-	
+
+.anna-oasis-page-plan .anna-oasis-page-plan__founding {
+  color: #007063;
+  background: #E8E3D980;
+  border-radius: 25px;
+  font-size: 12px;
+
 }
+
 .anna-oasis-page-plan--featured .anna-oasis-page-plan__founding {
-    color: white;
-    background: #197E73;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+  color: white;
+  background: #197E73;
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
-.anna-oasis-page-plan__annual{
-	margin: 0 0 var(--space-3);
-    color: #6B7280;
-	font-size: 14px;
-	font-weight: 600;
-	
+
+.anna-oasis-page-plan__annual {
+  margin: 0 0 var(--space-3);
+  color: #6B7280;
+  font-size: 14px;
+  font-weight: 600;
+
 }
+
 .anna-oasis-page-plan__features {
   margin: var(--space-6) 0 0;
   padding: 0;
@@ -629,7 +640,7 @@
 
 /* ── Who I am (cream) ───────────────────────────────────────────────────── */
 .anna-oasis-page-begun {
-/*   background: var(--oasis-cream-bg); */
+  /*   background: var(--oasis-cream-bg); */
   color: var(--color-text);
 }
 
@@ -660,21 +671,21 @@
 }
 
 .anna-oasis-page-begun__callout {
-/*   margin-top: var(--space-6);
+  /*   margin-top: var(--space-6);
   padding: var(--space-6);
   border-left: 3px solid var(--oasis-accent);
   background: var(--color-white); */
-	margin-top: var(--space-8);
-	    padding: 30px;
-    border: 1px solid #DCE8E4;
-    border-radius: 20px;
-    background: #dce8e42b;
-    color: var(--oasis-accent);
-    font-family: var(--font-body);
-    font-size: 14px;
-    font-weight: var(--font-weight-semibold);
-    text-decoration: none;
-    transition: background 0.2s ease, transform 0.2s ease;
+  margin-top: var(--space-8);
+  padding: 30px;
+  border: 1px solid #DCE8E4;
+  border-radius: 20px;
+  background: #dce8e42b;
+  color: var(--oasis-accent);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .anna-oasis-page-begun__callout-label {
@@ -689,7 +700,7 @@
   font-size: var(--text-base);
   line-height: 1.6;
   color: #4B5563;
-	font-weight: 400;
+  font-weight: 400;
 }
 
 .anna-oasis-page-begun__subheading {
@@ -705,16 +716,20 @@
   font-size: var(--text-md);
   line-height: 1.75;
 }
-.anna-oasis-page-begun__copy p{
+
+.anna-oasis-page-begun__copy p {
   margin-top: var(--space-8);
-	
+
 }
-.anna-oasis-page-begun__media-col{
-	width: 45%;
+
+.anna-oasis-page-begun__media-col {
+  width: 45%;
 }
-.anna-oasis-page-begun__content{
-	width: 55%;
+
+.anna-oasis-page-begun__content {
+  width: 55%;
 }
+
 .anna-oasis-page-begun__quote {
   margin: var(--space-8) 0 0;
   padding: 0;
@@ -723,14 +738,15 @@
   font-size: clamp(1.25rem, 1.15rem + 0.35vw, 1.5rem);
   line-height: 1.35;
   color: #0D9488;
-	border-left: 4px solid;
-	padding-left: 20px;
-	margin-bottom: 30px;
+  border-left: 4px solid;
+  padding-left: 20px;
+  margin-bottom: 30px;
 }
-.anna-oasis-page-begun__quote p{
-	color: #0D9488;
-	    font-family: 'Fraunces';
-	
+
+.anna-oasis-page-begun__quote p {
+  color: #0D9488;
+  font-family: 'Fraunces';
+
 }
 
 .anna-oasis-page-begun__link {
@@ -762,14 +778,14 @@
 }
 
 .anna-oasis-page-waitlist__heading {
-  color:#FFFFFFE5 !important;
+  color: #FFFFFFE5 !important;
   font-size: clamp(1.75rem, 2.5vw, 2.35rem);
   line-height: 1.2;
-	text-align: center !important;
-	    font-family: 'Lexend', sans-serif;
-    font-size: clamp(2rem, 3.2vw, 3.2rem);
-    line-height: 1.12;
-    font-weight: var(--font-weight-semibold);
+  text-align: center !important;
+  font-family: 'Lexend', sans-serif;
+  font-size: clamp(2rem, 3.2vw, 3.2rem);
+  line-height: 1.12;
+  font-weight: var(--font-weight-semibold);
 
 }
 
@@ -981,8 +997,8 @@
   font-size: clamp(2rem, 3.2vw, 2.75rem);
   font-weight: var(--font-weight-semibold);
   line-height: 1.12;
-	margin-bottom: 20px !important;
-	text-align: center;
+  margin-bottom: 20px !important;
+  text-align: center;
 }
 
 .anna-oasis-page-faq__grid {
@@ -1053,11 +1069,12 @@
 
 .anna-oasis-page-faq__question {
   font-weight: 400;
-    font-size: 16px;
+  font-size: 16px;
 }
 
 /* ── Responsive ─────────────────────────────────────────────────────────── */
 @media (max-width: 1024px) {
+
   .anna-oasis-page-how__grid,
   .anna-oasis-page-faq__grid {
     grid-template-columns: 1fr;

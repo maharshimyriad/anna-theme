@@ -23,17 +23,13 @@
     margin-top: var(--header-height);
     background-color: #071a16;
     background-image:
-        radial-gradient(
-            900px 520px at 70% 50%,
+        radial-gradient(900px 520px at 70% 50%,
             rgba(0, 148, 128, 0.4) 0%,
             rgba(0, 148, 128, 0.18) 42%,
-            rgba(0, 148, 128, 0) 65%
-        ),
-        linear-gradient(
-            135deg,
+            rgba(0, 148, 128, 0) 65%),
+        linear-gradient(135deg,
             rgba(7, 26, 22, 0.96) 0%,
-            rgba(7, 26, 22, 0.88) 100%
-        );
+            rgba(7, 26, 22, 0.88) 100%);
     background-size: cover;
     background-position: center;
     color: var(--color-white);
@@ -47,12 +43,10 @@
 .anna-reviews-page-hero__overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-        135deg,
-        rgba(7, 20, 17, 0.9) 0%,
-        rgba(7, 20, 17, 0.68) 50%,
-        rgba(7, 20, 17, 0.4) 100%
-    );
+    background: linear-gradient(135deg,
+            rgba(7, 20, 17, 0.9) 0%,
+            rgba(7, 20, 17, 0.68) 50%,
+            rgba(7, 20, 17, 0.4) 100%);
     pointer-events: none;
 }
 
@@ -69,7 +63,7 @@
 
 .anna-reviews-page-hero__eyebrow {
     margin: 0 0 var(--space-5);
-    font-family: "Lexend Giga", sans-serif;
+    font-family: var(--font-heading);
     font-size: 12px;
     font-weight: 500;
     letter-spacing: 4.4px;
@@ -81,7 +75,7 @@
     margin: 0 0 var(--space-7);
     color: var(--color-white);
     font-family: var(--font-heading);
-    font-size: clamp(2.5rem, 2.2rem + 1.4vw, 3.75rem);
+    font-size: var(--heading-section);
     line-height: 1.08;
     font-weight: var(--font-weight-regular);
     letter-spacing: var(--tracking-snug);
@@ -246,7 +240,7 @@
 .anna-reviews-page-cta__heading {
     margin: 0;
     font-family: var(--font-heading);
-    font-size: clamp(1.875rem, 3vw, 2.75rem);
+    font-size: var(--heading-section);
     font-weight: var(--font-weight-semibold);
     line-height: 1.1;
     color: var(--color-primary);

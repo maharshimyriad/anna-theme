@@ -113,7 +113,7 @@
 .anna-single-hero__heading {
   margin: 0 0 var(--space-6);
   font-family: var(--font-heading);
-  font-size: clamp(2rem, 2rem + 2.5vw, 3.5rem);
+  font-size: var(--heading-section);
   font-weight: var(--font-weight-semibold);
   line-height: 1.1;
   letter-spacing: var(--tracking-snug);

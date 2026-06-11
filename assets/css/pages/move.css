@@ -50,7 +50,7 @@
   margin: 0 0 var(--space-8);
     color: #007063;
     font-family: 'Lexend', sans-serif;
-    font-size: clamp(2rem, 3.2vw, 3.2rem);
+    font-size: var(--heading-section);
     line-height: 1.12;
     font-weight: 600;
 }
@@ -120,7 +120,7 @@
   margin: 0;
     color: #FFFFFFE5;
     font-family: var(--font-heading);
-    font-size: clamp(3rem, 2.55rem + 1.45vw, 4.75rem);
+    font-size: var(--heading-section);
     line-height: 1.2;
     font-weight: 600;
     letter-spacing: var(--tracking-snug);
@@ -177,7 +177,7 @@
   margin: 0 0 clamp(2rem, 4vw, 3rem);
   color: var(--color-white);
   font-family: var(--font-heading);
-  font-size: clamp(2rem, 1.75rem + 0.8vw, 2.75rem);
+  font-size: var(--heading-section);
   font-weight: var(--font-weight-semibold);
 }
 
@@ -354,7 +354,7 @@
   margin: 0;
   color: var(--move-accent);
   font-family: var(--font-heading);
-  font-size: clamp(2rem, 1.75rem + 0.8vw, 2.75rem);
+  font-size: var(--heading-section);
   font-weight: var(--font-weight-semibold);
 }
 

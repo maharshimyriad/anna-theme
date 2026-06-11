@@ -37,12 +37,12 @@
 }
 
 .anna-mhs-page__heading {
-      margin: 0;
-    color: #007063;
-    font-family: 'Lexend', sans-serif;
-    font-size: clamp(2rem, 3.2vw, 3.2rem);
-    line-height: 1.12;
-    font-weight: var(--font-weight-semibold);
+  margin: 0;
+  color: #007063;
+  font-family: 'Lexend', sans-serif;
+  font-size: var(--heading-section);
+  line-height: 1.12;
+  font-weight: var(--font-weight-semibold);
 }
 
 .anna-mhs-page__copy {
@@ -54,10 +54,10 @@
 }
 
 .anna-mhs-page__copy p {
-     margin-top: var(--space-6);
-    color: var(--color-text);
-    font-size: var(--text-base);
-    line-height: 1.75;
+  margin-top: var(--space-6);
+  color: var(--color-text);
+  font-size: var(--text-base);
+  line-height: 1.75;
 }
 
 .anna-mhs-page__copy p:last-child {
@@ -100,22 +100,22 @@
 }
 
 .anna-mhs-page-hero__eyebrow {
-margin: 0 0 var(--space-5);
-    color: #FFFFFF;
-    font-family: 'Lexend Giga', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 4.4px;
+  margin: 0 0 var(--space-5);
+  color: #FFFFFF;
+  font-family: 'Lexend Giga', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 4.4px;
 }
 
 .anna-mhs-page-hero__heading {
   margin: 0;
-    color: #FFFFFFE5;
-    font-family: var(--font-heading);
-    font-size: clamp(3rem, 2.55rem + 1.45vw, 4.75rem);
-    line-height: 1.2;
-    font-weight: 600;
-    letter-spacing: var(--tracking-snug);
+  color: #FFFFFFE5;
+  font-family: var(--font-heading);
+  font-size: var(--heading-section);
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: var(--tracking-snug);
 }
 
 /* Two-column sections */
@@ -155,10 +155,10 @@ margin: 0 0 var(--space-5);
 .anna-mhs-page-practice__heading {
   margin: 0 0 var(--space-8);
   color: var(--color-white);
-    font-family: 'Lexend', sans-serif;
-    font-size: clamp(2rem, 3.2vw, 3.2rem);
-    line-height: 1.12;
-    font-weight: var(--font-weight-semibold);
+  font-family: 'Lexend', sans-serif;
+  font-size: var(--heading-section);
+  line-height: 1.12;
+  font-weight: var(--font-weight-semibold);
 }
 
 .anna-mhs-page-practice__copy {
@@ -169,8 +169,8 @@ margin: 0 0 var(--space-5);
 
 .anna-mhs-page-practice__copy p {
   margin: 0 0 var(--space-6);
-	color: #FFFFFF;
-	font-weight: 400;
+  color: #FFFFFF;
+  font-weight: 400;
 }
 
 .anna-mhs-page-practice__link-wrap {
@@ -197,7 +197,7 @@ margin: 0 0 var(--space-5);
   margin: 0;
   color: var(--mhs-accent);
   font-family: var(--font-heading);
-  font-size: clamp(2rem, 1.75rem + 0.8vw, 2.75rem);
+  font-size: var(--heading-section);
   font-weight: 400;
 }
 
@@ -205,9 +205,9 @@ margin: 0 0 var(--space-5);
   margin: var(--space-5) auto 0;
   max-width: 32rem;
   color: var(--color-text);
-      font-size: var(--text-md);
+  font-size: var(--text-md);
   line-height: 1.5;
-	font-weight: 600;
+  font-weight: 600;
 }
 
 .anna-mhs-page-ready__body {
@@ -216,7 +216,7 @@ margin: 0 0 var(--space-5);
   color: #374151;
   font-size: var(--text-base);
   line-height: 1.6;
-	font-weight: 600;
+  font-weight: 600;
 }
 
 .anna-mhs-page-ready__actions {
@@ -263,6 +263,7 @@ margin: 0 0 var(--space-5);
 }
 
 @media (max-width: 900px) {
+
   .anna-mhs-page-opening__grid,
   .anna-mhs-page-inner__grid {
     grid-template-columns: 1fr;
