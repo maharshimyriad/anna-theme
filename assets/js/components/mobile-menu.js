@@ -2,6 +2,7 @@
  * Mobile Menu Component JS
  *
  * Toggle, focus trapping, escape key, body scroll lock.
+ * Handles nested menu accordion expansion.
  *
  * @package Anna_Baylis
  * @since   1.0.0
@@ -57,7 +58,47 @@
     }
   });
 
-  // Close when clicking a nav link (mobile).
+  // Handle nested menu items with submenus.
+  function setupSubmenus() {
+    var lists = nav.querySelectorAll('.anna-mobile-nav__list .anna-mobile-nav__list');
+    
+    lists.forEach(function (submenu) {
+      var parentItem = submenu.parentElement;
+      var parentLink = parentItem.querySelector('.anna-mobile-nav__link');
+      
+      if (!parentLink) return;
+      
+      // Create toggle button.
+      var toggleBtn = document.createElement('button');
+      toggleBtn.type = 'button';
+      toggleBtn.className = 'anna-mobile-nav__toggle';
+      toggleBtn.setAttribute('aria-expanded', 'false');
+      toggleBtn.setAttribute('aria-label', 'Expand submenu');
+      
+      // Append toggle to parent link.
+      parentLink.appendChild(toggleBtn);
+      
+      // Toggle submenu on button click.
+      toggleBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        var isExpanded = submenu.classList.contains('is-expanded');
+        
+        if (isExpanded) {
+          submenu.classList.remove('is-expanded');
+          toggleBtn.classList.remove('is-expanded');
+          toggleBtn.setAttribute('aria-expanded', 'false');
+        } else {
+          submenu.classList.add('is-expanded');
+          toggleBtn.classList.add('is-expanded');
+          toggleBtn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  }
+
+  // Close when clicking a nav link (mobile) — but not toggle buttons.
   nav.addEventListener('click', function (e) {
     if (e.target.closest('a')) {
       closeMenu();
@@ -90,4 +131,7 @@
   mql.addEventListener('change', function (e) {
     if (e.matches && isOpen) closeMenu();
   });
+
+  // Initialize submenus.
+  setupSubmenus();
 })();

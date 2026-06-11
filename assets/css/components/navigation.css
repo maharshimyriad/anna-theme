@@ -300,6 +300,62 @@
   color: var(--color-primary);
 }
 
+/* ── Nested submenu styles ────────────────────────────────────────────────── */
+.anna-mobile-nav__list .anna-mobile-nav__list {
+  display: none;
+  margin:  0;
+  padding: var(--space-3) 0 0 var(--space-4);
+  list-style: none;
+  border-left: 2px solid var(--color-border);
+  margin-left: var(--space-2);
+}
+
+.anna-mobile-nav__list .anna-mobile-nav__list.is-expanded {
+  display: block;
+}
+
+.anna-mobile-nav__list .anna-mobile-nav__item {
+  border: none;
+  margin-bottom: var(--space-2);
+}
+
+.anna-mobile-nav__list .anna-mobile-nav__link {
+  padding: var(--space-3) 0;
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-regular);
+}
+
+/* Expand/collapse toggle button */
+.anna-mobile-nav__toggle {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition-fast);
+}
+
+.anna-mobile-nav__toggle.is-expanded {
+  transform: rotate(180deg);
+}
+
+.anna-mobile-nav__toggle::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg);
+}
+
 .anna-mobile-nav__cta {
   margin-top: var(--space-6);
 }
