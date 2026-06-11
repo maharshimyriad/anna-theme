@@ -92,11 +92,9 @@ $categories  = $blog['categories'] ?? array();
 						<?php endif; ?>
 
 						<div class="anna-blog-card__body">
-							<?php if ( $first_cat ) : ?>
-								<span class="anna-blog-card__cat anna-badge anna-badge--primary">
-									<?php echo esc_html( $first_cat->name ); ?>
-								</span>
-							<?php endif; ?>
+									<pre>
+										<?php  var_dump($post_cats);?>
+									</pre>
 
 							<h3 class="anna-blog-card__title">
 								<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
