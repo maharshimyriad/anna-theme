@@ -269,5 +269,7 @@ code {
 
 
 @media (max-width: 1024px) {
-  
+  .anna-hero-section{
+    max-height: 50svh;
+  }
 }
