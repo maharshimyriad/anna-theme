@@ -60,11 +60,11 @@
 
   // Handle nested menu items with submenus.
   function setupSubmenus() {
-    var lists = nav.querySelectorAll('.anna-mobile-nav__list .anna-mobile-nav__list');
+    var submenus = nav.querySelectorAll('.sub-menu');
     
-    lists.forEach(function (submenu) {
+    submenus.forEach(function (submenu) {
       var parentItem = submenu.parentElement;
-      var parentLink = parentItem.querySelector('.anna-mobile-nav__link');
+      var parentLink = parentItem.querySelector('a');
       
       if (!parentLink) return;
       

@@ -301,7 +301,7 @@
 }
 
 /* ── Nested submenu styles ────────────────────────────────────────────────── */
-.anna-mobile-nav__list .anna-mobile-nav__list {
+.anna-mobile-nav__list .sub-menu {
   display: none;
   max-height: 0;
   overflow: hidden;
@@ -313,21 +313,29 @@
   transition: max-height var(--transition-slow), padding var(--transition-slow);
 }
 
-.anna-mobile-nav__list .anna-mobile-nav__list.is-expanded {
+.anna-mobile-nav__list .sub-menu.is-expanded {
   display: block;
   max-height: 2000px;
   padding: var(--space-3) 0 0 var(--space-4);
 }
 
-.anna-mobile-nav__list .anna-mobile-nav__item {
+.anna-mobile-nav__list .sub-menu li {
   border: none;
   margin-bottom: var(--space-2);
 }
 
-.anna-mobile-nav__list .anna-mobile-nav__link {
+.anna-mobile-nav__list .sub-menu a {
+  display: block;
   padding: var(--space-3) 0;
   font-size: var(--text-lg);
   font-weight: var(--font-weight-regular);
+  color: var(--color-heading);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.anna-mobile-nav__list .sub-menu a:hover {
+  color: var(--color-primary);
 }
 
 /* Expand/collapse toggle button */
