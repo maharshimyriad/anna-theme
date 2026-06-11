@@ -33,8 +33,8 @@
         }
       });
     }, {
-      rootMargin: '0px 0px -60px 0px',
-      threshold:  0.15,
+      rootMargin: '0px 0px -20px 0px',
+      threshold:  0,
     });
 
     reveals.forEach(function (el) { observer.observe(el); });
