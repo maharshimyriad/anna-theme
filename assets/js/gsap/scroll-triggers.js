@@ -21,7 +21,7 @@
   var DURATION    = 1.05;
   var EASE        = 'expo.out';
   var DISTANCE    = 28;
-  var TRIGGER_POS = 'top 100%';
+  var TRIGGER_POS = 'top 85%';
 
   // Force GPU compositing on all animated elements up front.
   // GSAP clears it after animation completes to free memory.
@@ -81,7 +81,7 @@
         },
         scrollTrigger: {
           trigger: container,
-          start:   'top 100%',
+          start:   'top 85%',
           once:    true,
         },
       }
@@ -140,7 +140,7 @@
           },
           scrollTrigger: {
             trigger: '.anna-recognition__list',
-            start:   'top 100%',
+            start:   'top 85%',
             once:    true,
           },
         }
