@@ -91,6 +91,7 @@ $header_classes = 'anna-header anna-header--solid';
 				<span class="anna-mobile-nav__close-line"></span>
 			</button>
 		</div>
+		<?php
 		if ( has_nav_menu( 'mobile' ) ) {
 			wp_nav_menu(
 				array(
@@ -116,6 +117,7 @@ $header_classes = 'anna-header anna-header--solid';
 				)
 			);
 		}
+		?>
 		<div class="anna-mobile-nav__cta">
 			<a href="<?php echo esc_url( $header_cta_url ); ?>" class="anna-btn anna-btn--primary anna-btn--full">
 				<?php echo esc_html( $header_cta_text ); ?>
