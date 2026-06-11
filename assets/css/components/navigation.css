@@ -240,17 +240,7 @@
 }
 
 /* Dim overlay behind the drawer */
-.anna-mobile-nav::before {
-  content:    '';
-  position:   fixed;
-  inset:      0;
-  right:      auto;
-  width:      clamp(3rem, 18vw, 6rem);
-  background: rgba(15, 31, 27, 0.45);
-  pointer-events: none;
-  opacity:    0;
-  transition: opacity 420ms var(--ease-smooth);
-}
+
 
 .anna-mobile-nav.is-open::before {
   opacity: 1;
@@ -375,15 +365,6 @@
 }
 
 /* Active dot — matches reference "HOME •" style */
-.anna-mobile-nav__list > li.current-menu-item > a::after {
-  content:       '·';
-  display:       inline-block;
-  margin-left:   var(--space-2);
-  color:         var(--color-primary);
-  font-size:     1.6em;
-  line-height:   0;
-  vertical-align: middle;
-}
 
 /* ── Submenu toggle ────────────────────────────────────────────────────────── */
 .anna-mobile-nav__toggle {
