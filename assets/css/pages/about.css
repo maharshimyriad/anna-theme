@@ -594,6 +594,7 @@
 
   .anna-about-page-section {
     padding: var(--section-padding-sm) 0;
+    overflow: hidden;
   }
 }
 
