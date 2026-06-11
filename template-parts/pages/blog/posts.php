@@ -17,7 +17,7 @@ if (empty($blog)) {
 
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $active_cat = isset($_GET['cat']) ? sanitize_key(wp_unslash($_GET['cat'])) : '';
-$posts_per_page =  9;
+$posts_per_page = 9;
 $paged = max(1, absint(get_query_var('paged') ?: ($_GET['paged'] ?? 1))); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 $query_args = array(
@@ -157,7 +157,8 @@ $categories = $blog['categories'] ?? array();
 				$current_page = $paged;
 
 				// Build base URL preserving category filter.
-				$base_url = get_permalink();
+				$blog_page_id = get_option('page_for_posts');
+				$base_url = get_permalink($blog_page_id);
 				if ($active_cat) {
 					$base_url = add_query_arg('cat', $active_cat, $base_url);
 				}
