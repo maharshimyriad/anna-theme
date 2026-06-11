@@ -258,10 +258,6 @@
     font-weight: var(--font-weight-semibold);
 }
 
-.anna-reviews-page-cta__btn:hover {
-    background: #f3f4f6;
-    color: var(--color-primary-dark);
-}
 
 /* ── Plugin review card overrides (business-reviews-bundle) ─────────────── */
 
