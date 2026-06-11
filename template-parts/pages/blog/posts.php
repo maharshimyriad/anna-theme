@@ -17,7 +17,7 @@ if (empty($blog)) {
 
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $active_cat = isset($_GET['cat']) ? sanitize_key(wp_unslash($_GET['cat'])) : '';
-$posts_per_page = absint($blog['posts_per_page'] ?? 6);
+$posts_per_page = absint($blog['posts_per_page'] ?? 9);
 $paged = max(1, absint(get_query_var('paged') ?: ($_GET['paged'] ?? 1))); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 $query_args = array(
