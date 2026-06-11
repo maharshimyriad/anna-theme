@@ -368,6 +368,7 @@
   }
 
   .anna-hero__content {
+    max-width: 55vw;
     gap: .8rem;
   }
 
@@ -383,6 +384,12 @@
 @media (max-width: 900px) {
   .anna-intro__inner {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .anna-hero__content {
+    max-width: none;
   }
 }
 

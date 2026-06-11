@@ -856,7 +856,7 @@
 }
 
 .enquiry-card_btn:hover{
-  color: var(--color-white);
+  color: var(--color-white) !important;
 }
 
 .enquiry-card-contact {

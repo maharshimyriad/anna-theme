@@ -38,12 +38,6 @@ if ( empty( $move ) ) {
 					<?php echo esc_html( $move['evolved_button_secondary_text'] ); ?>
 				</a>
 			<?php endif; ?>
-
-			<?php if ( ! empty( $move['evolved_button_tertiary_text'] ) && ! empty( $move['evolved_button_tertiary_url'] ) ) : ?>
-				<a class="anna-btn anna-move-page-evolved__btn anna-move-page-evolved__btn--outline" href="<?php echo esc_url( $move['evolved_button_tertiary_url'] ); ?>">
-					<?php echo esc_html( $move['evolved_button_tertiary_text'] ); ?>
-				</a>
-			<?php endif; ?>
 		</div>
 	</div>
 </section>

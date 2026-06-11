@@ -146,6 +146,6 @@
 
   .anna-header.is-scrolled .anna-logo__img,
   .anna-header:not(.anna-header--transparent) .anna-logo__img {
-    height: 1.85rem;
+    height: 2.75rem;
   }
 }
