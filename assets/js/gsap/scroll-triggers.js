@@ -102,15 +102,19 @@
 
   // ── Init ──────────────────────────────────────────────────────────────────
   window.annaScrollTriggersInit = function () {
+    var isMobile = window.innerWidth < 768;
 
     // Fade up
     reveal('.anna-reveal', { y: DISTANCE });
 
     // Slide in from left — slightly more travel for directional feel
-    reveal('.anna-reveal--left',  { x: -(DISTANCE + 8) }, { ease: 'expo.out' });
+    // On mobile, reduce distance to avoid horizontal scroll
+    var leftDistance = isMobile ? 0 : -(DISTANCE + 8);
+    reveal('.anna-reveal--left',  { x: leftDistance }, { ease: 'expo.out' });
 
-    // Slide in from right
-    reveal('.anna-reveal--right', { x:  (DISTANCE + 8) }, { ease: 'expo.out' });
+    // Slide in from right — reduce on mobile
+    var rightDistance = isMobile ? 0 : (DISTANCE + 8);
+    reveal('.anna-reveal--right', { x: rightDistance }, { ease: 'expo.out' });
 
     // Scale up — subtle, premium
     reveal('.anna-reveal--scale', { scale: 0.94 }, { duration: 0.85, ease: 'expo.out' });
@@ -127,7 +131,7 @@
       prime(Array.from(recItems));
       gsap.fromTo(
         recItems,
-        { autoAlpha: 0, x: -18 },
+        { autoAlpha: 0, x: isMobile ? 0 : -18 },
         {
           autoAlpha:  1,
           x:          0,
