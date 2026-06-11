@@ -112,7 +112,7 @@ final class Anna_Page_Scaffolder_Admin {
 						<th scope="row"><label for="page_slug"><?php esc_html_e( 'Page slug', 'anna-baylis' ); ?></label></th>
 						<td>
 							<input type="text" name="page_slug" id="page_slug" class="regular-text" required placeholder="contact" value="">
-							<p class="description"><?php esc_html_e( 'URL path, e.g. contact → /contact/', 'anna-baylis' ); ?></p>
+							<p class="description"><?php esc_html_e( 'URL path, e.g. contact → /what-is-a-life-coach/', 'anna-baylis' ); ?></p>
 						</td>
 					</tr>
 					<tr>

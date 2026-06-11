@@ -24,7 +24,7 @@ function anna_get_speaking_default_content()
             "My talks draw on decades of elite sport, years of deep coaching work and my own profound personal journey — from the Olympics to rock bottom and back. Every talk is grounded in real life, backed by neuroscience and designed to leave your audience genuinely moved to act.",
         "hero_image_id" => 0,
         "hero_button_text" => "Enquire About Speaking",
-        "hero_button_url" => home_url( '/contact/' ),
+        "hero_button_url" => home_url( '/what-is-a-life-coach/' ),
         "hero_secondary_text" => "See speaking topics",
         "hero_secondary_url" => "#speaking-topics",
         "hero_stat_items" => [
@@ -43,7 +43,7 @@ function anna_get_speaking_default_content()
         "bring_quote" =>
             "My goal is always the same — to leave people feeling inspired, energised and equipped with practical tools they can apply in their own lives.",
         "bring_button_text" => "Enquire About Speaking",
-        "bring_button_url" => home_url( '/contact/' ),
+        "bring_button_url" => home_url( '/what-is-a-life-coach/' ),
         "bring_image_id" => 0,
 
         "topics_eyebrow" => "Speaking Topics",

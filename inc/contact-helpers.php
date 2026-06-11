@@ -331,7 +331,7 @@ add_action("admin_post_nopriv_anna_contact_form", "anna_handle_contact_form");
  */
 function anna_handle_contact_form()
 {
-    $referer = wp_get_referer() ?: home_url("/contact/");
+    $referer = wp_get_referer() ?: home_url("/what-is-a-life-coach/");
 
     if (
         !isset($_POST["anna_contact_nonce"]) ||

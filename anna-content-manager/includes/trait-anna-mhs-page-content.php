@@ -118,7 +118,7 @@ trait Anna_Mhs_Page_Content {
 
 		// Replace stale #contact with the real discovery call URL at read time.
 		$discovery_url = function_exists( 'anna_get_discovery_call_url' ) ? anna_get_discovery_call_url() : '';
-		$contact_url   = function_exists( 'home_url' ) ? home_url( '/contact/' ) : '/contact/';
+		$contact_url   = function_exists( 'home_url' ) ? home_url( '/what-is-a-life-coach/' ) : '/what-is-a-life-coach/';
 		$url_map = array(
 			'ready_button_primary_url' => $discovery_url,
 			'practice_link_url'        => $contact_url,

@@ -120,7 +120,7 @@ function anna_get_oasis_default_content() {
 		'waitlist_eyebrow'      => 'Join the waitlist',
 		'waitlist_heading'      => 'Be first to hear when Oasis opens and lock in founding member pricing.',
 		'waitlist_button_text'  => 'Join the waitlist',
-		'waitlist_button_url'   => home_url( '/contact/' ),
+		'waitlist_button_url'   => home_url( '/what-is-a-life-coach/' ),
 
 		'faq_heading' => 'Common questions FAQs',
 		'faq_items'   => array(

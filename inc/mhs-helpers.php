@@ -44,7 +44,7 @@ function anna_get_mhs_default_content()
         "practice_body" =>
             "Part of my daily routine is doing my own mental health check-in. Questioning thoughts or behaviours that are not aligning with my values or my future self. Asking myself — what is standing in my way? What choices will I no longer make? What do I need to think, feel and do to create the life I want?\n\nThis is not theory. This is how I live. And it is what I teach.",
         "practice_link_text" => "How often are you checking in?",
-        "practice_link_url" => home_url( '/contact/' ),
+        "practice_link_url" => home_url( '/what-is-a-life-coach/' ),
 
         "ready_heading" => "Ready to go deeper?",
         "ready_subheading" =>

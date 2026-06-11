@@ -650,7 +650,7 @@ trait Anna_Speaking_Page_Content
         );
 
         // Replace stale #contact with the contact page URL at read time.
-        $contact_url = function_exists( 'home_url' ) ? home_url( '/contact/' ) : '/contact/';
+        $contact_url = function_exists( 'home_url' ) ? home_url( '/what-is-a-life-coach/' ) : '/what-is-a-life-coach/';
         foreach ( array( 'hero_button_url', 'bring_button_url' ) as $field ) {
             if ( isset( $merged[ $field ] ) && ( '#contact' === $merged[ $field ] || empty( $merged[ $field ] ) ) ) {
                 $merged[ $field ] = $contact_url;
@@ -836,7 +836,7 @@ trait Anna_Speaking_Page_Content
             "book_card_button_url",
             "experience_link_url",
         ];
-        $contact_url = function_exists( 'home_url' ) ? home_url( '/contact/' ) : '/contact/';
+        $contact_url = function_exists( 'home_url' ) ? home_url( '/what-is-a-life-coach/' ) : '/what-is-a-life-coach/';
         $textarea_keys = [
             "hero_heading",
             "hero_body",

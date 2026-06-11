@@ -361,7 +361,7 @@ trait Anna_Oasis_Page_Content {
 		$merged['faq_items']             = $this->resolve_oasis_faq_items( $stored, $defaults );
 
 		// Replace stale #contact with the contact page URL at read time.
-		$contact_url = function_exists( 'home_url' ) ? home_url( '/contact/' ) : '/contact/';
+		$contact_url = function_exists( 'home_url' ) ? home_url( '/what-is-a-life-coach/' ) : '/what-is-a-life-coach/';
 		foreach ( array( 'waitlist_button_url' ) as $field ) {
 			if ( isset( $merged[ $field ] ) && ( '#contact' === $merged[ $field ] || empty( $merged[ $field ] ) ) ) {
 				$merged[ $field ] = $contact_url;
