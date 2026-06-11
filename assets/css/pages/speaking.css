@@ -855,7 +855,7 @@
   justify-content: center;
 }
 
-.enquiry-card_btn:hover{
+.enquiry-card_btn:hover {
   color: var(--color-white) !important;
 }
 
@@ -900,4 +900,15 @@
   font-weight: bold;
   letter-spacing: 3.2px;
   color: #128266;
+}
+
+@media (max-width: 1024px) {
+  .anna-speaking-page-section {
+    padding: 50px 0;
+  }
+
+  .anna-speaking-page-experience.anna-speaking-page-section .anna-container--max {
+    padding: 0;
+    grid-template-columns: 1fr;
+  }
 }
