@@ -138,5 +138,10 @@ iframe {
 
 
 #page .gform-theme--framework .gform_validation_errors{
-  background-color: #fef5f5;
+  background-color: #fcf8f8;
+  border:none;
+}
+
+#page .gform-theme--framework .gform_validation_errors:focus{
+  border:none;
 }
