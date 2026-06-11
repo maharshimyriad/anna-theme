@@ -26,7 +26,7 @@ if ( empty( $oasis ) ) {
 				
 				<?php if ( ! empty( $oasis['begun_image_id'] ) ) : ?>
 					<figure class="anna-oasis-page-begun__figure">
-						<?php echo wp_get_attachment_image( absint( $oasis['begun_image_id'] ), 'large', false, array( 'class' => 'anna-oasis-page-begun__image' ) ); ?>
+						<?php echo wp_get_attachment_image( absint( $oasis['begun_image_id'] ), 'full', false, array( 'class' => 'anna-oasis-page-begun__image' ) ); ?>
 					</figure>
 				<?php endif; ?>
 

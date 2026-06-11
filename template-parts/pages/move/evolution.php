@@ -48,7 +48,7 @@ $gallery_items = isset( $move['evolution_gallery_items'] ) && is_array( $move['e
 						$wide = 0 === $index || 3 === $index;
 						?>
 						<figure class="anna-move-page-evolution__gallery-item<?php echo $wide ? ' anna-move-page-evolution__gallery-item--wide' : ''; ?>">
-							<?php anna_responsive_image( $image_id, 'large', 'anna-img-cover' ); ?>
+							<?php anna_responsive_image( $image_id, 'full', 'anna-img-cover' ); ?>
 						</figure>
 					<?php endforeach; ?>
 				</div>

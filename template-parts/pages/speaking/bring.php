@@ -52,7 +52,7 @@ if ( empty( $speaking ) ) {
 
 			<?php if ( ! empty( $speaking['bring_image_id'] ) ) : ?>
 				<figure class="anna-speaking-page-bring__figure anna-reveal--right">
-					<?php echo wp_get_attachment_image( absint( $speaking['bring_image_id'] ), 'large', false, array( 'class' => 'anna-speaking-page-bring__image' ) ); ?>
+					<?php echo wp_get_attachment_image( absint( $speaking['bring_image_id'] ), 'full', false, array( 'class' => 'anna-speaking-page-bring__image' ) ); ?>
 				</figure>
 			<?php endif; ?>
 		</div>

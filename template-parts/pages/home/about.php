@@ -28,7 +28,7 @@ $cta_url      = $section_data['cta_url'];
 			<div class="anna-about__visual anna-reveal--left">
 				<figure class="anna-about__image-wrap">
 					<?php if ( $image_id ) : ?>
-						<?php anna_responsive_image( $image_id, 'anna-portrait', 'anna-img-cover', true ); ?>
+						<?php anna_responsive_image( $image_id, 'full', 'anna-img-cover', true ); ?>
 					<?php endif; ?>
 				</figure>
 				<?php if ( $badge_num || $badge_text ) : ?>

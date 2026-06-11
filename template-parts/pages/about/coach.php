@@ -43,7 +43,7 @@ if ( empty( $about ) ) {
 
 			<?php if ( ! empty( $about['coach_image_id'] ) ) : ?>
 				<figure class="anna-about-page-coach__media anna-reveal--right">
-					<?php anna_responsive_image( absint( $about['coach_image_id'] ), 'large', 'anna-img-cover' ); ?>
+					<?php anna_responsive_image( absint( $about['coach_image_id'] ), 'full', 'anna-img-cover' ); ?>
 				</figure>
 			<?php endif; ?>
 		</div>

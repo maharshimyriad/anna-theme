@@ -31,7 +31,7 @@ if ( empty( $mhs ) ) {
 
 			<?php if ( ! empty( $mhs['inner_image_id'] ) ) : ?>
 				<figure class="anna-mhs-page-inner__media anna-reveal--right">
-					<?php anna_responsive_image( absint( $mhs['inner_image_id'] ), 'large', 'anna-img-cover' ); ?>
+					<?php anna_responsive_image( absint( $mhs['inner_image_id'] ), 'full', 'anna-img-cover' ); ?>
 				</figure>
 			<?php endif; ?>
 		</div>

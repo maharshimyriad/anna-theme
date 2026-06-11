@@ -66,7 +66,7 @@ function anna_section_header( $args = array() ) {
  * @param string $class         CSS class.
  * @param bool   $lazy          Whether to lazy-load.
  */
-function anna_responsive_image( $attachment_id, $size = 'large', $class = '', $lazy = true ) {
+function anna_responsive_image( $attachment_id, $size = 'full', $class = '', $lazy = true ) {
 	if ( ! $attachment_id ) {
 		return;
 	}

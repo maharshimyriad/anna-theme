@@ -21,7 +21,7 @@ if ( empty( $about ) ) {
 		<div class="anna-about-page-life__grid">
 			<?php if ( ! empty( $about['life_image_id'] ) ) : ?>
 				<figure class="anna-about-page-life__media">
-					<?php anna_responsive_image( absint( $about['life_image_id'] ), 'large', 'anna-img-cover' ); ?>
+					<?php anna_responsive_image( absint( $about['life_image_id'] ), 'full', 'anna-img-cover' ); ?>
 				</figure>
 			<?php endif; ?>
 			<div class="anna-about-page-life__content">
