@@ -811,7 +811,7 @@ final class Anna_Content_Manager {
 	 * Render a notice row explaining that enquiry buttons link to the Contact page.
 	 */
 	private function render_contact_url_notice() {
-		$contact_url = function_exists( 'home_url' ) ? home_url( '/contact/' ) : '/contact/';
+		$contact_url = function_exists( 'home_url' ) ? home_url( '/what-is-a-life-coach/' ) : '/what-is-a-life-coach/';
 		?>
 		<tr>
 			<th scope="row"><?php esc_html_e( 'Button URL', 'anna-baylis' ); ?></th>

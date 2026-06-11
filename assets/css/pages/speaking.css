@@ -272,7 +272,7 @@
 
 .anna-speaking-page-bring__btn:hover {
   background: var(--color-primary-dark);
-  color: var(--color-white);
+  color: var(--color-white) !important;
 }
 
 .anna-speaking-page-bring__figure {
@@ -853,6 +853,10 @@
   text-decoration: none;
   width: 100%;
   justify-content: center;
+}
+
+.enquiry-card_btn:hover{
+  color: var(--color-white);
 }
 
 .enquiry-card-contact {
