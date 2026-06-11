@@ -90,13 +90,15 @@ $categories = $blog['categories'] ?? array();
 						<?php endif; ?>
 
 						<div class="anna-blog-card__body">
-							<?php if (!empty($post_cats)): ?>
-								<?php foreach ($post_cats as $cat): ?>
-									<span class="anna-blog-card__cat anna-badge anna-badge--primary">
-										<?php echo esc_html($cat->name); ?>
-									</span>
-								<?php endforeach; ?>
-							<?php endif; ?>
+							<div class="anna-blog-card__cat--container">
+								<?php if (!empty($post_cats)): ?>
+									<?php foreach ($post_cats as $cat): ?>
+										<span class="anna-blog-card__cat anna-badge anna-badge--primary">
+											<?php echo esc_html($cat->name); ?>
+										</span>
+									<?php endforeach; ?>
+								<?php endif; ?>
+							</div>
 
 							<h3 class="anna-blog-card__title">
 								<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
