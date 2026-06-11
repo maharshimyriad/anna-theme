@@ -357,7 +357,7 @@
 }
 
 .anna-mobile-nav__toggle.is-expanded {
-  transform: rotate(180deg);
+  transform: rotate(225deg);
 }
 
 .anna-mobile-nav__toggle::before {
@@ -366,7 +366,7 @@
   height: 6px;
   border-right: 2px solid currentColor;
   border-bottom: 2px solid currentColor;
-  transform: rotate(-45deg);
+  transform: rotate(45deg);
 }
 
 .anna-mobile-nav__cta {
@@ -387,4 +387,10 @@
 @media (min-width: 1025px) {
   .anna-mobile-nav    { display: none; }
   .anna-mobile-toggle { display: none; }
+}
+
+
+.menu-item a{
+  display: flex;
+  align-items: center;
 }
