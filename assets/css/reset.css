@@ -121,6 +121,7 @@ iframe {
 
 /* ── Reduce motion globally ───────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -132,16 +133,18 @@ iframe {
 }
 
 
-.menu-item a{
+.menu-item a {
   text-transform: capitalize;
 }
 
 
-#page .gform-theme--framework .gform_validation_errors{
+#page .gform-theme--framework .gform_validation_errors {
   background-color: #fcf8f8;
-  border:none;
+  border: none;
 }
 
-#page .gform-theme--framework .gform_validation_errors:focus{
-  border:none;
+#page .gform-theme--framework .gform_validation_errors:focus {
+  border-color: none;
+  outline: none;
+  outline-offset:none;
 }
