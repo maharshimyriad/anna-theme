@@ -61,7 +61,7 @@ $cta_url      = $section_data['cta_url'];
 
 				<?php if ( $cta_text ) : ?>
 					<div>
-						<a href="<?php echo esc_url( $cta_url ); ?>" class="anna-btn anna-btn--secondary anna-btn--lg"><?php echo esc_html( $cta_text ); ?></a>
+						<a href="<?php echo esc_url( $cta_url ); ?>" class="about-read-more anna-btn anna-btn--secondary anna-btn--lg"><?php echo esc_html( $cta_text ); ?></a>
 					</div>
 				<?php endif; ?>
 			</div>
