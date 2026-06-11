@@ -80,7 +80,10 @@ $header_classes = 'anna-header anna-header--solid';
 	<!-- Mobile Navigation Panel -->
 	<nav class="anna-mobile-nav" id="mobile-navigation" role="navigation" aria-label="<?php esc_attr_e( 'Mobile Navigation', 'anna-baylis' ); ?>" aria-hidden="true">
 		<div class="anna-mobile-nav__header">
-			<?php anna_site_logo( 'header' ); ?>
+			<span class="anna-mobile-nav__label">
+				<span class="anna-mobile-nav__label-dot" aria-hidden="true"></span>
+				<?php esc_html_e( 'MENU', 'anna-baylis' ); ?>
+			</span>
 			<button
 				type="button"
 				class="anna-mobile-nav__close"
@@ -124,6 +127,7 @@ $header_classes = 'anna-header anna-header--solid';
 			</a>
 		</div>
 		<div class="anna-mobile-nav__social">
+			<span class="anna-mobile-nav__social-label"><?php esc_html_e( 'Socials', 'anna-baylis' ); ?></span>
 			<?php anna_social_links( 'footer' ); ?>
 		</div>
 	</nav>
