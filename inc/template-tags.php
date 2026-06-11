@@ -85,6 +85,14 @@ function anna_responsive_image_url( $attachment_id, $size = 'full' ) {
 		return '';
 	}
 
+	// For 'full' size always return the original uploaded file rather than a
+	// WordPress-generated crop or the auto-scaled variant that wp_get_attachment_image_url
+	// may resolve 'full' to when the attachment metadata was saved with a downsized copy.
+	if ( 'full' === $size ) {
+		$url = wp_get_attachment_url( $attachment_id );
+		return $url ? $url : '';
+	}
+
 	return wp_get_attachment_image_url( $attachment_id, $size );
 }
 
