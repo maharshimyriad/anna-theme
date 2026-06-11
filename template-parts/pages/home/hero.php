@@ -30,7 +30,7 @@ if ( empty( $cta_second['url'] ) || '#' === $cta_second['url'] ) {
 ?>
 
 <section
-	class="anna-hero anna-section"
+	class="anna-hero-section anna-section"
 	id="hero"
 	aria-labelledby="hero-heading"
 	<?php if ( $hero_image ) : ?>

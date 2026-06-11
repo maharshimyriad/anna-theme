@@ -20,7 +20,7 @@ $stats     = isset( $speaking['hero_stat_items'] ) && is_array( $speaking['hero_
 ?>
 
 <section
-	class="anna-speaking-page-hero<?php echo $has_image ? ' anna-speaking-page-hero--has-image' : ''; ?>"
+	class="anna-hero-section anna-speaking-page-hero<?php echo $has_image ? ' anna-speaking-page-hero--has-image' : ''; ?>"
 	<?php if ( $has_image ) : ?>
 		style="background-image:url('<?php echo esc_url( anna_responsive_image_url( absint( $speaking['hero_image_id'] ), 'full' ) ); ?>');"
 	<?php endif; ?>

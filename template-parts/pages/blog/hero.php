@@ -16,7 +16,7 @@ if ( empty( $blog ) ) {
 }
 ?>
 
-<section class="anna-blog-page-hero">
+<section class="anna-blog-page-hero anna-hero-section">
 	<div class="anna-container anna-container--max">
 		<div class="anna-blog-page-hero__content anna-reveal">
 			<?php if ( ! empty( $blog['hero_heading'] ) ) : ?>

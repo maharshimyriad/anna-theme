@@ -19,7 +19,7 @@ $has_image = ! empty( $move['hero_image_id'] );
 ?>
 
 <section
-	class="anna-move-page-hero<?php echo $has_image ? ' anna-move-page-hero--has-image' : ''; ?>"
+	class="anna-hero-section anna-move-page-hero<?php echo $has_image ? ' anna-move-page-hero--has-image' : ''; ?>"
 	<?php if ( $has_image ) : ?>
 		style="background-image:url('<?php echo esc_url( anna_responsive_image_url( absint( $move['hero_image_id'] ), 'full' ) ); ?>');"
 	<?php endif; ?>

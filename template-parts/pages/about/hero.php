@@ -17,7 +17,7 @@ if ( empty( $about ) ) {
 ?>
 
 <section
-	class="anna-about-page-hero"
+	class="anna-about-page-hero anna-hero-section"
 	<?php if ( ! empty( $about['hero_image_id'] ) ) : ?>
 		style="background-image:url('<?php echo esc_url( anna_responsive_image_url( absint( $about['hero_image_id'] ), 'full' ) ); ?>');"
 	<?php endif; ?>

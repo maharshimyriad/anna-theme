@@ -19,7 +19,7 @@ $has_bg_image = ! empty( $coaching['hero_image_id'] );
 ?>
 
 <section
-	class="anna-coaching-page-hero<?php echo $has_bg_image ? ' anna-coaching-page-hero--has-image' : ''; ?>"
+	class="anna-hero-section anna-coaching-page-hero<?php echo $has_bg_image ? ' anna-coaching-page-hero--has-image' : ''; ?>"
 	<?php if ( $has_bg_image ) : ?>
 		style="background-image:url('<?php echo esc_url( anna_responsive_image_url( absint( $coaching['hero_image_id'] ), 'full' ) ); ?>');"
 	<?php endif; ?>

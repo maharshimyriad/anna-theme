@@ -19,7 +19,7 @@ $has_image = ! empty( $mhs['hero_image_id'] );
 ?>
 
 <section
-	class="anna-mhs-page-hero<?php echo $has_image ? ' anna-mhs-page-hero--has-image' : ''; ?>"
+	class="anna-hero-section anna-mhs-page-hero<?php echo $has_image ? ' anna-mhs-page-hero--has-image' : ''; ?>"
 	<?php if ( $has_image ) : ?>
 		style="background-image:url('<?php echo esc_url( anna_responsive_image_url( absint( $mhs['hero_image_id'] ), 'full' ) ); ?>');"
 	<?php endif; ?>
