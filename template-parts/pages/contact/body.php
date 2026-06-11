@@ -27,7 +27,7 @@ $form_shortcode = trim((string) ($contact["form_shortcode"] ?? '[gravityform id=
 		<div class="anna-contact-page-body__grid">
 
 			<!-- ── Left: Contact Information ──────────────────────────── -->
-			<div class="anna-contact-page-info anna-reveal--left">
+			<div class="anna-contact-page-info ">
 				<?php if (!empty($contact["info_heading"])): ?>
 					<h2 class="anna-contact-page-info__heading"><?php echo esc_html(
          $contact["info_heading"],
@@ -146,7 +146,7 @@ $form_shortcode = trim((string) ($contact["form_shortcode"] ?? '[gravityform id=
 			</div>
 
 			<!-- ── Right: Gravity Form ──────────────────────────────────── -->
-			<div class="anna-contact-page-form anna-reveal--right">
+			<div class="anna-contact-page-form">
 				<?php if (!empty($contact["form_heading"])): ?>
 					<h2 class="anna-contact-page-form__heading"><?php echo esc_html(
          $contact["form_heading"],
