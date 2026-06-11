@@ -208,7 +208,7 @@
 }
 
 .anna-blog-card__cat.anna-badge {
-  text-transform: none;
+  text-transform: capitalize;
 }
 
 /* ── Title ────────────────────────────────────────────────────────────── */
