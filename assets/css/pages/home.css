@@ -91,7 +91,7 @@ font-size: clamp(32px, 4vw, 60px);
 .anna-hero__description {
   max-width: 48rem;
   margin: 0;
-/*   font-size: 18px; */
+/*   font-size: var(--text-md); */
 	 font-size: clamp(14px, 1.2vw, 18px);
   line-height: 1.7;
   color: rgba(255, 255, 255, 0.9);
@@ -152,7 +152,7 @@ font-size: clamp(32px, 4vw, 60px);
 .anna-hero__stat-value {
   display: block;
   color: var(--color-white);
-  font-size: 2rem;
+  font-size: var(--heading-card);
   line-height: 1;
   font-weight: 700;
   margin-bottom: 0.45rem;
@@ -222,7 +222,7 @@ font-size: clamp(32px, 4vw, 60px);
 		margin: 0 0;
 	}
 	.anna-hero__stat-value{
-		font-size: 1.2rem;
+		font-size: clamp(1rem, 0.9rem + 0.5vw, 1.2rem);
 	}
 
   .anna-hero .anna-btn--hero-primary {
@@ -291,7 +291,7 @@ font-size: clamp(32px, 4vw, 60px);
   margin: 0;
   color: #6aa99a;
   font-style: italic;
-  font-size: 1.35rem;
+  font-size: var(--text-xl);
   line-height: 1.45;
 }
 
@@ -357,7 +357,7 @@ font-size: clamp(32px, 4vw, 60px);
 		margin: 10px 0;
 	}
 	h2{
-		font-size: 50px !important;
+		font-size: var(--heading-section);
 	}
 }
 @media (max-width: 900px) {
@@ -486,7 +486,7 @@ font-size: clamp(32px, 4vw, 60px);
 }
 .anna-service-card__link::after{
     content: "→";
-    font-size: 18px;
+    font-size: var(--text-md);
     transition: transform 0.3s ease;
 	margin-left: 5px;
 }

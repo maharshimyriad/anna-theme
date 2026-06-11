@@ -77,6 +77,12 @@
   --text-5xl:   clamp(3rem,    2.20rem + 3vw, 3.75rem);      /* 48px → 60px */
   --text-6xl:   clamp(3.80rem,  2.50rem + 6.50vw,  7.00rem);
 
+  /* ── Semantic Heading Sizes ───────────────────────────────────────────── */
+  /* Section headings: min 28px (1.75rem) → max 50px (3.125rem)            */
+  --heading-section: clamp(1.75rem, 1.25rem + 2.08vw, 3.125rem);
+  /* Card / sub-section headings: min 18px (1.125rem) → max 28px (1.75rem) */
+  --heading-card:    clamp(1.125rem, 0.875rem + 1.04vw, 1.75rem);
+
   /* ── Spacing Scale ────────────────────────────────────────────────────── */
   --space-px:   1px;
   --space-0-5:  0.125rem;

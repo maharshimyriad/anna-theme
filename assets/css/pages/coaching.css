@@ -363,7 +363,7 @@
 
 .anna-coaching-page-work__list-text {
   color: var(--color-text);
-  font-size: 18px;
+  font-size: var(--text-md);
   line-height: 1.6;
 }
 

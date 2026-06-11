@@ -69,7 +69,7 @@
   margin: 0 0 var(--space-2);
   color: var(--color-primary);
   font-family: var(--font-heading);
-  font-size: 28px;
+  font-size: var(--heading-card);
   font-weight: var(--font-weight-semibold);
   line-height: 1.15;
 }

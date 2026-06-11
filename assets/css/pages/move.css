@@ -206,7 +206,7 @@
     font-style: italic;
     font-family: 'Mulish';
     letter-spacing: .3px;
-	font-size: 16px;
+	font-size: var(--text-base);
 }
 .anna-move-page-said-card__quote {
   margin: 0;

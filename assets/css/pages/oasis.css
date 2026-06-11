@@ -122,7 +122,7 @@
   margin: var(--space-6) 0 0;
   color: #FFFFFF;
   font-family: var(--font-body);
-  font-size: 24px;
+  font-size: var(--text-xl);
   line-height: 1.35;
 }
 
@@ -194,7 +194,7 @@
 .anna-oasis-page-what__body p {
   margin: auto;
 	max-width: 45rem;
-    font-size: 20px;
+    font-size: var(--text-lg);
 }
 
 .anna-oasis-page-what__link-wrap {
@@ -268,7 +268,7 @@
 
 .anna-oasis-page-ready-card__text {
   color: #374151;
-  font-size: 18px;
+  font-size: var(--text-md);
   line-height: 1.55;
 }
 
@@ -542,8 +542,8 @@
 .anna-oasis-page-plan__title {
   margin: 0;
   font-family: var(--font-heading);
-      font-size: 32px;
-    font-weight: 400;
+  font-size: var(--heading-section);
+  font-weight: 400;
   color: #0F4F3F;
 }
 
@@ -556,7 +556,7 @@
 
 .anna-oasis-page-plan__price strong {
   font-family: var(--font-heading);
-  font-size: 28px;
+  font-size: var(--heading-card);
   font-weight: var(--font-weight-regular);
   color: black;
 }
@@ -702,7 +702,7 @@
 .anna-oasis-page-begun__copy {
   margin-top: var(--space-6);
   margin-top: var(--space-6);
-  font-size: 18px;
+  font-size: var(--text-md);
   line-height: 1.75;
 }
 .anna-oasis-page-begun__copy p{

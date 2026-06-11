@@ -161,8 +161,8 @@
 .anna-speaking-page-hero__stat-value {
   color: #D9E89A;
   font-family: var(--font-heading);
-      font-size: 34px;
-    font-weight: 600;
+  font-size: var(--heading-card);
+  font-weight: 600;
   line-height: 1;
 }
 
@@ -314,7 +314,7 @@
 
 .anna-speaking-page-topics__intro {
   margin: var(--space-6) 0 0;
-  font-size: 18px;
+  font-size: var(--text-base);
   line-height: 1.65;
   color: rgba(15, 31, 27, 0.88);
 }
@@ -383,7 +383,7 @@
 .anna-speaking-page-topic-card__title {
   margin: 0 0 var(--space-4);
   font-family: var(--font-heading);
-  font-size: 20px;
+  font-size: var(--text-md);
   font-weight: var(--font-weight-semibold);
   line-height: 1.35;
   color: #0A5D47;
@@ -457,7 +457,7 @@
   left: 1rem;
   color: #87B4AE99;
   font-family: var(--font-heading);
-  font-size: 72px;
+  font-size: clamp(2.5rem, 4vw, 4.5rem);
   font-weight: 700;
   line-height: 1;
 }
@@ -465,7 +465,7 @@
 .anna-speaking-page-format-card__title {
      margin: 0 0 var(--space-4);
     font-family: var(--font-heading);
-    font-size: 20px;
+    font-size: var(--text-md);
     font-weight: var(--font-weight-semibold);
     line-height: 1.35;
     color: #0A5D47;
@@ -489,7 +489,7 @@
 .anna-speaking-page-formats__audience-heading {
       margin: 0 0 var(--space-4);
     font-family: var(--font-heading);
-    font-size: 20px;
+    font-size: var(--text-md);
     font-weight: var(--font-weight-semibold);
     line-height: 1.35;
     color: #0A5D47;
@@ -650,14 +650,14 @@
   gap: 0.2rem;
   margin-bottom: var(--space-5);
   color: #D9E89A;
-  font-size: 2rem;
+  font-size: clamp(1.25rem, 2vw, 2rem);
   letter-spacing: 0.08em;
 }
 
 .anna-speaking-page-experience__quote {
   margin: 0;
   color: var(--color-text);
-  font-size: 1.3rem;
+  font-size: var(--text-xl);
   line-height: 1.65;
 	    font-family: 'Mulish';
 }
@@ -815,7 +815,7 @@
 }
 
 .enquiry-card h2 {
-    font-size: 24px;
+    font-size: var(--text-xl);
     color: #0A5D47;
     margin-bottom: 24px;
     line-height: 1.2;
@@ -866,7 +866,7 @@
 .anna-speaking-page-book__copy p{
 color: #59656f;
     line-height: 1.9;
-	font-size: 18px;}
+	font-size: var(--text-md);}
 .anna-speaking-page-book__eyebrow{
 	animation: annaHeroOverlineDrift 7s ease-in-out infinite;
     font-family: 'Lexend Giga', sans-serif;
