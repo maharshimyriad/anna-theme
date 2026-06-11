@@ -208,7 +208,6 @@ $email_body  = urlencode( get_the_title() . ' — ' . get_permalink() );
 					<?php while ( $related_query->have_posts() ) : $related_query->the_post(); ?>
 						<?php
 						$rel_cats = get_the_category();
-						$rel_cat  = ! empty( $rel_cats ) ? $rel_cats[0] : null;
 						$rel_read = max( 1, (int) ceil( str_word_count( wp_strip_all_tags( get_the_content() ) ) / 200 ) );
 						?>
 						<article class="anna-blog-card">
@@ -222,11 +221,9 @@ $email_body  = urlencode( get_the_title() . ' — ' . get_permalink() );
 							<?php endif; ?>
 
 							<div class="anna-blog-card__body">
-								<?php if ( $rel_cat ) : ?>
-									<span class="anna-blog-card__cat anna-badge anna-badge--primary">
-										<?php echo esc_html( $rel_cat->name ); ?>
-									</span>
-								<?php endif; ?>
+									<pre>
+										<?php  var_dump($rel_cats);?>
+									</pre>
 
 								<h3 class="anna-blog-card__title">
 									<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
