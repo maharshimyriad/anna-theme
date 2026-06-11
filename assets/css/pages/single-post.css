@@ -23,8 +23,8 @@
 .anna-single-hero {
   position: relative;
   display: flex;
-  align-items: flex-end;
-  min-height: clamp(420px, 60vw, 640px);
+  align-items: center;
+  min-height: 55svh;
   margin-top: var(--header-height);
   background-color: var(--color-primary-dark);
   overflow: hidden;
