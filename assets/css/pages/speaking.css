@@ -908,7 +908,6 @@
   }
 
   .anna-speaking-page-experience.anna-speaking-page-section .anna-container--max {
-    padding: 0;
     grid-template-columns: 1fr;
   }
 }
