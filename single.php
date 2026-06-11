@@ -69,7 +69,7 @@ $email_body = urlencode(get_the_title() . ' — ' . get_permalink());
 						<?php if (!empty($categories)): ?>
 							<?php foreach ($categories as $cat): ?>
 								<a href="<?php echo esc_url(get_category_link($cat->term_id)); ?>" class="anna-single-hero__cat">
-									<?php echo esc_html($primary_cat->name); ?>
+									<?php echo esc_html($cat->name); ?>
 								</a>
 							<?php endforeach; ?>
 						<?php endif; ?>
