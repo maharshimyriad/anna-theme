@@ -54,12 +54,17 @@ $categories = $blog['categories'] ?? array();
 			<?php if (!empty($categories)): ?>
 				<nav class="anna-blog-page-posts__cats"
 					aria-label="<?php esc_attr_e('Filter by category', 'anna-baylis'); ?>">
-					<?php foreach ($categories as $cat): ?>
-						<?php
-						$cat_slug = $cat['slug'] ?? '';
-						$cat_label = $cat['label'] ?? '';
-						$is_active = ($cat_slug === $active_cat) || ('' === $cat_slug && '' === $active_cat);
-						$cat_url = $cat_slug ? add_query_arg('cat', $cat_slug) : remove_query_arg('cat');
+				<?php 
+				// Get the blog page URL as the base for category filters.
+				$blog_page_id = get_option('page_for_posts');
+				$blog_base_url = get_permalink($blog_page_id);
+				foreach ($categories as $cat): 
+				?>
+					<?php
+					$cat_slug = $cat['slug'] ?? '';
+					$cat_label = $cat['label'] ?? '';
+					$is_active = ($cat_slug === $active_cat) || ('' === $cat_slug && '' === $active_cat);
+					$cat_url = $cat_slug ? add_query_arg('cat', $cat_slug, $blog_base_url) : $blog_base_url;
 						?>
 						<a href="<?php echo esc_url($cat_url); ?>"
 							class="anna-blog-page-posts__cat-btn<?php echo $is_active ? ' is-active' : ''; ?>" <?php echo $is_active ? 'aria-current="true"' : ''; ?>>
