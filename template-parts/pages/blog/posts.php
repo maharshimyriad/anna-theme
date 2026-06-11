@@ -91,9 +91,11 @@ $categories = $blog['categories'] ?? array();
 
 						<div class="anna-blog-card__body">
 							<?php if (!empty($post_cats)): ?>
-								<span class="anna-blog-card__cat anna-badge anna-badge--primary">
-									<?php echo esc_html(implode(', ', wp_list_pluck($post_cats, 'name'))); ?>
-								</span>
+								<?php foreach ($post_cats as $cat): ?>
+									<span class="anna-blog-card__cat anna-badge anna-badge--primary">
+										<?php echo esc_html($cat->name); ?>
+									</span>
+								<?php endforeach; ?>
 							<?php endif; ?>
 
 							<h3 class="anna-blog-card__title">
