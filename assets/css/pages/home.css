@@ -1024,6 +1024,10 @@
   transition: all 0.3s ease;
 }
 
+.about-read-more:hover{
+  text-decoration: none !important;
+}
+
 .about-read-more:after {
   content: "→";
   font-size: var(--text-md);
@@ -1032,6 +1036,5 @@
 }
 
 .about-read-more:hover::after {
-  margin-left: 8px;
-  text-decoration: none !important;
+  margin-left: 8px;  
 }
