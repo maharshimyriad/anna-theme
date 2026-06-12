@@ -274,7 +274,7 @@ code {
 
 [class$="__eyebrow"] {
     font-size: var(--text-sm) !important;
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-semibold) !important;
 }
 
 @media (max-width: 1024px) {
