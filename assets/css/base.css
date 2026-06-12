@@ -274,8 +274,8 @@ code {
 
 [class$="__eyebrow"],[class$="__overline"] {
     font-size: var(--text-sm) !important;
-    font-weight: var(--font-weight-semibold) !important;
-    font-family: var(--font-light) !important;
+    font-weight: var(--font-weight-light) !important;
+    font-family: var(--font-body) !important;
 }
 
 @media (max-width: 1024px) {
