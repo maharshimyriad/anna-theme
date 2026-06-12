@@ -33,13 +33,17 @@
 
 /* Hero */
 .anna-speaking-page-hero {
-  position: relative;
-  margin-top: var(--header-height);
-  background-color: #071a16;
-  background-size: cover;
-  background-position: center right;
-  color: var(--color-white);
-  overflow: hidden;
+    position: relative;
+    margin-top: var(--header-height);
+    background-color: #071a16;
+    background-size: cover;
+    background-position: center right;
+    color: var(--color-white);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: calc(100svh - var(--header-height));
 }
 
 .anna-speaking-page-hero--has-image {
@@ -55,9 +59,6 @@
 
 .anna-speaking-page-hero__content {
   max-width: 40rem;
-  /*   padding-block: clamp(3rem, 8vh, 5rem); */
-  padding-top: 150px;
-  padding-bottom: 100px;
 }
 
 .anna-speaking-page-hero__eyebrow {
