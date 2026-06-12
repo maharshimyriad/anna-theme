@@ -149,11 +149,21 @@
 }
 
 .anna-speaking-page-hero__stat {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  border-right: 1px solid rgba(255, 255, 255, 0.12);
-  text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+    text-align: center;
+    padding: 0 2rem;
+}
+
+.anna-speaking-page-hero__stat:first-child {
+    padding-left: 0;
+}
+
+.anna-speaking-page-hero__stat:last-child {
+    padding-right: 0;
+    border-right: none; /* optional, if you don't want the last divider */
 }
 
 .anna-speaking-page-hero__stat:last-child {
