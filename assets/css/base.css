@@ -276,7 +276,7 @@ code {
     font-size: var(--text-sm) !important;
     font-weight: var(--font-weight-light) !important;
     font-family: var(--font-body) !important;
-    letter-spacing: 0.2rem;
+    letter-spacing: 0.2rem !important;
 }
 
 @media (max-width: 1024px) {
