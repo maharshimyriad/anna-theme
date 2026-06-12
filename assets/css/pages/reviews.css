@@ -17,7 +17,7 @@
 /* ── Hero ───────────────────────────────────────────────────────────────── */
 .anna-reviews-page-hero {
     position: relative;
-    min-height: 75svh;
+    min-height: 84svh;
     display: flex;
     align-items: center;
     margin-top: var(--header-height);
