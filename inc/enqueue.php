@@ -411,13 +411,16 @@ function anna_enqueue_scripts()
 		'anna-theme',
 		'annaTheme',
 		array(
-			'ajaxUrl' => admin_url('admin-ajax.php'),
-			'nonce' => wp_create_nonce('anna_nonce'),
+			'ajaxUrl'           => admin_url('admin-ajax.php'),
+			'nonce'             => wp_create_nonce('anna_nonce'),
 			'animationsEnabled' => $animations_enabled,
-			'animationSpeed' => anna_get_option('animation_speed', 'normal'),
-			'themeUri' => ANNA_URI,
-			'isHome' => is_front_page(),
-			'reducedMotion' => false,
+			'animationSpeed'    => anna_get_option('animation_speed', 'normal'),
+			'themeUri'          => ANNA_URI,
+			'isHome'            => is_front_page(),
+			'reducedMotion'     => false,
+			'discoveryCallUrl'  => function_exists('anna_get_discovery_call_url')
+				? anna_get_discovery_call_url()
+				: ( defined('ANNA_DISCOVERY_CALL_URL') ? ANNA_DISCOVERY_CALL_URL : '' ),
 		)
 	);
 

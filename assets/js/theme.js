@@ -77,6 +77,26 @@
   });
 
   /**
+   * Open all "Book a Discovery Call" links in a new tab.
+   * The URL is injected via wp_localize_script as annaTheme.discoveryCallUrl.
+   */
+  (function () {
+    var discoveryUrl = (window.annaTheme && window.annaTheme.discoveryCallUrl)
+      ? window.annaTheme.discoveryCallUrl.replace(/\/$/, '')
+      : null;
+
+    if (!discoveryUrl) return;
+
+    document.querySelectorAll('a[href]').forEach(function (link) {
+      var href = link.getAttribute('href').replace(/\/$/, '');
+      if (href === discoveryUrl) {
+        link.setAttribute('target', '_blank');
+        link.setAttribute('rel', 'noopener noreferrer');
+      }
+    });
+  })();
+
+  /**
    * Year auto-update in copyright if placeholder found.
    */
   var copyrightEl = document.querySelector('.anna-footer__copyright');

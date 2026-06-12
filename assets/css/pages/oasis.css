@@ -44,6 +44,14 @@
   letter-spacing: 4.4px;
 }
 
+.anna-oasis-page-section [class*="__eyebrow"] {
+  font-size: var(--text-sm) !important;
+  font-weight: var(--font-weight-light) !important;
+  font-family: var(--font-body) !important;
+  letter-spacing: 0.2rem !important;
+  text-transform: capitalize !important;
+}
+
 .anna-oasis-page-section [class*="__heading"] {
   margin: 0;
   color: var(--oasis-accent);
@@ -342,19 +350,19 @@
 }
 
 .anna-oasis-page-inside-card__icon {
-  display:         flex;
-  align-items:     center;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  width:           2.25rem;
-  height:          2.25rem;
-  margin-bottom:   var(--space-6);
-  flex-shrink:     0;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-bottom: var(--space-6);
+  flex-shrink: 0;
 }
 
 .anna-oasis-page-inside-card__icon svg {
   display: block;
-  width:   1.5rem;
-  height:  1.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .anna-oasis-page-inside-card__title {
@@ -1051,48 +1059,48 @@
 }
 
 .anna-oasis-page-faq__trigger:focus-visible {
-  outline:        var(--focus-ring-width) solid var(--focus-ring-color);
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
   outline-offset: var(--focus-ring-offset);
-  border-radius:  var(--radius-xs);
+  border-radius: var(--radius-xs);
 }
 
 /* Animated chevron icon */
 .anna-oasis-page-faq__icon {
-  flex-shrink:   0;
-  width:         20px;
-  height:        20px;
-  border:        1.5px solid var(--color-primary);
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid var(--color-primary);
   border-radius: var(--radius-full);
-  position:      relative;
-  transition:    background var(--transition-fast),
-                 border-color var(--transition-fast);
+  position: relative;
+  transition: background var(--transition-fast),
+    border-color var(--transition-fast);
 }
 
 /* Horizontal bar (always visible) */
 .anna-oasis-page-faq__icon::before,
 .anna-oasis-page-faq__icon::after {
-  content:       '';
-  position:      absolute;
-  left:          50%;
-  top:           50%;
-  width:         9px;
-  height:        1.5px;
-  background:    var(--color-primary);
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 9px;
+  height: 1.5px;
+  background: var(--color-primary);
   border-radius: var(--radius-full);
-  transform:     translate(-50%, -50%);
-  transition:    transform 350ms var(--ease-smooth),
-                 opacity   350ms var(--ease-smooth);
+  transform: translate(-50%, -50%);
+  transition: transform 350ms var(--ease-smooth),
+    opacity 350ms var(--ease-smooth);
 }
 
 /* Vertical bar — rotates away when open */
 .anna-oasis-page-faq__icon::after {
-  width:  1.5px;
+  width: 1.5px;
   height: 9px;
 }
 
 .anna-oasis-page-faq__item.is-open .anna-oasis-page-faq__icon {
-  background:    var(--color-primary);
-  border-color:  var(--color-primary);
+  background: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
 .anna-oasis-page-faq__item.is-open .anna-oasis-page-faq__icon::before,
@@ -1102,7 +1110,7 @@
 
 .anna-oasis-page-faq__item.is-open .anna-oasis-page-faq__icon::after {
   transform: translate(-50%, -50%) rotate(90deg);
-  opacity:   0;
+  opacity: 0;
 }
 
 /* Panel — height animated via JS, overflow hidden */
@@ -1123,12 +1131,17 @@
   line-height: 1.65;
 }
 
-.anna-oasis-page-faq__answer p:first-child { margin-top:    0; }
-.anna-oasis-page-faq__answer p:last-child  { margin-bottom: 0; }
+.anna-oasis-page-faq__answer p:first-child {
+  margin-top: 0;
+}
+
+.anna-oasis-page-faq__answer p:last-child {
+  margin-bottom: 0;
+}
 
 .anna-oasis-page-faq__question {
   font-weight: 400;
-  font-size:   16px;
+  font-size: 16px;
 }
 
 /* ── Responsive ─────────────────────────────────────────────────────────── */

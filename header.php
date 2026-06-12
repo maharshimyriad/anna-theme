@@ -56,7 +56,7 @@ $header_classes = 'anna-header anna-header--solid';
 					$header_cta_text = anna_get_option( 'header_cta_text', __( 'Book a Call', 'anna-baylis' ) );
 					$header_cta_url  = anna_get_option( 'header_cta_url', '#contact' );
 					?>
-					<a href="<?php echo esc_url( $header_cta_url ); ?>" class="anna-btn anna-btn--primary anna-btn--sm anna-hidden--mobile">
+					<a target="_blank" href="<?php echo esc_url( $header_cta_url ); ?>" class="anna-btn anna-btn--primary anna-btn--sm anna-hidden--mobile">
 						<?php echo esc_html( $header_cta_text ); ?>
 					</a>
 
