@@ -612,7 +612,7 @@
   font-size: 1rem;
 }
 
-.about-read-more:before {
+.about-read-more:after {
   content: "→";
   font-size: var(--text-md);
   transition: transform 0.3s ease;
