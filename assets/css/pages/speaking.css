@@ -641,6 +641,10 @@
   .anna-speaking-page-takeaway__copy p:last-child {
     margin: var(--space-8) 0;
   }
+
+  .anna-speaking-page-takeaway__list {
+    margin-top: var(--space-8);
+  }
 }
 
 .anna-speaking-page-experience__testimonial {
