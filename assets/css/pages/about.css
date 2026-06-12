@@ -503,7 +503,7 @@
   --about-connect-bg: #FFFBE7AA;
   --about-connect-eyebrow: #5f9a8f;
   --about-connect-heading: #4ca591;
-  background: #FFFBE733;
+  background:#f9f8f3 ;
   color: var(--color-white);
   text-align: center;
   padding: clamp(4.5rem, 7vw, 6.5rem) 0;
