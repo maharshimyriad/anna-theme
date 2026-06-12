@@ -233,12 +233,23 @@ function anna_normalize_oasis_how_cards( $items ) {
 	if ( ! is_array( $items ) ) {
 		return array();
 	}
+	// Allowed SVG tags and attributes for the icon field.
+	$svg_allowed = array(
+		'svg'      => array( 'width' => true, 'height' => true, 'viewbox' => true, 'viewBox' => true, 'fill' => true, 'xmlns' => true, 'class' => true, 'aria-hidden' => true, 'focusable' => true, 'stroke' => true, 'stroke-width' => true, 'stroke-linecap' => true, 'stroke-linejoin' => true ),
+		'path'     => array( 'd' => true, 'fill' => true, 'stroke' => true, 'stroke-width' => true, 'stroke-linecap' => true, 'stroke-linejoin' => true, 'opacity' => true, 'fill-rule' => true, 'clip-rule' => true ),
+		'circle'   => array( 'cx' => true, 'cy' => true, 'r' => true, 'fill' => true, 'stroke' => true, 'stroke-width' => true ),
+		'rect'     => array( 'x' => true, 'y' => true, 'width' => true, 'height' => true, 'rx' => true, 'ry' => true, 'fill' => true, 'stroke' => true, 'stroke-width' => true ),
+		'line'     => array( 'x1' => true, 'y1' => true, 'x2' => true, 'y2' => true, 'stroke' => true, 'stroke-width' => true, 'stroke-linecap' => true ),
+		'polyline' => array( 'points' => true, 'fill' => true, 'stroke' => true, 'stroke-width' => true, 'stroke-linecap' => true, 'stroke-linejoin' => true ),
+		'polygon'  => array( 'points' => true, 'fill' => true, 'stroke' => true, 'stroke-width' => true ),
+		'g'        => array( 'fill' => true, 'stroke' => true, 'stroke-width' => true, 'opacity' => true, 'transform' => true ),
+	);
 	$out = array();
 	foreach ( $items as $row ) {
 		if ( ! is_array( $row ) ) {
 			continue;
 		}
-		$icon  = sanitize_key( $row['icon'] ?? 'roots' );
+		$icon  = wp_kses( $row['icon'] ?? '', $svg_allowed );
 		$title = sanitize_text_field( $row['title'] ?? '' );
 		$body  = sanitize_textarea_field( $row['body'] ?? '' );
 		if ( '' === trim( $title ) && '' === trim( $body ) ) {

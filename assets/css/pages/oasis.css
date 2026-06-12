@@ -342,12 +342,21 @@
 }
 
 .anna-oasis-page-inside-card__icon {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  width:           2.25rem;
+  height:          2.25rem;
+  margin-bottom:   var(--space-6);
+  border-radius:   50%;
+  background:      rgba(233, 229, 201, 0.25);
+  flex-shrink:     0;
+}
+
+.anna-oasis-page-inside-card__icon svg {
   display: block;
-  width: 2.25rem;
-  height: 2.25rem;
-  margin-bottom: var(--space-6);
-  border-radius: 50%;
-  background: rgba(233, 229, 201, 0.25);
+  width:   1.5rem;
+  height:  1.5rem;
 }
 
 .anna-oasis-page-inside-card__title {

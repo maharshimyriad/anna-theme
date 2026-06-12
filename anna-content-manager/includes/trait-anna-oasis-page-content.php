@@ -246,7 +246,9 @@ trait Anna_Oasis_Page_Content {
 					<div class="anna-content-repeater__rows" data-anna-content-repeater-rows="true">
 						<?php foreach ( $items as $index => $item ) : ?>
 							<div class="anna-content-repeater__row" data-anna-content-repeater-row="true">
-								<p><label><?php esc_html_e( 'Icon', 'anna-baylis' ); ?> <input type="text" class="small-text" name="anna_content_oasis_page[how_card_items][<?php echo esc_attr( $index ); ?>][icon]" value="<?php echo esc_attr( $item['icon'] ?? 'roots' ); ?>"></label></p>
+								<p><label style="display:block;margin-bottom:4px;"><?php esc_html_e( 'Icon SVG', 'anna-baylis' ); ?></label>
+								<textarea class="large-text" rows="5" name="anna_content_oasis_page[how_card_items][<?php echo esc_attr( $index ); ?>][icon]" placeholder="Paste raw <svg>...</svg> code here"><?php echo esc_textarea( $item['icon'] ?? '' ); ?></textarea>
+								<p class="description"><?php esc_html_e( 'Paste the full SVG code. Use stroke="currentColor" or fill="currentColor" so it inherits the card colour.', 'anna-baylis' ); ?></p></p>
 								<p><input type="text" class="large-text" name="anna_content_oasis_page[how_card_items][<?php echo esc_attr( $index ); ?>][title]" value="<?php echo esc_attr( $item['title'] ?? '' ); ?>"></p>
 								<p><textarea class="large-text" rows="3" name="anna_content_oasis_page[how_card_items][<?php echo esc_attr( $index ); ?>][body]"><?php echo esc_textarea( $item['body'] ?? '' ); ?></textarea></p>
 								<p><button type="button" class="button-link-delete" data-anna-content-repeater-remove="true"><?php esc_html_e( 'Remove', 'anna-baylis' ); ?></button></p><hr>
@@ -256,7 +258,9 @@ trait Anna_Oasis_Page_Content {
 					<button type="button" class="button" data-anna-content-repeater-add="true"><?php esc_html_e( 'Add Card', 'anna-baylis' ); ?></button>
 					<template data-anna-content-repeater-template="true">
 						<div class="anna-content-repeater__row" data-anna-content-repeater-row="true">
-							<p><input type="text" class="small-text" name="anna_content_oasis_page[how_card_items][__INDEX__][icon]" value="roots"></p>
+							<p><label style="display:block;margin-bottom:4px;"><?php esc_html_e( 'Icon SVG', 'anna-baylis' ); ?></label>
+							<textarea class="large-text" rows="5" name="anna_content_oasis_page[how_card_items][__INDEX__][icon]" placeholder="Paste raw <svg>...</svg> code here"></textarea>
+							<p class="description"><?php esc_html_e( 'Paste the full SVG code. Use stroke="currentColor" or fill="currentColor" so it inherits the card colour.', 'anna-baylis' ); ?></p></p>
 							<p><input type="text" class="large-text" name="anna_content_oasis_page[how_card_items][__INDEX__][title]" value=""></p>
 							<p><textarea class="large-text" rows="3" name="anna_content_oasis_page[how_card_items][__INDEX__][body]"></textarea></p>
 							<p><button type="button" class="button-link-delete" data-anna-content-repeater-remove="true"><?php esc_html_e( 'Remove', 'anna-baylis' ); ?></button></p><hr>
