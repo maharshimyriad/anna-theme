@@ -604,17 +604,3 @@
 }
 
 
-.about-read-more {
-  color: #0F695D;
-  font-weight: 700;
-  border-bottom: 2px solid var(--color-primary);
-  width: fit-content;
-  font-size: 1rem;
-}
-
-.about-read-more:after {
-  content: "→";
-  font-size: var(--text-md);
-  transition: transform 0.3s ease;
-  margin-left: 5px;
-}
