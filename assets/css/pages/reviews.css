@@ -11,7 +11,7 @@
 
 .anna-reviews-page-main {
     background: var(--color-white);
-    --reviews-section-padding: clamp(4.5rem, 8vw, 7rem);
+    --reviews-section-padding: clamp(2.5rem, 3.2vw, 3rem);
 }
 
 /* ── Hero ───────────────────────────────────────────────────────────────── */
