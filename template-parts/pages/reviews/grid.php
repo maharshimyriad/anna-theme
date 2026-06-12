@@ -22,7 +22,7 @@ $reviews = function_exists('anna_get_reviews') ? anna_get_reviews() : array();
 	<div class="anna-container anna-container--max">
 
 
-		<div class="anna-reviews-page-grid__cards anna-stagger">
+		<div class="anna-reviews-page-grid__cards">
 			<?php echo do_shortcode( '[brb_collection id="5610"]' ); ?>
 		</div>
 
