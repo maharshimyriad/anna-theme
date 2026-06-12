@@ -163,7 +163,26 @@
 }
 
 /* ── Responsive ───────────────────────────────────────────────────────────── */
+
+/* Any figure wrapping an object-fit cover image should never render taller
+   than a sensible viewport fraction on tablet/mobile. Each section's own CSS
+   can override this with a tighter max-height or an aspect-ratio if needed.  */
+figure:has(> .anna-img-cover),
+figure:has(> img) {
+  overflow: hidden;
+}
+
+@media (max-width: 1024px) {
+  figure:has(> .anna-img-cover) {
+    max-height: 520px;
+  }
+}
+
 @media (max-width: 768px) {
+  figure:has(> .anna-img-cover) {
+    max-height: 420px;
+  }
+
   .anna-image-composition__secondary {
     left:   -var(--space-4);
     bottom: -var(--space-4);
