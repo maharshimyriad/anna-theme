@@ -212,6 +212,9 @@
   font-family: 'Mulish';
   letter-spacing: .3px;
   font-size: var(--text-base);
+  display: flex;
+  min-height: 55px;
+  align-items: center;
 }
 
 .anna-move-page-said-card__quote {
@@ -285,6 +288,7 @@
   align-items: center;
   gap: 6px;
   margin: var(--space-4) 0;
+  flex-wrap: wrap;
 }
 
 .anna-move-page-review-card__quote {

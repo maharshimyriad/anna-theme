@@ -639,10 +639,13 @@
   border-left: none;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 1024px) {
   .anna-speaking-page-experience__grid {
     grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
     gap: var(--speaking-grid-gap);
+  }
+  .anna-speaking-page-takeaway__copy p:last-child{
+    margin:var(--space-8) 0;
   }
 }
 
@@ -900,6 +903,7 @@
   font-weight: bold;
   letter-spacing: 3.2px;
   color: #128266;
+  margin: 0 0 var(--space-5);
 }
 
 @media (max-width: 1024px) {

@@ -496,12 +496,10 @@
 }
 
 .anna-service-card__excerpt {
-  margin: 0 0 1.4rem;
   color: #4A5568;
   line-height: 1.8;
   flex: none;
-  font-size: 15px;
-  flex-grow: 1;
+  font-size: 1rem;
 }
 
 .anna-service-card__link {
@@ -564,7 +562,7 @@
  */
 
 .anna-about {
-  background: #f7faf8;
+  background: #fff;
   overflow: hidden;
 }
 
@@ -721,8 +719,12 @@
 /* ── Responsive ───────────────────────────────────────────────────────────── */
 @media (max-width: 1201px) {
   .anna-service-card--feature {
-
     padding: 20px 20px;
+
+    background-size: cover;
+    background-position: center 35%;
+    background-repeat: no-repeat;
+
   }
 
   .anna-service-card__excerpt {
@@ -731,6 +733,11 @@
 
   .anna-service-card__title {
     margin: .5rem 0 0;
+  }
+
+  .anna-cta{
+    margin: 4.5rem 0;
+    padding: 0;
   }
 
 }
@@ -802,7 +809,7 @@
 }
 
 
-.anna-testimonial__rating svg{
+.anna-testimonial__rating svg {
   width: 14px;
   height: 14px;
 }
@@ -968,9 +975,13 @@
   box-shadow: none;
 }
 
-@media (max-width: 1024px){
-  .anna-hero__stats{
+@media (max-width: 1024px) {
+  .anna-hero__stats {
     grid-template-columns: 1fr;
+  }
+
+  .anna-service-card--feature {
+    min-height: none;
   }
 }
 

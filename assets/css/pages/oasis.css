@@ -989,7 +989,6 @@
 
 /* ── FAQ ────────────────────────────────────────────────────────────────── */
 
-
 .anna-oasis-page-faq__heading {
   margin: 0 0 clamp(2rem, 4vw, 3rem);
   color: var(--oasis-accent);
@@ -1035,30 +1034,79 @@
   font-size: clamp(1rem, 1.15vw, 1.125rem);
   font-weight: var(--font-weight-medium);
   line-height: 1.35;
+  color: var(--color-heading);
+  transition: color var(--transition-fast);
 }
 
 .anna-oasis-page-faq__trigger:hover {
   color: var(--oasis-accent);
 }
 
+.anna-oasis-page-faq__trigger:focus-visible {
+  outline:        var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+  border-radius:  var(--radius-xs);
+}
+
+/* Animated chevron icon */
 .anna-oasis-page-faq__icon {
-  flex-shrink: 0;
-  width: 10px;
-  height: 10px;
-  border-right: 2px solid var(--color-primary);
-  border-bottom: 2px solid var(--color-primary);
-  transform: rotate(45deg);
-  transition: transform 0.2s ease;
-  margin-top: -4px;
+  flex-shrink:   0;
+  width:         20px;
+  height:        20px;
+  border:        1.5px solid var(--color-primary);
+  border-radius: var(--radius-full);
+  position:      relative;
+  transition:    background var(--transition-fast),
+                 border-color var(--transition-fast);
+}
+
+/* Horizontal bar (always visible) */
+.anna-oasis-page-faq__icon::before,
+.anna-oasis-page-faq__icon::after {
+  content:       '';
+  position:      absolute;
+  left:          50%;
+  top:           50%;
+  width:         9px;
+  height:        1.5px;
+  background:    var(--color-primary);
+  border-radius: var(--radius-full);
+  transform:     translate(-50%, -50%);
+  transition:    transform 350ms var(--ease-smooth),
+                 opacity   350ms var(--ease-smooth);
+}
+
+/* Vertical bar — rotates away when open */
+.anna-oasis-page-faq__icon::after {
+  width:  1.5px;
+  height: 9px;
 }
 
 .anna-oasis-page-faq__item.is-open .anna-oasis-page-faq__icon {
-  transform: rotate(-135deg);
-  margin-top: 4px;
+  background:    var(--color-primary);
+  border-color:  var(--color-primary);
 }
 
+.anna-oasis-page-faq__item.is-open .anna-oasis-page-faq__icon::before,
+.anna-oasis-page-faq__item.is-open .anna-oasis-page-faq__icon::after {
+  background: var(--color-white);
+}
+
+.anna-oasis-page-faq__item.is-open .anna-oasis-page-faq__icon::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+  opacity:   0;
+}
+
+/* Panel — height animated via JS, overflow hidden */
 .anna-oasis-page-faq__panel {
-  padding: 0 0 var(--space-5);
+  overflow: hidden;
+  /* JS sets height; we only handle the transition here */
+  transition: height 380ms var(--ease-smooth);
+}
+
+/* Inner padded wrapper so padding doesn't fight the height animation */
+.anna-oasis-page-faq__panel-inner {
+  padding-bottom: var(--space-5);
 }
 
 .anna-oasis-page-faq__answer {
@@ -1067,9 +1115,12 @@
   line-height: 1.65;
 }
 
+.anna-oasis-page-faq__answer p:first-child { margin-top:    0; }
+.anna-oasis-page-faq__answer p:last-child  { margin-bottom: 0; }
+
 .anna-oasis-page-faq__question {
   font-weight: 400;
-  font-size: 16px;
+  font-size:   16px;
 }
 
 /* ── Responsive ─────────────────────────────────────────────────────────── */

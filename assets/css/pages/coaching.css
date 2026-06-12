@@ -617,7 +617,12 @@
 }
 
 .anna-coaching-page-faq__panel {
-  padding: 0 0 var(--space-5);
+  overflow:   hidden;
+  transition: height 380ms var(--ease-smooth);
+}
+
+.anna-coaching-page-faq__panel-inner {
+  padding-bottom: var(--space-5);
 }
 
 .anna-coaching-page-faq__answer {

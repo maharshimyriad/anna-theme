@@ -515,9 +515,11 @@ function anna_render_oasis_faq_item( $item, $index ) {
 				id="<?php echo esc_attr( $id ); ?>-panel"
 				role="region"
 				aria-labelledby="<?php echo esc_attr( $id ); ?>-trigger"
-				<?php echo $is_open ? '' : 'hidden'; ?>
+				style="height:<?php echo $is_open ? 'auto' : '0'; ?>;"
 			>
-				<div class="anna-oasis-page-faq__answer"><?php echo wp_kses_post( wpautop( $answer ) ); ?></div>
+				<div class="anna-oasis-page-faq__panel-inner">
+					<div class="anna-oasis-page-faq__answer"><?php echo wp_kses_post( wpautop( $answer ) ); ?></div>
+				</div>
 			</div>
 		<?php endif; ?>
 	</div>

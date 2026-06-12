@@ -1271,11 +1271,13 @@ function anna_render_coaching_faq_item($item, $index)
 				id="<?php echo esc_attr($id); ?>-panel"
 				role="region"
 				aria-labelledby="<?php echo esc_attr($id); ?>-trigger"
-				<?php echo $is_open ? "" : "hidden"; ?>
+				style="<?php echo $is_open ? 'height:auto;' : 'height:0px;'; ?>"
 			>
-				<div class="anna-coaching-page-faq__answer"><?php echo wp_kses_post(
+				<div class="anna-coaching-page-faq__panel-inner">
+					<div class="anna-coaching-page-faq__answer"><?php echo wp_kses_post(
         wpautop($answer),
     ); ?></div>
+				</div>
 			</div>
 		<?php endif; ?>
 	</div>

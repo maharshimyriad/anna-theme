@@ -506,7 +506,7 @@
   background: #FFFBE733;
   color: var(--color-white);
   text-align: center;
-  padding: clamp(4.5rem, 10vw, 6.5rem) 0;
+  padding: clamp(4.5rem, 7vw, 6.5rem) 0;
 }
 
 .anna-about-page-connect__inner {
