@@ -272,6 +272,11 @@ code {
   font-weight: var(--font-weight-semibold) !important;
 }
 
+[class$="__eyebrow"] {
+    font-size: var(--text-sm) !important;
+    font-weight: var(--font-weight-semibold);
+}
+
 @media (max-width: 1024px) {
   .anna-hero-section-section{
     max-height: 50svh;
