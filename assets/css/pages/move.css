@@ -87,7 +87,7 @@
   margin-top: var(--header-height);
   background-color: #1a3330;
   background-size: cover;
-  background-position: center;
+  background-position: top;
   color: var(--color-white);
   overflow: hidden;
 }
