@@ -279,6 +279,11 @@
   border: 1px solid #F3F4F6
 }
 
+.anna-move-page-review-card svg{
+  width: 14px;
+  height: 14px;
+}
+
 .anna-move-page-review-card__rating {
   margin-bottom: var(--space-4);
 }
@@ -287,7 +292,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  margin: var(--space-4) 0;
+  margin: 1.5rem 0 4rem;
   flex-wrap: wrap;
 }
 

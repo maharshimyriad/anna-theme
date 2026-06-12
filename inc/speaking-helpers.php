@@ -288,6 +288,16 @@ function anna_normalize_speaking_topic_cards($items)
     if (!is_array($items)) {
         return [];
     }
+    $svg_allowed = [
+        'svg'      => [ 'width' => true, 'height' => true, 'viewbox' => true, 'viewBox' => true, 'fill' => true, 'xmlns' => true, 'class' => true, 'aria-hidden' => true, 'focusable' => true, 'stroke' => true, 'stroke-width' => true, 'stroke-linecap' => true, 'stroke-linejoin' => true ],
+        'path'     => [ 'd' => true, 'fill' => true, 'stroke' => true, 'stroke-width' => true, 'stroke-linecap' => true, 'stroke-linejoin' => true, 'opacity' => true, 'fill-rule' => true, 'clip-rule' => true ],
+        'circle'   => [ 'cx' => true, 'cy' => true, 'r' => true, 'fill' => true, 'stroke' => true, 'stroke-width' => true ],
+        'rect'     => [ 'x' => true, 'y' => true, 'width' => true, 'height' => true, 'rx' => true, 'ry' => true, 'fill' => true, 'stroke' => true, 'stroke-width' => true ],
+        'line'     => [ 'x1' => true, 'y1' => true, 'x2' => true, 'y2' => true, 'stroke' => true, 'stroke-width' => true, 'stroke-linecap' => true ],
+        'polyline' => [ 'points' => true, 'fill' => true, 'stroke' => true, 'stroke-width' => true, 'stroke-linecap' => true, 'stroke-linejoin' => true ],
+        'polygon'  => [ 'points' => true, 'fill' => true, 'stroke' => true, 'stroke-width' => true ],
+        'g'        => [ 'fill' => true, 'stroke' => true, 'stroke-width' => true, 'opacity' => true, 'transform' => true ],
+    ];
     $out = [];
     foreach ($items as $row) {
         if (!is_array($row)) {
@@ -298,9 +308,9 @@ function anna_normalize_speaking_topic_cards($items)
             continue;
         }
         $out[] = [
-            "icon" => sanitize_key($row["icon"] ?? "brain"),
+            "icon"  => wp_kses($row["icon"] ?? "", $svg_allowed),
             "title" => $title,
-            "body" => sanitize_textarea_field($row["body"] ?? ""),
+            "body"  => sanitize_textarea_field($row["body"] ?? ""),
         ];
     }
     return $out;
