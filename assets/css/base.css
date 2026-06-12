@@ -277,6 +277,7 @@ code {
     font-weight: var(--font-weight-light) !important;
     font-family: var(--font-body) !important;
     letter-spacing: 0.2rem !important;
+    text-transform: capitalize !important; 
 }
 
 @media (max-width: 1024px) {
