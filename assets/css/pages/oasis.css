@@ -348,8 +348,6 @@
   width:           2.25rem;
   height:          2.25rem;
   margin-bottom:   var(--space-6);
-  border-radius:   50%;
-  background:      rgba(233, 229, 201, 0.25);
   flex-shrink:     0;
 }
 
