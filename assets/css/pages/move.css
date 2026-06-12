@@ -229,7 +229,7 @@
 
 /* Reviews */
 .anna-move-page-reviews__header {
-  margin-bottom: clamp(2rem, 4vw, 3rem);
+  margin-bottom: clamp(1rem, 4vw, 1.5rem);
 }
 
 .anna-move-page-reviews__eyebrow {

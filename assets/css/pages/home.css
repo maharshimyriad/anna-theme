@@ -792,13 +792,19 @@
 }
 
 .anna-testimonials-section__summary {
-  margin: 1.5rem 0 0;
+  margin: 1.5rem 0 4rem;
   color: rgba(255, 255, 255, 0.64);
   font-size: 0.82rem;
   line-height: 1.6;
   display: flex;
   gap: 10px;
   align-items: center;
+}
+
+
+.anna-testimonial__rating svg{
+  width: 14px;
+  height: 14px;
 }
 
 .anna-testimonials-inner--static {
