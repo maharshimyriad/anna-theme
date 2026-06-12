@@ -33,7 +33,7 @@ html {
 }
 
 body {
-  min-height: 100svh;
+  min-height: 84svh;
   line-height: var(--leading-normal, 1.5);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

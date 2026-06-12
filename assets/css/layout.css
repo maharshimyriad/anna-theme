@@ -12,7 +12,7 @@
 .anna-site {
   display: flex;
   flex-direction: column;
-  min-height: 100svh;
+  min-height: 84svh;
 }
 
 .anna-main {

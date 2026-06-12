@@ -7,7 +7,7 @@
 
 .anna-coaching-page-main {
   background: var(--color-white);
-  --coaching-hero-min-height: min(100svh, 900px);
+  --coaching-hero-min-height: min(84svh, 900px);
   --coaching-section-padding: clamp(4.5rem, 8vw, 7rem);
   --coaching-grid-gap: clamp(var(--space-12), 5vw, var(--space-20));
   --coaching-heading: var(--color-heading);

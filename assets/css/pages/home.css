@@ -1,6 +1,6 @@
 .anna-hero-section {
   position: relative;
-  min-height: 100svh;
+  min-height: 84svh;
   display: flex;
   align-items: center;
   margin-top: var(--header-height);

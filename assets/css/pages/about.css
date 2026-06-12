@@ -7,7 +7,7 @@
 
 .anna-about-page-main {
   background: var(--color-white);
-  --about-hero-min-height: 100svh;
+  --about-hero-min-height: 84svh;
   --about-section-padding: var(--section-padding-md);
   --about-grid-gap: clamp(var(--space-12), 7vw, var(--space-28));
   --about-heading-size: clamp(2rem, 3vw, 2.25rem);
