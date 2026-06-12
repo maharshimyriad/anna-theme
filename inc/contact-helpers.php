@@ -188,6 +188,7 @@ function anna_render_contact_page_content_meta_box($post)
                 </tr>
                 <?php anna_render_contact_admin_text_field("hero_eyebrow", __("Hero eyebrow", "anna-baylis"), $content); ?>
                 <?php anna_render_contact_admin_textarea_field("hero_heading", __("Hero heading", "anna-baylis"), $content, 3); ?>
+                <?php anna_render_contact_admin_media_field("hero_image_id", __("Hero background image", "anna-baylis"), $content); ?>
 
                 <tr>
                     <td colspan="2"><h3><?php esc_html_e("Left contact section", "anna-baylis"); ?></h3></td>
@@ -228,6 +229,49 @@ function anna_render_contact_admin_text_field($key, $label, $content, $type = "t
     <tr>
         <th scope="row"><label for="anna-contact-<?php echo esc_attr($key); ?>"><?php echo esc_html($label); ?></label></th>
         <td><input type="<?php echo esc_attr($type); ?>" class="regular-text" id="anna-contact-<?php echo esc_attr($key); ?>" name="anna_contact_page_content[<?php echo esc_attr($key); ?>]" value="<?php echo esc_attr((string) ($content[$key] ?? "")); ?>"></td>
+    </tr>
+    <?php
+}
+
+/**
+ * Render a Contact admin media (image picker) field.
+ *
+ * @param string               $key     Field key.
+ * @param string               $label   Field label.
+ * @param array<string, mixed> $content Current content.
+ */
+function anna_render_contact_admin_media_field($key, $label, $content)
+{
+    $value     = absint($content[$key] ?? 0);
+    $input_id  = 'anna-contact-' . esc_attr($key);
+    $preview_id = $input_id . '-preview';
+    $image_url  = $value ? wp_get_attachment_image_url($value, 'medium') : '';
+    ?>
+    <tr>
+        <th scope="row"><label for="<?php echo esc_attr($input_id); ?>"><?php echo esc_html($label); ?></label></th>
+        <td>
+            <input type="hidden"
+                id="<?php echo esc_attr($input_id); ?>"
+                name="anna_contact_page_content[<?php echo esc_attr($key); ?>]"
+                value="<?php echo esc_attr($value); ?>">
+            <div id="<?php echo esc_attr($preview_id); ?>" style="margin-bottom:10px;">
+                <?php if ($image_url): ?>
+                    <img src="<?php echo esc_url($image_url); ?>" alt="" style="max-width:220px;height:auto;border-radius:10px;">
+                <?php endif; ?>
+            </div>
+            <button type="button"
+                class="button anna-content-media-select"
+                data-target="<?php echo esc_attr($input_id); ?>"
+                data-preview="<?php echo esc_attr($preview_id); ?>">
+                <?php esc_html_e('Select Image', 'anna-baylis'); ?>
+            </button>
+            <button type="button"
+                class="button anna-content-media-remove"
+                data-target="<?php echo esc_attr($input_id); ?>"
+                data-preview="<?php echo esc_attr($preview_id); ?>">
+                <?php esc_html_e('Remove', 'anna-baylis'); ?>
+            </button>
+        </td>
     </tr>
     <?php
 }

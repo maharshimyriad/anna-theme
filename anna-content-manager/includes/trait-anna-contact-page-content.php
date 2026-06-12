@@ -20,19 +20,10 @@ trait Anna_Contact_Page_Content {
 	 * @param WP_Post $post Post object.
 	 */
 	private function register_contact_page_meta_box( $post ) {
-		$is_contact = ( 'contact' === $post->post_name || 'page-contact.php' === get_page_template_slug( $post->ID ) );
-		if ( ! $is_contact ) {
-			return;
-		}
-
-		add_meta_box(
-			'anna_content_contact_page',
-			__( 'Anna Contact Page Content', 'anna-baylis' ),
-			array( $this, 'render_contact_page_meta_box' ),
-			'page',
-			'normal',
-			'high'
-		);
+		// The contact page meta box is fully handled by the theme's
+		// anna_register_contact_page_content_meta_box() in inc/contact-helpers.php.
+		// Registering it here too causes a duplicate box on the edit screen.
+		return;
 	}
 
 	/**
