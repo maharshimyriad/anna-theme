@@ -272,7 +272,7 @@ code {
   font-weight: var(--font-weight-semibold) !important;
 }
 
-[class$="__eyebrow"],[class$="__overline"] {
+[class$="__eyebrow"],[class$="__overline"],[class$="__breadcrumb"] {
     font-size: var(--text-sm) !important;
     font-weight: var(--font-weight-light) !important;
     font-family: var(--font-body) !important;
