@@ -793,7 +793,7 @@
   font-size: clamp(2rem, 3.2vw, 3.2rem);
   line-height: 1.12;
   font-weight: var(--font-weight-semibold);
-  max-width: 92vw;
+  max-width: 90vw;
   margin: 0 auto;
 }
 
