@@ -777,6 +777,9 @@
   .anna-speaking-page-hero__stats-list {
     gap: 1rem;
   }
+  .anna-speaking-page-hero__content{
+    padding:50px 0;
+  }
 }
 
 @media (max-width: 640px) {
