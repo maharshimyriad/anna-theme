@@ -290,7 +290,7 @@ code {
 
 @media (max-width: 1024px) {
   .anna-hero-section{
-    min-height: unset;
+    min-height: unset !important;
     padding:3rem 0 !important;
   }
 }
