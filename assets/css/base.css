@@ -276,24 +276,27 @@ code {
 }
 
 
-.anna-hero-section h1{
+.anna-hero-section h1 {
   font-weight: var(--font-weight-semibold) !important;
 }
 
-[class$="__eyebrow"],[class$="__overline"],[class$="__breadcrumb"] {
-    font-size: var(--text-sm) !important;
-    font-weight: var(--font-weight-light) !important;
-    font-family: var(--font-body) !important;
-    letter-spacing: 0.2rem !important;
-    text-transform: capitalize !important; 
+[class$="__eyebrow"],
+[class$="__overline"],
+[class$="__breadcrumb"] {
+  font-size: var(--text-sm) !important;
+  font-weight: var(--font-weight-light) !important;
+  font-family: var(--font-body) !important;
+  letter-spacing: 0.2rem !important;
+  text-transform: capitalize !important;
 }
 
 @media (max-width: 1024px) {
-  .anna-hero-section{
+  .anna-hero-section {
     min-height: unset !important;
-    padding:3rem 0 !important;
+    padding: 3rem 0 !important;
   }
-  [class$="-hero__content"]{
+
+  [class*="hero__content"] {
     padding: 0 !important;
-  } 
+  }
 }
