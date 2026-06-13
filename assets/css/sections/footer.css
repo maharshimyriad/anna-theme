@@ -124,6 +124,7 @@
   width: 100%;
   height: auto;
   -webkit-animation: alternate;
+  -webkit-animation-delay: 0ms;
 }
 
 @media (max-width: 1024px) {
