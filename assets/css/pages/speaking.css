@@ -563,7 +563,7 @@
 }
 
 .anna-speaking-page-takeaway__copy {
-  margin-top: var(--space-6);
+  margin: var(--space-6) 0;
   color: rgba(255, 255, 255, 0.88);
   font-size: var(--text-base);
   line-height: 1.75;
