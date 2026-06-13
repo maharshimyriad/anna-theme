@@ -669,7 +669,7 @@
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 1024px) {
   .anna-coaching-page-hero__content {
     max-width: none;
   }
