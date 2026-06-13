@@ -293,7 +293,7 @@ code {
     min-height: unset !important;
     padding:3rem 0 !important;
   }
-  [class$="-hero__content "]{
+  [class$="-hero__content"]{
     padding: 0 !important;
   } 
 }
