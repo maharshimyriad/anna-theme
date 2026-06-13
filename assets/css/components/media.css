@@ -191,7 +191,7 @@ figure:has(> img) {
 @media (max-width: 1024px) {
   figure:has(> .anna-img-cover) {
     height: auto;
-    max-width: 520px;
+    max-width: 380px;
     margin: 0;
   }
 }
