@@ -12,4 +12,4 @@ jobs:
     steps:
       - name: Trigger deploy
         run: |
-          curl "https://firebrick-eel-667446.hostingersite.com/deploy.php/?key=3grGfuZUQxw8CX0AzhAZ8w8f7B353ff2Q8hADQfbPY8mM
+          curl "https://firebrick-eel-667446.hostingersite.com/deploy.php/?key=3grGfuZUQxw8CX0AzhAZ8w8f7B353ff2Q8hADQfbPY8mM"
