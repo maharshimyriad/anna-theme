@@ -10,6 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Trigger deploy
+      - name: Generate HMAC and trigger deploy
         run: |
-          curl "https://firebrick-eel-667446.hostingersite.com/deploy.php/?key=3grGfuZUQxw8CX0AzhAZ8w8f7B353ff2Q8hADQfbPY8mM"
+          TIMESTAMP=$(date +%s)
+          SECRET="cm2XPTafDzD7qugaLkCdXXDrnyM5HtqDBCPBBCginhAajyYMBeHW"
+
+          SIGNATURE=$(echo -n "${TIMESTAMP}${SECRET}" | sha256sum | awk '{print $1}')
+
+          curl -X POST https://firebrick-eel-667446.hostingersite.com/deploy.php\
+            -d "ts=$TIMESTAMP" \
+            -d "sig=$SIGNATURE"
