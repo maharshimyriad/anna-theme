@@ -120,7 +120,9 @@
 }
 
 .anna-footer__logo img {
-  height: 45px;
+  max-width: 15rem;
+  width: 100%;
+  height: auto;
 }
 
 @media (max-width: 1024px) {
@@ -154,6 +156,6 @@
 
 }
 
-#mlb2-40772586.ml-form-embedContainer .ml-form-align-center{
+#mlb2-40772586.ml-form-embedContainer .ml-form-align-center {
   text-align: left;
 }
