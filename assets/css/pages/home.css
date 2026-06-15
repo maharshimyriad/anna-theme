@@ -119,7 +119,8 @@
   transform: none !important;
 }
 
-.anna-hero__stats {
+/* ── Stats overlay (inside hero, desktop only) ───────────────────────────── */
+.anna-hero__stats--overlay {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
@@ -129,15 +130,15 @@
   max-width: 34rem;
 }
 
-.anna-hero__stats .anna-hero__stat {
+.anna-hero__stats--overlay .anna-hero__stat {
   animation: annaHeroStatFloat 6.5s ease-in-out infinite;
 }
 
-.anna-hero__stats .anna-hero__stat:nth-child(2) {
+.anna-hero__stats--overlay .anna-hero__stat:nth-child(2) {
   animation-delay: 1.2s;
 }
 
-.anna-hero__stats .anna-hero__stat:nth-child(3) {
+.anna-hero__stats--overlay .anna-hero__stat:nth-child(3) {
   animation-delay: 2.4s;
 }
 
@@ -162,6 +163,45 @@
   display: block;
   color: rgba(255, 255, 255, 0.82);
   font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+/* ── Stats strip (below hero, mobile only) ───────────────────────────────── */
+.anna-hero__stats-strip {
+  display: none; /* shown only on mobile via media query */
+  background: #fff;
+  padding: 1.5rem 0;
+}
+
+.anna-hero__stats-strip__list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.anna-hero__stats-strip__item {
+  background: #F2F6F2;
+  border-radius: 0.9rem;
+  padding: 1rem;
+  text-align: left;
+}
+
+.anna-hero__stats-strip__value {
+  display: block;
+  color: #007063;
+  font-size: var(--heading-card);
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 0.4rem;
+}
+
+.anna-hero__stats-strip__label {
+  display: block;
+  color: #59656f;
+  font-size: 0.75rem;
   line-height: 1.4;
 }
 
@@ -250,7 +290,7 @@
   .anna-hero-section::before,
   .anna-hero-section::after,
   .anna-hero__overline,
-  .anna-hero__stats .anna-hero__stat {
+  .anna-hero__stats--overlay .anna-hero__stat {
     animation: none !important;
   }
 }
@@ -806,6 +846,7 @@
   display: flex;
   gap: 10px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 
@@ -980,12 +1021,33 @@
 }
 
 @media (max-width: 1024px) {
-  .anna-hero__stats {
+  .anna-hero__stats--overlay {
     grid-template-columns: 1fr;
   }
 
   .anna-service-card--feature {
     min-height: none;
+  }
+}
+
+@media (max-width: 767px) {
+  /* Swap: hide overlay stats, show strip stats */
+  .anna-hero__stats--overlay {
+    display: none;
+  }
+
+  .anna-hero__stats-strip {
+    display: block;
+  }
+
+  /* Hide secondary CTA on mobile */
+  .anna-hero__cta-secondary {
+    display: none;
+  }
+
+  /* Hero trust line not needed when stats are below */
+  .anna-hero__trust {
+    display: none;
   }
 }
 
