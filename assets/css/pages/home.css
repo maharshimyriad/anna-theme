@@ -1046,6 +1046,11 @@
     display: none;
   }
 
+  /* Hide description inside hero — on mobile it appears via the intro section below */
+  .anna-hero__description {
+    display: none;
+  }
+
   /* Hero trust line not needed when stats are below */
   .anna-hero__trust {
     display: none;
