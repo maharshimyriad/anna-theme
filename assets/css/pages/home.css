@@ -168,7 +168,8 @@
 
 /* ── Stats strip (below hero, mobile only) ───────────────────────────────── */
 .anna-hero__stats-strip {
-  display: none; /* shown only on mobile via media query */
+  display: none;
+  /* shown only on mobile via media query */
   background: #fff;
   padding: 1.5rem 0;
 }
@@ -404,7 +405,7 @@
 
 @media (max-width: 1500px) {
   .anna-hero__inner {
-    padding:0;
+    padding: 0;
   }
 
   .anna-hero__content {
@@ -775,7 +776,7 @@
     margin: .5rem 0 0;
   }
 
-  .anna-cta{
+  .anna-cta {
     margin: 4.5rem 0;
     padding: 0;
   }
@@ -784,7 +785,6 @@
 
 @media (max-width: 1024px) {
   .anna-service-card--feature {
-
     padding: 20px 20px;
   }
 
@@ -937,7 +937,7 @@
     min-height: auto;
   }
 
-  .anna-testimonials-section__footer{
+  .anna-testimonials-section__footer {
     margin-top: 2rem;
   }
 }
@@ -1031,6 +1031,7 @@
 }
 
 @media (max-width: 767px) {
+
   /* Swap: hide overlay stats, show strip stats */
   .anna-hero__stats--overlay {
     display: none;
@@ -1086,7 +1087,7 @@
   transition: all 0.3s ease;
 }
 
-.about-read-more:hover{
+.about-read-more:hover {
   text-decoration: none !important;
 }
 
@@ -1098,5 +1099,5 @@
 }
 
 .about-read-more:hover::after {
-  margin-left: 8px;  
+  margin-left: 8px;
 }
