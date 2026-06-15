@@ -792,6 +792,71 @@
   }
 }
 
+/* ── Mobile hero strip (description + stats below image) ────────────────── */
+.anna-speaking-hero__mobile-strip {
+  display: none; /* shown on mobile only */
+  background: #fff;
+  padding: 1.5rem 0;
+}
+
+.anna-speaking-hero__mobile-strip__description {
+  margin: 0 0 1.5rem;
+  color: #59656f;
+  font-size: 14px;
+  line-height: 1.75;
+  font-weight: 400;
+}
+
+.anna-speaking-hero__mobile-strip__stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.anna-speaking-hero__mobile-strip__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  background: #007063;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  text-align: left;
+}
+
+.anna-speaking-hero__mobile-strip__stat-value {
+  color: #D9E89A;
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.anna-speaking-hero__mobile-strip__stat-label {
+  color: rgba(233, 229, 201, 0.85);
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+@media (max-width: 767px) {
+  /* Hide description inside the hero image on mobile */
+  .anna-speaking-page-hero__description--overlay {
+    display: none;
+  }
+
+  /* Hide desktop stats bar on mobile */
+  .anna-speaking-page-hero__stats--desktop {
+    display: none;
+  }
+
+  /* Show the mobile strip below the image */
+  .anna-speaking-hero__mobile-strip {
+    display: block;
+  }
+}
+
 
 
 

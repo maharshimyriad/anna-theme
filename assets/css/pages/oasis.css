@@ -1177,3 +1177,35 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ── Mobile hero body strip ─────────────────────────────────────────────── */
+.anna-oasis-hero__body-strip {
+  display: none; /* shown on mobile only */
+  background: #fff;
+  padding: 1.5rem 0 0.5rem;
+}
+
+.anna-oasis-hero__body-strip__copy {
+  color: #59656f;
+  font-size: clamp(14px, 1.2vw, 16px);
+  line-height: 1.75;
+}
+
+.anna-oasis-hero__body-strip__copy p {
+  margin: 0 0 1rem;
+  color: #59656f;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+@media (max-width: 767px) {
+  /* Hide body copy inside the hero image */
+  .anna-oasis-page-hero__copy--overlay {
+    display: none;
+  }
+
+  /* Show the body strip below the image */
+  .anna-oasis-hero__body-strip {
+    display: block;
+  }
+}
