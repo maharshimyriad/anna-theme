@@ -18,7 +18,9 @@ if (empty($blog)) {
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $active_cat = isset($_GET['cat']) ? sanitize_key(wp_unslash($_GET['cat'])) : '';
 $posts_per_page = 9;
-$paged = max(1, absint(get_query_var('paged') ?: ($_GET['paged'] ?? 1))); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+// On the static posts page WordPress uses 'page' not 'paged' for page 1→2 transitions.
+$paged = max( 1, (int) get_query_var( 'paged' ) ?: (int) get_query_var( 'page' ) );
 
 $query_args = array(
 	'post_type' => 'post',
@@ -158,21 +160,42 @@ $categories = $blog['categories'] ?? array();
 		<?php if ($posts_query->max_num_pages > 1): ?>
 			<nav class="anna-blog-pagination" aria-label="<?php esc_attr_e('Posts pagination', 'anna-baylis'); ?>">
 				<?php
-				$total_pages = $posts_query->max_num_pages;
+				$total_pages  = $posts_query->max_num_pages;
 				$current_page = $paged;
 
 				// Build base URL preserving category filter.
-				$blog_page_id = get_option('page_for_posts');
-				$base_url = get_permalink($blog_page_id);
-				if ($active_cat) {
-					$base_url = add_query_arg('cat', $active_cat, $base_url);
+				$blog_page_id = get_option( 'page_for_posts' );
+				$base_url     = get_permalink( $blog_page_id );
+				if ( $active_cat ) {
+					$base_url = add_query_arg( 'cat', $active_cat, $base_url );
 				}
+
+				/**
+				 * Generate a paginated URL that works with both pretty permalinks
+				 * and plain query-string permalinks. WordPress routes the static
+				 * posts page via /blog/page/N/, not ?paged=N.
+				 */
+				$build_page_url = function( int $page_num ) use ( $blog_page_id, $active_cat ): string {
+					$base = get_permalink( $blog_page_id );
+
+					if ( $page_num > 1 ) {
+						// paginate_links() knows about pretty vs plain permalinks.
+						$url = trailingslashit( $base ) . user_trailingslashit( 'page/' . $page_num, 'paged' );
+					} else {
+						$url = $base;
+					}
+
+					if ( $active_cat ) {
+						$url = add_query_arg( 'cat', $active_cat, $url );
+					}
+
+					return $url;
+				};
 
 				// Previous.
 				if ($current_page > 1):
-					$prev_url = add_query_arg('paged', $current_page - 1, $base_url);
 					?>
-					<a href="<?php echo esc_url($prev_url); ?>"
+					<a href="<?php echo esc_url( $build_page_url( $current_page - 1 ) ); ?>"
 						class="anna-blog-pagination__btn anna-blog-pagination__btn--prev"
 						aria-label="<?php esc_attr_e('Previous page', 'anna-baylis'); ?>">
 						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -190,7 +213,7 @@ $categories = $blog['categories'] ?? array();
 						<span class="anna-blog-pagination__btn anna-blog-pagination__btn--current"
 							aria-current="page"><?php echo esc_html($i); ?></span>
 					<?php elseif ($i === 1 || $i === $total_pages || abs($i - $current_page) <= 2): ?>
-						<a href="<?php echo esc_url(add_query_arg('paged', $i, $base_url)); ?>"
+						<a href="<?php echo esc_url( $build_page_url( $i ) ); ?>"
 							class="anna-blog-pagination__btn"><?php echo esc_html($i); ?></a>
 					<?php elseif (abs($i - $current_page) === 3): ?>
 						<span class="anna-blog-pagination__ellipsis">&hellip;</span>
@@ -200,9 +223,8 @@ $categories = $blog['categories'] ?? array();
 				<?php
 				// Next.
 				if ($current_page < $total_pages):
-					$next_url = add_query_arg('paged', $current_page + 1, $base_url);
 					?>
-					<a href="<?php echo esc_url($next_url); ?>"
+					<a href="<?php echo esc_url( $build_page_url( $current_page + 1 ) ); ?>"
 						class="anna-blog-pagination__btn anna-blog-pagination__btn--next"
 						aria-label="<?php esc_attr_e('Next page', 'anna-baylis'); ?>">
 						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
