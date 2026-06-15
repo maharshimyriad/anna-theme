@@ -293,6 +293,9 @@
   .anna-hero-section .anna-btn--hero-link {
     max-width: none;
   }
+  .anna-hero__overline{
+    max-width: 55vw;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
