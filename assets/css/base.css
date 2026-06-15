@@ -299,4 +299,11 @@ code {
   [class*="hero__content"] {
     padding: 0 !important;
   }
+
+  [class$="__eyebrow"],
+  [class$="__overline"],
+  [class$="__breadcrumb"] {
+    font-size: var(--text-xs);
+  }
+
 }
