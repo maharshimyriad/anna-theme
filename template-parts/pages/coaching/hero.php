@@ -24,7 +24,7 @@ $has_bg_image = ! empty( $coaching['hero_image_id'] );
 		style="background-image:url('<?php echo esc_url( anna_responsive_image_url( absint( $coaching['hero_image_id'] ), 'full' ) ); ?>');"
 	<?php endif; ?>
 >
-	<div class="anna-coaching-page-hero__overlay" aria-hidden="true"></div>
+	
 	<div class="anna-container anna-container--max">
 		<div class="anna-coaching-page-hero__content anna-reveal">
 			<?php if ( ! empty( $coaching['hero_eyebrow'] ) ) : ?>
