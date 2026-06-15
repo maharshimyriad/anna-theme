@@ -174,16 +174,16 @@
   padding: 1.5rem 0;
 }
 
-/* .anna-hero__stats-strip__list {
+.anna-hero__stats-strip__list {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.75rem;
     list-style: none;
     padding: 0;
     margin: 0;
-} */
+}
 
-.anna-hero__stats-strip__list {
+/* .anna-hero__stats-strip__list {
     gap: 0.75rem;
     list-style: none;
     padding: 0;
@@ -192,7 +192,7 @@
     align-items: center;
     flex-wrap: wrap;
     justify-content: center;
-}
+} */
 
 .anna-hero__stats-strip__item {
   background: #F2F6F2;
