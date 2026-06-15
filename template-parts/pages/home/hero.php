@@ -48,7 +48,8 @@ if ( empty( $cta_second['url'] ) || '#' === $cta_second['url'] ) {
 					<h1 class="anna-hero__heading" id="hero-heading"><?php echo wp_kses_post( $heading ); ?></h1>
 
 					<?php if ( $description ) : ?>
-						<p class="anna-hero__description"><?php echo esc_html( $description ); ?></p>
+						<!-- Description: visible on desktop only (inside hero) -->
+						<p class="anna-hero__description anna-hero__description--overlay"><?php echo esc_html( $description ); ?></p>
 					<?php endif; ?>
 
 					<div class="anna-hero__ctas">
@@ -84,7 +85,7 @@ if ( empty( $cta_second['url'] ) || '#' === $cta_second['url'] ) {
 	</section>
 
 	<?php if ( ! empty( $stats ) ) : ?>
-		<!-- Stats strip: visible on mobile only (below hero image) -->
+		<!-- Stats strip + description: visible on mobile only (below hero image) -->
 		<div class="anna-hero__stats-strip" aria-label="<?php esc_attr_e( 'Key achievements', 'anna-baylis' ); ?>">
 			<div class="anna-container">
 				<ul class="anna-hero__stats-strip__list" role="list">
@@ -95,6 +96,10 @@ if ( empty( $cta_second['url'] ) || '#' === $cta_second['url'] ) {
 						</li>
 					<?php endforeach; ?>
 				</ul>
+
+				<?php if ( $description ) : ?>
+					<p class="anna-hero__stats-strip__description"><?php echo esc_html( $description ); ?></p>
+				<?php endif; ?>
 			</div>
 		</div>
 	<?php endif; ?>

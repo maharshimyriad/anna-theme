@@ -206,6 +206,14 @@
   line-height: 1.4;
 }
 
+.anna-hero__stats-strip__description {
+  display: none; /* shown on mobile only */
+  margin: 1.25rem 0 0;
+  color: #59656f;
+  font-size: clamp(14px, 1.2vw, 18px);
+  line-height: 1.7;
+}
+
 .anna-hero__trust {
   margin: 0;
   color: rgba(255, 255, 255, 0.72);
@@ -1041,13 +1049,18 @@
     display: block;
   }
 
-  /* Hide secondary CTA on mobile */
-  .anna-hero__cta-secondary {
+  /* Hide description inside hero on mobile — rendered below cards instead */
+  .anna-hero__description--overlay {
     display: none;
   }
 
-  /* Hide description inside hero — on mobile it appears via the intro section below */
-  .anna-hero__description {
+  /* Show description in the strip below cards */
+  .anna-hero__stats-strip__description {
+    display: block;
+  }
+
+  /* Hide secondary CTA on mobile */
+  .anna-hero__cta-secondary {
     display: none;
   }
 
