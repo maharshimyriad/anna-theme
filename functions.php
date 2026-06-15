@@ -74,3 +74,22 @@ require_once ANNA_DIR . "/inc/admin/speaking-settings-fields.php";
 require_once ANNA_DIR . "/inc/admin/mhs-settings-fields.php";
 require_once ANNA_DIR . "/inc/admin/move-settings-fields.php";
 require_once ANNA_DIR . "/inc/admin/settings-css-output.php";
+
+// ─── Blog category filter via main query ─────────────────────────────────────
+/**
+ * Apply the ?cat= filter to the main query on the blog posts page.
+ * This keeps pagination routed through WordPress's native /page/N/ system.
+ */
+add_action( 'pre_get_posts', function ( WP_Query $q ) {
+	if ( is_admin() || ! $q->is_main_query() || ! $q->is_home() ) {
+		return;
+	}
+
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	$cat_slug = isset( $_GET['cat'] ) ? sanitize_key( wp_unslash( $_GET['cat'] ) ) : '';
+	if ( $cat_slug ) {
+		$q->set( 'category_name', $cat_slug );
+	}
+
+	$q->set( 'posts_per_page', 9 );
+} );

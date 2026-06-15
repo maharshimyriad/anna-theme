@@ -28,7 +28,7 @@ if ( empty( $oasis ) ) {
 
 		<?php if ( ! empty( $oasis['waitlist_button_text'] ) && ! empty( $oasis['waitlist_button_url'] ) ) : ?>
 			<div class="anna-oasis-page-waitlist__cta">
-				<?php echo do_shortcode( '[gravityform id="1" title="false"]' ); ?> 
+				<?php echo do_shortcode( '[gravityform id="1" title="false" description="false" ajax="true"]' ); ?> 
 			</div>
 		<?php endif; ?>
 	</div>
