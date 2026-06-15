@@ -284,10 +284,11 @@
     font-size: clamp(1rem, 0.9rem + 0.5vw, 1.2rem);
   }
 
-  .anna-hero-section .anna-btn--hero-primary {
+.anna-hero-section .anna-btn--hero-primary {
     min-width: 0;
-    width: 100%;
-  }
+    width: fit-content;
+    font-size: 0.9rem;
+}
 
   .anna-hero-section .anna-btn--hero-link {
     max-width: none;
