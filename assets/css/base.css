@@ -9,13 +9,18 @@
  */
 
 /* ── Body ─────────────────────────────────────────────────────────────────── */
+html {
+  font-size: 18px;
+}
+
+
 body {
   font-family: var(--font-body);
   font-size: clamp(1rem, 0.97rem + 0.14vw, 1.0625rem);
   font-weight: var(--font-weight-regular);
   line-height: var(--leading-relaxed);
   color: var(--color-text);
-  background-color: var(--color-white);
+  background-color: var(--color-white); 
 }
 
 /* ── Skip link ────────────────────────────────────────────────────────────── */
