@@ -319,6 +319,11 @@
     text-shadow: none !important;
 }
 
+.anna-move-page-reviews .rplg .rplg-more-toggle{
+    color: var(--color-primary) !important;
+    cursor: pointer !important;
+}
+
 /* Pillars */
 .anna-move-page-pillars__list {
   display: grid;
