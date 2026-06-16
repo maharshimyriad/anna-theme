@@ -324,6 +324,10 @@
     cursor: pointer !important;
 }
 
+.anna-move-page-reviews .rplg .grw-slider .rplg-box-content{
+  height: 100% !important;
+}
+
 /* Pillars */
 .anna-move-page-pillars__list {
   display: grid;
