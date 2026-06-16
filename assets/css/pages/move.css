@@ -286,6 +286,7 @@
   border-radius: 0.7rem !important;
   background: #fff !important;
   border: 1px solid #F3F4F6!important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
 }
 
 .anna-move-page-reviews .rplg .rplg-review-avatar {
