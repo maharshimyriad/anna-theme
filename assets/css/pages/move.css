@@ -326,6 +326,7 @@
 
 .anna-move-page-reviews .rplg .grw-slider .rplg-box-content{
   height: 100% !important;
+  min-height: 175px;
 }
 
 /* Reviews CTA footer */

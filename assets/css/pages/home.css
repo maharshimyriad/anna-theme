@@ -932,6 +932,7 @@
 
 .anna-testimonials-section .rplg .grw-slider .rplg-box-content{
   height: 100% !important;
+  min-height: 175px;
 }
 
 .anna-testimonials-section__footer {
