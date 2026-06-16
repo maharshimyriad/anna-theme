@@ -92,5 +92,5 @@ $static       = array(
 			</div>
 		<?php endif; ?>
 	</div>
-	<?php echo add_shortcode( 'brb_collection id="4755"]' ) ?>
+	<?php echo do_shortcode('[brb_collection id="4755"]'); ?>
 </section>
