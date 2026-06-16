@@ -285,7 +285,7 @@
   padding: 1.55rem 1.45rem 1.35rem !important;
   border-radius: 0.7rem !important;
   background: #fff !important;
-  border: 1px solid #F3F4F6!important;
+  border: 1px solid #F3F4F6 !important;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
 }
 
@@ -294,7 +294,7 @@
   height: 40px !important;
 }
 
-.anna-move-page-reviews .rplg .rplg-stars{
+.anna-move-page-reviews .rplg .rplg-stars {
   margin: 0.45rem 0 !important;
 }
 
@@ -313,20 +313,19 @@
   margin-right: 0.45rem !important;
 }
 
-.anna-move-page-reviews .rplg .rplg-review-time{
-    color: #9CA3AF !important;
-    font-size: 0.72rem !important;
-    text-shadow: none !important;
+.anna-move-page-reviews .rplg .rplg-review-time {
+  color: #9CA3AF !important;
+  font-size: 0.72rem !important;
+  text-shadow: none !important;
 }
 
-.anna-move-page-reviews .rplg .rplg-more-toggle{
-    color: var(--color-primary) !important;
-    cursor: pointer !important;
+.anna-move-page-reviews .rplg .rplg-more-toggle {
+  color: var(--color-primary) !important;
+  cursor: pointer !important;
 }
 
-.anna-move-page-reviews .rplg .grw-slider .rplg-box-content{
-  height: 100% !important;
-  min-height: 175px;
+.anna-move-page-reviews .rplg .grw-slider .rplg-box-content {
+  height: 200px !important;
 }
 
 /* Reviews CTA footer */
@@ -336,13 +335,13 @@
 }
 
 
-.anna-move-page-reviews .anna-testimonials-section__link{
+.anna-move-page-reviews .anna-testimonials-section__link {
   min-width: 13.5rem;
   color: var(--color-primary);
   border-color: rgba(255, 255, 255, 0.55);
 }
 
-.anna-move-page-reviews .anna-testimonials-section__link:hover  {
+.anna-move-page-reviews .anna-testimonials-section__link:hover {
   border-color: var(--color-primary);
   background: rgba(255, 255, 255, 0.14);
 }

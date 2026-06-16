@@ -861,7 +861,7 @@
   height: 40px !important;
 }
 
-.anna-testimonials-section .rplg .rplg-stars{
+.anna-testimonials-section .rplg .rplg-stars {
   margin: 0.45rem 0 !important;
 }
 
@@ -880,10 +880,10 @@
   margin-right: 0.45rem !important;
 }
 
-.anna-testimonials-section .rplg .rplg-review-time{
-    color: rgba(255, 255, 255, 0.5) !important;
-    font-size: 0.72rem !important;
-    text-shadow: none !important;
+.anna-testimonials-section .rplg .rplg-review-time {
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-size: 0.72rem !important;
+  text-shadow: none !important;
 }
 
 .anna-testimonials-section__header {
@@ -925,14 +925,13 @@
   flex-wrap: wrap;
 }
 
- .rplg .rplg-more-toggle{
-    color: #FBFAF5 !important;
-    cursor: pointer !important;
+.rplg .rplg-more-toggle {
+  color: #FBFAF5 !important;
+  cursor: pointer !important;
 }
 
-.anna-testimonials-section .rplg .grw-slider .rplg-box-content{
-  height: 100% !important;
-  min-height: 175px;
+.anna-testimonials-section .rplg .grw-slider .rplg-box-content {
+  height: 200px !important;
 }
 
 .anna-testimonials-section__footer {
