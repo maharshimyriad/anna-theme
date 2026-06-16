@@ -264,73 +264,58 @@
   font-weight: 700;
 }
 
-.anna-move-page-reviews__grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-6);
+anna-testimonials-section .rplg .grw-row-m .grw-slider-header {
+  display: none;
 }
 
-.anna-move-page-review-card {
+.anna-testimonials-section .rplg .grw-slider .grw-slider-reviews {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.anna-testimonials-section .rplg .grw-row-m .grw-slider-header+.grw-slider-content {
+  max-width: 100% !important;
+}
+
+.anna-testimonials-section .rplg .rplg-stars svg use {
+  fill: rgb(161, 200, 66);
+}
+
+.anna-testimonials-section .rplg .grw-slider:not(.wp-dark) .grw-slider-review-inner.grw-slider-review-border {
+  padding: 1.55rem 1.45rem 1.35rem !important;
+  border-radius: 0.7rem !important;
+  background: #197E73 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+.anna-testimonials-section .rplg .rplg-review-avatar {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.anna-testimonials-section .rplg .rplg-stars{
+  margin: 0.45rem 0 !important;
+}
+
+.anna-testimonials-section .rplg .rplg-review-text {
   margin: 0;
-  padding: clamp(1.5rem, 3vw, 2rem);
-  background: var(--color-white);
-  border-radius: 8px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
-  border: 1px solid #F3F4F6
+  color: rgba(255, 255, 255, 0.9) !important;
+  line-height: 1.85 !important;
+  font-size: var(--text-base) !important;
+  font-family: var(--font-heading) !important;
 }
 
-.anna-move-page-review-card svg{
-  width: 14px;
-  height: 14px;
+.anna-testimonials-section .rplg .rplg-review-name {
+  color: var(--color-white) !important;
+  font-weight: 700 !important;
+  font-size: 0.82rem !important;
+  margin-right: 0.45rem !important;
 }
 
-.anna-move-page-review-card__rating {
-  margin-bottom: var(--space-4);
-}
-
-.anna-move-page-reviews__header .anna-move-page-review-card__rating {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin: 1.5rem 0 4rem;
-  flex-wrap: wrap;
-}
-
-.anna-move-page-review-card__quote {
-  margin: 0 0 var(--space-5);
-  color: var(--move-text);
-  font-size: var(--text-sm);
-  line-height: 1.65;
-  font-style: normal;
-}
-
-.anna-move-page-review-card blockquote {
-  border: none !important;
-  padding: 0;
-  font-style: italic;
-  font-family: 'Mulish';
-  letter-spacing: .3px;
-  color: #4B5563;
-}
-
-.anna-move-page-review-card__quote p {
-  margin: 0;
-}
-
-.anna-move-page-review-card__name {
-  display: block;
-  color: #0B5C4B;
-  font-style: normal;
-  font-weight: 700;
-  font-size: var(--text-sm);
-}
-
-.anna-move-page-review-card__role {
-  display: block;
-  margin-top: var(--space-1);
-  color: #9CA3AF;
-  font-size: var(--text-xs);
-  font-style: normal;
+.anna-testimonials-section .rplg .rplg-review-time{
+    color: rgba(255, 255, 255, 0.5) !important;
+    font-size: 0.72rem !important;
+    text-shadow: none !important;
 }
 
 /* Pillars */
