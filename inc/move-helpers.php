@@ -42,6 +42,8 @@ function anna_get_move_default_content() {
 		'reviews_heading'    => '102 five-star Google reviews.',
 		'reviews_summary'    => '5.0 - Google Reviews - based on 102 reviews',
 		'reviews_shortcode'  => '',
+		'reviews_cta_text'   => 'Read all reviews',
+		'reviews_cta_url'    => '/client-testimonials/',
 		'reviews_items'      => array(
 			array(
 				'quote'  => 'Working with Anna has been one of the best things I could do for myself and my family. The most transformative part of our work was understanding how my inner child was influencing my daily reactions. Anna provided such a safe, supportive space to explore this.',

@@ -67,6 +67,8 @@ trait Anna_Move_Page_Content {
 			<?php $this->render_text_field( $prefix, 'reviews_eyebrow', __( 'Eyebrow', 'anna-baylis' ), $data['reviews_eyebrow'] ?? '' ); ?>
 			<?php $this->render_text_field( $prefix, 'reviews_heading', __( 'Heading', 'anna-baylis' ), $data['reviews_heading'] ?? '' ); ?>
 			<?php $this->render_text_field( $prefix, 'reviews_summary', __( 'Summary Line', 'anna-baylis' ), $data['reviews_summary'] ?? '' ); ?>
+			<?php $this->render_text_field( $prefix, 'reviews_cta_text', __( 'CTA Button Text', 'anna-baylis' ), $data['reviews_cta_text'] ?? '' ); ?>
+			<?php $this->render_text_field( $prefix, 'reviews_cta_url', __( 'CTA Button URL', 'anna-baylis' ), $data['reviews_cta_url'] ?? '' ); ?>
 			<tr>
 				<th scope="row"><label for="anna_content_move_page_reviews_shortcode"><?php esc_html_e( 'Reviews Shortcode', 'anna-baylis' ); ?></label></th>
 				<td>
@@ -368,13 +370,14 @@ trait Anna_Move_Page_Content {
 			'hero_eyebrow', 'hero_heading',
 			'evolution_heading', 'evolution_gallery_heading',
 			'was_heading', 'said_heading',
-			'reviews_eyebrow', 'reviews_heading', 'reviews_summary', 'reviews_shortcode',
+			'reviews_eyebrow', 'reviews_heading', 'reviews_summary', 'reviews_shortcode', 'reviews_cta_text',
 			'pillars_heading',
 			'evolved_heading',
 			'evolved_button_primary_text', 'evolved_button_secondary_text', 'evolved_button_tertiary_text',
 		);
 		$url_keys = array(
 			'evolved_button_primary_url', 'evolved_button_secondary_url', 'evolved_button_tertiary_url',
+			'reviews_cta_url',
 		);
 		$textarea_keys = array(
 			'evolution_body', 'evolution_callout', 'was_body', 'evolved_body',

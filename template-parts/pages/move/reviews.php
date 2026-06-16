@@ -78,5 +78,14 @@ if (false !== stripos($heading, ' Google reviews')) {
 				<?php endforeach; ?>
 			</div>
 		<?php endif; ?>
+
+		<?php if (!empty($move['reviews_cta_text'])): ?>
+			<div class="anna-testimonials-section__footer anna-reveal">
+				<a href="<?php echo esc_url($move['reviews_cta_url'] ?? '/client-testimonials/'); ?>"
+					class="anna-btn anna-btn--ghost anna-btn--lg anna-testimonials-section__link">
+					<?php echo esc_html($move['reviews_cta_text']); ?>
+				</a>
+			</div>
+		<?php endif; ?>
 	</div>
 </section>
