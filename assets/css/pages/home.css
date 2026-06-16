@@ -829,6 +829,19 @@
   color: var(--color-white);
 }
 
+.anna-testimonials-section .rplg .grw-row-m .grw-slider-header{
+  display: none;
+}
+
+.anna-testimonials-section .rplg .grw-slider .grw-slider-reviews{
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.anna-testimonials-section .rplg .grw-row-m .grw-slider-header+.grw-slider-content{
+  max-width: 100% !important;
+}
+
 .anna-testimonials-section .anna-container--wide {
   max-width: 1360px;
 }
