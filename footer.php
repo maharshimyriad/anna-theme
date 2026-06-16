@@ -52,11 +52,6 @@ if ( ! $copy ) {
 						<?php echo nl2br( esc_html( anna_get_option( 'footer_description', '' ) ) ); ?>
 					</p>
 
-					<div class="anna-footer__social">
-						<span class="anna-footer__social-label"><?php esc_html_e( 'Socials', 'anna-baylis' ); ?></span>
-						<?php anna_social_links( 'footer' ); ?>
-					</div>
-
 					<div class="anna-footer__bottom">
 				<p class="anna-footer__copyright"><?php echo esc_html( $copy ); ?></p>
 			</div>
@@ -97,6 +92,11 @@ if ( ! $copy ) {
 						<?php if ( $address ) : ?><div class="anna-footer__contact-item"><?php echo nl2br( esc_html( $address ) ); ?></div><?php endif; ?>
 						<?php if ( $hours ) : ?><div class="anna-footer__contact-item"><?php echo esc_html( $hours ); ?></div><?php endif; ?>
 					</address>
+
+					<div class="anna-footer__social">
+						<span class="anna-footer__social-label"><?php esc_html_e( 'Socials', 'anna-baylis' ); ?></span>
+						<?php anna_social_links( 'footer' ); ?>
+					</div>
 				</div>
 			</div>
 		</div>
