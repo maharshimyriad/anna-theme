@@ -334,16 +334,18 @@
   margin-top: clamp(2rem, 4vw, 3rem);
 }
 
-.anna-move-page-reviews .anna-testimonials-section__link {
+
+.anna-move-page-reviews .anna-testimonials-section__link{
+  min-width: 13.5rem;
   color: var(--color-primary);
-  border-color: var(--color-primary);
+  border-color: rgba(255, 255, 255, 0.55);
 }
 
-.anna-move-page-reviews .anna-testimonials-section__link:hover {
-  color: var(--color-white);
+.anna-move-page-reviews .anna-testimonials-section__link:hover  {
   border-color: var(--color-primary);
-  background: var(--color-primary);
+  background: rgba(255, 255, 255, 0.14);
 }
+
 
 /* Pillars */
 .anna-move-page-pillars__list {
