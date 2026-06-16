@@ -130,6 +130,7 @@
     border-radius: var(--radius-lg);
     background: var(--color-white);
     box-shadow: var(--shadow-sm);
+    animation: anna-review-float 5s ease-in-out infinite;
     transition:
         box-shadow var(--transition-base),
         transform var(--transition-base);
@@ -504,6 +505,48 @@
 .anna-reviews-page-grid__cards .rplg-slider .rplg-slider-prev:hover::before,
 .anna-reviews-page-grid__cards .rplg-slider .rplg-slider-next:hover::before {
     border-color: var(--color-white) !important;
+}
+
+/* ── Float animation ─────────────────────────────────────────────────────── */
+@keyframes anna-review-float {
+    0%,
+    100% { transform: translateY(0); }
+    50%  { transform: translateY(-7px); }
+}
+
+/* Stagger each card so they float independently */
+.anna-review-card:nth-child(2) { animation-delay: 0.8s; }
+.anna-review-card:nth-child(3) { animation-delay: 1.6s; }
+.anna-review-card:nth-child(4) { animation-delay: 0.4s; }
+.anna-review-card:nth-child(5) { animation-delay: 1.2s; }
+.anna-review-card:nth-child(6) { animation-delay: 2.0s; }
+.anna-review-card:nth-child(7) { animation-delay: 0.6s; }
+.anna-review-card:nth-child(8) { animation-delay: 1.4s; }
+.anna-review-card:nth-child(9) { animation-delay: 2.2s; }
+
+/* Plugin cards (rplg-box) float too */
+.anna-reviews-page-grid__cards .rplg-box {
+    animation: anna-review-float 5s ease-in-out infinite;
+}
+
+.anna-reviews-page-grid__cards .rplgsw-slide:nth-child(2) .rplg-box { animation-delay: 0.8s; }
+.anna-reviews-page-grid__cards .rplgsw-slide:nth-child(3) .rplg-box { animation-delay: 1.6s; }
+.anna-reviews-page-grid__cards .rplgsw-slide:nth-child(4) .rplg-box { animation-delay: 0.4s; }
+.anna-reviews-page-grid__cards .rplgsw-slide:nth-child(5) .rplg-box { animation-delay: 1.2s; }
+.anna-reviews-page-grid__cards .rplgsw-slide:nth-child(6) .rplg-box { animation-delay: 2.0s; }
+
+/* Pause animation on hover so the card stays still while reading */
+.anna-review-card:hover,
+.anna-reviews-page-grid__cards .rplg-box:hover {
+    animation-play-state: paused;
+}
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .anna-review-card,
+    .anna-reviews-page-grid__cards .rplg-box {
+        animation: none;
+    }
 }
 
 /* ── Responsive ──────────────────────────────────────────────────────────── */
