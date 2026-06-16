@@ -613,6 +613,9 @@
   .anna-services__grid {
     grid-template-columns: 1fr;
   }
+    html {
+  font-size: 18px;
+}
 }
 
 /**
