@@ -220,7 +220,7 @@
   display: none; /* shown on mobile only */
   margin: 1.25rem 0 0;
   color: #59656f;
-  font-size: clamp(14px, 1.2vw, 18px);
+  font-size: var(--text-base);
   line-height: 1.7;
 }
 
