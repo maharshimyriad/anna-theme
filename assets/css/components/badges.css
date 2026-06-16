@@ -133,7 +133,7 @@
 .anna-eyebrow {
     display: inline-flex;
     align-items: center;
-    font-size: var(--text-xs);
+    font-size: var(--text-sm);
     font-weight: var(--font-weight-semibold);
     letter-spacing: var(--tracking-caps);
     color: var(--color-primary);
