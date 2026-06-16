@@ -925,9 +925,13 @@
   flex-wrap: wrap;
 }
 
-.anna-testimonials-section .rplg .rplg-more-toggle{
+ .rplg .rplg-more-toggle{
     color: #FBFAF5 !important;
     cursor: pointer !important;
+}
+
+.anna-testimonials-section .rplg .grw-slider .rplg-box-content{
+  height: 100% !important;
 }
 
 .anna-testimonials-section__footer {
