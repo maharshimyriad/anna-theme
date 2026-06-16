@@ -292,9 +292,9 @@
 }
 
 /* Hide avatar */
-.anna-reviews-page-grid__cards .rplg-row-left {
+/* .anna-reviews-page-grid__cards .rplg-row-left {
     display: none;
-}
+} */
 
 .anna-reviews-page-grid__cards .rplg-row-right {
     width: 100%;
@@ -358,9 +358,9 @@
 }
 
 /* Hide Google badge */
-.anna-reviews-page-grid__cards .rplg-review-badge {
+/* .anna-reviews-page-grid__cards .rplg-review-badge {
     display: none;
-}
+} */
 
 /* Stars */
 .anna-reviews-page-grid__cards .rplg-stars {
