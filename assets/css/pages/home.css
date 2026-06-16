@@ -857,8 +857,12 @@
 }
 
 .anna-testimonials-section .rplg .rplg-review-avatar {
-  width: 48px !important;
-  height: 48px !important;
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.anna-testimonials-section .rplg .rplg-stars{
+  margin: 0.45rem 0 !important;
 }
 
 .anna-testimonials-section .rplg .rplg-review-text {
@@ -879,6 +883,7 @@
 .anna-testimonials-section .rplg .rplg-review-time{
     color: rgba(255, 255, 255, 0.5) !important;
     font-size: 0.72rem !important;
+    text-shadow: none !important;
 }
 
 .anna-testimonials-section__header {
@@ -920,67 +925,10 @@
   flex-wrap: wrap;
 }
 
-
-.anna-testimonial__rating svg {
-  width: 14px;
-  height: 14px;
+.anna-testimonials-section .rplg .rplg-more-toggle{
+    color: var(--color-primary) !important;
+    cursor: pointer !important;
 }
-
-.anna-testimonials-inner--static {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.35rem;
-}
-
-.anna-testimonial {
-  margin: 0;
-  padding: 1.55rem 1.45rem 1.35rem;
-  border-radius: 0.7rem;
-  background: #197E73;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  min-height: 18rem;
-}
-
-.anna-testimonial__rating {
-  margin-bottom: 0.9rem;
-}
-
-.anna-testimonial__rating .anna-stars__star {
-  color: #e7da59;
-  font-size: 0.72rem;
-}
-
-.anna-testimonial__quote p {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.9);
-  line-height: 1.85;
-  font-size: var(--text-base);
-  font-family: var(--font-heading);
-
-}
-
-.anna-testimonial__author {
-  margin-top: 1.3rem;
-}
-
-.anna-testimonial__name,
-.anna-testimonial__role {
-  display: inline-block;
-  font-style: normal;
-}
-
-.anna-testimonial__name {
-  color: var(--color-white);
-  font-weight: 700;
-  font-size: 0.82rem;
-  margin-right: 0.45rem;
-}
-
-.anna-testimonial__role {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 0.72rem;
-}
-
 .anna-testimonials-section__footer {
   margin-top: 4rem;
   text-align: center;
