@@ -9,9 +9,7 @@
  */
 
 /* ── Body ─────────────────────────────────────────────────────────────────── */
-html {
-  font-size: 18px;
-}
+
 
 
 body {
@@ -304,5 +302,9 @@ code {
   [class*="hero__content"] {
     padding: 0 !important;
   }
+
+  html {
+  font-size: 18px;
+}
 
 }

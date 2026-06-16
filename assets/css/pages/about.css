@@ -165,7 +165,7 @@
 
 .anna-about-page__copy {
   color: var(--color-heading);
-  font-size: var(--text-custom-para);
+  font-size: var(--about-body-size);
   line-height: var(--leading-loose);
 }
 
@@ -224,7 +224,7 @@
 .anna-about-page-coach__copy p {
   color: rgba(255, 255, 255, 0.86);
   line-height: 1.5;
-  font-size: var(--text-custom-para);
+  font-size: var(--text-base);
 }
 
 .anna-about-page-coach__copy p+p {
