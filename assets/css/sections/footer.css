@@ -159,3 +159,56 @@
 .anna-footer__grid #mlb2-40772586.ml-form-embedContainer .ml-form-align-center {
   text-align: left;
 }
+
+/* ── Footer social links ─────────────────────────────────────────────────── */
+.anna-footer__social {
+  margin-top: 1.5rem;
+}
+
+.anna-footer__social-label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: var(--space-4);
+}
+
+.anna-footer__social .anna-social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.anna-footer__social .anna-social-links__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-full);
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.08);
+  text-decoration: none;
+  transition: color var(--transition-fast),
+    background var(--transition-fast),
+    border-color var(--transition-fast);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.anna-footer__social .anna-social-links__link:hover {
+  color: var(--color-white);
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+.anna-footer__social .anna-social-links__link svg {
+  width: 18px;
+  height: 18px;
+}

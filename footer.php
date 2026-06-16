@@ -51,6 +51,12 @@ if ( ! $copy ) {
 					<p class="anna-footer__brand-text">
 						<?php echo nl2br( esc_html( anna_get_option( 'footer_description', '' ) ) ); ?>
 					</p>
+
+					<div class="anna-footer__social">
+						<span class="anna-footer__social-label"><?php esc_html_e( 'Socials', 'anna-baylis' ); ?></span>
+						<?php anna_social_links( 'footer' ); ?>
+					</div>
+
 					<div class="anna-footer__bottom">
 				<p class="anna-footer__copyright"><?php echo esc_html( $copy ); ?></p>
 			</div>
