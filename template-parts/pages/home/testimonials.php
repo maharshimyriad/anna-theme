@@ -89,8 +89,17 @@ $static = array(
 		</div>
 
 		<div class="anna-testimonials-inner anna-testimonials-inner--static anna-stagger" role="list">
-			<?php echo do_shortcode('[brb_collection id="4755"]'); ?>
+			<?php if (!empty($section_data['shortcode'])): ?>
+				<?php echo do_shortcode(wp_kses_post($section_data['shortcode'])); ?>
+			<?php else: ?>
+				<?php echo do_shortcode('[brb_collection id="4755"]'); ?>
+			<?php endif; ?>
 		</div>
+
+		<?php
+		$brb_admin_url = admin_url('edit.php?post_type=brb_collection');
+		?>
+		<!-- Reviews Bundle: <a href="<?php echo esc_url($brb_admin_url); ?>">Manage collections</a> -->
 
 		<?php if ($section_data['cta_text']): ?>
 			<div class="anna-testimonials-section__footer anna-reveal">

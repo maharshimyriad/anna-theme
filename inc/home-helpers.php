@@ -270,11 +270,12 @@ function anna_get_home_page_content_for_admin($post_id)
             "cta_url"        => anna_get_option("about_cta_url",        $opts["about_cta_url"]        ?? ""),
         ],
         "testimonials" => [
-            "eyebrow"  => anna_get_option("testimonials_eyebrow",  $opts["testimonials_eyebrow"]  ?? ""),
-            "heading"  => anna_get_option("testimonials_heading",  $opts["testimonials_heading"]  ?? ""),
-            "summary"  => anna_get_option("testimonials_summary",  $opts["testimonials_summary"]  ?? ""),
-            "cta_text" => anna_get_option("testimonials_cta_text", $opts["testimonials_cta_text"] ?? ""),
-            "cta_url"  => anna_get_option("testimonials_cta_url",  $opts["testimonials_cta_url"]  ?? ""),
+            "eyebrow"   => anna_get_option("testimonials_eyebrow",  $opts["testimonials_eyebrow"]  ?? ""),
+            "heading"   => anna_get_option("testimonials_heading",  $opts["testimonials_heading"]  ?? ""),
+            "summary"   => anna_get_option("testimonials_summary",  $opts["testimonials_summary"]  ?? ""),
+            "cta_text"  => anna_get_option("testimonials_cta_text", $opts["testimonials_cta_text"] ?? ""),
+            "cta_url"   => anna_get_option("testimonials_cta_url",  $opts["testimonials_cta_url"]  ?? ""),
+            "shortcode" => "",
         ],
         "cta" => [
             "eyebrow"               => anna_get_option("cta_eyebrow",        $opts["cta_eyebrow"]        ?? ""),
@@ -418,6 +419,17 @@ function anna_render_home_page_content_meta_box($post)
             <?php anna_home_admin_textarea("testimonials", "summary", __("Summary", "anna-baylis"), $content, 3); ?>
             <?php anna_home_admin_text("testimonials", "cta_text", __("CTA text", "anna-baylis"), $content); ?>
             <?php anna_home_admin_text("testimonials", "cta_url", __("CTA URL", "anna-baylis"), $content); ?>
+            <?php anna_home_admin_text(
+                "testimonials",
+                "shortcode",
+                __("Reviews shortcode", "anna-baylis"),
+                $content,
+                sprintf(
+                    /* translators: %s: link to Reviews Bundle collections admin page */
+                    __('Shortcode from the Reviews Bundle plugin — e.g. <code>[brb_collection id="123"]</code>. Manage collections: <a href="%s" target="_blank">Reviews Bundle</a>.', "anna-baylis"),
+                    esc_url(admin_url("edit.php?post_type=brb_collection"))
+                )
+            ); ?>
 
             <tr><td colspan="2"><h3><?php esc_html_e("Final CTA", "anna-baylis"); ?></h3></td></tr>
             <?php anna_home_admin_text("cta", "eyebrow", __("Eyebrow", "anna-baylis"), $content); ?>
@@ -434,12 +446,12 @@ function anna_render_home_page_content_meta_box($post)
 }
 
 /** Render homepage admin text input. */
-function anna_home_admin_text($section, $key, $label, $content)
+function anna_home_admin_text($section, $key, $label, $content, $description = "")
 {
     $id = "anna-home-" . $section . "-" . $key;
     $value = (string) ($content[$section][$key] ?? "");
     ?>
-    <tr><th scope="row"><label for="<?php echo esc_attr($id); ?>"><?php echo esc_html($label); ?></label></th><td><input type="text" class="regular-text" id="<?php echo esc_attr($id); ?>" name="anna_home_page_content[<?php echo esc_attr($section); ?>][<?php echo esc_attr($key); ?>]" value="<?php echo esc_attr($value); ?>"></td></tr>
+    <tr><th scope="row"><label for="<?php echo esc_attr($id); ?>"><?php echo esc_html($label); ?></label></th><td><input type="text" class="regular-text" id="<?php echo esc_attr($id); ?>" name="anna_home_page_content[<?php echo esc_attr($section); ?>][<?php echo esc_attr($key); ?>]" value="<?php echo esc_attr($value); ?>"><?php if ($description): ?><p class="description"><?php echo wp_kses($description, ['a' => ['href' => [], 'target' => []], 'code' => []]); ?></p><?php endif; ?></td></tr>
     <?php
 }
 
@@ -511,7 +523,7 @@ function anna_save_home_page_content_meta_box($post_id)
             "card_3_title", "card_3_excerpt", "card_3_link", "card_3_url", "card_3_image_id",
         ],
         "about" => ["eyebrow", "heading", "body", "quote", "image_id", "badge_number", "badge_text", "expertise_text", "cta_text", "cta_url"],
-        "testimonials" => ["eyebrow", "heading", "summary", "cta_text", "cta_url"],
+        "testimonials" => ["eyebrow", "heading", "summary", "cta_text", "cta_url", "shortcode"],
         "cta" => ["eyebrow", "heading", "description", "trust_text", "primary_button_text", "primary_button_url", "secondary_button_text", "secondary_button_url"],
     ];
     $textarea_keys = ["heading", "description", "intro_heading", "intro_body", "intro_quote", "recognition_description", "recognition_items_text", "body", "quote", "expertise_text", "summary", "card_1_excerpt", "card_2_excerpt", "card_3_excerpt"];

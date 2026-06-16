@@ -38,10 +38,11 @@ function anna_get_move_default_content() {
 			array( 'quote' => 'Truly transformative.' ),
 		),
 
-		'reviews_eyebrow' => 'What Clients Say',
-		'reviews_heading' => '102 five-star Google reviews.',
-		'reviews_summary' => '5.0 - Google Reviews - based on 102 reviews',
-		'reviews_items'   => array(
+		'reviews_eyebrow'    => 'What Clients Say',
+		'reviews_heading'    => '102 five-star Google reviews.',
+		'reviews_summary'    => '5.0 - Google Reviews - based on 102 reviews',
+		'reviews_shortcode'  => '',
+		'reviews_items'      => array(
 			array(
 				'quote'  => 'Working with Anna has been one of the best things I could do for myself and my family. The most transformative part of our work was understanding how my inner child was influencing my daily reactions. Anna provided such a safe, supportive space to explore this.',
 				'name'   => 'Renee Berger',

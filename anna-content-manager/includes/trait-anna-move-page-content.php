@@ -67,6 +67,21 @@ trait Anna_Move_Page_Content {
 			<?php $this->render_text_field( $prefix, 'reviews_eyebrow', __( 'Eyebrow', 'anna-baylis' ), $data['reviews_eyebrow'] ?? '' ); ?>
 			<?php $this->render_text_field( $prefix, 'reviews_heading', __( 'Heading', 'anna-baylis' ), $data['reviews_heading'] ?? '' ); ?>
 			<?php $this->render_text_field( $prefix, 'reviews_summary', __( 'Summary Line', 'anna-baylis' ), $data['reviews_summary'] ?? '' ); ?>
+			<tr>
+				<th scope="row"><label for="anna_content_move_page_reviews_shortcode"><?php esc_html_e( 'Reviews Shortcode', 'anna-baylis' ); ?></label></th>
+				<td>
+					<input type="text" class="large-text" id="anna_content_move_page_reviews_shortcode" name="anna_content_move_page[reviews_shortcode]" value="<?php echo esc_attr( $data['reviews_shortcode'] ?? '' ); ?>">
+					<p class="description">
+						<?php
+						printf(
+							/* translators: %s: link to Reviews Bundle collections admin page */
+							wp_kses( __( 'Shortcode from the Reviews Bundle plugin — e.g. <code>[brb_collection id="123"]</code>. When set, this replaces the review cards below. Manage collections: <a href="%s" target="_blank">Reviews Bundle</a>.', 'anna-baylis' ), array( 'a' => array( 'href' => array(), 'target' => array() ), 'code' => array() ) ),
+							esc_url( admin_url( 'edit.php?post_type=brb_collection' ) )
+						);
+						?>
+					</p>
+				</td>
+			</tr>
 			<?php $this->render_move_review_repeater_field( $data['reviews_items'] ?? array() ); ?>
 		</table>
 
@@ -353,7 +368,7 @@ trait Anna_Move_Page_Content {
 			'hero_eyebrow', 'hero_heading',
 			'evolution_heading', 'evolution_gallery_heading',
 			'was_heading', 'said_heading',
-			'reviews_eyebrow', 'reviews_heading', 'reviews_summary',
+			'reviews_eyebrow', 'reviews_heading', 'reviews_summary', 'reviews_shortcode',
 			'pillars_heading',
 			'evolved_heading',
 			'evolved_button_primary_text', 'evolved_button_secondary_text', 'evolved_button_tertiary_text',

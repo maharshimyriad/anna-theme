@@ -502,13 +502,14 @@ function anna_get_testimonials_section_content()
         "summary" => anna_get_option("testimonials_summary", ""),
         "cta_text" => anna_get_option("testimonials_cta_text", ""),
         "cta_url" => anna_get_option("testimonials_cta_url", "#"),
+        "shortcode" => "",
     ];
 
     $post_id = anna_get_current_page_content_id();
     if ($post_id && function_exists("anna_content_get_page_section")) {
         $data = anna_content_get_page_section($post_id, "testimonials");
         foreach (
-            ["eyebrow", "heading", "summary", "cta_text", "cta_url"]
+            ["eyebrow", "heading", "summary", "cta_text", "cta_url", "shortcode"]
             as $key
         ) {
             if (

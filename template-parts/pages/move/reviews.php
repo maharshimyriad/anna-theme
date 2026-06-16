@@ -16,6 +16,7 @@ if (empty($move)) {
 }
 
 $items = isset($move['reviews_items']) && is_array($move['reviews_items']) ? $move['reviews_items'] : array();
+$reviews_shortcode = (string) ($move['reviews_shortcode'] ?? '');
 $heading = (string) ($move['reviews_heading'] ?? '');
 $heading_main = $heading;
 $heading_sub = '';
@@ -43,12 +44,20 @@ if (false !== stripos($heading, ' Google reviews')) {
 			<?php endif; ?>
 
 			<?php if (!empty($move['reviews_summary'])): ?>
-				<div class="anna-move-page-review-card__rating"><?php echo anna_star_rating(5); ?>
-					<p class="anna-move-page-reviews__summary"><?php echo esc_html($move['reviews_summary']); ?></p>
-				<?php endif; ?>
+			<div class="anna-move-page-review-card__rating"><?php echo anna_star_rating(5); ?>
+				<p class="anna-move-page-reviews__summary"><?php echo esc_html($move['reviews_summary']); ?></p>
+			<?php endif; ?>
 		</header>
 
-		<?php if (!empty($items)): ?>
+		<?php if (!empty($reviews_shortcode)): ?>
+			<div class="anna-move-page-reviews__grid anna-stagger" role="list">
+				<?php echo do_shortcode(wp_kses_post($reviews_shortcode)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			</div>
+			<?php
+			// Reviews powered by Reviews Bundle plugin.
+			// Manage collections: /wp-admin/edit.php?post_type=brb_collection
+			?>
+		<?php elseif (!empty($items)): ?>
 			<div class="anna-move-page-reviews__grid anna-stagger" role="list">
 				<?php foreach ($items as $review): ?>
 					<figure class="anna-move-page-review-card" role="listitem">
