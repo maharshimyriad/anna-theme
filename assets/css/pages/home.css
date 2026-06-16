@@ -161,7 +161,7 @@
 .anna-hero__stat-label {
   display: block;
   color: rgba(255, 255, 255, 0.82);
-  font-size: 0.78rem;
+  font-size: var(--text-sm);
   line-height: 1.4;
 }
 
