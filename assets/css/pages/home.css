@@ -850,12 +850,11 @@
 }
 
 .anna-testimonials-section .rplg .grw-slider:not(.wp-dark) .grw-slider-review-inner.grw-slider-review-border {
-  margin: 0;
-  padding: 1.55rem 1.45rem 1.35rem;
-  border-radius: 0.7rem;
-  background: #197E73;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  min-height: 18rem;
+  margin: 0 !important;
+  padding: 1.55rem 1.45rem 1.35rem !important;
+  border-radius: 0.7rem !important;
+  background: #197E73 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
 }
 
 .anna-testimonials-section .rplg .rplg-review-avatar{
