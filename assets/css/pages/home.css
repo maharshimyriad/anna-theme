@@ -91,7 +91,7 @@
 .anna-hero__description {
   max-width: 48rem;
   margin: 0;
-    font-size: var(--text-md);
+    font-size: var(--text-base);
   line-height: 1.7;
   color: rgba(255, 255, 255, 0.9);
 }
@@ -344,14 +344,12 @@
 
 .anna-intro__copy {
   margin-top: var(--space-5);
+  font-size: var(--text-base);
 }
 
 .anna-intro__copy p {
-  /*       margin-top: var(--space-8); */
   color: #59656f;
   line-height: 1.9;
-  font-size: clamp(14px, 1.2vw, 18px);
-
 }
 
 .anna-intro__quote {
@@ -562,7 +560,7 @@
   color: #4A5568;
   line-height: 1.8;
   flex: none;
-  font-size: 1rem;
+  font-size: var(--text-base);
 }
 
 .anna-service-card__link {
@@ -730,7 +728,7 @@
 }
 
 .anna-about__body {
-  font-size: 1.125rem;
+  font-size: var(--text-base);
   line-height: 1.95;
   color: #59656f;
 }
@@ -905,9 +903,8 @@
   margin: 0;
   color: rgba(255, 255, 255, 0.9);
   line-height: 1.85;
-  font-size: 0.95rem;
-  font-style: italic;
-  font-family: 'Lexend;
+  font-size: var(--text-base);
+  font-family: var(--font-heading);
 
 }
 
