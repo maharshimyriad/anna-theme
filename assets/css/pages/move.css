@@ -328,6 +328,23 @@
   height: 100% !important;
 }
 
+/* Reviews CTA footer */
+.anna-move-page-reviews .anna-testimonials-section__footer {
+  text-align: center;
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+.anna-move-page-reviews .anna-testimonials-section__link {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.anna-move-page-reviews .anna-testimonials-section__link:hover {
+  color: var(--color-white);
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+}
+
 /* Pillars */
 .anna-move-page-pillars__list {
   display: grid;
