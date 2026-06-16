@@ -541,18 +541,18 @@
 }
 
 /* Assign a unique animation + duration + delay to each nth card */
-.anna-review-card:nth-child(1)  { animation: anna-float-a 5.2s ease-in-out infinite 0.0s;  }
-.anna-review-card:nth-child(2)  { animation: anna-float-c 6.8s ease-in-out infinite 0.7s;  }
-.anna-review-card:nth-child(3)  { animation: anna-float-e 4.9s ease-in-out infinite 1.3s;  }
-.anna-review-card:nth-child(4)  { animation: anna-float-b 7.1s ease-in-out infinite 0.4s;  }
-.anna-review-card:nth-child(5)  { animation: anna-float-d 5.6s ease-in-out infinite 1.9s;  }
-.anna-review-card:nth-child(6)  { animation: anna-float-f 6.3s ease-in-out infinite 0.2s;  }
-.anna-review-card:nth-child(7)  { animation: anna-float-b 4.7s ease-in-out infinite 1.1s;  }
-.anna-review-card:nth-child(8)  { animation: anna-float-a 7.4s ease-in-out infinite 2.3s;  }
-.anna-review-card:nth-child(9)  { animation: anna-float-e 5.9s ease-in-out infinite 0.6s;  }
-.anna-review-card:nth-child(10) { animation: anna-float-c 6.1s ease-in-out infinite 1.7s;  }
-.anna-review-card:nth-child(11) { animation: anna-float-d 5.3s ease-in-out infinite 0.9s;  }
-.anna-review-card:nth-child(12) { animation: anna-float-f 7.7s ease-in-out infinite 2.1s;  }
+.anna-reviews-page-grid__cards .rplg-box:nth-child(1)  { animation: anna-float-a 5.2s ease-in-out infinite 0.0s;  }
+.anna-reviews-page-grid__cards .rplg-box:nth-child(2)  { animation: anna-float-c 6.8s ease-in-out infinite 0.7s;  }
+.anna-reviews-page-grid__cards .rplg-box:nth-child(3)  { animation: anna-float-e 4.9s ease-in-out infinite 1.3s;  }
+.anna-reviews-page-grid__cards .rplg-box:nth-child(4)  { animation: anna-float-b 7.1s ease-in-out infinite 0.4s;  }
+.anna-reviews-page-grid__cards .rplg-box:nth-child(5)  { animation: anna-float-d 5.6s ease-in-out infinite 1.9s;  }
+.anna-reviews-page-grid__cards .rplg-box:nth-child(6)  { animation: anna-float-f 6.3s ease-in-out infinite 0.2s;  }
+.anna-reviews-page-grid__cards .rplg-box:nth-child(7)  { animation: anna-float-b 4.7s ease-in-out infinite 1.1s;  }
+.anna-reviews-page-grid__cards .rplg-box:nth-child(8)  { animation: anna-float-a 7.4s ease-in-out infinite 2.3s;  }
+.anna-reviews-page-grid__cards .rplg-box:nth-child(9)  { animation: anna-float-e 5.9s ease-in-out infinite 0.6s;  }
+.anna-reviews-page-grid__cards .rplg-box:nth-child(10) { animation: anna-float-c 6.1s ease-in-out infinite 1.7s;  }
+.anna-reviews-page-grid__cards .rplg-box:nth-child(11) { animation: anna-float-d 5.3s ease-in-out infinite 0.9s;  }
+.anna-reviews-page-grid__cards .rplg-box:nth-child(12) { animation: anna-float-f 7.7s ease-in-out infinite 2.1s;  }
 
 /* Plugin cards */
 .anna-reviews-page-grid__cards .rplgsw-slide:nth-child(1)  .rplg-box { animation: anna-float-b 5.5s ease-in-out infinite 0.0s;  }
