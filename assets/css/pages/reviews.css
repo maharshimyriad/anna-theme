@@ -275,9 +275,8 @@
 
 /* Author row — rendered first in DOM but visually on top */
 .anna-reviews-page-grid__cards .rplg-row {
-    order: 0;
     display: flex !important;
-    align-items: flex-start !important;
+    align-items: center !important;
     gap: 0;
     padding: 0 !important;
     background: var(--color-bg-soft);
