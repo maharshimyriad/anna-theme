@@ -300,10 +300,8 @@ code {
     padding: 0 !important;
   }
 
-  [class$="__eyebrow"],
-  [class$="__overline"],
-  [class$="__breadcrumb"] {
-    font-size: var(--text-xs) !important;
-  }
+}
 
+body p{
+  font-size: 1.125rem !important;
 }
