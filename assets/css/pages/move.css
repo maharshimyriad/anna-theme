@@ -284,8 +284,8 @@
 .anna-move-page-reviews .rplg .grw-slider:not(.wp-dark) .grw-slider-review-inner.grw-slider-review-border {
   padding: 1.55rem 1.45rem 1.35rem !important;
   border-radius: 0.7rem !important;
-  background: #197E73 !important;
-  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  background: #fff !important;
+  border: 1px solid #F3F4F6!important;
 }
 
 .anna-move-page-reviews .rplg .rplg-review-avatar {
@@ -299,14 +299,14 @@
 
 .anna-move-page-reviews .rplg .rplg-review-text {
   margin: 0;
-  color: rgba(255, 255, 255, 0.9) !important;
+  color: #4B5563 !important;
   line-height: 1.85 !important;
   font-size: var(--text-base) !important;
   font-family: var(--font-heading) !important;
 }
 
 .anna-move-page-reviews .rplg .rplg-review-name {
-  color: var(--color-white) !important;
+  color: var(--color-primary) !important;
   font-weight: 700 !important;
   font-size: 0.82rem !important;
   margin-right: 0.45rem !important;
