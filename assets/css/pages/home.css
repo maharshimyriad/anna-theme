@@ -91,8 +91,7 @@
 .anna-hero__description {
   max-width: 48rem;
   margin: 0;
-  /*   font-size: var(--text-md); */
-  font-size: clamp(14px, 1.2vw, 18px);
+  font-size: var(--text-custom-para);
   line-height: 1.7;
   color: rgba(255, 255, 255, 0.9);
 }
@@ -175,12 +174,12 @@
 }
 
 .anna-hero__stats-strip__list {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 /* .anna-hero__stats-strip__list {
@@ -218,7 +217,8 @@
 }
 
 .anna-hero__stats-strip__description {
-  display: none; /* shown on mobile only */
+  display: none;
+  /* shown on mobile only */
   margin: 1.25rem 0 0;
   color: #59656f;
   font-size: clamp(14px, 1.2vw, 18px);
@@ -295,16 +295,17 @@
     font-size: clamp(1rem, 0.9rem + 0.5vw, 1.2rem);
   }
 
-.anna-hero-section .anna-btn--hero-primary {
+  .anna-hero-section .anna-btn--hero-primary {
     min-width: 0;
     width: fit-content;
     font-size: 0.9rem;
-}
+  }
 
   .anna-hero-section .anna-btn--hero-link {
     max-width: none;
   }
-  .anna-hero__overline{
+
+  .anna-hero__overline {
     max-width: 55vw;
   }
 }
@@ -351,8 +352,7 @@
   /*       margin-top: var(--space-8); */
   color: #59656f;
   line-height: 1.9;
-  font-size: clamp(14px, 1.2vw, 18px);
-
+  font-size: var(--text-custom-para);
 }
 
 .anna-intro__quote {
@@ -424,6 +424,7 @@
 .anna-recognition__item-text {
   color: rgba(26, 43, 37, 0.72);
   line-height: 1.8;
+  font-size: var(--text-custom-para);
 }
 
 @media (max-width: 1500px) {
@@ -563,7 +564,7 @@
   color: #4A5568;
   line-height: 1.8;
   flex: none;
-  font-size: 1rem;
+  font-size: var(--text-custom-para);
 }
 
 .anna-service-card__link {
@@ -731,7 +732,7 @@
 }
 
 .anna-about__body {
-  font-size: 1.125rem;
+  font-size: var(--text-custom-para);
   line-height: 1.95;
   color: #59656f;
 }
@@ -906,9 +907,8 @@
   margin: 0;
   color: rgba(255, 255, 255, 0.9);
   line-height: 1.85;
-  font-size: 0.95rem;
-  font-style: italic;
-  font-family: 'Lexend;
+  font-size: var(--text-custom-para);
+  font-family: 'Lexend';
 
 }
 

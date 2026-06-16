@@ -76,6 +76,7 @@
   --text-4xl:   clamp(2.75rem, 2rem + 2.40vw, 3.375rem);     /* 44px → 54px */
   --text-5xl:   clamp(3rem,    2.20rem + 3vw, 3.75rem);      /* 48px → 60px */
   --text-6xl:   clamp(3.80rem,  2.50rem + 6.50vw,  7.00rem);
+  --text-custom-para: 1.125rem;
 
   /* ── Semantic Heading Sizes ───────────────────────────────────────────── */
   /* Section headings: min 28px (1.75rem) → max 50px (3.125rem)            */
