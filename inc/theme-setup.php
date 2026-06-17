@@ -374,7 +374,7 @@ function anna_replace_editor_with_notice_for_custom_templates()
         notice.innerHTML =
             '<strong>Content is managed by Content Manager</strong>' +
             'This page uses custom meta fields for all editable copy. ' +
-            'The text below is auto-synced to this area for SEO analysis only — edit content using the fields below.' +
+            'The text/content is auto-synced to this area for SEO analysis only — edit content using the fields below.' +
             ( anchor ? ' ' + anchor : '' );
 
         wrap.insertBefore( notice, wrap.firstChild );
