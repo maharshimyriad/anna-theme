@@ -275,50 +275,96 @@ add_filter(
  * meta boxes are registered. Scoped to the specific post being edited so
  * it does not affect any other admin request in the same page load.
  */
-function anna_remove_editor_for_custom_templates()
-{
-    if (!is_admin()) {
-        return;
-    }
-    // Secret override: ?anna_show_editor=1 lets admins see post_content.
-    if ( ! empty( $_GET['anna_show_editor'] ) && current_user_can( 'manage_options' ) ) {
-        return;
-    }
-    $post_id = absint($_GET["post"] ?? 0);
-    if (!$post_id) {
-        return;
-    }
-    if (anna_is_custom_content_template_page($post_id)) {
-        remove_post_type_support("page", "editor");
-    }
-}
-add_action("admin_init", "anna_remove_editor_for_custom_templates");
-
 /**
- * Hide the classic editor post area as a fallback for admin screens/plugins that
- * render it even after editor support has been removed.
+ * For pages managed by Anna Content Manager, replace the classic editor
+ * with an informational notice pointing admins to the content meta box.
+ * The editor is kept in the DOM (so Yoast can read post_content) but its
+ * textarea is replaced with a styled read-only message.
  */
-function anna_hide_postarea_for_custom_template_pages()
+function anna_replace_editor_with_notice_for_custom_templates()
 {
-    // Secret override: ?anna_show_editor=1 lets admins see post_content.
-    if ( ! empty( $_GET['anna_show_editor'] ) && current_user_can( 'manage_options' ) ) {
-        return;
-    }
-    $post_id = absint($_GET["post"] ?? 0);
-    if (!anna_is_custom_content_template_page($post_id)) {
+    $post_id = absint( $_GET['post'] ?? 0 );
+    if ( ! $post_id || ! anna_is_custom_content_template_page( $post_id ) ) {
         return;
     }
     ?>
     <style>
-        #postdivrich,
-        #postdiv,
-        #wp-content-wrap {
+        /* Hide the actual TinyMCE toolbar and textarea */
+        #wp-content-editor-tools,
+        #wp-content-wrap .wp-editor-tabs,
+        #wp-content-wrap iframe,
+        #wp-content-wrap #content,
+        #wp-content-wrap .wp-media-buttons {
             display: none !important;
         }
+
+        /* Style the notice area */
+        #anna-content-editor-notice {
+            padding: 16px 20px;
+            background: #f0f6fc;
+            border: 1px solid #c3d9ed;
+            border-radius: 4px;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #1d2327;
+        }
+        #anna-content-editor-notice strong {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+        #anna-content-editor-notice a {
+            text-decoration: none;
+            color: #2271b1;
+            font-weight: 600;
+        }
+        #anna-content-editor-notice a:hover {
+            color: #135e96;
+            text-decoration: underline;
+        }
     </style>
+    <script>
+    document.addEventListener( 'DOMContentLoaded', function () {
+        var wrap = document.getElementById( 'wp-content-wrap' );
+        if ( ! wrap ) return;
+
+        // Determine which meta box to scroll to based on the page template.
+        var metaBoxId = (function () {
+            var bodyClasses = document.body.className;
+            if ( bodyClasses.indexOf( 'page-template-page-oasis' )                 !== -1 ) return 'anna_content_oasis_page';
+            if ( bodyClasses.indexOf( 'page-template-page-speaking' )              !== -1 ) return 'anna_content_speaking_page';
+            if ( bodyClasses.indexOf( 'page-template-page-mental-health-support' ) !== -1 ) return 'anna_content_mhs_page';
+            if ( bodyClasses.indexOf( 'page-template-page-move' )                  !== -1 ) return 'anna_content_move_page';
+            if ( bodyClasses.indexOf( 'page-template-page-reviews' )               !== -1 ) return 'anna_content_reviews_page';
+            if ( bodyClasses.indexOf( 'page-template-page-contact' )               !== -1 ) return 'anna_content_contact_page';
+            if ( bodyClasses.indexOf( 'page-template-page-blog' )                  !== -1 ) return 'anna_content_blog_page';
+            if ( bodyClasses.indexOf( 'page-template-page-about' )                 !== -1 ) return 'anna_content_about_page';
+            if ( bodyClasses.indexOf( 'page-template-page-coaching' )              !== -1 ) return 'anna_content_coaching_page';
+            // Scaffolded / flexible pages — meta box ID is anna_content_{code}_page.
+            var match = bodyClasses.match( /page-template-page-([\w-]+)/ );
+            if ( match ) return 'anna_content_' + match[1].replace( /-/g, '_' ) + '_page';
+            return null;
+        }() );
+
+        var notice = document.createElement( 'div' );
+        notice.id  = 'anna-content-editor-notice';
+
+        var anchor = metaBoxId
+            ? '<a href="#' + metaBoxId + '" onclick="document.getElementById(\'' + metaBoxId + '\').scrollIntoView({behavior:\'smooth\'});return false;">↓ Jump to content fields</a>'
+            : '';
+
+        notice.innerHTML =
+            '<strong>Content is managed by Anna Content Manager</strong>' +
+            'This page uses custom meta fields for all editable copy. ' +
+            'The text below is auto-synced to this area for SEO analysis only — edit content using the fields below.' +
+            ( anchor ? ' ' + anchor : '' );
+
+        wrap.insertBefore( notice, wrap.firstChild );
+    } );
+    </script>
     <?php
 }
-add_action("admin_head-post.php", "anna_hide_postarea_for_custom_template_pages");
+add_action( 'admin_head-post.php', 'anna_replace_editor_with_notice_for_custom_templates' );
 
 // ─── Reset custom template content ────────────────────────────────────────────
 
