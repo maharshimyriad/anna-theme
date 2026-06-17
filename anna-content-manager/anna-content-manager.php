@@ -30,19 +30,19 @@ require_once ANNA_CONTENT_MANAGER_DIR . 'includes/class-anna-content-manager.php
 Anna_Content_Manager::instance();
 
 /**
- * One-time bulk sync: write post_content for every published page whose
- * post_content is currently empty (or only whitespace).
+ * Bulk Yoast sync: overwrite post_content for every published page using the
+ * text collected from custom meta fields, replacing any existing post_content.
  *
  * Triggered by visiting any admin page with ?anna_sync_yoast=1 in the URL,
  * e.g. wp-admin/index.php?anna_sync_yoast=1
  *
- * The action is protected by a capability check and fires only once — a flag
- * is stored in the options table so subsequent requests are no-ops.
+ * The action is protected by a capability check and can be run as many times
+ * as needed — useful after content edits outside the normal save flow, or
+ * when deploying this feature for the first time.
  *
- * To re-run (e.g. after adding new pages), delete the option from the DB:
- *   DELETE FROM wp_options WHERE option_name = 'anna_yoast_sync_done';
- * or in WP-CLI:
- *   wp option delete anna_yoast_sync_done
+ * After the initial run, individual saves keep post_content up to date
+ * automatically via the save_post_page hook, so re-running this URL is only
+ * needed if you want to force a full re-sync across all pages at once.
  */
 add_action(
 	'admin_init',
@@ -50,15 +50,6 @@ add_action(
 		// Only run when the query param is present and the user has permission.
 		if ( empty( $_GET['anna_sync_yoast'] ) || ! current_user_can( 'manage_options' ) ) {
 			return;
-		}
-
-		// Guard: only run once (delete the option to re-run).
-		if ( get_option( 'anna_yoast_sync_done' ) ) {
-			wp_die(
-				'<p>Yoast sync already completed. To re-run, delete the <code>anna_yoast_sync_done</code> option from the database.</p>',
-				'Yoast Sync',
-				array( 'back_link' => true )
-			);
 		}
 
 		$manager = Anna_Content_Manager::instance();
@@ -74,28 +65,19 @@ add_action(
 		);
 
 		$synced  = 0;
-		$skipped = 0;
 
 		foreach ( $pages as $page_id ) {
-			// Only backfill pages that have no post_content yet.
-			$current = get_post_field( 'post_content', $page_id );
-			if ( '' !== trim( (string) $current ) ) {
-				$skipped++;
-				continue;
-			}
-
 			$manager->sync_post_content_for_yoast( $page_id );
 			$synced++;
 		}
 
-		// Mark as done so the action won't run again accidentally.
+		// Update the flag with the latest run timestamp.
 		update_option( 'anna_yoast_sync_done', time() );
 
 		wp_die(
 			sprintf(
-				'<p>Yoast sync complete. Synced <strong>%d</strong> page(s), skipped <strong>%d</strong> (already had content).</p>',
-				$synced,
-				$skipped
+				'<p>Yoast sync complete. Synced <strong>%d</strong> page(s).</p>',
+				$synced
 			),
 			'Yoast Sync',
 			array( 'back_link' => true )
