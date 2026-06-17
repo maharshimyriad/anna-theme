@@ -280,6 +280,10 @@ function anna_remove_editor_for_custom_templates()
     if (!is_admin()) {
         return;
     }
+    // Secret override: ?anna_show_editor=1 lets admins see post_content.
+    if ( ! empty( $_GET['anna_show_editor'] ) && current_user_can( 'manage_options' ) ) {
+        return;
+    }
     $post_id = absint($_GET["post"] ?? 0);
     if (!$post_id) {
         return;
@@ -296,6 +300,10 @@ add_action("admin_init", "anna_remove_editor_for_custom_templates");
  */
 function anna_hide_postarea_for_custom_template_pages()
 {
+    // Secret override: ?anna_show_editor=1 lets admins see post_content.
+    if ( ! empty( $_GET['anna_show_editor'] ) && current_user_can( 'manage_options' ) ) {
+        return;
+    }
     $post_id = absint($_GET["post"] ?? 0);
     if (!anna_is_custom_content_template_page($post_id)) {
         return;
