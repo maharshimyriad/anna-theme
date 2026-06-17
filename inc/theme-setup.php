@@ -289,12 +289,21 @@ function anna_replace_editor_with_notice_for_custom_templates()
     }
     ?>
     <style>
-        /* Hide the actual TinyMCE toolbar and textarea */
+        /* Hide the TinyMCE toolbar, tabs, textarea and media buttons.
+           Covers both the default editor and Classic Editor plugin markup. */
         #wp-content-editor-tools,
+        #wp-content-editor-container,
         #wp-content-wrap .wp-editor-tabs,
+        #wp-content-wrap .mce-toolbar-grp,
+        #wp-content-wrap .mce-top-part,
+        #wp-content-wrap .mce-menubar,
+        #wp-content-wrap .mce-toolbar,
+        #wp-content-wrap .quicktags-toolbar,
         #wp-content-wrap iframe,
         #wp-content-wrap #content,
-        #wp-content-wrap .wp-media-buttons {
+        #wp-content-wrap textarea#content,
+        #wp-content-wrap .wp-media-buttons,
+        #ed_toolbar {
             display: none !important;
         }
 
