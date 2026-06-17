@@ -16,6 +16,7 @@ define( 'ANNA_CONTENT_MANAGER_FILE', __FILE__ );
 define( 'ANNA_CONTENT_MANAGER_DIR', get_template_directory() . '/anna-content-manager/' );
 define( 'ANNA_CONTENT_MANAGER_URL', get_template_directory_uri() . '/anna-content-manager/' );
 
+require_once ANNA_CONTENT_MANAGER_DIR . 'includes/trait-anna-yoast-sync.php';
 require_once ANNA_CONTENT_MANAGER_DIR . 'includes/trait-anna-oasis-page-content.php';
 require_once ANNA_CONTENT_MANAGER_DIR . 'includes/trait-anna-speaking-page-content.php';
 require_once ANNA_CONTENT_MANAGER_DIR . 'includes/trait-anna-mhs-page-content.php';

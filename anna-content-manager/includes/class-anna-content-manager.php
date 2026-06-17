@@ -16,6 +16,7 @@ final class Anna_Content_Manager {
 	use Anna_Contact_Page_Content;
 	use Anna_Reviews_Page_Content;
 	use Anna_Blog_Page_Content;
+	use Anna_Yoast_Sync;
 	/**
 	 * Singleton instance.
 	 *
@@ -869,6 +870,11 @@ final class Anna_Content_Manager {
 		// Home page sections (hero, intro, services, about, testimonials, cta) are now
 		// saved by the theme's anna_save_home_page_content_meta_box() in inc/home-helpers.php.
 		// They are no longer saved here — all home content lives in one meta row: _anna_content_home_page.
+
+		// Synchronise all textual custom-field content into post_content so that
+		// Yoast SEO can analyse word count, keyphrase density, and readability.
+		// This does NOT affect frontend rendering — templates still read from meta.
+		$this->sync_post_content_for_yoast( $post_id );
 	}
 
 	/**
