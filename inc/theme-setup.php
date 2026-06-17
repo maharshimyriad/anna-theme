@@ -329,20 +329,29 @@ function anna_replace_editor_with_notice_for_custom_templates()
         if ( ! wrap ) return;
 
         // Determine which meta box to scroll to based on the page template.
+        // Find the first Anna content meta box present on this page —
+        // works for every managed page type without needing to map templates.
         var metaBoxId = (function () {
-            var bodyClasses = document.body.className;
-            if ( bodyClasses.indexOf( 'page-template-page-oasis' )                 !== -1 ) return 'anna_content_oasis_page';
-            if ( bodyClasses.indexOf( 'page-template-page-speaking' )              !== -1 ) return 'anna_content_speaking_page';
-            if ( bodyClasses.indexOf( 'page-template-page-mental-health-support' ) !== -1 ) return 'anna_content_mhs_page';
-            if ( bodyClasses.indexOf( 'page-template-page-move' )                  !== -1 ) return 'anna_content_move_page';
-            if ( bodyClasses.indexOf( 'page-template-page-reviews' )               !== -1 ) return 'anna_content_reviews_page';
-            if ( bodyClasses.indexOf( 'page-template-page-contact' )               !== -1 ) return 'anna_content_contact_page';
-            if ( bodyClasses.indexOf( 'page-template-page-blog' )                  !== -1 ) return 'anna_content_blog_page';
-            if ( bodyClasses.indexOf( 'page-template-page-about' )                 !== -1 ) return 'anna_content_about_page';
-            if ( bodyClasses.indexOf( 'page-template-page-coaching' )              !== -1 ) return 'anna_content_coaching_page';
-            // Scaffolded / flexible pages — meta box ID is anna_content_{code}_page.
-            var match = bodyClasses.match( /page-template-page-([\w-]+)/ );
-            if ( match ) return 'anna_content_' + match[1].replace( /-/g, '_' ) + '_page';
+            var candidates = [
+                'anna_home_page_content',
+                'anna_content_about_page',
+                'anna_content_coaching_page',
+                'anna_content_oasis_page',
+                'anna_content_speaking_page',
+                'anna_content_mhs_page',
+                'anna_content_move_page',
+                'anna_content_reviews_page',
+                'anna_content_contact_page',
+                'anna_content_blog_page'
+            ];
+            for ( var i = 0; i < candidates.length; i++ ) {
+                if ( document.getElementById( candidates[ i ] ) ) {
+                    return candidates[ i ];
+                }
+            }
+            // Scaffolded pages use a dynamic ID — find by data attribute or class prefix.
+            var dynamic = document.querySelector( '[id^="anna_content_"][id$="_page"]' );
+            if ( dynamic ) return dynamic.id;
             return null;
         }() );
 
@@ -350,7 +359,7 @@ function anna_replace_editor_with_notice_for_custom_templates()
         notice.id  = 'anna-content-editor-notice';
 
         var anchor = metaBoxId
-            ? '<a href="#' + metaBoxId + '" onclick="document.getElementById(\'' + metaBoxId + '\').scrollIntoView({behavior:\'smooth\'});return false;">↓ Jump to content fields</a>'
+            ? '<a href="#' + metaBoxId + '" onclick="var el=document.getElementById(\'' + metaBoxId + '\');if(el){el.scrollIntoView({behavior:\'smooth\'});}return false;">Click here to go there</a>'
             : '';
 
         notice.innerHTML =
