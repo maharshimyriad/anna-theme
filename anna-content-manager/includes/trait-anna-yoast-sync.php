@@ -34,6 +34,49 @@ trait Anna_Yoast_Sync {
 	// -------------------------------------------------------------------------
 
 	/**
+	 * Register the Yoast content analysis override filter.
+	 *
+	 * Hooked on init so it is registered early enough for Yoast to pick up.
+	 * Yoast calls wpseo_post_content_analysis_override before running its
+	 * analysis, passing the current post object. We return the same plain-text
+	 * string that we write into post_content on save — so Yoast always analyses
+	 * fresh meta content even when the classic editor is hidden or removed.
+	 */
+	public function register_yoast_content_filter() {
+		add_filter(
+			'wpseo_post_content_analysis_override',
+			array( $this, 'provide_yoast_analysis_content' ),
+			10,
+			2
+		);
+	}
+
+	/**
+	 * Supply the collected meta text to Yoast's analysis engine.
+	 *
+	 * @param string|null $override Existing override, if any.
+	 * @param WP_Post     $post     Post being analysed.
+	 * @return string
+	 */
+	public function provide_yoast_analysis_content( $override, $post ) {
+		if ( ! $post instanceof WP_Post || 'page' !== $post->post_type ) {
+			return $override;
+		}
+
+		$parts = $this->collect_text_parts_for_post( $post->ID );
+		if ( empty( $parts ) ) {
+			return $override;
+		}
+
+		$combined = implode( "\n\n", array_filter( $parts, 'strlen' ) );
+		$combined = wp_strip_all_tags( $combined );
+		$combined = html_entity_decode( $combined, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+		$combined = trim( $combined );
+
+		return '' !== $combined ? $combined : $override;
+	}
+
+	/**
 	 * Collect all textual content for the given page and write it to post_content.
 	 *
 	 * Called from save_page_content() after all meta has been saved, so we are

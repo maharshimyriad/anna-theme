@@ -149,6 +149,7 @@ final class Anna_Content_Manager {
 		add_action( 'save_post_page', array( $this, 'save_page_content' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_assets' ) );
 		add_action( 'admin_init', array( $this, 'hide_editor_for_managed_templates' ) );
+		add_action( 'init', array( $this, 'register_yoast_content_filter' ) );
 	}
 
 	/**
