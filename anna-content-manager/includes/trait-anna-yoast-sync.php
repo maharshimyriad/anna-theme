@@ -224,6 +224,7 @@ trait Anna_Yoast_Sync {
 		// Hero.
 		$hero = $data['hero'] ?? array();
 		$out[] = $this->h2( $hero['heading'] ?? '' );
+		$out[] = $this->img( $hero['image_id'] ?? 0 );
 		$out[] = $this->p( $hero['description'] ?? '' );
 		$out[] = $this->p( $hero['trust_text'] ?? '' );
 		$out[] = $this->p( $this->stats_inline( $hero, array( 'stat_1_value', 'stat_1_label', 'stat_2_value', 'stat_2_label', 'stat_3_value', 'stat_3_label' ) ) );
@@ -245,6 +246,7 @@ trait Anna_Yoast_Sync {
 		$out[] = $this->p( $services['description'] ?? '' );
 		foreach ( array( 1, 2, 3 ) as $n ) {
 			$out[] = $this->h3( $services[ "card_{$n}_title" ] ?? '' );
+			$out[] = $this->img( $services[ "card_{$n}_image_id" ] ?? 0 );
 			$out[] = $this->p( $services[ "card_{$n}_excerpt" ] ?? '' );
 			$out[] = $this->link( $services[ "card_{$n}_url" ] ?? '', $services[ "card_{$n}_link" ] ?? '' );
 		}
@@ -252,6 +254,7 @@ trait Anna_Yoast_Sync {
 		// About.
 		$about = $data['about'] ?? array();
 		$out[] = $this->h2( $about['heading'] ?? '' );
+		$out[] = $this->img( $about['image_id'] ?? 0 );
 		$out[] = $this->p( $about['body'] ?? '' );
 		$out[] = $this->p( $about['quote'] ?? '' );
 		$out[] = $this->link( $about['cta_url'] ?? '', $about['cta_text'] ?? '' );
@@ -285,6 +288,7 @@ trait Anna_Yoast_Sync {
 		$out[] = $this->p( $data['hero_description'] ?? '' );
 
 		$out[] = $this->h2( $data['story_heading'] ?? '' );
+		$out[] = $this->img( $data['story_image_id'] ?? 0 );
 		$out[] = $this->p( $data['story_body'] ?? '' );
 
 		$out[] = $this->h2( $data['rock_heading'] ?? '' );
@@ -292,6 +296,7 @@ trait Anna_Yoast_Sync {
 		$out[] = $this->p( $data['rock_right_body'] ?? '' );
 
 		$out[] = $this->h2( $data['coach_title'] ?? '' );
+		$out[] = $this->img( $data['coach_image_id'] ?? 0 );
 		$out[] = $this->p( $data['coach_body'] ?? '' );
 		$out[] = $this->link( $data['coach_button_url'] ?? '', $data['coach_button_text'] ?? '' );
 
@@ -328,6 +333,7 @@ trait Anna_Yoast_Sync {
 		$out = array();
 
 		$out[] = $this->h2( $data['hero_heading'] ?? '' );
+		$out[] = $this->img( $data['hero_image_id'] ?? 0 );
 		$out[] = $this->p( $data['hero_description'] ?? '' );
 		$out[] = $this->link( $data['hero_button_url'] ?? '', $data['hero_button_text'] ?? '' );
 
@@ -383,6 +389,7 @@ trait Anna_Yoast_Sync {
 		$out[] = $this->h2( $data['hero_heading'] ?? '' );
 		$out[] = $this->p( $data['hero_subheading'] ?? '' );
 		$out[] = $this->p( $data['hero_body'] ?? '' );
+		$out[] = $this->img( $data['hero_image_id'] ?? 0 );
 		$out[] = $this->link( $data['hero_button_url'] ?? '', $data['hero_button_text'] ?? '' );
 
 		$out[] = $this->h2( $data['what_heading'] ?? '' );
@@ -392,6 +399,7 @@ trait Anna_Yoast_Sync {
 		$out[] = $this->h2( $data['begun_heading'] ?? '' );
 		$out[] = $this->p( $data['begun_subheading'] ?? '' );
 		$out[] = $this->p( $data['begun_body'] ?? '' );
+		$out[] = $this->img( $data['begun_image_id'] ?? 0 );
 		$out[] = $this->p( $data['begun_quote'] ?? '' );
 		$out[] = $this->p( $data['begun_closing'] ?? '' );
 		$out[] = $this->h3( $data['begun_callout_label'] ?? '' );
@@ -458,6 +466,7 @@ trait Anna_Yoast_Sync {
 		$out = array();
 
 		$out[] = $this->h2( $data['hero_heading'] ?? '' );
+		$out[] = $this->img( $data['hero_image_id'] ?? 0 );
 		$out[] = $this->p( $data['hero_body'] ?? '' );
 		$out[] = $this->link( $data['hero_button_url'] ?? '', $data['hero_button_text'] ?? '' );
 		$out[] = $this->link( $data['hero_secondary_url'] ?? '', $data['hero_secondary_text'] ?? '' );
@@ -471,6 +480,7 @@ trait Anna_Yoast_Sync {
 		}
 
 		$out[] = $this->h2( trim( ( $data['bring_heading_line1'] ?? '' ) . ' ' . ( $data['bring_heading_line2'] ?? '' ) ) );
+		$out[] = $this->img( $data['bring_image_id'] ?? 0 );
 		$out[] = $this->p( $data['bring_body'] ?? '' );
 		$out[] = $this->p( $data['bring_quote'] ?? '' );
 		$out[] = $this->link( $data['bring_button_url'] ?? '', $data['bring_button_text'] ?? '' );
@@ -518,14 +528,17 @@ trait Anna_Yoast_Sync {
 		$out = array();
 
 		$out[] = $this->h2( $data['hero_heading'] ?? '' );
+		$out[] = $this->img( $data['hero_image_id'] ?? 0 );
 
 		$out[] = $this->h2( $data['opening_heading'] ?? '' );
+		$out[] = $this->img( $data['opening_image_id'] ?? 0 );
 		$out[] = $this->p( $data['opening_body'] ?? '' );
 
 		$out[] = $this->h2( $data['programs_heading'] ?? '' );
 		$out[] = $this->p( $data['programs_body'] ?? '' );
 
 		$out[] = $this->h2( $data['inner_heading'] ?? '' );
+		$out[] = $this->img( $data['inner_image_id'] ?? 0 );
 		$out[] = $this->p( $data['inner_body'] ?? '' );
 
 		$out[] = $this->h2( $data['work_heading'] ?? '' );
@@ -555,6 +568,7 @@ trait Anna_Yoast_Sync {
 		$out = array();
 
 		$out[] = $this->h2( $data['hero_heading'] ?? '' );
+		$out[] = $this->img( $data['hero_image_id'] ?? 0 );
 
 		$out[] = $this->h2( $data['evolution_heading'] ?? '' );
 		$out[] = $this->p( $data['evolution_body'] ?? '' );
@@ -611,6 +625,7 @@ trait Anna_Yoast_Sync {
 		$out = array();
 
 		$out[] = $this->h2( $data['hero_heading'] ?? '' );
+		$out[] = $this->img( $data['hero_image_id'] ?? 0 );
 		$out[] = $this->p( $data['hero_rating_text'] ?? '' );
 		$out[] = $this->link( $data['google_reviews_url'] ?? '', $data['google_reviews_text'] ?? '' );
 
@@ -729,6 +744,25 @@ trait Anna_Yoast_Sync {
 	// -------------------------------------------------------------------------
 	// HTML primitive helpers
 	// -------------------------------------------------------------------------
+
+	/**
+	 * Build an <img> tag from an attachment ID.
+	 * Uses wp_get_attachment_image() so the alt text stored in the media
+	 * library is automatically included — this is what Yoast reads for
+	 * the "keyphrase in image alt" check.
+	 * Returns '' if the ID is empty or the attachment doesn't exist.
+	 *
+	 * @param mixed $image_id Attachment ID (int or numeric string).
+	 * @return string
+	 */
+	private function img( $image_id ) {
+		$image_id = absint( $image_id );
+		if ( ! $image_id ) {
+			return '';
+		}
+		$html = wp_get_attachment_image( $image_id, 'large' );
+		return $html ? $html : '';
+	}
 
 	/**
 	 * Wrap a value in <h2>. Returns '' if value is empty or non-content.
