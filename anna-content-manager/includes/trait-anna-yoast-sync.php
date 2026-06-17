@@ -2,23 +2,18 @@
 /**
  * Yoast SEO post_content synchronisation.
  *
- * Yoast analyses post_content for word count, keyphrase density, and
- * readability scores. Because this theme stores all page copy in custom
- * post meta rather than post_content, Yoast reports 0 words on every
- * managed page.
+ * Generates structured HTML from custom meta fields and writes it into
+ * post_content so Yoast SEO can analyse:
+ *   - Word count and readability (plain text in <p> tags)
+ *   - Keyphrase in subheadings (<h2>/<h3> tags around section headings)
+ *   - Keyphrase distribution (paragraph structure)
+ *   - Internal and outbound links (<a href> from button/link URL+text pairs)
  *
- * This trait collects all human-readable text fields from whichever custom
- * meta array belongs to the saved page, strips non-content fields (image IDs,
- * URLs, shortcodes, button labels that carry no prose) and writes the result
- * into post_content so Yoast can do its analysis.
+ * Frontend rendering is unchanged — templates still read exclusively from
+ * post meta via the existing helper functions.
  *
- * IMPORTANT — this does NOT change how the frontend works. Templates still
- * read exclusively from post meta via the existing helper functions. The
- * post_content value is purely for Yoast (and the WP search index).
- *
- * Loop-prevention: wp_update_post() fires save_post_page again. We guard
- * against infinite recursion with a static flag that is set before the call
- * and checked at the top of the sync entry-point.
+ * Loop-prevention: wp_update_post() fires save_post_page again. A static
+ * flag prevents infinite recursion.
  *
  * @package Anna_Content_Manager
  */
@@ -30,17 +25,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 trait Anna_Yoast_Sync {
 
 	// -------------------------------------------------------------------------
-	// Public entry point
+	// Yoast filter registration
 	// -------------------------------------------------------------------------
 
 	/**
-	 * Register the Yoast content analysis override filter.
-	 *
-	 * Hooked on init so it is registered early enough for Yoast to pick up.
-	 * Yoast calls wpseo_post_content_analysis_override before running its
-	 * analysis, passing the current post object. We return the same plain-text
-	 * string that we write into post_content on save — so Yoast always analyses
-	 * fresh meta content even when the classic editor is hidden or removed.
+	 * Register the Yoast content analysis override filter on init.
+	 * Yoast calls wpseo_post_content_analysis_override before analysis,
+	 * so we hand it structured HTML directly — no editor DOM needed.
 	 */
 	public function register_yoast_content_filter() {
 		add_filter(
@@ -52,7 +43,7 @@ trait Anna_Yoast_Sync {
 	}
 
 	/**
-	 * Supply the collected meta text to Yoast's analysis engine.
+	 * Supply structured HTML to Yoast's analysis engine.
 	 *
 	 * @param string|null $override Existing override, if any.
 	 * @param WP_Post     $post     Post being analysed.
@@ -63,29 +54,20 @@ trait Anna_Yoast_Sync {
 			return $override;
 		}
 
-		$parts = $this->collect_text_parts_for_post( $post->ID );
-		if ( empty( $parts ) ) {
-			return $override;
-		}
-
-		$combined = implode( "\n\n", array_filter( $parts, 'strlen' ) );
-		$combined = wp_strip_all_tags( $combined );
-		$combined = html_entity_decode( $combined, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
-		$combined = trim( $combined );
-
-		return '' !== $combined ? $combined : $override;
+		$html = $this->build_html_for_post( $post->ID );
+		return '' !== $html ? $html : $override;
 	}
 
+	// -------------------------------------------------------------------------
+	// Public sync entry point (called on save and bulk sync)
+	// -------------------------------------------------------------------------
+
 	/**
-	 * Collect all textual content for the given page and write it to post_content.
-	 *
-	 * Called from save_page_content() after all meta has been saved, so we are
-	 * always reading freshly committed data.
+	 * Build structured HTML from meta fields and write it to post_content.
 	 *
 	 * @param int $post_id Page ID.
 	 */
 	public function sync_post_content_for_yoast( $post_id ) {
-		// Prevent the wp_update_post() call below from triggering another sync.
 		static $syncing = false;
 		if ( $syncing ) {
 			return;
@@ -96,724 +78,826 @@ trait Anna_Yoast_Sync {
 			return;
 		}
 
-		$parts = $this->collect_text_parts_for_post( $post_id );
-
-		if ( empty( $parts ) ) {
+		$html = $this->build_html_for_post( $post_id );
+		if ( '' === $html ) {
 			return;
 		}
 
-		// Join sections with blank lines so Yoast sees sentence breaks and
-		// paragraph structure, which helps readability scoring.
-		$combined = implode( "\n\n", array_filter( $parts, 'strlen' ) );
-		$combined = wp_strip_all_tags( $combined );
-		$combined = html_entity_decode( $combined, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
-		$combined = trim( $combined );
-
-		if ( '' === $combined ) {
-			return;
-		}
-
-		// Unhook save_post_page temporarily so our update does not re-trigger
-		// the full save pipeline (the static flag above is a second safety net).
 		$syncing = true;
 		wp_update_post(
 			array(
 				'ID'           => $post_id,
-				'post_content' => $combined,
+				'post_content' => $html,
 			)
 		);
 		$syncing = false;
 	}
 
 	// -------------------------------------------------------------------------
-	// Dispatcher — picks the right collector per page type
+	// HTML builder — dispatcher
 	// -------------------------------------------------------------------------
 
 	/**
-	 * Return an array of plain-text strings, one per logical section.
-	 * Each string may contain newlines separating fields within a section.
+	 * Build the full structured HTML string for a given page.
 	 *
 	 * @param int $post_id Page ID.
-	 * @return string[]
+	 * @return string HTML.
 	 */
-	private function collect_text_parts_for_post( $post_id ) {
-		$parts = array();
-
-		// --- Home page ---
-		// Home content is stored by the theme in _anna_content_home_page as a
-		// nested array keyed by section name (hero, intro, services, about, …).
+	private function build_html_for_post( $post_id ) {
+		// Home page.
 		if ( function_exists( 'anna_is_home_content_page' ) && anna_is_home_content_page( $post_id ) ) {
-			return $this->collect_home_page_text( $post_id );
+			return $this->build_home_page_html( $post_id );
 		}
 
-		// --- Fixed page types managed by the content-manager plugin ---
 		$template = get_page_template_slug( $post_id );
 		$slug     = get_post_field( 'post_name', $post_id );
+		$sections = array();
 
-		// About page.
+		// About.
 		if ( 'about' === $slug || 'page-about.php' === $template ) {
 			$data = get_post_meta( $post_id, '_anna_content_about_page', true );
 			if ( is_array( $data ) ) {
-				$parts = array_merge( $parts, $this->collect_about_page_text( $data ) );
+				$sections = $this->build_about_page_html( $data );
 			}
 		}
 
-		// Coaching page.
+		// Coaching.
 		if ( 'coaching' === $slug || 'page-coaching.php' === $template ) {
 			$data = get_post_meta( $post_id, '_anna_content_coaching_page', true );
 			if ( is_array( $data ) ) {
-				$parts = array_merge( $parts, $this->collect_coaching_page_text( $data ) );
+				$sections = $this->build_coaching_page_html( $data );
 			}
 		}
 
-		// Oasis page.
+		// Oasis.
 		if ( 'oasis' === $slug || 'page-oasis.php' === $template ) {
 			$data = get_post_meta( $post_id, '_anna_content_oasis_page', true );
 			if ( is_array( $data ) ) {
-				$parts = array_merge( $parts, $this->collect_oasis_page_text( $data ) );
+				$sections = $this->build_oasis_page_html( $data );
 			}
 		}
 
-		// Speaking page.
+		// Speaking.
 		if ( 'speaking' === $slug || 'page-speaking.php' === $template ) {
 			$data = get_post_meta( $post_id, '_anna_content_speaking_page', true );
 			if ( is_array( $data ) ) {
-				$parts = array_merge( $parts, $this->collect_speaking_page_text( $data ) );
+				$sections = $this->build_speaking_page_html( $data );
 			}
 		}
 
-		// Mental Health Support page.
+		// Mental Health Support.
 		if ( 'mental-health-support' === $slug || 'page-mental-health-support.php' === $template ) {
 			$data = get_post_meta( $post_id, '_anna_content_mhs_page', true );
 			if ( is_array( $data ) ) {
-				$parts = array_merge( $parts, $this->collect_mhs_page_text( $data ) );
+				$sections = $this->build_mhs_page_html( $data );
 			}
 		}
 
-		// MOVE page.
+		// MOVE.
 		if ( 'move' === $slug || 'page-move.php' === $template ) {
 			$data = get_post_meta( $post_id, '_anna_content_move_page', true );
 			if ( is_array( $data ) ) {
-				$parts = array_merge( $parts, $this->collect_move_page_text( $data ) );
+				$sections = $this->build_move_page_html( $data );
 			}
 		}
 
-		// Reviews page.
+		// Reviews.
 		if ( 'reviews' === $slug || 'page-reviews.php' === $template ) {
 			$data = get_post_meta( $post_id, '_anna_content_reviews_page', true );
 			if ( is_array( $data ) ) {
-				$parts = array_merge( $parts, $this->collect_reviews_page_text( $data ) );
+				$sections = $this->build_reviews_page_html( $data );
 			}
 		}
 
-		// Contact page.
+		// Contact.
 		if ( 'contact' === $slug || 'what-is-a-life-coach' === $slug || 'page-contact.php' === $template ) {
 			$data = get_post_meta( $post_id, '_anna_content_contact_page', true );
 			if ( is_array( $data ) ) {
-				$parts = array_merge( $parts, $this->collect_contact_page_text( $data ) );
+				$sections = $this->build_contact_page_html( $data );
 			}
 		}
 
-		// Blog page.
+		// Blog.
 		if ( 'blog' === $slug || 'page-blog.php' === $template ) {
 			$data = get_post_meta( $post_id, '_anna_content_blog_page', true );
 			if ( is_array( $data ) ) {
-				$parts = array_merge( $parts, $this->collect_blog_page_text( $data ) );
+				$sections = $this->build_blog_page_html( $data );
 			}
 		}
 
-		// --- Scaffolded / flexible pages ---
-		// These use a dynamic meta key: _anna_content_{code}_page.
-		// We detect them via anna_get_flexible_page_config() and collect
-		// text/textarea fields only (media and url fields are excluded by
-		// the scaffolded collector which reads field type from config).
-		if ( empty( $parts ) && function_exists( 'anna_get_flexible_page_config' ) ) {
+		// Scaffolded pages.
+		if ( empty( $sections ) && function_exists( 'anna_get_flexible_page_config' ) ) {
 			$config = anna_get_flexible_page_config( $post_id );
 			if ( $config ) {
 				$code = $config['code'] ?? '';
 				if ( $code ) {
 					$data = get_post_meta( $post_id, '_anna_content_' . $code . '_page', true );
 					if ( is_array( $data ) ) {
-						$parts = array_merge( $parts, $this->collect_scaffolded_page_text( $data, $post_id, $config ) );
+						$sections = $this->build_scaffolded_page_html( $data, $post_id, $config );
 					}
 				}
 			}
 		}
 
-		return $parts;
+		return implode( "\n", array_filter( $sections, 'strlen' ) );
 	}
 
 
 	// -------------------------------------------------------------------------
-	// Per-page-type text collectors
+	// Per-page HTML builders
 	// -------------------------------------------------------------------------
 
 	/**
-	 * Home page — nested array structure: $data['hero'], $data['intro'], etc.
+	 * Home page — nested sections in _anna_content_home_page.
 	 *
 	 * @param int $post_id Page ID.
-	 * @return string[]
+	 * @return string HTML.
 	 */
-	private function collect_home_page_text( $post_id ) {
+	private function build_home_page_html( $post_id ) {
 		$data = get_post_meta( $post_id, '_anna_content_home_page', true );
 		if ( ! is_array( $data ) ) {
-			return array();
+			return '';
 		}
 
-		$parts = array();
+		$out = array();
 
-		// Fields to pull from each home section (excludes _id, _url keys and shortcodes).
-		$section_fields = array(
-			'hero'         => array( 'eyebrow', 'heading', 'description', 'trust_text',
-				'stat_1_value', 'stat_1_label', 'stat_2_value', 'stat_2_label', 'stat_3_value', 'stat_3_label' ),
-			'intro'        => array( 'intro_eyebrow', 'intro_heading', 'intro_body', 'intro_quote',
-				'intro_quote_cite', 'recognition_eyebrow', 'recognition_heading', 'recognition_description',
-				'recognition_items_text' ),
-			'services'     => array( 'eyebrow', 'heading', 'description',
-				'card_1_title', 'card_1_excerpt', 'card_2_title', 'card_2_excerpt',
-				'card_3_title', 'card_3_excerpt' ),
-			'about'        => array( 'eyebrow', 'heading', 'body', 'quote', 'badge_number',
-				'badge_text', 'expertise_text' ),
-			'testimonials' => array( 'eyebrow', 'heading', 'summary' ),
-			'cta'          => array( 'eyebrow', 'heading', 'description', 'trust_text' ),
-		);
+		// Hero.
+		$hero = $data['hero'] ?? array();
+		$out[] = $this->h2( $hero['heading'] ?? '' );
+		$out[] = $this->p( $hero['description'] ?? '' );
+		$out[] = $this->p( $hero['trust_text'] ?? '' );
+		$out[] = $this->p( $this->stats_inline( $hero, array( 'stat_1_value', 'stat_1_label', 'stat_2_value', 'stat_2_label', 'stat_3_value', 'stat_3_label' ) ) );
+		$out[] = $this->link( $hero['primary_button_url'] ?? '', $hero['primary_button_text'] ?? '' );
+		$out[] = $this->link( $hero['secondary_button_url'] ?? '', $hero['secondary_button_text'] ?? '' );
 
-		foreach ( $section_fields as $section => $keys ) {
-			if ( ! isset( $data[ $section ] ) || ! is_array( $data[ $section ] ) ) {
-				continue;
-			}
-			$section_text = $this->pluck_text_values( $data[ $section ], $keys );
-			if ( $section_text ) {
-				$parts[] = $section_text;
-			}
+		// Intro / recognition.
+		$intro = $data['intro'] ?? array();
+		$out[] = $this->h2( $intro['intro_heading'] ?? '' );
+		$out[] = $this->p( $intro['intro_body'] ?? '' );
+		$out[] = $this->p( $intro['intro_quote'] ?? '' );
+		$out[] = $this->h3( $intro['recognition_heading'] ?? '' );
+		$out[] = $this->p( $intro['recognition_description'] ?? '' );
+		$out[] = $this->multiline_p( $intro['recognition_items_text'] ?? '' );
+
+		// Services.
+		$services = $data['services'] ?? array();
+		$out[] = $this->h2( $services['heading'] ?? '' );
+		$out[] = $this->p( $services['description'] ?? '' );
+		foreach ( array( 1, 2, 3 ) as $n ) {
+			$out[] = $this->h3( $services[ "card_{$n}_title" ] ?? '' );
+			$out[] = $this->p( $services[ "card_{$n}_excerpt" ] ?? '' );
+			$out[] = $this->link( $services[ "card_{$n}_url" ] ?? '', $services[ "card_{$n}_link" ] ?? '' );
 		}
 
-		return $parts;
+		// About.
+		$about = $data['about'] ?? array();
+		$out[] = $this->h2( $about['heading'] ?? '' );
+		$out[] = $this->p( $about['body'] ?? '' );
+		$out[] = $this->p( $about['quote'] ?? '' );
+		$out[] = $this->link( $about['cta_url'] ?? '', $about['cta_text'] ?? '' );
+
+		// Testimonials.
+		$testimonials = $data['testimonials'] ?? array();
+		$out[] = $this->h2( $testimonials['heading'] ?? '' );
+		$out[] = $this->p( $testimonials['summary'] ?? '' );
+		$out[] = $this->link( $testimonials['cta_url'] ?? '', $testimonials['cta_text'] ?? '' );
+
+		// CTA.
+		$cta = $data['cta'] ?? array();
+		$out[] = $this->h2( $cta['heading'] ?? '' );
+		$out[] = $this->p( $cta['description'] ?? '' );
+		$out[] = $this->link( $cta['primary_button_url'] ?? '', $cta['primary_button_text'] ?? '' );
+		$out[] = $this->link( $cta['secondary_button_url'] ?? '', $cta['secondary_button_text'] ?? '' );
+
+		return implode( "\n", array_filter( $out, 'strlen' ) );
 	}
 
 	/**
-	 * About page — meta key _anna_content_about_page.
+	 * About page — _anna_content_about_page.
 	 *
-	 * @param array $data Saved meta array.
-	 * @return string[]
+	 * @param array $data Saved meta.
+	 * @return string[] HTML sections.
 	 */
-	private function collect_about_page_text( $data ) {
-		$scalar_keys = array(
-			'hero_eyebrow', 'hero_description', 'hero_subheading',
-			'story_eyebrow', 'rock_heading',
-			'coach_eyebrow', 'coach_title',
-			'work_eyebrow', 'work_heading',
-			'work_card_1_title', 'work_card_1_body',
-			'work_card_2_title', 'work_card_2_body',
-			'work_card_3_title', 'work_card_3_body',
-			'work_card_4_title', 'work_card_4_body',
-			'people_eyebrow', 'people_heading', 'people_body',
-			'connect_eyebrow', 'connect_heading',
-			// Textarea / HTML fields.
-			'hero_heading', 'story_heading', 'story_body',
-			'rock_left_body', 'rock_right_body', 'coach_body', 'work_body',
-		);
+	private function build_about_page_html( $data ) {
+		$out = array();
 
-		$parts = array( $this->pluck_text_values( $data, $scalar_keys ) );
+		$out[] = $this->h2( $data['hero_heading'] ?? '' );
+		$out[] = $this->p( $data['hero_description'] ?? '' );
 
-		// people_items repeater: each row has initials, title, org.
+		$out[] = $this->h2( $data['story_heading'] ?? '' );
+		$out[] = $this->p( $data['story_body'] ?? '' );
+
+		$out[] = $this->h2( $data['rock_heading'] ?? '' );
+		$out[] = $this->p( $data['rock_left_body'] ?? '' );
+		$out[] = $this->p( $data['rock_right_body'] ?? '' );
+
+		$out[] = $this->h2( $data['coach_title'] ?? '' );
+		$out[] = $this->p( $data['coach_body'] ?? '' );
+		$out[] = $this->link( $data['coach_button_url'] ?? '', $data['coach_button_text'] ?? '' );
+
+		$out[] = $this->h2( $data['work_heading'] ?? '' );
+		$out[] = $this->p( $data['work_body'] ?? '' );
+		foreach ( array( 1, 2, 3, 4 ) as $n ) {
+			$out[] = $this->h3( $data[ "work_card_{$n}_title" ] ?? '' );
+			$out[] = $this->p( $data[ "work_card_{$n}_body" ] ?? '' );
+		}
+
+		$out[] = $this->h2( $data['people_heading'] ?? '' );
+		$out[] = $this->p( $data['people_body'] ?? '' );
 		if ( ! empty( $data['people_items'] ) && is_array( $data['people_items'] ) ) {
 			foreach ( $data['people_items'] as $item ) {
-				if ( ! is_array( $item ) ) {
-					continue;
+				if ( is_array( $item ) ) {
+					$out[] = $this->p( trim( ( $item['title'] ?? '' ) . ' ' . ( $item['org'] ?? '' ) ) );
 				}
-				$parts[] = $this->pluck_text_values( $item, array( 'initials', 'title', 'org' ) );
 			}
 		}
 
-		return array_filter( $parts, 'strlen' );
+		$out[] = $this->h2( $data['connect_heading'] ?? '' );
+		$out[] = $this->link( $data['connect_button_url'] ?? '', $data['connect_button_text'] ?? '' );
+
+		return $out;
 	}
 
 	/**
-	 * Coaching page — meta key _anna_content_coaching_page.
+	 * Coaching page — _anna_content_coaching_page.
 	 *
-	 * @param array $data Saved meta array.
-	 * @return string[]
+	 * @param array $data Saved meta.
+	 * @return string[] HTML sections.
 	 */
-	private function collect_coaching_page_text( $data ) {
-		$scalar_keys = array(
-			'hero_eyebrow', 'hero_heading', 'hero_description',
-			'what_eyebrow', 'what_heading', 'what_body', 'what_card_heading',
-			'pillars_eyebrow', 'pillars_heading',
-			'work_eyebrow', 'work_heading', 'work_gains_heading',
-			'expect_eyebrow', 'expect_heading_line1', 'expect_heading_line2',
-			'expect_body', 'expect_quote',
-			'faq_heading',
-		);
+	private function build_coaching_page_html( $data ) {
+		$out = array();
 
-		$parts = array( $this->pluck_text_values( $data, $scalar_keys ) );
+		$out[] = $this->h2( $data['hero_heading'] ?? '' );
+		$out[] = $this->p( $data['hero_description'] ?? '' );
+		$out[] = $this->link( $data['hero_button_url'] ?? '', $data['hero_button_text'] ?? '' );
 
-		// what_card_items repeater — each item is a string or array with 'text'.
-		$parts[] = $this->collect_simple_text_repeater( $data['what_card_items'] ?? array() );
+		$out[] = $this->h2( $data['what_heading'] ?? '' );
+		$out[] = $this->p( $data['what_body'] ?? '' );
+		$out[] = $this->link( $data['what_button_url'] ?? '', $data['what_button_text'] ?? '' );
+		$out[] = $this->items_list( $data['what_card_items'] ?? array() );
 
-		// pillar_items repeater — each item has title, body.
+		$out[] = $this->h2( $data['pillars_heading'] ?? '' );
 		if ( ! empty( $data['pillar_items'] ) && is_array( $data['pillar_items'] ) ) {
 			foreach ( $data['pillar_items'] as $item ) {
 				if ( is_array( $item ) ) {
-					$parts[] = $this->pluck_text_values( $item, array( 'title', 'body', 'text' ) );
+					$out[] = $this->h3( $item['title'] ?? '' );
+					$out[] = $this->p( $item['body'] ?? $item['text'] ?? '' );
 				}
 			}
 		}
 
-		// work_topics_items and work_gains_items — simple text arrays.
-		$parts[] = $this->collect_simple_text_repeater( $data['work_topics_items'] ?? array() );
-		$parts[] = $this->collect_simple_text_repeater( $data['work_gains_items'] ?? array() );
+		$out[] = $this->h2( $data['work_heading'] ?? '' );
+		$out[] = $this->items_list( $data['work_topics_items'] ?? array() );
+		$out[] = $this->h3( $data['work_gains_heading'] ?? '' );
+		$out[] = $this->items_list( $data['work_gains_items'] ?? array() );
 
-		// expect_info_cards — each item has title, body.
+		$out[] = $this->h2( $data['expect_heading_line1'] ?? '' );
+		$out[] = $this->p( $data['expect_body'] ?? '' );
+		$out[] = $this->p( $data['expect_quote'] ?? '' );
+		$out[] = $this->link( $data['expect_button_url'] ?? '', $data['expect_button_text'] ?? '' );
 		if ( ! empty( $data['expect_info_cards'] ) && is_array( $data['expect_info_cards'] ) ) {
-			foreach ( $data['expect_info_cards'] as $item ) {
-				if ( is_array( $item ) ) {
-					$parts[] = $this->pluck_text_values( $item, array( 'title', 'body' ) );
+			foreach ( $data['expect_info_cards'] as $card ) {
+				if ( is_array( $card ) ) {
+					$out[] = $this->h3( $card['title'] ?? '' );
+					$out[] = $this->p( $card['body'] ?? '' );
 				}
 			}
 		}
 
-		// faq_items — each item has question, answer.
-		$parts[] = $this->collect_faq_repeater( $data['faq_items'] ?? array() );
+		$out[] = $this->h2( $data['faq_heading'] ?? '' );
+		$out[] = $this->faq_html( $data['faq_items'] ?? array() );
 
-		return array_filter( $parts, 'strlen' );
+		return $out;
 	}
 
 
 	/**
-	 * Oasis page — meta key _anna_content_oasis_page.
+	 * Oasis page — _anna_content_oasis_page.
 	 *
-	 * @param array $data Saved meta array.
-	 * @return string[]
+	 * @param array $data Saved meta.
+	 * @return string[] HTML sections.
 	 */
-	private function collect_oasis_page_text( $data ) {
-		$scalar_keys = array(
-			'hero_breadcrumb', 'hero_heading', 'hero_subheading', 'hero_body', 'hero_button_text',
-			'what_eyebrow', 'what_heading', 'what_body', 'what_footer_line',
-			'begun_eyebrow', 'begun_heading', 'begun_subheading', 'begun_body',
-			'begun_quote', 'begun_closing', 'begun_callout_label', 'begun_callout_body', 'begun_link_text',
-			'inside_eyebrow', 'inside_heading', 'inside_body', 'inside_highlight', 'inside_pills_intro',
-			'how_eyebrow', 'how_heading', 'how_intro', 'how_footer',
-			'choose_eyebrow', 'choose_heading', 'choose_intro', 'choose_footer',
-			'ready_eyebrow', 'ready_heading',
-			'waitlist_eyebrow', 'waitlist_heading', 'waitlist_button_text',
-			'faq_heading',
-		);
+	private function build_oasis_page_html( $data ) {
+		$out = array();
 
-		$parts = array( $this->pluck_text_values( $data, $scalar_keys ) );
+		$out[] = $this->h2( $data['hero_heading'] ?? '' );
+		$out[] = $this->p( $data['hero_subheading'] ?? '' );
+		$out[] = $this->p( $data['hero_body'] ?? '' );
+		$out[] = $this->link( $data['hero_button_url'] ?? '', $data['hero_button_text'] ?? '' );
 
-		// inside_pill_items — simple text strings.
-		$parts[] = $this->collect_simple_text_repeater( $data['inside_pill_items'] ?? array() );
+		$out[] = $this->h2( $data['what_heading'] ?? '' );
+		$out[] = $this->p( $data['what_body'] ?? '' );
+		$out[] = $this->link( $data['what_footer_url'] ?? '', $data['what_footer_line'] ?? '' );
 
-		// inside_schedule_items — each item may have label, time, or text.
+		$out[] = $this->h2( $data['begun_heading'] ?? '' );
+		$out[] = $this->p( $data['begun_subheading'] ?? '' );
+		$out[] = $this->p( $data['begun_body'] ?? '' );
+		$out[] = $this->p( $data['begun_quote'] ?? '' );
+		$out[] = $this->p( $data['begun_closing'] ?? '' );
+		$out[] = $this->h3( $data['begun_callout_label'] ?? '' );
+		$out[] = $this->p( $data['begun_callout_body'] ?? '' );
+		$out[] = $this->link( $data['begun_link_url'] ?? '', $data['begun_link_text'] ?? '' );
+
+		$out[] = $this->h2( $data['inside_heading'] ?? '' );
+		$out[] = $this->p( $data['inside_body'] ?? '' );
+		$out[] = $this->p( $data['inside_highlight'] ?? '' );
+		$out[] = $this->items_list( $data['inside_pill_items'] ?? array() );
+
 		if ( ! empty( $data['inside_schedule_items'] ) && is_array( $data['inside_schedule_items'] ) ) {
 			foreach ( $data['inside_schedule_items'] as $item ) {
 				if ( is_array( $item ) ) {
-					$parts[] = $this->pluck_text_values( $item, array( 'label', 'time', 'text', 'title', 'body' ) );
+					$out[] = $this->p( trim( ( $item['label'] ?? $item['title'] ?? '' ) . ' ' . ( $item['time'] ?? $item['body'] ?? '' ) ) );
 				}
 			}
 		}
 
-		// how_card_items — each item may have title, body, step.
+		$out[] = $this->h2( $data['how_heading'] ?? '' );
+		$out[] = $this->p( $data['how_intro'] ?? '' );
 		if ( ! empty( $data['how_card_items'] ) && is_array( $data['how_card_items'] ) ) {
 			foreach ( $data['how_card_items'] as $item ) {
 				if ( is_array( $item ) ) {
-					$parts[] = $this->pluck_text_values( $item, array( 'title', 'body', 'step', 'text' ) );
+					$out[] = $this->h3( $item['title'] ?? $item['step'] ?? '' );
+					$out[] = $this->p( $item['body'] ?? $item['text'] ?? '' );
 				}
 			}
 		}
+		$out[] = $this->p( $data['how_footer'] ?? '' );
 
-		// choose_plan_items — each item may have title, price, body, features (array).
+		$out[] = $this->h2( $data['choose_heading'] ?? '' );
+		$out[] = $this->p( $data['choose_intro'] ?? '' );
 		if ( ! empty( $data['choose_plan_items'] ) && is_array( $data['choose_plan_items'] ) ) {
 			foreach ( $data['choose_plan_items'] as $item ) {
-				if ( ! is_array( $item ) ) {
-					continue;
-				}
-				$parts[] = $this->pluck_text_values( $item, array( 'title', 'price', 'body', 'label', 'text' ) );
-				// features is itself a nested array of strings.
-				if ( ! empty( $item['features'] ) && is_array( $item['features'] ) ) {
-					$parts[] = $this->collect_simple_text_repeater( $item['features'] );
+				if ( is_array( $item ) ) {
+					$out[] = $this->h3( $item['title'] ?? '' );
+					$out[] = $this->p( $item['body'] ?? $item['price'] ?? '' );
+					$out[] = $this->items_list( $item['features'] ?? array() );
 				}
 			}
 		}
+		$out[] = $this->p( $data['choose_footer'] ?? '' );
 
-		// ready_items — simple text strings.
-		$parts[] = $this->collect_simple_text_repeater( $data['ready_items'] ?? array() );
+		$out[] = $this->h2( $data['ready_heading'] ?? '' );
+		$out[] = $this->items_list( $data['ready_items'] ?? array() );
 
-		// faq_items — question + answer.
-		$parts[] = $this->collect_faq_repeater( $data['faq_items'] ?? array() );
+		$out[] = $this->h2( $data['waitlist_heading'] ?? '' );
+		$out[] = $this->link( $data['waitlist_button_url'] ?? '', $data['waitlist_button_text'] ?? '' );
 
-		return array_filter( $parts, 'strlen' );
+		$out[] = $this->h2( $data['faq_heading'] ?? '' );
+		$out[] = $this->faq_html( $data['faq_items'] ?? array() );
+
+		return $out;
 	}
 
 	/**
-	 * Speaking page — meta key _anna_content_speaking_page.
+	 * Speaking page — _anna_content_speaking_page.
 	 *
-	 * @param array $data Saved meta array.
-	 * @return string[]
+	 * @param array $data Saved meta.
+	 * @return string[] HTML sections.
 	 */
-	private function collect_speaking_page_text( $data ) {
-		$scalar_keys = array(
-			'hero_eyebrow', 'hero_heading', 'hero_body', 'hero_button_text', 'hero_secondary_text',
-			'bring_eyebrow', 'bring_heading_line1', 'bring_heading_line2', 'bring_body', 'bring_quote',
-			'topics_eyebrow', 'topics_heading', 'topics_body',
-			'formats_eyebrow', 'formats_heading', 'formats_body', 'formats_audience_heading',
-			'takeaway_eyebrow', 'takeaway_heading',
-			'testimonials_eyebrow', 'testimonials_heading',
-			'cta_eyebrow', 'cta_heading', 'cta_body', 'cta_button_text',
-		);
+	private function build_speaking_page_html( $data ) {
+		$out = array();
 
-		$parts = array( $this->pluck_text_values( $data, $scalar_keys ) );
+		$out[] = $this->h2( $data['hero_heading'] ?? '' );
+		$out[] = $this->p( $data['hero_body'] ?? '' );
+		$out[] = $this->link( $data['hero_button_url'] ?? '', $data['hero_button_text'] ?? '' );
+		$out[] = $this->link( $data['hero_secondary_url'] ?? '', $data['hero_secondary_text'] ?? '' );
 
-		// hero_stat_items — each item has value, label.
 		if ( ! empty( $data['hero_stat_items'] ) && is_array( $data['hero_stat_items'] ) ) {
 			foreach ( $data['hero_stat_items'] as $item ) {
 				if ( is_array( $item ) ) {
-					$parts[] = $this->pluck_text_values( $item, array( 'value', 'label' ) );
+					$out[] = $this->p( trim( ( $item['value'] ?? '' ) . ' ' . ( $item['label'] ?? '' ) ) );
 				}
 			}
 		}
 
-		// topics_card_items — each item has title, body.
+		$out[] = $this->h2( trim( ( $data['bring_heading_line1'] ?? '' ) . ' ' . ( $data['bring_heading_line2'] ?? '' ) ) );
+		$out[] = $this->p( $data['bring_body'] ?? '' );
+		$out[] = $this->p( $data['bring_quote'] ?? '' );
+		$out[] = $this->link( $data['bring_button_url'] ?? '', $data['bring_button_text'] ?? '' );
+
+		$out[] = $this->h2( $data['topics_heading'] ?? '' );
+		$out[] = $this->p( $data['topics_body'] ?? '' );
 		if ( ! empty( $data['topics_card_items'] ) && is_array( $data['topics_card_items'] ) ) {
 			foreach ( $data['topics_card_items'] as $item ) {
 				if ( is_array( $item ) ) {
-					$parts[] = $this->pluck_text_values( $item, array( 'title', 'body', 'text' ) );
+					$out[] = $this->h3( $item['title'] ?? $item['text'] ?? '' );
+					$out[] = $this->p( $item['body'] ?? '' );
 				}
 			}
 		}
 
-		// formats_card_items — each item has number, title, body.
+		$out[] = $this->h2( $data['formats_heading'] ?? '' );
+		$out[] = $this->p( $data['formats_body'] ?? '' );
 		if ( ! empty( $data['formats_card_items'] ) && is_array( $data['formats_card_items'] ) ) {
 			foreach ( $data['formats_card_items'] as $item ) {
 				if ( is_array( $item ) ) {
-					$parts[] = $this->pluck_text_values( $item, array( 'number', 'title', 'body' ) );
+					$out[] = $this->h3( $item['title'] ?? '' );
+					$out[] = $this->p( $item['body'] ?? '' );
 				}
 			}
 		}
+		$out[] = $this->items_list( $data['formats_audience_items'] ?? array() );
 
-		// formats_audience_items and takeaway_items — simple text.
-		$parts[] = $this->collect_simple_text_repeater( $data['formats_audience_items'] ?? array() );
-		$parts[] = $this->collect_simple_text_repeater( $data['takeaway_items'] ?? array() );
+		$out[] = $this->h2( $data['takeaway_heading'] ?? '' );
+		$out[] = $this->items_list( $data['takeaway_items'] ?? array() );
 
-		return array_filter( $parts, 'strlen' );
-	}
+		$out[] = $this->h2( $data['cta_heading'] ?? '' );
+		$out[] = $this->p( $data['cta_body'] ?? '' );
+		$out[] = $this->link( $data['cta_button_url'] ?? '', $data['cta_button_text'] ?? '' );
 
-
-	/**
-	 * Mental Health Support page — meta key _anna_content_mhs_page.
-	 *
-	 * @param array $data Saved meta array.
-	 * @return string[]
-	 */
-	private function collect_mhs_page_text( $data ) {
-		$scalar_keys = array(
-			'hero_eyebrow', 'hero_heading',
-			'opening_heading', 'opening_body',
-			'programs_heading', 'programs_body',
-			'inner_heading', 'inner_body',
-			'work_heading', 'work_body',
-			'practice_heading', 'practice_body', 'practice_link_text',
-			'ready_heading', 'ready_subheading', 'ready_body',
-			'ready_button_primary_text', 'ready_button_secondary_text', 'ready_button_tertiary_text',
-		);
-
-		return array_filter(
-			array( $this->pluck_text_values( $data, $scalar_keys ) ),
-			'strlen'
-		);
+		return $out;
 	}
 
 	/**
-	 * MOVE page — meta key _anna_content_move_page.
+	 * Mental Health Support page — _anna_content_mhs_page.
 	 *
-	 * @param array $data Saved meta array.
-	 * @return string[]
+	 * @param array $data Saved meta.
+	 * @return string[] HTML sections.
 	 */
-	private function collect_move_page_text( $data ) {
-		$scalar_keys = array(
-			'hero_eyebrow', 'hero_heading',
-			'evolution_heading', 'evolution_body', 'evolution_callout', 'evolution_gallery_heading',
-			'was_heading', 'was_body',
-			'said_heading',
-			'reviews_eyebrow', 'reviews_heading', 'reviews_summary', 'reviews_cta_text',
-			'pillars_heading',
-			'evolved_heading', 'evolved_body',
-			'evolved_button_primary_text', 'evolved_button_secondary_text', 'evolved_button_tertiary_text',
-		);
+	private function build_mhs_page_html( $data ) {
+		$out = array();
 
-		$parts = array( $this->pluck_text_values( $data, $scalar_keys ) );
+		$out[] = $this->h2( $data['hero_heading'] ?? '' );
 
-		// said_items — each item has a 'quote' string.
+		$out[] = $this->h2( $data['opening_heading'] ?? '' );
+		$out[] = $this->p( $data['opening_body'] ?? '' );
+
+		$out[] = $this->h2( $data['programs_heading'] ?? '' );
+		$out[] = $this->p( $data['programs_body'] ?? '' );
+
+		$out[] = $this->h2( $data['inner_heading'] ?? '' );
+		$out[] = $this->p( $data['inner_body'] ?? '' );
+
+		$out[] = $this->h2( $data['work_heading'] ?? '' );
+		$out[] = $this->p( $data['work_body'] ?? '' );
+
+		$out[] = $this->h2( $data['practice_heading'] ?? '' );
+		$out[] = $this->p( $data['practice_body'] ?? '' );
+		$out[] = $this->link( $data['practice_link_url'] ?? '', $data['practice_link_text'] ?? '' );
+
+		$out[] = $this->h2( $data['ready_heading'] ?? '' );
+		$out[] = $this->p( $data['ready_subheading'] ?? '' );
+		$out[] = $this->p( $data['ready_body'] ?? '' );
+		$out[] = $this->link( $data['ready_button_primary_url'] ?? '', $data['ready_button_primary_text'] ?? '' );
+		$out[] = $this->link( $data['ready_button_secondary_url'] ?? '', $data['ready_button_secondary_text'] ?? '' );
+		$out[] = $this->link( $data['ready_button_tertiary_url'] ?? '', $data['ready_button_tertiary_text'] ?? '' );
+
+		return $out;
+	}
+
+	/**
+	 * MOVE page — _anna_content_move_page.
+	 *
+	 * @param array $data Saved meta.
+	 * @return string[] HTML sections.
+	 */
+	private function build_move_page_html( $data ) {
+		$out = array();
+
+		$out[] = $this->h2( $data['hero_heading'] ?? '' );
+
+		$out[] = $this->h2( $data['evolution_heading'] ?? '' );
+		$out[] = $this->p( $data['evolution_body'] ?? '' );
+		$out[] = $this->p( $data['evolution_callout'] ?? '' );
+
+		$out[] = $this->h2( $data['was_heading'] ?? '' );
+		$out[] = $this->p( $data['was_body'] ?? '' );
+
+		$out[] = $this->h2( $data['said_heading'] ?? '' );
 		if ( ! empty( $data['said_items'] ) && is_array( $data['said_items'] ) ) {
 			foreach ( $data['said_items'] as $item ) {
-				if ( is_array( $item ) && ! empty( $item['quote'] ) ) {
-					$parts[] = (string) $item['quote'];
-				} elseif ( is_string( $item ) ) {
-					$parts[] = $item;
-				}
+				$quote = is_array( $item ) ? ( $item['quote'] ?? '' ) : (string) $item;
+				$out[] = $this->p( $quote );
 			}
 		}
 
-		// pillar_items — each item may have title, body.
-		if ( ! empty( $data['pillar_items'] ) && is_array( $data['pillar_items'] ) ) {
-			foreach ( $data['pillar_items'] as $item ) {
-				if ( is_array( $item ) ) {
-					$parts[] = $this->pluck_text_values( $item, array( 'title', 'body', 'text' ) );
-				}
-			}
-		}
-
-		// reviews_items — each item may have author, body, text.
+		$out[] = $this->h2( $data['reviews_heading'] ?? '' );
+		$out[] = $this->p( $data['reviews_summary'] ?? '' );
+		$out[] = $this->link( $data['reviews_cta_url'] ?? '', $data['reviews_cta_text'] ?? '' );
 		if ( ! empty( $data['reviews_items'] ) && is_array( $data['reviews_items'] ) ) {
 			foreach ( $data['reviews_items'] as $item ) {
 				if ( is_array( $item ) ) {
-					$parts[] = $this->pluck_text_values( $item, array( 'author', 'body', 'text', 'quote' ) );
+					$out[] = $this->p( $item['body'] ?? $item['text'] ?? $item['quote'] ?? '' );
 				}
 			}
 		}
 
-		return array_filter( $parts, 'strlen' );
+		$out[] = $this->h2( $data['pillars_heading'] ?? '' );
+		if ( ! empty( $data['pillar_items'] ) && is_array( $data['pillar_items'] ) ) {
+			foreach ( $data['pillar_items'] as $item ) {
+				if ( is_array( $item ) ) {
+					$out[] = $this->h3( $item['title'] ?? $item['text'] ?? '' );
+					$out[] = $this->p( $item['body'] ?? '' );
+				}
+			}
+		}
+
+		$out[] = $this->h2( $data['evolved_heading'] ?? '' );
+		$out[] = $this->p( $data['evolved_body'] ?? '' );
+		$out[] = $this->link( $data['evolved_button_primary_url'] ?? '', $data['evolved_button_primary_text'] ?? '' );
+		$out[] = $this->link( $data['evolved_button_secondary_url'] ?? '', $data['evolved_button_secondary_text'] ?? '' );
+		$out[] = $this->link( $data['evolved_button_tertiary_url'] ?? '', $data['evolved_button_tertiary_text'] ?? '' );
+
+		return $out;
 	}
 
 	/**
-	 * Reviews page — meta key _anna_content_reviews_page.
+	 * Reviews page — _anna_content_reviews_page.
 	 *
-	 * @param array $data Saved meta array.
-	 * @return string[]
+	 * @param array $data Saved meta.
+	 * @return string[] HTML sections.
 	 */
-	private function collect_reviews_page_text( $data ) {
-		$scalar_keys = array(
-			'hero_eyebrow', 'hero_heading', 'hero_rating_text',
-			'google_reviews_text',
-			'cta_heading', 'cta_body', 'cta_button_text',
-		);
+	private function build_reviews_page_html( $data ) {
+		$out = array();
 
-		return array_filter(
-			array( $this->pluck_text_values( $data, $scalar_keys ) ),
-			'strlen'
-		);
+		$out[] = $this->h2( $data['hero_heading'] ?? '' );
+		$out[] = $this->p( $data['hero_rating_text'] ?? '' );
+		$out[] = $this->link( $data['google_reviews_url'] ?? '', $data['google_reviews_text'] ?? '' );
+
+		$out[] = $this->h2( $data['cta_heading'] ?? '' );
+		$out[] = $this->p( $data['cta_body'] ?? '' );
+		$out[] = $this->link( $data['cta_button_url'] ?? '', $data['cta_button_text'] ?? '' );
+
+		return $out;
 	}
 
 	/**
-	 * Contact page — meta key _anna_content_contact_page.
+	 * Contact page — _anna_content_contact_page.
 	 *
-	 * @param array $data Saved meta array.
-	 * @return string[]
+	 * @param array $data Saved meta.
+	 * @return string[] HTML sections.
 	 */
-	private function collect_contact_page_text( $data ) {
-		$scalar_keys = array(
-			'hero_eyebrow', 'hero_heading',
-			'info_heading',
-			'cta_card_heading', 'cta_card_body', 'cta_card_button_text',
-			'form_heading', 'form_button_text', 'form_response_note',
-		);
+	private function build_contact_page_html( $data ) {
+		$out = array();
 
-		return array_filter(
-			array( $this->pluck_text_values( $data, $scalar_keys ) ),
-			'strlen'
-		);
+		$out[] = $this->h2( $data['hero_heading'] ?? '' );
+		$out[] = $this->h2( $data['info_heading'] ?? '' );
+
+		$out[] = $this->h2( $data['cta_card_heading'] ?? '' );
+		$out[] = $this->p( $data['cta_card_body'] ?? '' );
+		$out[] = $this->link( $data['cta_card_button_url'] ?? '', $data['cta_card_button_text'] ?? '' );
+
+		$out[] = $this->h2( $data['form_heading'] ?? '' );
+		$out[] = $this->p( $data['form_response_note'] ?? '' );
+
+		return $out;
 	}
 
 	/**
-	 * Blog page — meta key _anna_content_blog_page.
+	 * Blog page — _anna_content_blog_page.
 	 *
-	 * @param array $data Saved meta array.
-	 * @return string[]
+	 * @param array $data Saved meta.
+	 * @return string[] HTML sections.
 	 */
-	private function collect_blog_page_text( $data ) {
-		$scalar_keys = array(
-			'hero_heading', 'hero_description',
-			'section_heading', 'section_subtext',
-		);
+	private function build_blog_page_html( $data ) {
+		$out = array();
 
-		return array_filter(
-			array( $this->pluck_text_values( $data, $scalar_keys ) ),
-			'strlen'
-		);
+		$out[] = $this->h2( $data['hero_heading'] ?? '' );
+		$out[] = $this->p( $data['hero_description'] ?? '' );
+		$out[] = $this->h2( $data['section_heading'] ?? '' );
+		$out[] = $this->p( $data['section_subtext'] ?? '' );
+
+		return $out;
 	}
 
 	/**
-	 * Scaffolded / flexible pages — meta key _anna_content_{code}_page.
+	 * Scaffolded / flexible pages — _anna_content_{code}_page.
+	 * Uses field type from config to decide element: textarea → <p>, text → <p>,
+	 * url fields are paired with the preceding text field as a link.
 	 *
-	 * Reads the field type from the page config to distinguish text/textarea
-	 * (include) from media/url/select (exclude).
-	 *
-	 * @param array $data    Saved meta array.
+	 * @param array $data    Saved meta.
 	 * @param int   $post_id Post ID.
-	 * @param array $config  Page config from anna_get_flexible_page_config().
-	 * @return string[]
+	 * @param array $config  Page config.
+	 * @return string[] HTML sections.
 	 */
-	private function collect_scaffolded_page_text( $data, $post_id, $config ) {
-		$parts = array();
+	private function build_scaffolded_page_html( $data, $post_id, $config ) {
+		$out = array();
 
 		$sections = function_exists( 'anna_get_page_sections_for_post' )
 			? anna_get_page_sections_for_post( $post_id )
 			: ( $config['sections'] ?? array() );
 
 		foreach ( $sections as $section ) {
-			$section_values = array();
-			foreach ( $section['fields'] as $key => $field ) {
-				$type = $field['type'] ?? 'text';
-				// Only include human-readable text fields.
-				if ( in_array( $type, array( 'text', 'textarea' ), true ) ) {
-					$value = isset( $data[ $key ] ) ? (string) $data[ $key ] : '';
-					// Skip the 'empty--' sentinel used to intentionally blank fields.
-					if ( '' !== $value && 'empty--' !== trim( $value ) ) {
-						$section_values[] = $value;
-					}
+			$label = $section['label'] ?? '';
+			if ( $label ) {
+				$out[] = $this->h2( $label );
+			}
+
+			$fields      = $section['fields'] ?? array();
+			$field_keys  = array_keys( $fields );
+			$pending_url = null;
+
+			foreach ( $field_keys as $key ) {
+				$field = $fields[ $key ];
+				$type  = $field['type'] ?? 'text';
+				$value = isset( $data[ $key ] ) ? (string) $data[ $key ] : '';
+
+				if ( 'empty--' === trim( $value ) || '' === trim( $value ) ) {
+					continue;
+				}
+
+				if ( 'media' === $type ) {
+					continue;
+				}
+
+				if ( 'url' === $type ) {
+					// Hold URL — pair with next text field or emit as bare link.
+					$pending_url = $value;
+					continue;
+				}
+
+				// text or textarea.
+				if ( null !== $pending_url ) {
+					$out[]       = $this->link( $pending_url, $value );
+					$pending_url = null;
+				} else {
+					$out[] = $this->p( $value );
 				}
 			}
-			if ( ! empty( $section_values ) ) {
-				$parts[] = implode( "\n", $section_values );
+
+			// Emit any leftover URL with no text.
+			if ( null !== $pending_url ) {
+				$out[]       = $this->link( $pending_url, $pending_url );
+				$pending_url = null;
 			}
 		}
 
-		return $parts;
+		return $out;
 	}
 
 
 	// -------------------------------------------------------------------------
-	// Shared helpers
+	// HTML primitive helpers
 	// -------------------------------------------------------------------------
 
 	/**
-	 * Pull a list of named keys from a flat array, skip empty or sentinel values,
-	 * and join them with newlines into a single string.
+	 * Wrap a value in <h2>. Returns '' if value is empty or non-content.
 	 *
-	 * Non-content values that are intentionally filtered out:
-	 *   - Numeric-only strings (image attachment IDs stored as text).
-	 *   - Values that look like URLs (http/https/# prefix).
-	 *   - The 'empty--' sentinel used by this theme to blank out a field.
-	 *   - Shortcode-like strings (start with '[').
-	 *
-	 * @param array    $data Array to pull from.
-	 * @param string[] $keys Keys to collect.
+	 * @param string $value Raw text.
 	 * @return string
 	 */
-	private function pluck_text_values( $data, $keys ) {
-		$lines = array();
-		foreach ( $keys as $key ) {
-			if ( ! isset( $data[ $key ] ) ) {
-				continue;
-			}
-
-			$value = (string) $data[ $key ];
-			if ( $this->yoast_sync_is_non_content( $value ) ) {
-				continue;
-			}
-
-			$lines[] = $value;
-		}
-		return implode( "\n", $lines );
+	private function h2( $value ) {
+		$value = $this->clean_text( $value );
+		return '' !== $value ? '<h2>' . esc_html( $value ) . '</h2>' : '';
 	}
 
 	/**
-	 * Collect text from a simple repeater whose items are either plain strings
-	 * or single-key arrays like ['text' => '…'] or ['value' => '…'].
+	 * Wrap a value in <h3>.
+	 *
+	 * @param string $value Raw text.
+	 * @return string
+	 */
+	private function h3( $value ) {
+		$value = $this->clean_text( $value );
+		return '' !== $value ? '<h3>' . esc_html( $value ) . '</h3>' : '';
+	}
+
+	/**
+	 * Wrap a value in <p>. Converts newlines to <br> within the paragraph.
+	 *
+	 * @param string $value Raw text.
+	 * @return string
+	 */
+	private function p( $value ) {
+		$value = $this->clean_text( $value );
+		if ( '' === $value ) {
+			return '';
+		}
+		// Preserve intentional line breaks inside body copy.
+		$value = nl2br( esc_html( $value ) );
+		return '<p>' . $value . '</p>';
+	}
+
+	/**
+	 * Build a paragraph from multi-line text (e.g. recognition_items_text).
+	 * Each line becomes a sentence in the paragraph.
+	 *
+	 * @param string $value Newline-separated text.
+	 * @return string
+	 */
+	private function multiline_p( $value ) {
+		$value = trim( (string) $value );
+		if ( '' === $value || 'empty--' === $value ) {
+			return '';
+		}
+		$lines = array_filter( array_map( 'trim', preg_split( '/\r\n|\r|\n/', $value ) ) );
+		if ( empty( $lines ) ) {
+			return '';
+		}
+		return '<p>' . implode( ' · ', array_map( 'esc_html', $lines ) ) . '</p>';
+	}
+
+	/**
+	 * Build an <a href> tag from a URL and link text.
+	 * Returns '' if either is empty or the URL is a non-content value.
+	 *
+	 * @param string $url  Link href.
+	 * @param string $text Link text.
+	 * @return string
+	 */
+	private function link( $url, $text ) {
+		$url  = trim( (string) $url );
+		$text = $this->clean_text( $text );
+
+		if ( '' === $url || '' === $text ) {
+			return '';
+		}
+
+		// Skip anchor-only or empty hrefs.
+		if ( '#' === $url || 'empty--' === $url ) {
+			return '';
+		}
+
+		return '<p><a href="' . esc_url( $url ) . '">' . esc_html( $text ) . '</a></p>';
+	}
+
+	/**
+	 * Build a <ul> list from a simple repeater array.
+	 * Items can be strings or arrays with 'text'/'label'/'value'/'title' keys.
 	 *
 	 * @param array $items Repeater rows.
 	 * @return string
 	 */
-	private function collect_simple_text_repeater( $items ) {
+	private function items_list( $items ) {
 		if ( empty( $items ) || ! is_array( $items ) ) {
 			return '';
 		}
 
-		$lines = array();
+		$lis = array();
 		foreach ( $items as $item ) {
 			if ( is_string( $item ) ) {
 				$v = $item;
 			} elseif ( is_array( $item ) ) {
-				// Try common single-value keys in priority order.
-				$v = (string) ( $item['text'] ?? $item['value'] ?? $item['label'] ?? $item['title'] ?? '' );
+				$v = (string) ( $item['text'] ?? $item['label'] ?? $item['value'] ?? $item['title'] ?? '' );
 			} else {
 				continue;
 			}
-
-			if ( ! $this->yoast_sync_is_non_content( $v ) ) {
-				$lines[] = $v;
+			$v = $this->clean_text( $v );
+			if ( '' !== $v ) {
+				$lis[] = '<li>' . esc_html( $v ) . '</li>';
 			}
 		}
 
-		return implode( "\n", $lines );
+		return ! empty( $lis ) ? '<ul>' . implode( '', $lis ) . '</ul>' : '';
 	}
 
 	/**
-	 * Collect text from a FAQ-style repeater whose items have 'question' and 'answer'.
+	 * Build FAQ items as <h3> question + <p> answer pairs.
 	 *
 	 * @param array $items FAQ rows.
 	 * @return string
 	 */
-	private function collect_faq_repeater( $items ) {
+	private function faq_html( $items ) {
 		if ( empty( $items ) || ! is_array( $items ) ) {
 			return '';
 		}
 
-		$lines = array();
+		$out = array();
 		foreach ( $items as $item ) {
 			if ( ! is_array( $item ) ) {
 				continue;
 			}
-			foreach ( array( 'question', 'answer', 'title', 'body' ) as $key ) {
-				if ( ! empty( $item[ $key ] ) ) {
-					$v = (string) $item[ $key ];
-					if ( ! $this->yoast_sync_is_non_content( $v ) ) {
-						$lines[] = $v;
-					}
-				}
-			}
+			$out[] = $this->h3( $item['question'] ?? $item['title'] ?? '' );
+			$out[] = $this->p( $item['answer'] ?? $item['body'] ?? '' );
 		}
 
-		return implode( "\n", $lines );
+		return implode( "\n", array_filter( $out, 'strlen' ) );
 	}
 
 	/**
-	 * Return true if a string value should be excluded from the synced content.
+	 * Build an inline sentence from stat value/label pairs.
 	 *
-	 * Excludes:
-	 *   - Empty strings.
-	 *   - The 'empty--' intentional-blank sentinel.
-	 *   - Pure integers (attachment IDs stored as strings).
-	 *   - URLs (http, https, //).
-	 *   - Shortcodes (start with '[').
-	 *   - Anchor-only hrefs ('#…').
-	 *
-	 * @param string $value Value to test.
-	 * @return bool
+	 * @param array    $data Array containing stat keys.
+	 * @param string[] $keys Keys to collect in order.
+	 * @return string
 	 */
-	private function yoast_sync_is_non_content( $value ) {
-		$value = trim( $value );
-
-		if ( '' === $value ) {
-			return true;
+	private function stats_inline( $data, $keys ) {
+		$parts = array();
+		foreach ( $keys as $key ) {
+			$v = $this->clean_text( $data[ $key ] ?? '' );
+			if ( '' !== $v ) {
+				$parts[] = $v;
+			}
 		}
+		return implode( ' · ', $parts );
+	}
 
-		// Intentional blank sentinel.
-		if ( 'empty--' === $value ) {
-			return true;
-		}
+	/**
+	 * Strip, trim, and reject non-content values from a string.
+	 * Returns '' for empty strings, pure integers (attachment IDs),
+	 * the empty-- sentinel, and shortcodes.
+	 *
+	 * @param string $value Raw value.
+	 * @return string
+	 */
+	private function clean_text( $value ) {
+		$value = trim( wp_strip_all_tags( (string) $value ) );
 
-		// Pure numeric → likely an attachment ID.
-		if ( ctype_digit( $value ) ) {
-			return true;
-		}
+		if ( '' === $value )           { return ''; }
+		if ( 'empty--' === $value )    { return ''; }
+		if ( ctype_digit( $value ) )   { return ''; }
+		if ( '[' === $value[0] )       { return ''; }
 
-		// URL prefixes.
-		if (
-			0 === strpos( $value, 'http://' ) ||
-			0 === strpos( $value, 'https://' ) ||
-			0 === strpos( $value, '//' ) ||
-			0 === strpos( $value, '#' )
-		) {
-			return true;
-		}
-
-		// Shortcodes.
-		if ( '[' === $value[0] ) {
-			return true;
-		}
-
-		return false;
+		return html_entity_decode( $value, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
 	}
 }
