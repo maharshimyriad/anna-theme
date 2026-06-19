@@ -165,7 +165,7 @@
 
 .anna-about-page__copy {
   color: var(--color-heading);
-  font-size: var(--about-body-size);
+  font-size: var(--text-md);
   line-height: var(--leading-loose);
 }
 

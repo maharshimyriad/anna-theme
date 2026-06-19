@@ -27,9 +27,9 @@ if ( empty( $about ) ) {
 			<?php if ( ! empty( $about['hero_eyebrow'] ) ) : ?>
 				<p class="anna-about-page-hero__overline"><?php echo esc_html( $about['hero_eyebrow'] ); ?></p>
 			<?php endif; ?>
-			<h1 class="anna-about-page-hero__heading"><?php echo wp_kses_post( nl2br( (string) $about['hero_heading'] ) ); ?></h1>
+			<h1 class="anna-about-page-hero__heading anna-hero__heading"><?php echo wp_kses_post( nl2br( (string) $about['hero_heading'] ) ); ?></h1>
 			<?php if ( ! empty( $about['hero_subheading'] ) ) : ?>
-				<p class="anna-about-page-hero__subheading"><?php echo esc_html( $about['hero_subheading'] ); ?></p>
+				<p class="anna-about-page-hero__subheading anna-hero__heading"><?php echo esc_html( $about['hero_subheading'] ); ?></p>
 			<?php endif; ?>
 			<?php if ( ! empty( $about['hero_tags'] ) ) : ?>
 				<ul class="anna-about-page-hero__tags anna-stagger" role="list">

@@ -29,7 +29,7 @@ if ( empty( $about ) ) {
 				<?php endif; ?>
 
 				<?php if ( ! empty( $about['coach_body'] ) ) : ?>
-					<div class="anna-about-page-coach__copy"><?php echo wp_kses_post( wpautop( (string) $about['coach_body'] ) ); ?></div>
+					<div class="anna-about-page-coach__copy anna-intro__copy"><?php echo wp_kses_post( wpautop( (string) $about['coach_body'] ) ); ?></div>
 				<?php endif; ?>
 
 				<?php if ( ! empty( $about['coach_button_text'] ) && ! empty( $about['coach_button_url'] ) ) : ?>

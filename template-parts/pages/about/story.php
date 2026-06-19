@@ -22,7 +22,7 @@ if ( empty( $about ) ) {
 
 			<div class="anna-about-page-story__content anna-reveal--left">
 				<?php if ( ! empty( $about['story_eyebrow'] ) ) : ?>
-					<span class="anna-about-page__eyebrow"><?php echo esc_html( $about['story_eyebrow'] ); ?></span>
+					<span class="anna-about-page__eyebrow anna-eyebrow"><?php echo esc_html( $about['story_eyebrow'] ); ?></span>
 				<?php endif; ?>
 				<h2 class="anna-about-page__heading"><?php echo wp_kses_post( nl2br( (string) $about['story_heading'] ) ); ?></h2>
 				<div class="anna-about-page__copy"><?php echo wp_kses_post( wpautop( (string) $about['story_body'] ) ); ?></div>

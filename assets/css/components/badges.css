@@ -131,14 +131,14 @@
 
 /* ── Section label / eyebrow ──────────────────────────────────────────────── */
 .anna-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    font-size: var(--text-sm);
-    font-weight: var(--font-weight-semibold);
-    letter-spacing: var(--tracking-caps);
-    color: var(--color-primary);
-    margin-bottom: var(--space-3);
-    font-family: var(--font-heading);
+    display: inline-flex !important;
+    align-items: cente !important;
+    font-size: var(--text-sm) !important;
+    font-weight: var(--font-weight-semibold) !important;
+    letter-spacing: var(--tracking-caps) !important;
+    color: var(--color-primary) !important;
+    margin-bottom: var(--space-3) !important;
+    font-family: var(--font-heading) !important;
 }
 
 /* On dark background */

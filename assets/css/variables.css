@@ -66,9 +66,9 @@
 
   /* ── Fluid Type Scale ─────────────────────────────────────────────────── */
   --text-xs:    clamp(0.70rem, 0.68rem + 0.10vw, 0.75rem);   /* 11px → 12px */
-  --text-sm:    clamp(0.85rem, 0.82rem + 0.15vw, 0.95rem);   /* 13.6px → 15.2px */
-  --text-base:  clamp(1rem,    0.96rem + 0.20vw, 1.125rem);  /* 16px → 18px */
-  --text-md:    clamp(1.125rem,1.05rem + 0.30vw, 1.25rem);   /* 18px → 20px */
+  --text-sm:    clamp(0.96rem, 0.82rem + 0.15vw, 0.96rem); /* 13.6px → 15.2px */
+  --text-base:  clamp(1rem, 0.96rem + 0.20vw, 1.125rem);  /* 16px → 18px */
+  --text-md:    clamp(1.125rem,1.05rem + 0.30vw, 1.125rem);   /* 18px → 20px */
   --text-lg:    clamp(1.25rem, 1.10rem + 0.50vw, 1.5rem);    /* 20px → 24px */
   --text-xl:    clamp(1.5rem,  1.20rem + 0.90vw, 1.875rem);  /* 24px → 30px */
   --text-2xl:   clamp(1.875rem,1.45rem + 1.30vw, 2.5rem);    /* 30px → 40px */
@@ -80,9 +80,10 @@
 
   /* ── Semantic Heading Sizes ───────────────────────────────────────────── */
   /* Section headings: min 28px (1.75rem) → max 50px (3.125rem)            */
-  --heading-section: clamp(1.75rem, 1.25rem + 2.08vw, 3.125rem);
+/*   --heading-section: clamp(1.75rem, 1.25rem + 2.08vw, 3.125rem); */
+  --heading-section: clamp(2rem, 1.25rem + 2.08vw, 3.125rem);
   /* Card / sub-section headings: min 18px (1.125rem) → max 28px (1.75rem) */
-  --heading-card:    clamp(1.125rem, 0.875rem + 1.04vw, 1.75rem);
+  --heading-card:    clamp(1.25rem, 0.875rem + 1.04vw, 1.75rem);
 
   /* ── Spacing Scale ────────────────────────────────────────────────────── */
   --space-px:   1px;

@@ -41,7 +41,7 @@ for ( $i = 1; $i <= 4; $i++ ) {
 				<?php endif; ?>
 
 				<?php if ( ! empty( $about['work_body'] ) ) : ?>
-					<div class="anna-about-page-work__copy"><?php echo wp_kses_post( wpautop( (string) $about['work_body'] ) ); ?></div>
+					<div class="anna-about-page-work__copy anna-intro__copy"><?php echo wp_kses_post( wpautop( (string) $about['work_body'] ) ); ?></div>
 				<?php endif; ?>
 			</div>
 

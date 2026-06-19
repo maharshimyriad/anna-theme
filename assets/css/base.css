@@ -302,7 +302,61 @@ code {
   [class*="hero__content"] {
     padding: 0 !important;
   }
-
-
-
+	.anna-about-page-work-card__title{    font-size: 1.25rem !important;}
+	.anna-about-page-work-card__body{    font-size: 1.125rem !important;}
+	.anna-testimonials-section__summary, .anna-testimonials-section__header{
+		margin-bottom: 0 !important;
+	}
+	.rplg .grw-slider .grw-slider-header-inner{padding: 20px 0 !important; margin: 0 0 !important;}
 }
+@media (max-width: 767px){
+	.anna-hero__heading{    font-size: var(--heading-section) !important;}
+	.anna-about-page-people__intro, .anna-coaching-page-what__copy, .anna-coaching-page-what__card-bullet span, .anna-coaching-page-pillar-card__title, .anna-coaching-page-expect__copy, .anna-mhs-page__copy p, .anna-mhs-page-practice__copy, .anna-oasis-page-inside__intro, .anna-oasis-page-inside-card__title, .anna-oasis-page-how__intro, .anna-oasis-page-choose__intro, .anna-move-page__copy p, .anna-move-page-evolution__callout, .anna-move-page-pillar__body, .anna-oasis-page-what__body p, .anna-oasis-hero__body-strip__copy p, .anna-speaking-hero__mobile-strip__description, .anna-speaking-page-bring__copy, .anna-speaking-page-bring__quote, .anna-speaking-page-topics__intro, .anna-speaking-page-experience__copy, .anna-speaking-page-takeaway__copy, .anna-blog-card__title, .anna-single-article, .anna-oasis-hero__body-strip__copy p, .anna-card__body p{font-size: 1.125rem !important;}
+	
+	.anna-about-page-people-card__title, .anna-coaching-page-pillar-card__body, .anna-coaching-page-expect__quote p, .anna-coaching-page-expect-card__label, .anna-coaching-page-faq__trigger,.anna-coaching-page-faq__answer, .anna-oasis-hero__body-strip__copy p, .anna-oasis-page-inside-card__body, .anna-oasis-page-choose__footer, .anna-speaking-page-topic-card__body, .anna-blog-card__excerpt{font-size: 1rem !important;}
+	
+	.anna-about-page-people-card__org, .anna-oasis-page-plan__founding, .anna-speaking-page-takeaway__text, .anna-card__eyebrow span{font-size: 14px !important;}
+	.anna-blog-card__date, .anna-blog-card__read-time{font-size: 12px !important;}
+	.anna-card__title a{font-size: 20px !important;}
+}
+
+.anna-intro__copy p{
+	    font-size: var(--text-md) !important;
+}
+
+[class$="__eyebrow"]{    font-weight: 900 !important;}
+
+.anna-testimonials-inner .rplg .grw-slider .wp-google-wr a{background: var(--color-white) !important;
+    color: var(--color-primary) !important;
+    border-color: rgba(255, 255, 255, 0.9) !important;
+    box-shadow: 0 12px 28px rgba(10, 26, 22, 0.16) !important;
+text-shadow: none !important;
+        min-width: 0 !important;
+        width: fit-content !important;
+	font-size: 0.9rem !important;
+    transform: none !important;
+    font-weight: 700 !important;
+        padding: 8px 20px !important;}
+.rplg .rplg-biz-rating.rplg-trim{display: none !important;}
+.anna-testimonials-inner .rplg .grw-slider .grw-row{    flex-direction: column !important;
+        align-items: start !important;}
+.anna-mhs-page-practice__link-wrap:hover a{color: #F4EAA9 !important;}
+.anna-speaking-page-hero__link:hover, .anna-single-hero__cat:hover{color: #F4EAA9 !important;}
+.anna-card__title{    margin: 0 !important;
+    font-family: var(--font-heading) !important;
+    font-size: clamp(1rem, 1.5vw, 1.2rem) !important;
+    font-weight: var(--font-weight-semibold)!important;
+    line-height: 1.35 !important;}
+.anna-card__body{font-size: 15px !important;}
+.anna-card__eyebrow{font-size: 12px !important;}
+.anna-heading.anna-heading--2{margin: 0;
+    color: #007063 !important;
+    font-family: 'Lexend', sans-serif !important;
+    font-size: var(--heading-section) !important;
+    line-height: 1.12 !important;
+    font-weight: var(--font-weight-semibold) !important;}
+.screen-reader-text{margin: 2rem 0 0.75rem !important;
+    color: #007063 !important;
+    font-size: clamp(1.4375rem, 1.36rem + 0.45vw, 1.25rem) !important;
+    line-height: 1.1 !important;
+    font-family: 'Lexend' !important;}

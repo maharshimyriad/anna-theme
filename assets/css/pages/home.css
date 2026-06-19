@@ -212,7 +212,7 @@
 .anna-hero__stats-strip__label {
   display: block;
   color: #59656f;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   line-height: 1.4;
 }
 
@@ -221,7 +221,7 @@
   /* shown on mobile only */
   margin: 1.25rem 0 0;
   color: #59656f;
-  font-size: var(--text-base);
+  font-size: var(--text-md);
   line-height: 1.7;
 }
 
@@ -346,7 +346,7 @@
 
 .anna-intro__copy {
   margin-top: var(--space-5);
-  font-size: var(--text-base);
+  font-size: var(--text-md);
 }
 
 .anna-intro__copy p {
@@ -358,8 +358,10 @@
   margin: 0.5rem 0 0;
   padding-left: 1.25rem;
   border-left: 4px solid #4CA591;
+	
 }
 
+.anna-intro__quote p{font-size: clamp( 1.6875rem, 1.20rem + 0.90vw, 1.875rem) !important;}
 .anna-intro__quote {
   color: #4CA591 !important;
 }
@@ -389,7 +391,7 @@
 .anna-recognition__heading {
   margin: 0 0 1.25rem;
   color: var(--color-primary);
-  font-size: clamp(1.5rem, 1.36rem + 0.45vw, 1.75rem);
+  font-size: clamp( 1.6875rem, 1.36rem + 0.45vw, 1.75rem);
   line-height: 1.2;
 }
 
@@ -423,6 +425,7 @@
 .anna-recognition__item-text {
   color: rgba(26, 43, 37, 0.72);
   line-height: 1.8;
+	    font-size: var(--text-md);
 }
 
 @media (max-width: 1500px) {
@@ -543,7 +546,7 @@
 
   display: block;
   color: #87B4AE;
-  font-size: clamp(2.625rem, 2.28rem + 1.15vw, 3.75rem);
+  font-size: clamp(2.9375rem, 2.28rem + 1.15vw, 3.75rem);
   line-height: 1;
   font-family: var(--font-heading);
   font-weight: 700;
@@ -552,7 +555,7 @@
 .anna-service-card__title {
   margin: 1rem 0 0.75rem;
   color: #007063;
-  font-size: clamp(1.25rem, 1.36rem + 0.45vw, 1.25rem);
+  font-size: clamp(1.4375rem, 1.36rem + 0.45vw, 1.25rem);
   line-height: 1.1;
 
   font-family: 'Lexend';
@@ -562,7 +565,7 @@
   color: #4A5568;
   line-height: 1.8;
   flex: none;
-  font-size: var(--text-base);
+  font-size: var(--text-md);
 }
 
 .anna-service-card__link {
@@ -616,9 +619,9 @@
     grid-template-columns: 1fr;
   }
 
-  html {
+/*   html {
     font-size: 18px;
-  }
+  } */
 }
 
 /**
@@ -734,7 +737,7 @@
 }
 
 .anna-about__body {
-  font-size: var(--text-base);
+  font-size: var(--text-md);
   line-height: 1.95;
   color: #59656f;
 }
@@ -823,7 +826,8 @@
   }
 
   .anna-about__heading {
-    font-size: var(--text-3xl);
+/*     font-size: var(--text-3xl); */
+	  font-size: var(--heading-section);
   }
 }
 
@@ -869,7 +873,7 @@
   margin: 0;
   color: rgba(255, 255, 255, 0.9) !important;
   line-height: 1.85 !important;
-  font-size: var(--text-base) !important;
+  font-size: var(--text-md) !important;
   font-family: var(--font-heading) !important;
 }
 
@@ -1091,7 +1095,8 @@
   }
 
   .anna-cta__heading {
-    font-size: clamp(2.25rem, 2rem + 0.95vw, 2.75rem);
+/*     font-size: clamp(2.25rem, 2rem + 0.95vw, 2.75rem); */
+	          font-size: var(--heading-section);
   }
 
   .anna-cta__description {
@@ -1132,4 +1137,10 @@
 
 .about-read-more:hover::after {
   margin-left: 8px;
+}
+
+
+
+.anna-about-page-coach__copy{
+	    font-size: var(--text-md) !important;
 }

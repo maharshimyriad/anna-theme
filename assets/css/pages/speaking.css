@@ -42,7 +42,7 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center !important;
     min-height: calc(95svh - var(--header-height));
 }
 
