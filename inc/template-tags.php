@@ -13,6 +13,45 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Use the original image instead of the WordPress auto-scaled copy.
+ *
+ * When WordPress scales a large upload it stores the scaled version as the
+ * "attached" file and appends -scaled to the filename. This filter intercepts
+ * wp_get_attachment_url() (and anything that calls it, including
+ * wp_get_attachment_image_src()) and swaps the -scaled URL back to the
+ * original file, provided the original actually exists on disk.
+ *
+ * The scaled copy is kept on the server — only the URL returned to the
+ * front-end is changed.
+ */
+add_filter( 'wp_get_attachment_url', 'anna_use_original_over_scaled', 10, 2 );
+
+function anna_use_original_over_scaled( $url, $attachment_id ) {
+	// Only act on URLs that contain the -scaled suffix.
+	if ( strpos( $url, '-scaled.' ) === false ) {
+		return $url;
+	}
+
+	// Build the path to the original file from attachment metadata.
+	$meta = wp_get_attachment_metadata( $attachment_id );
+	if ( empty( $meta['original_image'] ) ) {
+		return $url; // No original recorded — leave unchanged.
+	}
+
+	$upload_dir   = wp_upload_dir();
+	$scaled_path  = get_attached_file( $attachment_id ); // e.g. .../2024/06/photo-scaled.jpg
+	$original_file = trailingslashit( dirname( $scaled_path ) ) . $meta['original_image'];
+
+	// Only swap if the original file physically exists.
+	if ( ! file_exists( $original_file ) ) {
+		return $url;
+	}
+
+	// Replace the scaled filename with the original filename in the URL.
+	return trailingslashit( dirname( $url ) ) . $meta['original_image'];
+}
+
+/**
  * Print the section header component.
  *
  * @param array $args {

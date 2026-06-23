@@ -502,9 +502,14 @@
   }
 
   .anna-single-nav .nav-links {
-    grid-template-columns: 1fr;
+    grid-template-columns: 50% 50%;
     gap: var(--space-5);
+	overflow:hidden;
   }
+	
+	.anna-single-nav--sticky .anna-single-nav__title{
+		max-width:10rem;
+	}
 
   .anna-single-nav .nav-next {
     justify-content: flex-start;

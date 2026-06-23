@@ -93,3 +93,4 @@ add_action( 'pre_get_posts', function ( WP_Query $q ) {
 
 	$q->set( 'posts_per_page', 9 );
 } );
+

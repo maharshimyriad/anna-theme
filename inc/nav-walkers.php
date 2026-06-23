@@ -64,7 +64,8 @@ class Anna_Nav_Walker extends Walker_Nav_Menu {
 		$classes   = empty( $item->classes ) ? array() : (array) $item->classes;
 		$classes[] = 'anna-nav__item';
 
-		if ( in_array( 'current-menu-item', $classes, true ) ) {
+		$active_classes = array( 'current-menu-item', 'current-menu-parent', 'current-menu-ancestor' );
+		if ( array_intersect( $active_classes, $classes ) ) {
 			$classes[] = 'anna-nav__item--active';
 		}
 

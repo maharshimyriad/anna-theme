@@ -28,7 +28,7 @@
     radial-gradient(760px 460px at 18% 46%, rgba(0, 148, 128, 0.18) 0%, rgba(0, 148, 128, 0) 60%),
     linear-gradient(135deg, rgba(7, 26, 22, 0.98) 0%, rgba(7, 26, 22, 0.86) 42%, rgba(7, 26, 22, 0.96) 100%);
   background-size: cover;
-  background-position: center;
+  background-position: top;
   color: var(--color-white);
   overflow: hidden;
 }
@@ -581,7 +581,7 @@
 
 @media (max-width: 768px) {
   .anna-about-page-hero {
-    min-height: clamp(26rem, 80vh, 33rem);
+    background-position-x:right;
   }
 
   .anna-about-page-hero__heading {

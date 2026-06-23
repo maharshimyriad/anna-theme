@@ -836,7 +836,7 @@
   color: var(--color-white);
 }
 
-.anna-testimonials-section .rplg .grw-row-m .grw-slider-header {
+.anna-testimonials-section .grw-slider-header {
   display: none;
 }
 
@@ -957,7 +957,7 @@
 
 @media (max-width: 1024px) {
   .anna-testimonials-inner--static {
-    grid-template-columns: 1fr;
+    margin-top:2rem;
   }
 
   .anna-testimonial {
@@ -1054,6 +1054,9 @@
   .anna-service-card--feature {
     min-height: none;
   }
+	.anna-testimonials-section .rplg .grw-slider:not(.wp-dark) .grw-slider-review-inner.grw-slider-review-border{
+		margin:0 !important;
+	}
 }
 
 @media (max-width: 767px) {

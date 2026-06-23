@@ -114,3 +114,18 @@
   });
 
 })();
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('a[onclick*="_rplg_popup"]').forEach(function (link) {
+        const onclick = link.getAttribute('onclick');
+
+        const match = onclick.match(/_rplg_popup\('([^']+)'/);
+
+        if (match && match[1]) {
+            link.href = match[1];
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+        }
+    });
+});
