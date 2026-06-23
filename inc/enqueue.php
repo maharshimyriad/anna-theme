@@ -35,80 +35,17 @@ function anna_asset_version($relative_path)
  */
 function anna_enqueue_styles()
 {
+	// Single merged bundle: variables + reset + base + layout + utilities +
+	// animations + all components (buttons, cards, badges, navigation, forms,
+	// testimonials, media) + sections (header, footer).
 	wp_enqueue_style(
-		'anna-variables',
-		ANNA_CSS . '/variables.css',
+		'anna-global',
+		ANNA_CSS . '/global.min.css',
 		array(),
-		anna_asset_version('assets/css/variables.css')
+		anna_asset_version('assets/css/global.min.css')
 	);
 
-	wp_enqueue_style(
-		'anna-reset',
-		ANNA_CSS . '/reset.css',
-		array('anna-variables'),
-		anna_asset_version('assets/css/reset.css')
-	);
-
-	wp_enqueue_style(
-		'anna-base',
-		ANNA_CSS . '/base.css',
-		array('anna-reset'),
-		anna_asset_version('assets/css/base.css')
-	);
-
-	wp_enqueue_style(
-		'anna-layout',
-		ANNA_CSS . '/layout.css',
-		array('anna-base'),
-		anna_asset_version('assets/css/layout.css')
-	);
-
-	wp_enqueue_style(
-		'anna-utilities',
-		ANNA_CSS . '/utilities.css',
-		array('anna-layout'),
-		anna_asset_version('assets/css/utilities.css')
-	);
-
-	wp_enqueue_style(
-		'anna-animations',
-		ANNA_CSS . '/animations.css',
-		array('anna-utilities'),
-		anna_asset_version('assets/css/animations.css')
-	);
-
-	$components = array('buttons', 'cards', 'badges', 'navigation', 'forms', 'testimonials', 'media');
-	$prev_dep = 'anna-animations';
-
-	foreach ($components as $component) {
-		$handle = 'anna-' . $component;
-		$file = 'assets/css/components/' . $component . '.css';
-
-		wp_enqueue_style(
-			$handle,
-			ANNA_CSS . '/components/' . $component . '.css',
-			array($prev_dep),
-			anna_asset_version($file)
-		);
-
-		$prev_dep = $handle;
-	}
-
-	$sections = array('header', 'footer');
-
-	foreach ($sections as $section) {
-		$handle = 'anna-section-' . $section;
-		$file = 'assets/css/sections/' . $section . '.css';
-
-		wp_enqueue_style(
-			$handle,
-			ANNA_CSS . '/sections/' . $section . '.css',
-			array($prev_dep),
-			anna_asset_version($file)
-		);
-
-		$prev_dep = $handle;
-	}
+	$prev_dep = 'anna-global';
 
 	if (is_front_page()) {
 		wp_enqueue_style(
@@ -256,7 +193,7 @@ add_action('wp_enqueue_scripts', 'anna_enqueue_styles');
  *
  * @param string $prev_dep Handle of the last enqueued theme stylesheet.
  */
-function anna_enqueue_scaffolded_page_styles($prev_dep = 'anna-section-footer')
+function anna_enqueue_scaffolded_page_styles($prev_dep = 'anna-global')
 {
 	if (!function_exists('anna_get_scaffolded_pages')) {
 		return;
