@@ -3723,3 +3723,9 @@ figure:has(> img) {
   pointer-events: none;
   user-select: none;
 }
+
+
+.anna-footer__col--newsletter .ml-form-embedContent h4 {
+  display: none;
+  
+}
