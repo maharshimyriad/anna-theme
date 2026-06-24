@@ -23,35 +23,41 @@
   position: relative;
   display: flex;
   align-items: stretch;
-  min-height: 55svh;
+  min-height: 44svh;
   margin-top: var(--header-height);
   background-color: var(--color-primary);
   overflow: hidden;
 }
 
 /* ── Inner layout: text left, image right ─────────────────────────────── */
+/*
+ * The inner div is NOT a container — it fills 100% viewport width.
+ * The left column uses padding to align its text with the container grid.
+ * The right column stretches all the way to the true right viewport edge.
+ */
 .anna-single-hero__inner {
   display: flex;
   align-items: stretch;
   width: 100%;
 }
 
-/* Left column — primary bg, all text, vertically centred */
+/* Left column — constrained like a container, text aligns with site grid */
 .anna-single-hero__left {
   flex: 0 0 55%;
   display: flex;
   align-items: center;
-  padding: clamp(3rem, 6vw, 5rem) 0;
+  padding: clamp(3rem, 6vw, 5rem) clamp(1.25rem, 5vw, 3rem);
+  padding-left: max(clamp(1.25rem, 5vw, 3rem), calc((100vw - var(--container-max)) / 2 + clamp(1.25rem, 5vw, 3rem)));
   position: relative;
   z-index: 2;
 }
 
-/* Right column — same height as the section, image sits at the bottom */
+/* Right column — fills from 55% to the true right viewport edge */
 .anna-single-hero__right {
-  flex: 0 0 45%;
+  flex: 1 1 0;        /* take all remaining space to viewport edge */
   position: relative;
   display: flex;
-  align-items: flex-end; /* image anchored to bottom */
+  align-items: flex-end;
   overflow: hidden;
 }
 
@@ -550,7 +556,7 @@
   .anna-single-hero__left {
     flex: none;
     width: 100%;
-    padding: clamp(2rem, 5vw, 3rem) 0;
+    padding: clamp(2rem, 5vw, 3rem) clamp(1.25rem, 5vw, 3rem);
     order: 1;
   }
 

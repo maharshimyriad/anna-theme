@@ -31,7 +31,7 @@ $email_body = urlencode(get_the_title() . ' — ' . get_permalink());
 		<section class="anna-hero-section anna-single-hero<?php echo $thumb_url ? ' anna-single-hero--has-image' : ''; ?>"
 			aria-label="<?php echo esc_attr(get_the_title()); ?>">
 
-			<div class="anna-single-hero__inner anna-container anna-container--max">
+			<div class="anna-single-hero__inner">
 
 				<!-- Left: text content on the bg colour -->
 				<div class="anna-single-hero__left">
