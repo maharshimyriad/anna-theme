@@ -26,11 +26,28 @@ $email_body = urlencode(get_the_title() . ' — ' . get_permalink());
 		the_post(); ?>
 
 		<!-- ════════════════════════════════════════════════════════════════
-		 HERO — full-bleed image with gradient overlay + text on top
+		 HERO — image anchored right, gradient fade over text on left
 		 ════════════════════════════════════════════════════════════════ -->
 		<section class="anna-hero-section anna-single-hero<?php echo $thumb_url ? ' anna-single-hero--has-image' : ''; ?>"
-			<?php if ($thumb_url): ?>style="--hero-img: url('<?php echo esc_url($thumb_url); ?>');" <?php endif; ?>
 			aria-label="<?php echo esc_attr(get_the_title()); ?>">
+
+			<?php if ($thumb_url) : ?>
+				<img
+					class="anna-single-hero__bg-image"
+					src="<?php echo esc_url($thumb_url); ?>"
+					<?php
+					$thumb_id = get_post_thumbnail_id(get_the_ID());
+					$srcset   = $thumb_id ? wp_get_attachment_image_srcset($thumb_id, 'full') : '';
+					$alt      = $thumb_id ? get_post_meta($thumb_id, '_wp_attachment_image_alt', true) : get_the_title();
+					if ($srcset) echo 'srcset="' . esc_attr($srcset) . '" sizes="100vw"';
+					?>
+					alt="<?php echo esc_attr($alt); ?>"
+					loading="eager"
+					fetchpriority="high"
+					decoding="async"
+				>
+				<div class="anna-single-hero__fade" aria-hidden="true"></div>
+			<?php endif; ?>
 
 			<div class="anna-single-hero__overlay" aria-hidden="true"></div>
 

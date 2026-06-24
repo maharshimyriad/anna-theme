@@ -20,6 +20,10 @@
    HERO
    ════════════════════════════════════════════════════════════════════════ */
 
+/* ════════════════════════════════════════════════════════════════════════
+   HERO
+   ════════════════════════════════════════════════════════════════════════ */
+
 .anna-single-hero {
   position: relative;
   display: flex;
@@ -30,22 +34,55 @@
   overflow: hidden;
 }
 
-/* Featured image as background */
-.anna-single-hero--has-image {
-  background-image: var(--hero-img);
-  background-size: cover;
-  background-position: center 55%;
-  background-repeat: no-repeat;
+/*
+ * Featured image — anchored to the right side of the section.
+ * Uses object-position: right center so portrait/landscape images
+ * always show from the right edge inward, never cutting the subject.
+ */
+.anna-single-hero--has-image .anna-hero__bg-image,
+.anna-single-hero__bg-image {
+  position: absolute !important;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right center;
+  z-index: 0 !important;
+  pointer-events: none;
+  user-select: none;
 }
 
-/* Gradient overlay — dark at bottom where text sits, transparent at top */
+/*
+ * Left-to-right fade — starts fully opaque (matching the dark bg colour)
+ * at the left edge, fades to transparent just past the container boundary.
+ * This creates the illusion that the background colour bleeds right up to
+ * the container edge, then the image appears to float behind it.
+ */
+.anna-single-hero__fade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to right,
+    var(--color-primary-dark) 0%,
+    var(--color-primary-dark) 35%,
+    rgba(10, 26, 22, 0.85) 52%,
+    rgba(10, 26, 22, 0.45) 68%,
+    rgba(10, 26, 22, 0.0) 82%
+  );
+  pointer-events: none;
+}
+
+/* Subtle bottom-to-top dark gradient so text is always readable */
 .anna-single-hero__overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom,
-      rgba(10, 26, 22, 0.15) 0%,
-      rgba(10, 26, 22, 0.45) 45%,
-      rgba(10, 26, 22, 0.82) 100%);
+  background: linear-gradient(
+    to top,
+    rgba(10, 26, 22, 0.55) 0%,
+    rgba(10, 26, 22, 0.10) 50%,
+    transparent 100%
+  );
   z-index: 1;
 }
 
@@ -56,7 +93,8 @@
 }
 
 .anna-single-hero__content {
-  max-width: none;
+  /* Keep content within the left ~55% so it never overlaps the image */
+  max-width: 58%;
   padding: clamp(2.5rem, 5vw, 4rem) 0 clamp(3rem, 6vw, 5rem);
 }
 
@@ -501,15 +539,35 @@
     align-items: flex-end;
   }
 
+  /* On mobile: image fills full section, fade goes bottom-to-top */
+  .anna-single-hero__bg-image,
+  .anna-single-hero--has-image .anna-hero__bg-image {
+    object-position: center 30%;
+  }
+
+  .anna-single-hero__fade {
+    background: linear-gradient(
+      to top,
+      var(--color-primary-dark) 0%,
+      rgba(10, 26, 22, 0.75) 40%,
+      rgba(10, 26, 22, 0.2) 75%,
+      transparent 100%
+    );
+  }
+
+  .anna-single-hero__content {
+    max-width: 100%;
+  }
+
   .anna-single-nav .nav-links {
     grid-template-columns: 50% 50%;
     gap: var(--space-5);
-	overflow:hidden;
+    overflow: hidden;
   }
-	
-	.anna-single-nav--sticky .anna-single-nav__title{
-		max-width:10rem;
-	}
+
+  .anna-single-nav--sticky .anna-single-nav__title {
+    max-width: 10rem;
+  }
 
   .anna-single-nav .nav-next {
     justify-content: flex-start;
