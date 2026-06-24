@@ -28,6 +28,7 @@
 /* Hide the embed's own internal h4 — we output our own h3 above the embed */
 .anna-footer__col--newsletter .ml-form-embedContent h4 {
   display: none;
+  
 }
 
 .anna-footer__grid .ml-form-embedContent p {
