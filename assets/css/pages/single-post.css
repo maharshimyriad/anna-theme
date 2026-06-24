@@ -24,6 +24,7 @@
   display: flex;
   align-items: stretch;
   min-height: 44svh;
+  max-height: 60svh;
   margin-top: var(--header-height);
   background-color: var(--color-primary);
   overflow: hidden;
@@ -75,8 +76,11 @@
 }
 
 /*
- * Fade overlay — left edge is solid primary colour, fades to transparent.
- * Blends the background seamlessly into the image with no hard edge.
+ * Fade overlay — multi-layer gradient so the image merges naturally:
+ *   Layer 1 (horizontal): solid primary → transparent, wide transition zone
+ *   Layer 2 (vertical top): subtle primary vignette at the top edge
+ *   Layer 3 (vertical bottom): deeper fade at bottom so image grounds itself
+ * The wide horizontal stops (0%→55%) give a very soft, paint-like blend.
  */
 .anna-single-hero__right::before {
   content: '';
@@ -84,14 +88,31 @@
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: linear-gradient(
-    to right,
-    var(--color-primary)       0%,
-    rgba(0, 112, 99, 0.90)    18%,
-    rgba(0, 112, 99, 0.55)    40%,
-    rgba(0, 112, 99, 0.15)    68%,
-    rgba(0, 112, 99, 0.0)    100%
-  );
+  background:
+    /* Left-to-right horizontal blend — the main merge */
+    linear-gradient(
+      to right,
+      var(--color-primary)        0%,
+      rgba(0, 112, 99, 0.97)     10%,
+      rgba(0, 112, 99, 0.88)     22%,
+      rgba(0, 112, 99, 0.70)     35%,
+      rgba(0, 112, 99, 0.45)     50%,
+      rgba(0, 112, 99, 0.20)     65%,
+      rgba(0, 112, 99, 0.06)     80%,
+      rgba(0, 112, 99, 0.0)     100%
+    ),
+    /* Top vignette — anchors image to bg at the top edge */
+    linear-gradient(
+      to bottom,
+      rgba(0, 112, 99, 0.55)  0%,
+      rgba(0, 112, 99, 0.0)  35%
+    ),
+    /* Bottom vignette — grounds the image */
+    linear-gradient(
+      to top,
+      rgba(0, 112, 99, 0.40)  0%,
+      rgba(0, 112, 99, 0.0)  30%
+    );
 }
 
 /* No image: expand left column to full width */
@@ -575,13 +596,23 @@
 
   /* Mobile fade: top-to-bottom, primary colour merges into image from top */
   .anna-single-hero__right::before {
-    background: linear-gradient(
-      to bottom,
-      var(--color-primary)        0%,
-      rgba(0, 112, 99, 0.75)     25%,
-      rgba(0, 112, 99, 0.20)     55%,
-      rgba(0, 112, 99, 0.0)     100%
-    );
+    background:
+      linear-gradient(
+        to bottom,
+        var(--color-primary)        0%,
+        rgba(0, 112, 99, 0.90)     12%,
+        rgba(0, 112, 99, 0.60)     28%,
+        rgba(0, 112, 99, 0.25)     50%,
+        rgba(0, 112, 99, 0.0)      75%
+      ),
+      /* Side vignettes on mobile so image doesn't look cut off */
+      linear-gradient(
+        to right,
+        rgba(0, 112, 99, 0.35) 0%,
+        rgba(0, 112, 99, 0.0)  20%,
+        rgba(0, 112, 99, 0.0)  80%,
+        rgba(0, 112, 99, 0.35) 100%
+      );
   }
 
   .anna-single-hero__content {
