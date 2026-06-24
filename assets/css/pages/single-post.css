@@ -1,12 +1,10 @@
 /**
- * Single post page styles — redesigned.
+ * Single post page styles.
  *
- * Layout:
- *   1. Full-bleed hero: featured image + dark gradient + breadcrumb + title + meta
- *   2. Wide article body with generous white space
- *   3. Share bar inside article footer
- *   4. Post prev/next navigation
- *   5. You might also like grid (reuses anna-blog-card)
+ * Hero layout:
+ *   - Left column: bg colour + text content
+ *   - Right column: image contained at natural ratio, flush to right edge
+ *   - Fade overlay merges the bg colour seamlessly into the left edge of the image
  *
  * @package Anna_Baylis
  * @since   1.0.0
@@ -20,82 +18,88 @@
    HERO
    ════════════════════════════════════════════════════════════════════════ */
 
-/* ════════════════════════════════════════════════════════════════════════
-   HERO
-   ════════════════════════════════════════════════════════════════════════ */
-
 .anna-single-hero {
   position: relative;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   min-height: 55svh;
   margin-top: var(--header-height);
-  background-color: var(--color-primary-dark);
+  background-color: #071a16;
+  overflow: hidden;
+}
+
+/* ── Inner layout: text left, image right ─────────────────────────────── */
+.anna-single-hero__inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+}
+
+/* Left column — bg colour, holds all text */
+.anna-single-hero__left {
+  flex: 0 0 55%;
+  display: flex;
+  align-items: center;
+  padding: clamp(3rem, 6vw, 5rem) 0 clamp(3rem, 6vw, 5rem) 0;
+  position: relative;
+  z-index: 2;
+}
+
+/* Right column — image container, flush to the right edge */
+.anna-single-hero__right {
+  flex: 0 0 45%;
+  position: relative;
   overflow: hidden;
 }
 
 /*
- * Featured image — anchored to the right side of the section.
- * Uses object-position: right center so portrait/landscape images
- * always show from the right edge inward, never cutting the subject.
+ * The image — contained (not cropped), aligned to the right edge.
+ * Fills the full height of the hero, width scales naturally.
+ * Portrait images stay portrait, landscape stay landscape.
  */
-.anna-single-hero--has-image .anna-hero__bg-image,
-.anna-single-hero__bg-image {
-  position: absolute !important;
-  inset: 0;
+.anna-single-hero__img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: right center;
-  z-index: 0 !important;
-  pointer-events: none;
-  user-select: none;
+  object-position: center top;
 }
 
 /*
- * Left-to-right fade — starts fully opaque (matching the dark bg colour)
- * at the left edge, fades to transparent just past the container boundary.
- * This creates the illusion that the background colour bleeds right up to
- * the container edge, then the image appears to float behind it.
+ * Fade overlay on the image — left edge fully matches the bg colour (#071a16),
+ * fades to transparent toward the center of the image.
+ * This makes the bg "merge" seamlessly into the image.
  */
-.anna-single-hero__fade {
+.anna-single-hero__right::before {
+  content: '';
   position: absolute;
   inset: 0;
   z-index: 1;
+  pointer-events: none;
   background: linear-gradient(
     to right,
-    var(--color-primary-dark) 0%,
-    var(--color-primary-dark) 35%,
-    rgba(10, 26, 22, 0.85) 52%,
-    rgba(10, 26, 22, 0.45) 68%,
-    rgba(10, 26, 22, 0.0) 82%
+    #071a16 0%,
+    rgba(7, 26, 22, 0.92) 15%,
+    rgba(7, 26, 22, 0.55) 38%,
+    rgba(7, 26, 22, 0.15) 65%,
+    rgba(7, 26, 22, 0.0) 100%
   );
-  pointer-events: none;
 }
 
-/* Subtle bottom-to-top dark gradient so text is always readable */
-.anna-single-hero__overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(10, 26, 22, 0.55) 0%,
-    rgba(10, 26, 22, 0.10) 50%,
-    transparent 100%
-  );
-  z-index: 1;
+/* No image fallback — hero still looks fine with just bg colour */
+.anna-single-hero:not(.anna-single-hero--has-image) .anna-single-hero__right {
+  display: none;
 }
 
-.anna-single-hero .anna-container {
-  position: relative;
-  z-index: 2;
-  width: 100%;
+.anna-single-hero:not(.anna-single-hero--has-image) .anna-single-hero__left {
+  flex: 0 0 100%;
 }
 
 .anna-single-hero__content {
-  /* Keep content within the left ~55% so it never overlaps the image */
-  max-width: 58%;
-  padding: clamp(2.5rem, 5vw, 4rem) 0 clamp(3rem, 6vw, 5rem);
+  width: 100%;
+  padding-right: clamp(2rem, 4vw, 4rem);
 }
 
 /* ── Breadcrumb ──────────────────────────────────────────────────────────── */
@@ -535,28 +539,48 @@
 
 @media (max-width: 768px) {
   .anna-single-hero {
-    min-height: clamp(360px, 70vw, 520px);
-    align-items: flex-end;
+    min-height: auto;
   }
 
-  /* On mobile: image fills full section, fade goes bottom-to-top */
-  .anna-single-hero__bg-image,
-  .anna-single-hero--has-image .anna-hero__bg-image {
-    object-position: center 30%;
+  /* Stack vertically on mobile: image on top, text below */
+  .anna-single-hero__inner {
+    flex-direction: column;
   }
 
-  .anna-single-hero__fade {
+  .anna-single-hero__left {
+    flex: none;
+    width: 100%;
+    padding: clamp(2rem, 5vw, 3rem) 0;
+    order: 2;
+  }
+
+  .anna-single-hero__right {
+    flex: none;
+    width: 100%;
+    height: clamp(220px, 50vw, 380px);
+    order: 1;
+  }
+
+  .anna-single-hero__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+  }
+
+  /* Mobile fade: top-to-bottom so image merges into the text area below */
+  .anna-single-hero__right::before {
     background: linear-gradient(
-      to top,
-      var(--color-primary-dark) 0%,
-      rgba(10, 26, 22, 0.75) 40%,
-      rgba(10, 26, 22, 0.2) 75%,
-      transparent 100%
+      to bottom,
+      rgba(7, 26, 22, 0.0) 0%,
+      rgba(7, 26, 22, 0.15) 55%,
+      rgba(7, 26, 22, 0.75) 80%,
+      #071a16 100%
     );
   }
 
   .anna-single-hero__content {
-    max-width: 100%;
+    padding-right: 0;
   }
 
   .anna-single-nav .nav-links {

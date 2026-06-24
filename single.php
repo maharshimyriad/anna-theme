@@ -26,33 +26,16 @@ $email_body = urlencode(get_the_title() . ' — ' . get_permalink());
 		the_post(); ?>
 
 		<!-- ════════════════════════════════════════════════════════════════
-		 HERO — image anchored right, gradient fade over text on left
+		 HERO — image contained on right, bg merges via fade
 		 ════════════════════════════════════════════════════════════════ -->
 		<section class="anna-hero-section anna-single-hero<?php echo $thumb_url ? ' anna-single-hero--has-image' : ''; ?>"
 			aria-label="<?php echo esc_attr(get_the_title()); ?>">
 
-			<?php if ($thumb_url) : ?>
-				<img
-					class="anna-single-hero__bg-image"
-					src="<?php echo esc_url($thumb_url); ?>"
-					<?php
-					$thumb_id = get_post_thumbnail_id(get_the_ID());
-					$srcset   = $thumb_id ? wp_get_attachment_image_srcset($thumb_id, 'full') : '';
-					$alt      = $thumb_id ? get_post_meta($thumb_id, '_wp_attachment_image_alt', true) : get_the_title();
-					if ($srcset) echo 'srcset="' . esc_attr($srcset) . '" sizes="100vw"';
-					?>
-					alt="<?php echo esc_attr($alt); ?>"
-					loading="eager"
-					fetchpriority="high"
-					decoding="async"
-				>
-				<div class="anna-single-hero__fade" aria-hidden="true"></div>
-			<?php endif; ?>
+			<div class="anna-single-hero__inner anna-container anna-container--max">
 
-			<div class="anna-single-hero__overlay" aria-hidden="true"></div>
-
-			<div class="anna-container anna-container--max">
-				<div class="anna-single-hero__content anna-reveal">
+				<!-- Left: text content on the bg colour -->
+				<div class="anna-single-hero__left">
+					<div class="anna-single-hero__content anna-reveal">
 
 					<!-- Breadcrumbs -->
 					<nav class="anna-single-breadcrumb" aria-label="<?php esc_attr_e('Breadcrumb', 'anna-baylis'); ?>">
@@ -115,7 +98,28 @@ $email_body = urlencode(get_the_title() . ' — ' . get_permalink());
 					</div>
 
 				</div>
-			</div>
+				</div><!-- /.anna-single-hero__left -->
+
+				<!-- Right: image contained, flush to right edge -->
+				<?php if ($thumb_url) :
+					$thumb_id = get_post_thumbnail_id(get_the_ID());
+					$srcset   = $thumb_id ? wp_get_attachment_image_srcset($thumb_id, 'full') : '';
+					$alt      = $thumb_id ? get_post_meta($thumb_id, '_wp_attachment_image_alt', true) : get_the_title();
+				?>
+					<div class="anna-single-hero__right" aria-hidden="true">
+						<img
+							class="anna-single-hero__img"
+							src="<?php echo esc_url($thumb_url); ?>"
+							<?php if ($srcset) : ?>srcset="<?php echo esc_attr($srcset); ?>" sizes="45vw"<?php endif; ?>
+							alt=""
+							loading="eager"
+							fetchpriority="high"
+							decoding="async"
+						>
+					</div>
+				<?php endif; ?>
+
+			</div><!-- /.anna-single-hero__inner -->
 		</section>
 
 		<!-- ════════════════════════════════════════════════════════════════
