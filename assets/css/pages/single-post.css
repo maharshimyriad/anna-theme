@@ -57,7 +57,6 @@
   flex: 0 0 clamp(240px, 35vw, 460px);
   align-self: stretch;
   position: relative;
-  border-radius: var(--radius-lg);
   overflow: hidden;
   flex-shrink: 0;
 }
