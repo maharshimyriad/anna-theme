@@ -26,46 +26,8 @@
   min-height: 44svh;
   max-height: 60svh;
   margin-top: var(--header-height);
-  background-color: var(--color-primary-dark);
+  background-color: var(--color-primary);
   overflow: hidden;
-}
-
-/*
- * BACKGROUND LAYER — same image, full bleed, blurred + scaled up slightly
- * so the blur doesn't show transparent edges.
- */
-.anna-single-hero__bg-blur {
-  position: absolute !important;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 30%;
-  z-index: 0 !important;
-  filter: blur(18px) brightness(0.45) saturate(1.2);
-  transform: scale(1.08); /* prevents blur edge bleed */
-  pointer-events: none;
-  user-select: none;
-}
-
-/*
- * SCRIM — primary-tinted dark overlay over the blurred bg.
- * Left side is heavier so text always reads cleanly.
- * Right side is lighter so the blur shows through behind the sharp image.
- */
-.anna-single-hero__scrim {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(
-    to right,
-    rgba(0, 56, 48, 0.90)  0%,
-    rgba(0, 56, 48, 0.80)  35%,
-    rgba(0, 56, 48, 0.55)  55%,
-    rgba(0, 56, 48, 0.25)  75%,
-    rgba(0, 56, 48, 0.10) 100%
-  );
 }
 
 /* ── Inner layout: text left, image right ─────────────────────────────── */
@@ -74,10 +36,10 @@
   align-items: stretch;
   width: 100%;
   position: relative;
-  z-index: 2;
+  z-index: 1;
 }
 
-/* Left column — constrained like a container, text aligns with site grid */
+/* Left column — solid primary bg, text aligned to site container grid */
 .anna-single-hero__left {
   flex: 0 0 55%;
   display: flex;
@@ -85,20 +47,26 @@
   padding: clamp(3rem, 6vw, 5rem) clamp(1.25rem, 5vw, 3rem);
   padding-left: max(clamp(1.25rem, 5vw, 3rem), calc((100vw - var(--container-max)) / 2 + clamp(1.25rem, 5vw, 3rem)));
   position: relative;
-  z-index: 2;
+  z-index: 1;
+  /* Subtle accent glow bottom-left — adds depth on the solid bg */
+  background: radial-gradient(
+    ellipse 80% 70% at 0% 100%,
+    rgba(76, 165, 145, 0.18) 0%,
+    transparent 70%
+  );
 }
 
-/* Right column — transparent so blurred bg layer shows through */
+/* Right column — same primary bg, image sits at bottom */
 .anna-single-hero__right {
   flex: 1 1 0;
   position: relative;
   display: flex;
   align-items: flex-end;
   overflow: hidden;
-  background-color: transparent;
+  background-color: var(--color-primary);
 }
 
-/* Sharp contained image — bottom-right, sits above blurred bg */
+/* The image — contained so portrait/landscape never crops */
 .anna-single-hero__img {
   display: block;
   width: 100%;
@@ -109,53 +77,51 @@
   z-index: 0;
 }
 
-/* FADE LAYER 1 — horizontal dissolve into blurred bg */
+/*
+ * FADE — primary colour dissolves into the image from the left.
+ * Accent colour bleeds in at the bottom to tie the two columns together.
+ */
 .anna-single-hero__right::before {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  background: linear-gradient(
-    to right,
-    rgba(0, 40, 34, 0.98)  0%,
-    rgba(0, 50, 42, 0.85)  18%,
-    rgba(0, 60, 50, 0.60)  35%,
-    rgba(0, 70, 58, 0.30)  52%,
-    rgba(0, 80, 65, 0.10)  68%,
-    transparent            85%
-  );
-}
-
-/* FADE LAYER 2 — top + bottom vignettes */
-.anna-single-hero__right::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  pointer-events: none;
   background:
+    /* Left-to-right: primary → transparent */
+    linear-gradient(
+      to right,
+      var(--color-primary)          0%,
+      rgba(0, 112, 99, 0.95)       12%,
+      rgba(0, 112, 99, 0.75)       28%,
+      rgba(0, 112, 99, 0.40)       46%,
+      rgba(0, 112, 99, 0.12)       64%,
+      transparent                  80%
+    ),
+    /* Top: primary bleeds down from the header edge */
     linear-gradient(
       to bottom,
-      rgba(0, 40, 34, 0.80)  0%,
-      rgba(0, 40, 34, 0.40)  12%,
-      transparent            35%
+      var(--color-primary)          0%,
+      rgba(0, 112, 99, 0.60)       10%,
+      transparent                  30%
     ),
+    /* Bottom: accent colour rises up — ties to the left column glow */
     linear-gradient(
       to top,
-      rgba(0, 40, 34, 0.70)  0%,
-      rgba(0, 40, 34, 0.30)  15%,
-      transparent            35%
+      rgba(76, 165, 145, 0.55)     0%,
+      rgba(76, 165, 145, 0.20)     18%,
+      transparent                  40%
     );
 }
 
-/* No image: expand left column to full width */
+/* No image: full width */
 .anna-single-hero:not(.anna-single-hero--has-image) .anna-single-hero__right {
   display: none;
 }
 
 .anna-single-hero:not(.anna-single-hero--has-image) .anna-single-hero__left {
   flex: 0 0 100%;
+  background: none;
 }
 
 .anna-single-hero__content {
@@ -628,30 +594,21 @@
     object-position: center top;
   }
 
-  /* Mobile fade: top-to-bottom, primary colour merges into image from top */
+  /* Mobile fade: primary top → accent bottom */
   .anna-single-hero__right::before {
-    background: linear-gradient(
-      to bottom,
-      #007063            0%,
-      rgba(0,112,99,0.9) 15%,
-      rgba(0,112,99,0.5) 40%,
-      rgba(0,112,99,0.0) 70%
-    );
-  }
-
-  .anna-single-hero__right::after {
     background:
       linear-gradient(
-        to right,
-        #007063            0%,
-        rgba(0,112,99,0.4) 15%,
-        rgba(0,112,99,0.0) 40%
+        to bottom,
+        var(--color-primary)         0%,
+        rgba(0, 112, 99, 0.80)      18%,
+        rgba(0, 112, 99, 0.35)      45%,
+        transparent                  70%
       ),
       linear-gradient(
-        to left,
-        #007063            0%,
-        rgba(0,112,99,0.4) 15%,
-        rgba(0,112,99,0.0) 40%
+        to top,
+        rgba(76, 165, 145, 0.50)    0%,
+        rgba(76, 165, 145, 0.15)    20%,
+        transparent                  40%
       );
   }
 
