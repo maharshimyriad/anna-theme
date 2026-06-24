@@ -1060,6 +1060,9 @@
 	.anna-testimonials-section .rplg .grw-slider:not(.wp-dark) .grw-slider-review-inner.grw-slider-review-border{
 		margin:0 !important;
 	}
+  .anna-hero-section>.anna-hero__bg-image{
+    object-position: 80% top;
+  }
 }
 
 @media (max-width: 767px) {
