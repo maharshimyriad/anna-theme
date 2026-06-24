@@ -31,10 +31,22 @@ if ( empty( $cta_second['url'] ) || '#' === $cta_second['url'] ) {
 		class="anna-hero-section anna-section"
 		id="hero"
 		aria-labelledby="hero-heading"
-		<?php if ( $hero_image ) : ?>
-			style="background-image:url('<?php echo esc_url( anna_responsive_image_url( $hero_image, 'full' ) ); ?>');"
-		<?php endif; ?>
 	>
+		<?php if ( $hero_image ) :
+			$hero_img_url = anna_responsive_image_url( $hero_image, 'full' );
+			$hero_srcset  = wp_get_attachment_image_srcset( $hero_image, 'full' );
+			$hero_alt     = get_post_meta( $hero_image, '_wp_attachment_image_alt', true );
+		?>
+			<img
+				class="anna-hero__bg-image"
+				src="<?php echo esc_url( $hero_img_url ); ?>"
+				<?php if ( $hero_srcset ) : ?>srcset="<?php echo esc_attr( $hero_srcset ); ?>" sizes="100vw"<?php endif; ?>
+				alt="<?php echo esc_attr( $hero_alt ); ?>"
+				loading="eager"
+				fetchpriority="high"
+				decoding="async"
+			>
+		<?php endif; ?>
 		<div class="anna-container anna-container--max">
 			<div class="anna-hero__inner">
 				<div class="anna-hero__content anna-reveal">

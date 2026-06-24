@@ -3,11 +3,9 @@
   min-height: 84svh;
   display: flex;
   align-items: center;
+  overflow: hidden;
   margin-top: var(--header-height);
   background-color: var(--color-bg-soft);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: top;
 }
 
 .anna-hero-section::before {
@@ -17,6 +15,7 @@
   background: linear-gradient(90deg, rgba(22, 43, 37, 0.58) 0%, rgba(22, 43, 37, 0.42) 35%, rgba(22, 43, 37, 0.08) 72%, rgba(22, 43, 37, 0.02) 100%);
   background-size: 120% 120%;
   animation: annaHeroOverlayShift 14s ease-in-out infinite alternate;
+  z-index: 1;
 }
 
 .anna-hero-section::after {
@@ -32,11 +31,26 @@
   opacity: 0.8;
   pointer-events: none;
   animation: annaHeroGlow 9s ease-in-out infinite alternate;
+  z-index: 1;
 }
 
-.anna-hero-section>* {
+/* All direct children sit above the bg image and overlays */
+.anna-hero-section > * {
   position: relative;
-  z-index: 1;
+  z-index: 2;
+}
+
+/* Keep the bg image pinned behind everything */
+.anna-hero-section > .anna-hero__bg-image {
+  position: absolute !important;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  z-index: 0 !important;
+  pointer-events: none;
+  user-select: none;
 }
 
 .anna-hero__inner {
