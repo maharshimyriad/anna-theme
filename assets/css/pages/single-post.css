@@ -22,7 +22,6 @@
 .anna-single-hero {
   position: relative;
   display: flex;
-  align-items: center;
   min-height: 44svh;
   max-height: 60svh;
   margin-top: var(--header-height);
