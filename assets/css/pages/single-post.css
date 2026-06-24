@@ -70,27 +70,9 @@
   object-position: center top;
 }
 
-/*
- * Fade overlay — covers the image frame from left to right.
- * Left edge: solid primary (matches section bg seamlessly).
- * Transitions through accent → transparent toward the right.
- * This is placed on the image frame so it always overlays image pixels.
- */
+/* Fade hidden on desktop — only active on mobile */
 .anna-single-hero__fade {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(
-    to right,
-    var(--color-primary)          0%,
-    var(--color-primary)          12%,
-    rgba(0, 112, 99, 0.88)       25%,
-    rgba(76, 165, 145, 0.65)     42%,
-    rgba(76, 165, 145, 0.30)     60%,
-    rgba(76, 165, 145, 0.08)     78%,
-    transparent                   92%
-  );
+  display: none;
 }
 
 /* No image: hide right column */
@@ -567,6 +549,11 @@
 
   /* Full-section dark overlay so text is always readable */
   .anna-single-hero__fade {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
     background: linear-gradient(
       to bottom,
       rgba(0, 112, 99, 0.55)  0%,
