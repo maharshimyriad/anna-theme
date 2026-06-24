@@ -22,10 +22,22 @@ $has_image = ! empty( $oasis['hero_image_id'] );
 
 	<section
 		class="anna-hero-section anna-oasis-page-hero<?php echo $has_image ? ' anna-oasis-page-hero--has-image' : ''; ?>"
-		<?php if ( $has_image ) : ?>
-			style="background-image:url('<?php echo esc_url( anna_responsive_image_url( absint( $oasis['hero_image_id'] ), 'full' ) ); ?>');"
-		<?php endif; ?>
 	>
+		<?php if ( $has_image ) :
+			$_img_id  = absint( $oasis['hero_image_id'] );
+			$_srcset  = wp_get_attachment_image_srcset( $_img_id, 'full' );
+			$_alt     = get_post_meta( $_img_id, '_wp_attachment_image_alt', true );
+		?>
+			<img
+				class="anna-hero__bg-image"
+				src="<?php echo esc_url( anna_responsive_image_url( $_img_id, 'full' ) ); ?>"
+				<?php if ( $_srcset ) : ?>srcset="<?php echo esc_attr( $_srcset ); ?>" sizes="100vw"<?php endif; ?>
+				alt="<?php echo esc_attr( $_alt ); ?>"
+				loading="eager"
+				fetchpriority="high"
+				decoding="async"
+			>
+		<?php endif; ?>
 		<div class="anna-container anna-container--max">
 			<div class="anna-oasis-page-hero__content anna-reveal">
 
