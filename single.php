@@ -26,10 +26,25 @@ $email_body = urlencode(get_the_title() . ' — ' . get_permalink());
 		the_post(); ?>
 
 		<!-- ════════════════════════════════════════════════════════════════
-		 HERO — image contained on right, bg merges via fade
+		 HERO — blurred bg image full bleed + sharp contained image right
 		 ════════════════════════════════════════════════════════════════ -->
 		<section class="anna-hero-section anna-single-hero<?php echo $thumb_url ? ' anna-single-hero--has-image' : ''; ?>"
 			aria-label="<?php echo esc_attr(get_the_title()); ?>">
+
+			<?php if ($thumb_url) : ?>
+				<!-- Blurred full-bleed background layer -->
+				<img
+					class="anna-single-hero__bg-blur"
+					src="<?php echo esc_url($thumb_url); ?>"
+					alt=""
+					aria-hidden="true"
+					loading="eager"
+					fetchpriority="high"
+					decoding="async"
+				>
+				<!-- Dark scrim over the blurred bg so left text stays readable -->
+				<div class="anna-single-hero__scrim" aria-hidden="true"></div>
+			<?php endif; ?>
 
 			<div class="anna-single-hero__inner">
 

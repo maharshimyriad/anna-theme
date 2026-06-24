@@ -26,20 +26,55 @@
   min-height: 44svh;
   max-height: 60svh;
   margin-top: var(--header-height);
-  background-color: var(--color-primary);
+  background-color: var(--color-primary-dark);
   overflow: hidden;
 }
 
-/* ── Inner layout: text left, image right ─────────────────────────────── */
 /*
- * The inner div is NOT a container — it fills 100% viewport width.
- * The left column uses padding to align its text with the container grid.
- * The right column stretches all the way to the true right viewport edge.
+ * BACKGROUND LAYER — same image, full bleed, blurred + scaled up slightly
+ * so the blur doesn't show transparent edges.
  */
+.anna-single-hero__bg-blur {
+  position: absolute !important;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  z-index: 0 !important;
+  filter: blur(18px) brightness(0.45) saturate(1.2);
+  transform: scale(1.08); /* prevents blur edge bleed */
+  pointer-events: none;
+  user-select: none;
+}
+
+/*
+ * SCRIM — primary-tinted dark overlay over the blurred bg.
+ * Left side is heavier so text always reads cleanly.
+ * Right side is lighter so the blur shows through behind the sharp image.
+ */
+.anna-single-hero__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    rgba(0, 56, 48, 0.90)  0%,
+    rgba(0, 56, 48, 0.80)  35%,
+    rgba(0, 56, 48, 0.55)  55%,
+    rgba(0, 56, 48, 0.25)  75%,
+    rgba(0, 56, 48, 0.10) 100%
+  );
+}
+
+/* ── Inner layout: text left, image right ─────────────────────────────── */
 .anna-single-hero__inner {
   display: flex;
   align-items: stretch;
   width: 100%;
+  position: relative;
+  z-index: 2;
 }
 
 /* Left column — constrained like a container, text aligns with site grid */
@@ -53,21 +88,17 @@
   z-index: 2;
 }
 
-/* Right column — fills from 55% to the true right viewport edge */
+/* Right column — transparent so blurred bg layer shows through */
 .anna-single-hero__right {
   flex: 1 1 0;
   position: relative;
   display: flex;
   align-items: flex-end;
   overflow: hidden;
-  /* Primary colour behind the transparent areas of a contained image */
-  background-color: var(--color-primary);
+  background-color: transparent;
 }
 
-/*
- * The image — contained so portrait/landscape are never cropped.
- * object-position: bottom right keeps the subject at the right edge bottom.
- */
+/* Sharp contained image — bottom-right, sits above blurred bg */
 .anna-single-hero__img {
   display: block;
   width: 100%;
@@ -78,11 +109,7 @@
   z-index: 0;
 }
 
-/*
- * FADE LAYER 1 — hard horizontal wipe using ::before.
- * Covers the full left half of the right column with solid primary,
- * then aggressively fades. This is the "background merging into image" effect.
- */
+/* FADE LAYER 1 — horizontal dissolve into blurred bg */
 .anna-single-hero__right::before {
   content: '';
   position: absolute;
@@ -91,22 +118,16 @@
   pointer-events: none;
   background: linear-gradient(
     to right,
-    #007063  0%,
-    #007063  20%,
-    rgba(0, 112, 99, 0.96)  30%,
-    rgba(0, 112, 99, 0.80)  42%,
-    rgba(0, 112, 99, 0.50)  55%,
-    rgba(0, 112, 99, 0.20)  68%,
-    rgba(0, 112, 99, 0.05)  80%,
-    transparent             100%
+    rgba(0, 40, 34, 0.98)  0%,
+    rgba(0, 50, 42, 0.85)  18%,
+    rgba(0, 60, 50, 0.60)  35%,
+    rgba(0, 70, 58, 0.30)  52%,
+    rgba(0, 80, 65, 0.10)  68%,
+    transparent            85%
   );
 }
 
-/*
- * FADE LAYER 2 — ::after handles top + bottom vignettes.
- * Top: primary bleeds down so the image doesn't look like it starts abruptly.
- * Bottom: strong fade grounds the image into the section floor.
- */
+/* FADE LAYER 2 — top + bottom vignettes */
 .anna-single-hero__right::after {
   content: '';
   position: absolute;
@@ -116,15 +137,15 @@
   background:
     linear-gradient(
       to bottom,
-      #007063            0%,
-      rgba(0,112,99,0.7) 10%,
-      rgba(0,112,99,0.0) 35%
+      rgba(0, 40, 34, 0.80)  0%,
+      rgba(0, 40, 34, 0.40)  12%,
+      transparent            35%
     ),
     linear-gradient(
       to top,
-      #007063            0%,
-      rgba(0,112,99,0.5) 12%,
-      rgba(0,112,99,0.0) 35%
+      rgba(0, 40, 34, 0.70)  0%,
+      rgba(0, 40, 34, 0.30)  15%,
+      transparent            35%
     );
 }
 
