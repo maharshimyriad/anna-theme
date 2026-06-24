@@ -26,7 +26,13 @@
   min-height: 44svh;
   max-height: 60svh;
   margin-top: var(--header-height);
-  background-color: var(--color-primary);
+  /* Primary → accent gradient across the whole section */
+  background: linear-gradient(
+    to right,
+    var(--color-primary)  0%,
+    var(--color-primary)  55%,
+    var(--color-accent)   100%
+  );
   overflow: hidden;
 }
 
@@ -39,7 +45,7 @@
   z-index: 1;
 }
 
-/* Left column — solid primary bg, text aligned to site container grid */
+/* Left column — transparent, gradient shows through */
 .anna-single-hero__left {
   flex: 0 0 55%;
   display: flex;
@@ -48,25 +54,19 @@
   padding-left: max(clamp(1.25rem, 5vw, 3rem), calc((100vw - var(--container-max)) / 2 + clamp(1.25rem, 5vw, 3rem)));
   position: relative;
   z-index: 1;
-  /* Subtle accent glow bottom-left — adds depth on the solid bg */
-  background: radial-gradient(
-    ellipse 80% 70% at 0% 100%,
-    rgba(76, 165, 145, 0.18) 0%,
-    transparent 70%
-  );
 }
 
-/* Right column — same primary bg, image sits at bottom */
+/* Right column — transparent so section gradient is the bg */
 .anna-single-hero__right {
   flex: 1 1 0;
   position: relative;
   display: flex;
   align-items: flex-end;
   overflow: hidden;
-  background-color: var(--color-primary);
+  background-color: transparent;
 }
 
-/* The image — contained so portrait/landscape never crops */
+/* The image — contained, bottom-right */
 .anna-single-hero__img {
   display: block;
   width: 100%;
@@ -78,8 +78,10 @@
 }
 
 /*
- * FADE — primary colour dissolves into the image from the left.
- * Accent colour bleeds in at the bottom to tie the two columns together.
+ * FADE — covers the full right column (including transparent image padding).
+ * Wipes from primary colour on the left edge → fully transparent on the right.
+ * Because the section bg is already primary→accent, this creates a seamless
+ * blend where the image appears to emerge from the brand gradient.
  */
 .anna-single-hero__right::before {
   content: '';
@@ -87,31 +89,16 @@
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  background:
-    /* Left-to-right: primary → transparent */
-    linear-gradient(
-      to right,
-      var(--color-primary)          0%,
-      rgba(0, 112, 99, 0.95)       12%,
-      rgba(0, 112, 99, 0.75)       28%,
-      rgba(0, 112, 99, 0.40)       46%,
-      rgba(0, 112, 99, 0.12)       64%,
-      transparent                  80%
-    ),
-    /* Top: primary bleeds down from the header edge */
-    linear-gradient(
-      to bottom,
-      var(--color-primary)          0%,
-      rgba(0, 112, 99, 0.60)       10%,
-      transparent                  30%
-    ),
-    /* Bottom: accent colour rises up — ties to the left column glow */
-    linear-gradient(
-      to top,
-      rgba(76, 165, 145, 0.55)     0%,
-      rgba(76, 165, 145, 0.20)     18%,
-      transparent                  40%
-    );
+  background: linear-gradient(
+    to right,
+    var(--color-primary)        0%,
+    var(--color-primary)        5%,
+    rgba(0, 112, 99, 0.90)     18%,
+    rgba(0, 112, 99, 0.65)     33%,
+    rgba(0, 112, 99, 0.35)     50%,
+    rgba(76, 165, 145, 0.15)   68%,
+    transparent                 85%
+  );
 }
 
 /* No image: full width */
@@ -121,7 +108,6 @@
 
 .anna-single-hero:not(.anna-single-hero--has-image) .anna-single-hero__left {
   flex: 0 0 100%;
-  background: none;
 }
 
 .anna-single-hero__content {
@@ -594,22 +580,15 @@
     object-position: center top;
   }
 
-  /* Mobile fade: primary top → accent bottom */
+  /* Mobile fade: primary top → accent fade, wipes over image from top */
   .anna-single-hero__right::before {
-    background:
-      linear-gradient(
-        to bottom,
-        var(--color-primary)         0%,
-        rgba(0, 112, 99, 0.80)      18%,
-        rgba(0, 112, 99, 0.35)      45%,
-        transparent                  70%
-      ),
-      linear-gradient(
-        to top,
-        rgba(76, 165, 145, 0.50)    0%,
-        rgba(76, 165, 145, 0.15)    20%,
-        transparent                  40%
-      );
+    background: linear-gradient(
+      to bottom,
+      var(--color-primary)        0%,
+      rgba(0, 112, 99, 0.85)     20%,
+      rgba(76, 165, 145, 0.35)   60%,
+      transparent                 85%
+    );
   }
 
   .anna-single-hero__content {
