@@ -544,7 +544,7 @@
     max-height: none;
     position: relative;
     display: block; /* reset flex so inner can be absolute */
-    padding: none !important;
+    padding: 0 !important;
   }
 
   /* Image becomes the full-bleed background */
