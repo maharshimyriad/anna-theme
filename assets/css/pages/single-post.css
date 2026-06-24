@@ -50,32 +50,40 @@
   z-index: 1;
 }
 
-/* Right column — fills to viewport edge */
+/* Right column — fills to viewport edge, primary bg behind the image */
 .anna-single-hero__right {
   flex: 1 1 0;
   position: relative;
   overflow: hidden;
+  background-color: var(--color-primary);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
 }
 
 /*
- * Image — cover fills the column fully so there is NO transparent gap.
- * This is the key fix: contain had transparent areas that hid the fade.
+ * Image — natural size, pinned to bottom-right.
+ * max-height caps it to the hero height. Width is auto so portrait stays portrait.
+ * This means the image is CONTAINED at its natural ratio, no cropping.
  */
 .anna-single-hero__img {
   display: block;
-  position: absolute;
-  inset: 0;
-  width: 100%;
+  position: relative;
+  z-index: 0;
   height: 100%;
-  object-fit: cover;
-  object-position: center top;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: bottom right;
+  flex-shrink: 0;
 }
 
 /*
- * FADE DIV — sits directly over the image pixels.
- * Left edge: solid accent colour (matches the primary bg transition).
- * Fades to transparent toward the right edge of the image.
- * Using accent (#4CA591) not primary so the fade has a visible colour shift.
+ * FADE DIV — full width/height overlay on the entire right column.
+ * Covers BOTH the primary background AND the image pixels.
+ * Primary solid on the left → accent → transparent on the right.
+ * Because it spans the full column, the fade is always visible
+ * regardless of where the image sits within the column.
  */
 .anna-single-hero__fade {
   position: absolute;
@@ -84,13 +92,14 @@
   pointer-events: none;
   background: linear-gradient(
     to right,
-    var(--color-primary)        0%,
-    var(--color-primary)        8%,
-    var(--color-accent)         28%,
-    rgba(76, 165, 145, 0.70)   42%,
-    rgba(76, 165, 145, 0.35)   58%,
-    rgba(76, 165, 145, 0.10)   74%,
-    transparent                 90%
+    var(--color-primary)              0%,
+    var(--color-primary)              15%,
+    rgba(0, 112, 99, 0.92)           28%,
+    var(--color-accent)              42%,
+    rgba(76, 165, 145, 0.60)        56%,
+    rgba(76, 165, 145, 0.25)        70%,
+    rgba(76, 165, 145, 0.05)        84%,
+    transparent                      95%
   );
 }
 
@@ -566,11 +575,13 @@
     height: clamp(200px, 55vw, 360px);
     order: 2;
     align-items: flex-end;
+    justify-content: flex-end;
   }
 
   .anna-single-hero__img {
-    object-fit: cover;
-    object-position: center top;
+    height: 100%;
+    width: auto;
+    max-width: 100%;
   }
 
   /* Mobile fade: primary → accent, top to bottom over the image */
@@ -578,10 +589,11 @@
     background: linear-gradient(
       to bottom,
       var(--color-primary)        0%,
-      var(--color-accent)         22%,
-      rgba(76, 165, 145, 0.50)   45%,
-      rgba(76, 165, 145, 0.15)   65%,
-      transparent                 85%
+      var(--color-primary)        10%,
+      var(--color-accent)         28%,
+      rgba(76, 165, 145, 0.50)   50%,
+      rgba(76, 165, 145, 0.15)   70%,
+      transparent                 88%
     );
   }
 
