@@ -1084,6 +1084,7 @@
   /* Show description in the strip below cards */
   .anna-hero__stats-strip__description {
     display: block;
+    
   }
 
   /* Hide secondary CTA on mobile */
