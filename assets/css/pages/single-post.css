@@ -55,17 +55,18 @@
 
 /* Right column — fills from 55% to the true right viewport edge */
 .anna-single-hero__right {
-  flex: 1 1 0;        /* take all remaining space to viewport edge */
+  flex: 1 1 0;
   position: relative;
   display: flex;
   align-items: flex-end;
   overflow: hidden;
+  /* Primary colour behind the transparent areas of a contained image */
+  background-color: var(--color-primary);
 }
 
 /*
- * The image — natural dimensions, bottom-aligned, full column width.
- * object-fit: contain so portrait/landscape are never cropped.
- * object-position: bottom right keeps the subject visible.
+ * The image — contained so portrait/landscape are never cropped.
+ * object-position: bottom right keeps the subject at the right edge bottom.
  */
 .anna-single-hero__img {
   display: block;
@@ -73,45 +74,57 @@
   height: 100%;
   object-fit: contain;
   object-position: bottom right;
+  position: relative;
+  z-index: 0;
 }
 
 /*
- * Fade overlay — multi-layer gradient so the image merges naturally:
- *   Layer 1 (horizontal): solid primary → transparent, wide transition zone
- *   Layer 2 (vertical top): subtle primary vignette at the top edge
- *   Layer 3 (vertical bottom): deeper fade at bottom so image grounds itself
- * The wide horizontal stops (0%→55%) give a very soft, paint-like blend.
+ * FADE LAYER 1 — hard horizontal wipe using ::before.
+ * Covers the full left half of the right column with solid primary,
+ * then aggressively fades. This is the "background merging into image" effect.
  */
 .anna-single-hero__right::before {
   content: '';
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    #007063  0%,
+    #007063  20%,
+    rgba(0, 112, 99, 0.96)  30%,
+    rgba(0, 112, 99, 0.80)  42%,
+    rgba(0, 112, 99, 0.50)  55%,
+    rgba(0, 112, 99, 0.20)  68%,
+    rgba(0, 112, 99, 0.05)  80%,
+    transparent             100%
+  );
+}
+
+/*
+ * FADE LAYER 2 — ::after handles top + bottom vignettes.
+ * Top: primary bleeds down so the image doesn't look like it starts abruptly.
+ * Bottom: strong fade grounds the image into the section floor.
+ */
+.anna-single-hero__right::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
   pointer-events: none;
   background:
-    /* Left-to-right horizontal blend — the main merge */
-    linear-gradient(
-      to right,
-      var(--color-primary)        0%,
-      rgba(0, 112, 99, 0.97)     10%,
-      rgba(0, 112, 99, 0.88)     22%,
-      rgba(0, 112, 99, 0.70)     35%,
-      rgba(0, 112, 99, 0.45)     50%,
-      rgba(0, 112, 99, 0.20)     65%,
-      rgba(0, 112, 99, 0.06)     80%,
-      rgba(0, 112, 99, 0.0)     100%
-    ),
-    /* Top vignette — anchors image to bg at the top edge */
     linear-gradient(
       to bottom,
-      rgba(0, 112, 99, 0.55)  0%,
-      rgba(0, 112, 99, 0.0)  35%
+      #007063            0%,
+      rgba(0,112,99,0.7) 10%,
+      rgba(0,112,99,0.0) 35%
     ),
-    /* Bottom vignette — grounds the image */
     linear-gradient(
       to top,
-      rgba(0, 112, 99, 0.40)  0%,
-      rgba(0, 112, 99, 0.0)  30%
+      #007063            0%,
+      rgba(0,112,99,0.5) 12%,
+      rgba(0,112,99,0.0) 35%
     );
 }
 
@@ -596,22 +609,28 @@
 
   /* Mobile fade: top-to-bottom, primary colour merges into image from top */
   .anna-single-hero__right::before {
+    background: linear-gradient(
+      to bottom,
+      #007063            0%,
+      rgba(0,112,99,0.9) 15%,
+      rgba(0,112,99,0.5) 40%,
+      rgba(0,112,99,0.0) 70%
+    );
+  }
+
+  .anna-single-hero__right::after {
     background:
       linear-gradient(
-        to bottom,
-        var(--color-primary)        0%,
-        rgba(0, 112, 99, 0.90)     12%,
-        rgba(0, 112, 99, 0.60)     28%,
-        rgba(0, 112, 99, 0.25)     50%,
-        rgba(0, 112, 99, 0.0)      75%
-      ),
-      /* Side vignettes on mobile so image doesn't look cut off */
-      linear-gradient(
         to right,
-        rgba(0, 112, 99, 0.35) 0%,
-        rgba(0, 112, 99, 0.0)  20%,
-        rgba(0, 112, 99, 0.0)  80%,
-        rgba(0, 112, 99, 0.35) 100%
+        #007063            0%,
+        rgba(0,112,99,0.4) 15%,
+        rgba(0,112,99,0.0) 40%
+      ),
+      linear-gradient(
+        to left,
+        #007063            0%,
+        rgba(0,112,99,0.4) 15%,
+        rgba(0,112,99,0.0) 40%
       );
   }
 
