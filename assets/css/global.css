@@ -3725,6 +3725,6 @@ figure:has(> img) {
 }
 
 
-.anna-footer__col--newsletter .ml-form-embedContent h4 {
+.anna-footer__col--newsletter .ml-form-embedContent{
   display: none;
 }
