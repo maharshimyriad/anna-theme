@@ -415,3 +415,66 @@ function anna_preconnect_fonts()
 	echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
 }
 add_action('wp_head', 'anna_preconnect_fonts', 1);
+
+/**
+ * Preload the hero background image on pages that use one.
+ *
+ * Outputs a <link rel="preload"> with imagesrcset so the browser
+ * fetches the LCP image at the earliest possible moment — before
+ * CSS or JS has been parsed.
+ */
+function anna_preload_hero_image()
+{
+	$image_id = 0;
+
+	if ( is_front_page() ) {
+		$content = anna_get_homepage_hero_content();
+		$image_id = absint( $content['image_id'] ?? 0 );
+	} elseif ( function_exists( 'anna_get_about_page_content' ) && ( is_page_template( 'page-about.php' ) || is_page( 'about' ) ) ) {
+		$content  = anna_get_about_page_content();
+		$image_id = absint( $content['hero_image_id'] ?? 0 );
+	} elseif ( function_exists( 'anna_get_coaching_page_content' ) && ( is_page_template( 'page-coaching.php' ) || is_page( 'coaching' ) ) ) {
+		$content  = anna_get_coaching_page_content();
+		$image_id = absint( $content['hero_image_id'] ?? 0 );
+	} elseif ( function_exists( 'anna_get_speaking_page_content' ) && ( is_page_template( 'page-speaking.php' ) || is_page( 'speaking' ) ) ) {
+		$content  = anna_get_speaking_page_content();
+		$image_id = absint( $content['hero_image_id'] ?? 0 );
+	} elseif ( function_exists( 'anna_get_oasis_page_content' ) && ( is_page_template( 'page-oasis.php' ) || is_page( 'oasis' ) ) ) {
+		$content  = anna_get_oasis_page_content();
+		$image_id = absint( $content['hero_image_id'] ?? 0 );
+	} elseif ( function_exists( 'anna_get_mhs_page_content' ) && ( is_page_template( 'page-mental-health-support.php' ) || is_page( 'mental-health-support' ) ) ) {
+		$content  = anna_get_mhs_page_content();
+		$image_id = absint( $content['hero_image_id'] ?? 0 );
+	} elseif ( function_exists( 'anna_get_move_page_content' ) && ( is_page_template( 'page-move.php' ) || is_page( 'move' ) ) ) {
+		$content  = anna_get_move_page_content();
+		$image_id = absint( $content['hero_image_id'] ?? 0 );
+	} elseif ( function_exists( 'anna_get_contact_page_content' ) && ( is_page_template( 'page-contact.php' ) || is_page( 'contact' ) ) ) {
+		$content  = anna_get_contact_page_content();
+		$image_id = absint( $content['hero_image_id'] ?? 0 );
+	} elseif ( function_exists( 'anna_get_reviews_page_content' ) && ( is_page_template( 'page-reviews.php' ) || is_page( 'reviews' ) ) ) {
+		$content  = anna_get_reviews_page_content();
+		$image_id = absint( $content['hero_image_id'] ?? 0 );
+	}
+
+	if ( ! $image_id ) {
+		return;
+	}
+
+	$src = wp_get_attachment_url( $image_id );
+	if ( ! $src ) {
+		return;
+	}
+
+	$srcset = wp_get_attachment_image_srcset( $image_id, 'full' );
+	$meta   = wp_get_attachment_metadata( $image_id );
+	$mime   = get_post_mime_type( $image_id );
+	$type   = $mime ? ' type="' . esc_attr( $mime ) . '"' : '';
+
+	echo '<link rel="preload" as="image"'
+		. ' href="' . esc_url( $src ) . '"'
+		. ( $srcset ? ' imagesrcset="' . esc_attr( $srcset ) . '" imagesizes="100vw"' : '' )
+		. $type
+		. ' fetchpriority="high"'
+		. '>' . "\n";
+}
+add_action( 'wp_head', 'anna_preload_hero_image', 2 );
