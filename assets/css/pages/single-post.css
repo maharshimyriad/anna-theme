@@ -2,9 +2,10 @@
  * Single post page styles.
  *
  * Hero layout:
- *   - Left column: bg colour + text content
- *   - Right column: image contained at natural ratio, flush to right edge
- *   - Fade overlay merges the bg colour seamlessly into the left edge of the image
+ *   - Left column: primary-colour bg + text content
+ *   - Right column: image at flex-end (bottom-aligned), same height as hero
+ *   - ::before on right column fades from primary colour → transparent (left to right)
+ *     so the background merges seamlessly into the image
  *
  * @package Anna_Baylis
  * @since   1.0.0
@@ -24,53 +25,52 @@
   align-items: stretch;
   min-height: 55svh;
   margin-top: var(--header-height);
-  background-color: #071a16;
+  background-color: var(--color-primary);
   overflow: hidden;
 }
 
 /* ── Inner layout: text left, image right ─────────────────────────────── */
 .anna-single-hero__inner {
-  position: relative;
-  z-index: 2;
   display: flex;
   align-items: stretch;
   width: 100%;
 }
 
-/* Left column — bg colour, holds all text */
+/* Left column — primary bg, all text, vertically centred */
 .anna-single-hero__left {
   flex: 0 0 55%;
   display: flex;
   align-items: center;
-  padding: clamp(3rem, 6vw, 5rem) 0 clamp(3rem, 6vw, 5rem) 0;
+  padding: clamp(3rem, 6vw, 5rem) 0;
   position: relative;
   z-index: 2;
 }
 
-/* Right column — image container, flush to the right edge */
+/* Right column — same height as the section, image sits at the bottom */
 .anna-single-hero__right {
   flex: 0 0 45%;
   position: relative;
+  display: flex;
+  align-items: flex-end; /* image anchored to bottom */
   overflow: hidden;
 }
 
 /*
- * The image — contained (not cropped), aligned to the right edge.
- * Fills the full height of the hero, width scales naturally.
- * Portrait images stay portrait, landscape stay landscape.
+ * The image — natural dimensions, bottom-aligned, full column width.
+ * object-fit: contain so portrait/landscape are never cropped.
+ * object-position: bottom right keeps the subject visible.
  */
 .anna-single-hero__img {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center top;
+  object-fit: contain;
+  object-position: bottom right;
 }
 
 /*
- * Fade overlay on the image — left edge fully matches the bg colour (#071a16),
- * fades to transparent toward the center of the image.
- * This makes the bg "merge" seamlessly into the image.
+ * Fade overlay — left edge is solid primary colour, fades to transparent.
+ * Blends the background seamlessly into the image with no hard edge.
  */
 .anna-single-hero__right::before {
   content: '';
@@ -80,15 +80,15 @@
   pointer-events: none;
   background: linear-gradient(
     to right,
-    #071a16 0%,
-    rgba(7, 26, 22, 0.92) 15%,
-    rgba(7, 26, 22, 0.55) 38%,
-    rgba(7, 26, 22, 0.15) 65%,
-    rgba(7, 26, 22, 0.0) 100%
+    var(--color-primary)       0%,
+    rgba(0, 112, 99, 0.90)    18%,
+    rgba(0, 112, 99, 0.55)    40%,
+    rgba(0, 112, 99, 0.15)    68%,
+    rgba(0, 112, 99, 0.0)    100%
   );
 }
 
-/* No image fallback — hero still looks fine with just bg colour */
+/* No image: expand left column to full width */
 .anna-single-hero:not(.anna-single-hero--has-image) .anna-single-hero__right {
   display: none;
 }
@@ -113,7 +113,7 @@
 }
 
 .anna-single-breadcrumb__link {
-  color: rgba(255, 255, 255, 0.70);
+  color: rgba(255, 255, 255, 0.85);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
@@ -123,7 +123,7 @@
 }
 
 .anna-single-breadcrumb__sep {
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.50);
   font-size: 0.65rem;
 }
 
@@ -169,11 +169,11 @@
   flex-wrap: wrap;
   gap: var(--space-2);
   font-size: var(--text-sm);
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.90);
 }
 
 .anna-single-hero__sep {
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.50);
 }
 
 /* ════════════════════════════════════════════════════════════════════════
@@ -542,7 +542,7 @@
     min-height: auto;
   }
 
-  /* Stack vertically on mobile: image on top, text below */
+  /* Stack: text on top, image below */
   .anna-single-hero__inner {
     flex-direction: column;
   }
@@ -551,31 +551,30 @@
     flex: none;
     width: 100%;
     padding: clamp(2rem, 5vw, 3rem) 0;
-    order: 2;
+    order: 1;
   }
 
   .anna-single-hero__right {
     flex: none;
     width: 100%;
-    height: clamp(220px, 50vw, 380px);
-    order: 1;
+    height: clamp(200px, 55vw, 360px);
+    order: 2;
+    align-items: flex-end;
   }
 
   .anna-single-hero__img {
-    width: 100%;
-    height: 100%;
     object-fit: cover;
-    object-position: center 25%;
+    object-position: center top;
   }
 
-  /* Mobile fade: top-to-bottom so image merges into the text area below */
+  /* Mobile fade: top-to-bottom, primary colour merges into image from top */
   .anna-single-hero__right::before {
     background: linear-gradient(
       to bottom,
-      rgba(7, 26, 22, 0.0) 0%,
-      rgba(7, 26, 22, 0.15) 55%,
-      rgba(7, 26, 22, 0.75) 80%,
-      #071a16 100%
+      var(--color-primary)        0%,
+      rgba(0, 112, 99, 0.75)     25%,
+      rgba(0, 112, 99, 0.20)     55%,
+      rgba(0, 112, 99, 0.0)     100%
     );
   }
 
