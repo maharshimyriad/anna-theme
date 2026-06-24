@@ -58,6 +58,7 @@ if ( ! $copy ) {
 				</div>
 
 				<div class="anna-footer__col anna-footer__col--newsletter">
+					<h3 class="anna-footer__col-title"><?php esc_html_e( 'Newsletter', 'anna-baylis' ); ?></h3>
 					<div class="ml-embedded" data-form="mTow5J"></div>
 				</div>
 				<div class="anna-footer__col">

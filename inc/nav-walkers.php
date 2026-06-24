@@ -81,10 +81,7 @@ class Anna_Nav_Walker extends Walker_Nav_Menu {
 		$id_attr = apply_filters( 'nav_menu_item_id', 'menu-item-' . $item->ID, $item, $args );
 		$id_attr = $id_attr ? ' id="' . esc_attr( $id_attr ) . '"' : '';
 
-		$li_attrs = '';
-		if ( $has_children ) {
-			$li_attrs = ' role="none"';
-		}
+		$li_attrs = ' role="none"';
 
 		$output .= $indent . '<li' . $id_attr . $class_names . $li_attrs . '>';
 
@@ -101,9 +98,7 @@ class Anna_Nav_Walker extends Walker_Nav_Menu {
 			$atts['role']          = 'menuitem';
 		} else {
 			$atts['class'] = 'anna-nav__link';
-			if ( $depth > 0 ) {
-				$atts['role'] = 'menuitem';
-			}
+			$atts['role']  = 'menuitem';
 		}
 
 		if ( in_array( 'current-menu-item', $classes, true ) ) {

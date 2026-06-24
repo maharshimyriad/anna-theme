@@ -3501,6 +3501,11 @@ figure:has(> img) {
   font-family: var(--font-heading);
 }
 
+/* Hide embed's own internal h4 — we output an explicit h3 above the embed */
+.anna-footer__col--newsletter .ml-form-embedContent h4 {
+  display: none;
+}
+
 .anna-footer__grid .ml-form-embedContent p {
   display: none;
 }
@@ -3513,10 +3518,10 @@ figure:has(> img) {
 .anna-footer__newsletter-text,
 .anna-footer__contact-item,
 .anna-footer__nav a {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.92);
   line-height: 1.7;
   font-size: 0.9rem;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .anna-footer__brand-text {
@@ -3536,7 +3541,7 @@ figure:has(> img) {
 
 .anna-footer__nav a,
 .anna-footer__contact-link {
-  color: rgba(255, 255, 255, 0.84);
+  color: rgba(255, 255, 255, 0.95);
   text-decoration: none;
 }
 
@@ -3566,7 +3571,7 @@ figure:has(> img) {
 }
 
 .anna-footer__newsletter-form .anna-input::placeholder {
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .anna-footer__newsletter-form .anna-btn {
@@ -3648,7 +3653,7 @@ figure:has(> img) {
   font-weight: var(--font-weight-semibold);
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.85);
   margin-bottom: var(--space-4);
 }
 
