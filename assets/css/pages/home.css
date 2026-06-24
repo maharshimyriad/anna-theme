@@ -1077,7 +1077,6 @@
     display: block;
   }
 
-  /* Hide description inside hero on mobile — rendered below cards instead */
   .anna-hero__description--overlay {
     display: none;
   }
