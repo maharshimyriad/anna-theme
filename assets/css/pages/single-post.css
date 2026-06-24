@@ -22,7 +22,7 @@
 .anna-single-hero {
   position: relative;
   display: flex;
-  align-items: stretch;
+  align-items: center;
   min-height: 44svh;
   max-height: 60svh;
   margin-top: var(--header-height);
@@ -30,91 +30,82 @@
   overflow: hidden;
 }
 
-/* ── Inner layout: text left, image right ─────────────────────────────── */
+/* ── Inner: full-width flex row, sits above fade ─────────────────────── */
 .anna-single-hero__inner {
   display: flex;
-  align-items: stretch;
-  width: 100%;
-  position: relative;
-  z-index: 1;
-}
-
-/* Left column — solid primary, text aligned to container grid */
-.anna-single-hero__left {
-  flex: 0 0 55%;
-  display: flex;
   align-items: center;
-  padding: clamp(3rem, 6vw, 5rem) clamp(1.25rem, 5vw, 3rem);
-  padding-left: max(clamp(1.25rem, 5vw, 3rem), calc((100vw - var(--container-max)) / 2 + clamp(1.25rem, 5vw, 3rem)));
+  justify-content: space-between;
+  width: 100%;
+  max-width: var(--container-max);          /* same max-width as anna-container */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  gap: 2rem;
 }
 
-/* Right column — fills to viewport edge, primary bg behind the image */
-.anna-single-hero__right {
+/* Left: text */
+.anna-single-hero__left {
   flex: 1 1 0;
-  position: relative;
-  overflow: hidden;
-  background-color: var(--color-primary);
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
+  min-width: 0;
+  padding: clamp(2.5rem, 5vw, 4rem) 0;
 }
 
 /*
- * Image — natural size, pinned to bottom-right.
- * max-height caps it to the hero height. Width is auto so portrait stays portrait.
- * This means the image is CONTAINED at its natural ratio, no cropping.
+ * Right: fixed-size image frame — same aspect ratio always.
+ * Image covers the frame fully with object-fit: cover so every
+ * portrait or landscape image fills the box without distortion.
  */
-.anna-single-hero__img {
-  display: block;
+.anna-single-hero__right {
+  flex: 0 0 clamp(240px, 35vw, 460px);
+  height: clamp(240px, 35vw, 460px);
   position: relative;
-  z-index: 0;
-  height: 100%;
-  width: auto;
-  max-width: 100%;
-  object-fit: contain;
-  object-position: bottom right;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
   flex-shrink: 0;
 }
 
+/* Image fills the container — always covers, no letterboxing */
+.anna-single-hero__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
 /*
- * FADE DIV — full width/height overlay on the entire right column.
- * Covers BOTH the primary background AND the image pixels.
- * Primary solid on the left → accent → transparent on the right.
- * Because it spans the full column, the fade is always visible
- * regardless of where the image sits within the column.
+ * Fade overlay — covers the image frame from left to right.
+ * Left edge: solid primary (matches section bg seamlessly).
+ * Transitions through accent → transparent toward the right.
+ * This is placed on the image frame so it always overlays image pixels.
  */
 .anna-single-hero__fade {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 1;
   pointer-events: none;
   background: linear-gradient(
     to right,
-    var(--color-primary)              0%,
-    var(--color-primary)              15%,
-    rgba(0, 112, 99, 0.92)           28%,
-    var(--color-accent)              42%,
-    rgba(76, 165, 145, 0.60)        56%,
-    rgba(76, 165, 145, 0.25)        70%,
-    rgba(76, 165, 145, 0.05)        84%,
-    transparent                      95%
+    var(--color-primary)          0%,
+    var(--color-primary)          12%,
+    rgba(0, 112, 99, 0.88)       25%,
+    rgba(76, 165, 145, 0.65)     42%,
+    rgba(76, 165, 145, 0.30)     60%,
+    rgba(76, 165, 145, 0.08)     78%,
+    transparent                   92%
   );
 }
 
-/* No image: full width */
+/* No image: hide right column */
 .anna-single-hero:not(.anna-single-hero--has-image) .anna-single-hero__right {
   display: none;
 }
 
-.anna-single-hero:not(.anna-single-hero--has-image) .anna-single-hero__left {
-  flex: 0 0 100%;
-}
-
 .anna-single-hero__content {
   width: 100%;
-  padding-right: clamp(2rem, 4vw, 4rem);
 }
 
 /* ── Breadcrumb ──────────────────────────────────────────────────────────── */
@@ -557,48 +548,38 @@
     min-height: auto;
   }
 
-  /* Stack: text on top, image below */
   .anna-single-hero__inner {
     flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding-bottom: 2rem;
   }
 
   .anna-single-hero__left {
-    flex: none;
-    width: 100%;
-    padding: clamp(2rem, 5vw, 3rem) clamp(1.25rem, 5vw, 3rem);
+    padding: clamp(2rem, 5vw, 3rem) 0 0;
     order: 1;
   }
 
+  /* Image frame: full width on mobile, fixed height */
   .anna-single-hero__right {
     flex: none;
     width: 100%;
-    height: clamp(200px, 55vw, 360px);
+    height: clamp(200px, 55vw, 300px);
+    border-radius: var(--radius-md);
     order: 2;
-    align-items: flex-end;
-    justify-content: flex-end;
   }
 
-  .anna-single-hero__img {
-    height: 100%;
-    width: auto;
-    max-width: 100%;
-  }
-
-  /* Mobile fade: primary → accent, top to bottom over the image */
+  /* Mobile fade: top-to-bottom */
   .anna-single-hero__fade {
     background: linear-gradient(
       to bottom,
       var(--color-primary)        0%,
       var(--color-primary)        10%,
-      var(--color-accent)         28%,
-      rgba(76, 165, 145, 0.50)   50%,
-      rgba(76, 165, 145, 0.15)   70%,
+      rgba(0, 112, 99, 0.80)     25%,
+      rgba(76, 165, 145, 0.45)   48%,
+      rgba(76, 165, 145, 0.10)   70%,
       transparent                 88%
     );
-  }
-
-  .anna-single-hero__content {
-    padding-right: 0;
   }
 
   .anna-single-nav .nav-links {
