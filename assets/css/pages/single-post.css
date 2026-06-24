@@ -522,7 +522,7 @@
   /* ── Mobile hero: image full-bleed bg, text centered with glass overlay ── */
   .anna-single-hero {
     min-height: 55svh;
-    max-height: none;
+    max-height: 55svh !important;
     position: relative;
     display: block; /* reset flex so inner can be absolute */
     padding: 0 !important;
