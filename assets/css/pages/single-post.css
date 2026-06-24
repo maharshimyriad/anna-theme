@@ -30,37 +30,32 @@
   overflow: hidden;
 }
 
-/* ── Inner: full-width flex row, sits above fade ─────────────────────── */
+/* ── Inner: full-width flex row ──────────────────────────────────────── */
 .anna-single-hero__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: var(--container-max);          /* same max-width as anna-container */
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: var(--container-padding);
-  padding-right: var(--container-padding);
   position: relative;
   z-index: 2;
   gap: 2rem;
 }
 
-/* Left: text */
+/* Left: text — container-equivalent left padding so text aligns with the site grid */
 .anna-single-hero__left {
   flex: 1 1 0;
   min-width: 0;
-  padding: clamp(2.5rem, 5vw, 4rem) 0;
+  padding: clamp(2.5rem, 5vw, 4rem) 2rem clamp(2.5rem, 5vw, 4rem)
+    max(var(--container-padding), calc((100vw - var(--container-max)) / 2 + var(--container-padding)));
 }
 
 /*
- * Right: fixed-size image frame — same aspect ratio always.
- * Image covers the frame fully with object-fit: cover so every
- * portrait or landscape image fills the box without distortion.
+ * Right: fixed-width frame, height stretches to fill the section.
+ * object-fit: cover fills it for any image ratio — no letterboxing.
  */
 .anna-single-hero__right {
   flex: 0 0 clamp(240px, 35vw, 460px);
-  height: clamp(240px, 35vw, 460px);
+  align-self: stretch;
   position: relative;
   border-radius: var(--radius-lg);
   overflow: hidden;
