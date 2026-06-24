@@ -26,13 +26,7 @@
   min-height: 44svh;
   max-height: 60svh;
   margin-top: var(--header-height);
-  /* Primary → accent gradient across the whole section */
-  background: linear-gradient(
-    to right,
-    var(--color-primary)  0%,
-    var(--color-primary)  55%,
-    var(--color-accent)   100%
-  );
+  background-color: var(--color-primary);
   overflow: hidden;
 }
 
@@ -45,7 +39,7 @@
   z-index: 1;
 }
 
-/* Left column — transparent, gradient shows through */
+/* Left column — solid primary, text aligned to container grid */
 .anna-single-hero__left {
   flex: 0 0 55%;
   display: flex;
@@ -56,35 +50,34 @@
   z-index: 1;
 }
 
-/* Right column — transparent so section gradient is the bg */
+/* Right column — fills to viewport edge */
 .anna-single-hero__right {
   flex: 1 1 0;
   position: relative;
-  display: flex;
-  align-items: flex-end;
   overflow: hidden;
-  background-color: transparent;
-}
-
-/* The image — contained, bottom-right */
-.anna-single-hero__img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: bottom right;
-  position: relative;
-  z-index: 0;
 }
 
 /*
- * FADE — covers the full right column (including transparent image padding).
- * Wipes from primary colour on the left edge → fully transparent on the right.
- * Because the section bg is already primary→accent, this creates a seamless
- * blend where the image appears to emerge from the brand gradient.
+ * Image — cover fills the column fully so there is NO transparent gap.
+ * This is the key fix: contain had transparent areas that hid the fade.
  */
-.anna-single-hero__right::before {
-  content: '';
+.anna-single-hero__img {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+/*
+ * FADE DIV — sits directly over the image pixels.
+ * Left edge: solid accent colour (matches the primary bg transition).
+ * Fades to transparent toward the right edge of the image.
+ * Using accent (#4CA591) not primary so the fade has a visible colour shift.
+ */
+.anna-single-hero__fade {
   position: absolute;
   inset: 0;
   z-index: 2;
@@ -92,12 +85,12 @@
   background: linear-gradient(
     to right,
     var(--color-primary)        0%,
-    var(--color-primary)        5%,
-    rgba(0, 112, 99, 0.90)     18%,
-    rgba(0, 112, 99, 0.65)     33%,
-    rgba(0, 112, 99, 0.35)     50%,
-    rgba(76, 165, 145, 0.15)   68%,
-    transparent                 85%
+    var(--color-primary)        8%,
+    var(--color-accent)         28%,
+    rgba(76, 165, 145, 0.70)   42%,
+    rgba(76, 165, 145, 0.35)   58%,
+    rgba(76, 165, 145, 0.10)   74%,
+    transparent                 90%
   );
 }
 
@@ -580,13 +573,14 @@
     object-position: center top;
   }
 
-  /* Mobile fade: primary top → accent fade, wipes over image from top */
-  .anna-single-hero__right::before {
+  /* Mobile fade: primary → accent, top to bottom over the image */
+  .anna-single-hero__fade {
     background: linear-gradient(
       to bottom,
       var(--color-primary)        0%,
-      rgba(0, 112, 99, 0.85)     20%,
-      rgba(76, 165, 145, 0.35)   60%,
+      var(--color-accent)         22%,
+      rgba(76, 165, 145, 0.50)   45%,
+      rgba(76, 165, 145, 0.15)   65%,
       transparent                 85%
     );
   }

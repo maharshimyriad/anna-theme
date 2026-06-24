@@ -116,6 +116,8 @@ $email_body = urlencode(get_the_title() . ' — ' . get_permalink());
 							fetchpriority="high"
 							decoding="async"
 						>
+						<!-- Fade overlay: accent → transparent left to right over the image -->
+						<div class="anna-single-hero__fade" aria-hidden="true"></div>
 					</div>
 				<?php endif; ?>
 
