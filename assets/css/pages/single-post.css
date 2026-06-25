@@ -532,6 +532,14 @@
     font-size: 1.7rem !important;
   }
 
+  .anna-main .anna-single-hero__left{
+    min-height: unset;
+  }
+
+  .anna-single-hero__left{
+    flex:0;
+  }
+
   /* Image becomes the full-bleed background */
   .anna-single-hero__right {
     position: absolute !important;
