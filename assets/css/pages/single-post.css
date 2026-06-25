@@ -518,6 +518,7 @@
 }
 
 @media (max-width: 640px) {
+  
   .anna-single-hero {
     min-height: 320px;
   }
