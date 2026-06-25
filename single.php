@@ -26,16 +26,16 @@ $email_body = urlencode(get_the_title() . ' — ' . get_permalink());
 		the_post(); ?>
 
 		<!-- ════════════════════════════════════════════════════════════════
-		 HERO — image contained right, primary→accent fade
+		 HERO — full-bleed image with gradient overlay + text on top
 		 ════════════════════════════════════════════════════════════════ -->
 		<section class="anna-hero-section anna-single-hero<?php echo $thumb_url ? ' anna-single-hero--has-image' : ''; ?>"
+			<?php if ($thumb_url): ?>style="--hero-img: url('<?php echo esc_url($thumb_url); ?>');" <?php endif; ?>
 			aria-label="<?php echo esc_attr(get_the_title()); ?>">
 
-			<div class="anna-single-hero__inner">
+			<div class="anna-single-hero__overlay" aria-hidden="true"></div>
 
-				<!-- Left: text content on the bg colour -->
-				<div class="anna-single-hero__left">
-					<div class="anna-single-hero__content anna-reveal">
+			<div class="anna-container anna-container--max">
+				<div class="anna-single-hero__content anna-reveal">
 
 					<!-- Breadcrumbs -->
 					<nav class="anna-single-breadcrumb" aria-label="<?php esc_attr_e('Breadcrumb', 'anna-baylis'); ?>">
@@ -98,30 +98,7 @@ $email_body = urlencode(get_the_title() . ' — ' . get_permalink());
 					</div>
 
 				</div>
-				</div><!-- /.anna-single-hero__left -->
-
-				<!-- Right: image contained, flush to right edge -->
-				<?php if ($thumb_url) :
-					$thumb_id = get_post_thumbnail_id(get_the_ID());
-					$srcset   = $thumb_id ? wp_get_attachment_image_srcset($thumb_id, 'full') : '';
-					$alt      = $thumb_id ? get_post_meta($thumb_id, '_wp_attachment_image_alt', true) : get_the_title();
-				?>
-					<div class="anna-single-hero__right" aria-hidden="true">
-						<img
-							class="anna-single-hero__img"
-							src="<?php echo esc_url($thumb_url); ?>"
-							<?php if ($srcset) : ?>srcset="<?php echo esc_attr($srcset); ?>" sizes="45vw"<?php endif; ?>
-							alt=""
-							loading="eager"
-							fetchpriority="high"
-							decoding="async"
-						>
-						<!-- Fade overlay: accent → transparent left to right over the image -->
-						<div class="anna-single-hero__fade" aria-hidden="true"></div>
-					</div>
-				<?php endif; ?>
-
-			</div><!-- /.anna-single-hero__inner -->
+			</div>
 		</section>
 
 		<!-- ════════════════════════════════════════════════════════════════

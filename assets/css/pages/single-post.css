@@ -1,11 +1,12 @@
 /**
- * Single post page styles.
+ * Single post page styles — redesigned.
  *
- * Hero layout:
- *   - Left column: primary-colour bg + text content
- *   - Right column: image at flex-end (bottom-aligned), same height as hero
- *   - ::before on right column fades from primary colour → transparent (left to right)
- *     so the background merges seamlessly into the image
+ * Layout:
+ *   1. Full-bleed hero: featured image + dark gradient + breadcrumb + title + meta
+ *   2. Wide article body with generous white space
+ *   3. Share bar inside article footer
+ *   4. Post prev/next navigation
+ *   5. You might also like grid (reuses anna-blog-card)
  *
  * @package Anna_Baylis
  * @since   1.0.0
@@ -22,65 +23,41 @@
 .anna-single-hero {
   position: relative;
   display: flex;
-  min-height: 44svh;
-  max-height: 60svh;
+  align-items: center;
+  min-height: 55svh;
   margin-top: var(--header-height);
-  background-color: var(--color-primary);
+  background-color: var(--color-primary-dark);
   overflow: hidden;
 }
 
-/* ── Inner: full-width flex row ──────────────────────────────────────── */
-.anna-single-hero__inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
+/* Featured image as background */
+.anna-single-hero--has-image {
+  background-image: var(--hero-img);
+  background-size: cover;
+  background-position: center 55%;
+  background-repeat: no-repeat;
+}
+
+/* Gradient overlay — dark at bottom where text sits, transparent at top */
+.anna-single-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom,
+      rgba(10, 26, 22, 0.15) 0%,
+      rgba(10, 26, 22, 0.45) 45%,
+      rgba(10, 26, 22, 0.82) 100%);
+  z-index: 1;
+}
+
+.anna-single-hero .anna-container {
   position: relative;
   z-index: 2;
-  gap: 2rem;
-}
-
-/* Left: text — container-equivalent left padding so text aligns with the site grid */
-.anna-single-hero__left {
-  flex: 1 1 0;
-  min-width: 0;
-  padding: clamp(2.5rem, 5vw, 4rem) 2rem clamp(2.5rem, 5vw, 4rem)
-    max(var(--container-padding), calc((100vw - var(--container-max)) / 2 + var(--container-padding)));
-}
-
-/*
- * Right: fixed-width frame, height stretches to fill the section.
- * object-fit: cover fills it for any image ratio — no letterboxing.
- */
-.anna-single-hero__right {
-  flex: 0 0 clamp(240px, 35vw, 460px);
-  align-self: stretch;
-  position: relative;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-/* Image fills the container — always covers, no letterboxing */
-.anna-single-hero__img {
-  display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-}
-
-/* Fade hidden on desktop — only active on mobile */
-.anna-single-hero__fade {
-  display: none;
-}
-
-/* No image: hide right column */
-.anna-single-hero:not(.anna-single-hero--has-image) .anna-single-hero__right {
-  display: none;
 }
 
 .anna-single-hero__content {
-  width: 100%;
+  max-width: none;
+  padding: clamp(2.5rem, 5vw, 4rem) 0 clamp(3rem, 6vw, 5rem);
 }
 
 /* ── Breadcrumb ──────────────────────────────────────────────────────────── */
@@ -94,7 +71,7 @@
 }
 
 .anna-single-breadcrumb__link {
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.70);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
@@ -104,7 +81,7 @@
 }
 
 .anna-single-breadcrumb__sep {
-  color: rgba(255, 255, 255, 0.50);
+  color: rgba(255, 255, 255, 0.35);
   font-size: 0.65rem;
 }
 
@@ -150,11 +127,11 @@
   flex-wrap: wrap;
   gap: var(--space-2);
   font-size: var(--text-sm);
-  color: rgba(255, 255, 255, 0.90);
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .anna-single-hero__sep {
-  color: rgba(255, 255, 255, 0.50);
+  color: rgba(255, 255, 255, 0.35);
 }
 
 /* ════════════════════════════════════════════════════════════════════════
@@ -519,96 +496,20 @@
 }
 
 @media (max-width: 768px) {
-  /* ── Mobile hero: image full-bleed bg, text centered with glass overlay ── */
   .anna-single-hero {
-    min-height: 55svh;
-    max-height: 55svh !important;
-    position: relative;
-    display: block; /* reset flex so inner can be absolute */
-    padding: 0 !important;
-  }
-
-  .anna-single-hero__left .anna-single-hero__heading{
-    font-size: 1.7rem !important;
-  }
-
-  .anna-main .anna-single-hero__inner{
-    min-height: unset;
-  }
-
-  .anna-single-hero__left{
-    flex:0;
-  }
-
-  /* Image becomes the full-bleed background */
-  .anna-single-hero__right {
-    position: absolute !important;
-    inset: 0;
-    width: 100% !important;
-    height: 100% !important;
-    flex: none;
-    border-radius: 0;
-    z-index: 0;
-  }
-
-  .anna-single-hero__img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-  }
-
-  /* Full-section dark overlay so text is always readable */
-  .anna-single-hero__fade {
-    display: block;
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    background: linear-gradient(
-      to bottom,
-      rgba(0, 112, 99, 0.55)  0%,
-      rgba(0, 50, 40, 0.72)  100%
-    );
-  }
-
-  /* Inner becomes a centred column over the bg */
-  .anna-single-hero__inner {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 55svh;
-    width: 100%;
-    padding: 2rem var(--container-padding);
-    gap: 0;
-  }
-
-  .anna-single-hero__left {
-    width: 100%;
-    max-width: 36rem;
-    padding: 1.75rem 1.5rem;
-    order: 1;
-    text-align: left;
-    /* Frosted glass pill behind the text */
-    background: rgba(0, 56, 44, 0.55);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: var(--radius-lg);
+    min-height: clamp(360px, 70vw, 520px);
+    align-items: flex-end;
   }
 
   .anna-single-nav .nav-links {
     grid-template-columns: 50% 50%;
     gap: var(--space-5);
-    overflow: hidden;
+	overflow:hidden;
   }
-
-  .anna-single-nav--sticky .anna-single-nav__title {
-    max-width: 10rem;
-  }
+	
+	.anna-single-nav--sticky .anna-single-nav__title{
+		max-width:10rem;
+	}
 
   .anna-single-nav .nav-next {
     justify-content: flex-start;
@@ -617,6 +518,10 @@
 }
 
 @media (max-width: 640px) {
+  .anna-single-hero {
+    min-height: 320px;
+  }
+
   .anna-single-share {
     flex-direction: column;
     align-items: flex-start;
