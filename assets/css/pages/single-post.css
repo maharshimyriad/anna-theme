@@ -528,6 +528,10 @@
     padding: 0 !important;
   }
 
+  .anna-single-hero__left .anna-single-hero__heading{
+    font-size: 1.7rem !important;
+  }
+
   /* Image becomes the full-bleed background */
   .anna-single-hero__right {
     position: absolute !important;
