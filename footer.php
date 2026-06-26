@@ -51,10 +51,6 @@ if ( ! $copy ) {
 					<p class="anna-footer__brand-text">
 						<?php echo nl2br( esc_html( anna_get_option( 'footer_description', '' ) ) ); ?>
 					</p>
-
-					<div class="anna-footer__bottom">
-				<p class="anna-footer__copyright"><?php echo esc_html( $copy ); ?></p>
-			</div>
 				</div>
 
 				<div class="anna-footer__col anna-footer__col--newsletter">
@@ -102,7 +98,16 @@ if ( ! $copy ) {
 			</div>
 		</div>
 
-		
+		<div class="anna-footer__bar">
+			<div class="anna-footer__bar-inner">
+				<p class="anna-footer__copyright"><?php echo esc_html( $copy ); ?></p>
+				<p class="anna-footer__powered">
+					<?php esc_html_e( 'Powered by', 'anna-baylis' ); ?>
+					<a href="https://myriadsolutionz.com" target="_blank" rel="noopener noreferrer" class="anna-footer__powered-link">Myriad Solutionz</a>
+				</p>
+			</div>
+		</div>
+
 	</footer>
 
 </div>
