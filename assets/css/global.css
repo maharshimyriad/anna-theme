@@ -3728,3 +3728,36 @@ figure:has(> img) {
 .anna-footer__col--newsletter .ml-form-embedContent{
   display: none;
 }
+
+
+/* ── Footer bottom bar ───────────────────────────────────────────────────── */
+.anna-footer__bar {
+  width: 100%;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.15);
+  padding: 0.9rem var(--container-padding);
+  text-align: center;
+}
+
+.anna-footer__bar-text {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.85rem;
+  font-weight: 300;
+  letter-spacing: 0.3px;
+  line-height: 1.5;
+}
+
+.anna-footer__powered-link {
+  color: #f3edca !important;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(243, 237, 202, 0.6);
+  transition: color var(--transition-fast, 0.2s), text-decoration-color var(--transition-fast, 0.2s);
+}
+
+.anna-footer__powered-link:hover {
+  color: #ffffff !important;
+  text-decoration-color: #ffffff;
+}
