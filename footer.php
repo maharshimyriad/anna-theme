@@ -99,13 +99,9 @@ if ( ! $copy ) {
 		</div>
 
 		<div class="anna-footer__bar">
-			<div class="anna-footer__bar-inner">
-				<p class="anna-footer__copyright"><?php echo esc_html( $copy ); ?></p>
-				<p class="anna-footer__powered">
-					<?php esc_html_e( 'Powered by', 'anna-baylis' ); ?>
-					<a href="https://myriadsolutionz.com" target="_blank" rel="noopener noreferrer" class="anna-footer__powered-link">Myriad Solutionz</a>
-				</p>
-			</div>
+			<p class="anna-footer__bar-text">
+				<?php echo esc_html( $copy ); ?>&nbsp;&nbsp;|&nbsp;&nbsp;<?php esc_html_e( 'Powered by', 'anna-baylis' ); ?> <a href="https://myriadsolutionz.com" target="_blank" rel="noopener noreferrer" class="anna-footer__powered-link">Myriad Solutionz</a>
+			</p>
 		</div>
 
 	</footer>
