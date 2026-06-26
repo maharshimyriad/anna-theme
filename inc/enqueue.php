@@ -146,7 +146,7 @@ function anna_enqueue_styles()
 		$prev_dep = 'anna-page-reviews';
 	}
 
-	if (is_home() || is_page_template('page-blog.php') || is_page('blog')) {
+	if (is_home() || is_category() || is_page_template('page-blog.php') || is_page('blog')) {
 		wp_enqueue_style(
 			'anna-page-blog',
 			ANNA_CSS . '/pages/blog.css',
