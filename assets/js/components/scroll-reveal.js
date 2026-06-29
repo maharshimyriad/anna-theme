@@ -49,8 +49,6 @@
 
   initReveal();
 
-  // Reinitialize after AJAX page transitions.
-  // ThemeInitializer in transition-manager.js also calls initReveal() internally,
-  // but listening here keeps this module independently correct.
-  document.addEventListener('pageLoaded', initReveal);
+  // NOTE: AJAX reinit is handled by transition-manager.js reinitTheme().
+  // Do NOT add a pageLoaded listener here — it would double-init the observers.
 })();

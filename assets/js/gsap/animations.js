@@ -61,15 +61,8 @@
     init();
   }
 
-  // Reinitialize after AJAX page transitions.
-  // ThemeInitializer in transition-manager.js handles killing old ScrollTriggers
-  // before dispatching this event, so it's safe to call init() directly here.
-  document.addEventListener('pageLoaded', function () {
-    // Re-apply speed defaults in case they were cleared
-    gsap.defaults({
-      duration: 0.7 * speedMultiplier,
-      ease: 'power2.out',
-    });
-    init();
-  });
+  // NOTE: AJAX reinit is handled by transition-manager.js which calls
+  // annaHeroInit, annaScrollTriggersInit, annaParallaxInit directly.
+  // Do NOT add a pageLoaded listener here — it would double-init and
+  // corrupt the hero heading word-split.
 })();

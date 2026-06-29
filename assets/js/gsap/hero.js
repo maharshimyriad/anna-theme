@@ -41,7 +41,8 @@
     }
 
     // Heading — word-by-word clip reveal
-    if (heading) {
+    // Guard: skip if already split (AJAX navigation reinit)
+    if (heading && !heading.querySelector('.anna-hero__word-inner')) {
       var rawHTML = heading.innerHTML;
       var words   = rawHTML.split(/(\s+)/);
       heading.innerHTML = words.map(function (chunk) {
@@ -65,6 +66,23 @@
         },
         eyebrow ? '-=0.55' : 0
       );
+    } else if (heading) {
+      // Already split — just animate the existing inners
+      var inners = heading.querySelectorAll('.anna-hero__word-inner');
+      if (inners.length) {
+        // Clear any stale GSAP inline styles from prior animation
+        gsap.set(inners, { clearProps: 'all' });
+        tl.from(
+          inners,
+          {
+            yPercent:  105,
+            autoAlpha: 0,
+            duration:  0.9,
+            stagger:   { amount: 0.5, ease: 'power2.inOut' },
+          },
+          eyebrow ? '-=0.55' : 0
+        );
+      }
     }
 
     // Description
