@@ -344,12 +344,11 @@ function anna_enqueue_scripts()
 		$deps[] = 'anna-animations';
 	}
 
-	// Page transition system — loaded on every page, after GSAP
-	$transition_deps = $animations_enabled ? array( 'gsap-core' ) : array();
+	// Page transition system — loaded on every page, no GSAP dependency
 	wp_enqueue_script(
 		'anna-page-transition',
 		ANNA_JS . '/transitions/transition-manager.js',
-		$transition_deps,
+		array(),
 		anna_asset_version( 'assets/js/transitions/transition-manager.js' ),
 		array( 'strategy' => 'defer' )
 	);
