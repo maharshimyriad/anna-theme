@@ -654,7 +654,7 @@
 
     /**
      * Full transition flow.
-     * @param {string}  url       Destination URL
+     * @param {string}  url         Destination URL
      * @param {boolean} isPopState  True when triggered by back/forward
      * @param {number}  [restoreY]  Scroll position to restore (pop only)
      */
@@ -673,87 +673,74 @@
       // Save current scroll position before leaving
       ScrollManager.save(window.location.href);
 
-      // Abort any other pending prefetches
+      // Abort any other pending prefetches / previous loads
       PrefetchManager.abortOthers(url);
-
-      // Cancel previous in-flight load if any
-      if (this._controller) {
-        this._controller.abort();
-      }
+      if (this._controller) this._controller.abort();
       this._controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
 
-      var self     = this;
-      var signal   = this._controller ? this._controller.signal : null;
+      var self   = this;
+      var signal = this._controller ? this._controller.signal : null;
 
-      // Try cache first, otherwise fetch
+      // Kick off the page fetch immediately — runs in parallel with the entrance
       var loadPromise = PrefetchManager.get(url) || PageLoader.load(url, signal);
 
-      // ── STEP 1: Start entrance animation immediately ─────────────────────
-      var enterPromise = AnimationManager.enter();
+      // Wrap everything in a single flat chain so errors always bubble to .catch
+      AnimationManager.enter()                                    // STEP 1 — cover screen
+        .then(function () {
+          AnimationManager.setLoading();
+          log('Overlay covering viewport — waiting for page');
+          return loadPromise;                                     // STEP 2 — wait for fetch
+        })
+        .then(function (parsed) {
+          if (!parsed) {
+            // fetch returned null (parse failed) — bail out immediately
+            throw new Error('HARD_NAV:' + url);
+          }
 
-      // ── STEP 2: Wait for entrance to finish, then show loading state ─────
-      enterPromise.then(function () {
-        AnimationManager.setLoading();
-        log('Overlay fully covering viewport');
+          var swapped = PageLoader.swap(parsed);                  // STEP 3 — swap DOM
+          if (!swapped) {
+            throw new Error('HARD_NAV:' + url);
+          }
 
-        // ── STEP 3: Wait for content + assets ────────────────────────────
-        return loadPromise
-          .then(function (parsed) {
-            if (!parsed) {
-              // Fallback: hard navigation
-              log('Parse failed — hard navigating to:', url);
-              window.location.href = url;
-              return;
-            }
+          var newMain = document.getElementById(Config.contentId);
+          return AssetLoader.waitForAssets(newMain || document.body); // STEP 4 — images+fonts
+        })
+        .then(function () {
+          log('Assets ready — revealing page');
 
-            // Swap content while hidden behind overlay
-            var swapped = PageLoader.swap(parsed);
-            if (!swapped) {
-              log('Swap failed — hard navigating');
-              window.location.href = url;
-              return;
-            }
+          if (!isPopState) {
+            HistoryManager.push(url, document.title);             // STEP 5 — push history
+          }
 
-            // Get the new main element for asset waiting
-            var newMain = document.getElementById(Config.contentId);
+          ScrollManager.restore(isPopState ? url : null, true);  // STEP 6 — scroll
+          ThemeInitializer.run();                                 // STEP 7 — reinit JS
+          ScrollManager.unlock();
+          document.body.classList.remove('is-transitioning');
 
-            // Wait for images + fonts in new content
-            return AssetLoader.waitForAssets(newMain || document.body)
-              .then(function () {
-                log('Assets ready — preparing to reveal');
-
-                // ── STEP 4: Update history (not on popstate) ─────────────
-                if (!isPopState) {
-                  HistoryManager.push(url, document.title);
-                }
-
-                // ── STEP 5: Restore scroll ────────────────────────────────
-                var scrollTarget = (isPopState && typeof restoreY === 'number') ? restoreY : 0;
-                ScrollManager.restore(isPopState ? url : null, true);
-
-                // ── STEP 6: Reinitialize theme JS ─────────────────────────
-                ThemeInitializer.run();
-
-                // ── STEP 7: Unlock scroll ─────────────────────────────────
-                ScrollManager.unlock();
-                document.body.classList.remove('is-transitioning');
-
-                // ── STEP 8: Exit animation ────────────────────────────────
-                return AnimationManager.exit();
-              });
-          });
-      })
+          return AnimationManager.exit();                         // STEP 8 — reveal page
+        })
+        .then(function () {
+          self._cleanup();                                        // STEP 9 — done
+        })
         .catch(function (err) {
           if (err && err.name === 'AbortError') {
-            log('Navigation aborted');
+            // Navigation was intentionally cancelled — just reset state
+            log('Navigation aborted (AbortError)');
             self._cleanup();
             return;
           }
+
+          var msg = (err && err.message) || '';
+          if (msg.indexOf('HARD_NAV:') === 0) {
+            // Content parse/swap failed — fall back to full browser navigation
+            var dest = msg.replace('HARD_NAV:', '');
+            log('Falling back to hard navigation:', dest);
+            window.location.href = dest;
+            return;
+          }
+
+          // Unexpected error — reset state and log; do NOT hard-nav (avoids loops)
           log('Navigation error:', err);
-          // Hard fallback
-          window.location.href = url;
-        })
-        .then(function () {
           self._cleanup();
         });
     },
@@ -763,6 +750,14 @@
       this._controller = null;
       document.body.classList.remove('is-transitioning');
       ScrollManager.unlock();
+      // Ensure overlay is fully hidden (guard against early-exit edge cases)
+      var overlay = document.getElementById(Config.overlayId);
+      if (overlay) {
+        overlay.classList.remove('is-active', 'is-loading');
+        if (typeof gsap !== 'undefined') {
+          gsap.set(overlay.querySelectorAll('.transition-column'), { yPercent: 100 });
+        }
+      }
       log('Navigation cleanup done');
     },
   };
@@ -809,6 +804,20 @@
       });
 
       NavigationManager.init();
+
+      // ── Safety net: if anything hangs, force-unlock after 8s ───────────
+      document.addEventListener('click', function () {
+        // Each click resets the watchdog timer
+        clearTimeout(TransitionManager._watchdog);
+        if (!NavigationManager._busy) return;
+        TransitionManager._watchdog = setTimeout(function () {
+          if (NavigationManager._busy) {
+            log('WATCHDOG: transition hung — forcing cleanup');
+            NavigationManager._cleanup();
+            AnimationManager.exit();
+          }
+        }, 8000);
+      }, { passive: true });
 
       // ── Accessibility: live region ──────────────────────────────────────
       this._initA11y();
