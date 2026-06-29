@@ -286,17 +286,43 @@ trait Anna_Oasis_Page_Content {
 			<th scope="row"><?php esc_html_e( 'Pricing Plans', 'anna-baylis' ); ?></th>
 			<td>
 				<?php foreach ( $items as $index => $plan ) : ?>
-					<div style="border:1px solid #ccd0d4;padding:12px;margin-bottom:12px;">
-						<p><strong><?php echo esc_html( sprintf( __( 'Plan %d', 'anna-baylis' ), $index + 1 ) ); ?></strong></p>
-						<p><input type="text" class="regular-text" name="anna_content_oasis_page[choose_plan_items][<?php echo esc_attr( $index ); ?>][title]" value="<?php echo esc_attr( $plan['title'] ?? '' ); ?>"></p>
+					<div style="border:1px solid #ccd0d4;padding:12px;margin-bottom:12px;border-radius:4px;">
+						<p><strong style="font-size:14px;"><?php echo esc_html( sprintf( __( 'Plan %d', 'anna-baylis' ), $index + 1 ) ); ?></strong></p>
+
 						<p>
-							<input type="text" class="small-text" name="anna_content_oasis_page[choose_plan_items][<?php echo esc_attr( $index ); ?>][price]" value="<?php echo esc_attr( $plan['price'] ?? '' ); ?>">
-							<input type="text" class="regular-text" name="anna_content_oasis_page[choose_plan_items][<?php echo esc_attr( $index ); ?>][price_suffix]" value="<?php echo esc_attr( $plan['price_suffix'] ?? '' ); ?>">
+							<label style="display:block;margin-bottom:4px;font-weight:600;"><?php esc_html_e( 'Title', 'anna-baylis' ); ?></label>
+							<input type="text" class="regular-text" name="anna_content_oasis_page[choose_plan_items][<?php echo esc_attr( $index ); ?>][title]" value="<?php echo esc_attr( $plan['title'] ?? '' ); ?>">
 						</p>
-						<p><input type="text" class="large-text" name="anna_content_oasis_page[choose_plan_items][<?php echo esc_attr( $index ); ?>][annual]" value="<?php echo esc_attr( $plan['annual'] ?? '' ); ?>"></p>
-						<p><input type="text" class="large-text" name="anna_content_oasis_page[choose_plan_items][<?php echo esc_attr( $index ); ?>][founding]" value="<?php echo esc_attr( $plan['founding'] ?? '' ); ?>"></p>
-						<p><input type="text" class="regular-text" name="anna_content_oasis_page[choose_plan_items][<?php echo esc_attr( $index ); ?>][badge]" value="<?php echo esc_attr( $plan['badge'] ?? '' ); ?>"></p>
-						<p><label><input type="checkbox" name="anna_content_oasis_page[choose_plan_items][<?php echo esc_attr( $index ); ?>][featured]" value="1" <?php checked( ! empty( $plan['featured'] ) ); ?>> <?php esc_html_e( 'Featured', 'anna-baylis' ); ?></label></p>
+
+						<p>
+							<label style="display:block;margin-bottom:4px;font-weight:600;"><?php esc_html_e( 'Price', 'anna-baylis' ); ?></label>
+							<input type="text" class="small-text" name="anna_content_oasis_page[choose_plan_items][<?php echo esc_attr( $index ); ?>][price]" value="<?php echo esc_attr( $plan['price'] ?? '' ); ?>" placeholder="$99">
+							<input type="text" class="regular-text" name="anna_content_oasis_page[choose_plan_items][<?php echo esc_attr( $index ); ?>][price_suffix]" value="<?php echo esc_attr( $plan['price_suffix'] ?? '' ); ?>" placeholder="/month">
+						</p>
+
+						<p>
+							<label style="display:block;margin-bottom:4px;font-weight:600;"><?php esc_html_e( 'Annual Line', 'anna-baylis' ); ?></label>
+							<input type="text" class="large-text" name="anna_content_oasis_page[choose_plan_items][<?php echo esc_attr( $index ); ?>][annual]" value="<?php echo esc_attr( $plan['annual'] ?? '' ); ?>">
+						</p>
+
+						<p>
+							<label style="display:block;margin-bottom:4px;font-weight:600;"><?php esc_html_e( 'Founding Member Note', 'anna-baylis' ); ?></label>
+							<input type="text" class="large-text" name="anna_content_oasis_page[choose_plan_items][<?php echo esc_attr( $index ); ?>][founding]" value="<?php echo esc_attr( $plan['founding'] ?? '' ); ?>">
+						</p>
+
+						<p>
+							<label style="display:block;margin-bottom:4px;font-weight:600;"><?php esc_html_e( 'Badge Text', 'anna-baylis' ); ?></label>
+							<input type="text" class="regular-text" name="anna_content_oasis_page[choose_plan_items][<?php echo esc_attr( $index ); ?>][badge]" value="<?php echo esc_attr( $plan['badge'] ?? '' ); ?>" placeholder="<?php esc_attr_e( 'e.g. Most Popular', 'anna-baylis' ); ?>">
+						</p>
+
+						<p>
+							<label style="display:block;margin-bottom:4px;font-weight:600;"><?php esc_html_e( 'Featured Card', 'anna-baylis' ); ?></label>
+							<select name="anna_content_oasis_page[choose_plan_items][<?php echo esc_attr( $index ); ?>][featured]" style="min-width:200px;">
+								<option value="0" <?php selected( empty( $plan['featured'] ) ); ?>><?php esc_html_e( 'No — Standard card', 'anna-baylis' ); ?></option>
+								<option value="1" <?php selected( ! empty( $plan['featured'] ) ); ?>><?php esc_html_e( 'Yes — Highlighted card', 'anna-baylis' ); ?></option>
+							</select>
+							<span class="description" style="display:block;margin-top:4px;"><?php esc_html_e( 'Featured cards are visually highlighted and show the badge.', 'anna-baylis' ); ?></span>
+						</p>
 						<p><textarea class="large-text" rows="6" name="anna_content_oasis_page[choose_plan_items][<?php echo esc_attr( $index ); ?>][features_text]" placeholder="<?php esc_attr_e( 'One feature per line', 'anna-baylis' ); ?>"><?php
 							if ( ! empty( $plan['features'] ) && is_array( $plan['features'] ) ) {
 								$lines = array();
@@ -306,6 +332,14 @@ trait Anna_Oasis_Page_Content {
 								echo esc_textarea( implode( "\n", $lines ) );
 							}
 						?></textarea></p>
+						<p>
+							<label style="display:block;margin-bottom:4px;font-weight:600;"><?php esc_html_e( 'Button Text', 'anna-baylis' ); ?></label>
+							<input type="text" class="regular-text" name="anna_content_oasis_page[choose_plan_items][<?php echo esc_attr( $index ); ?>][btn_text]" value="<?php echo esc_attr( $plan['btn_text'] ?? '' ); ?>" placeholder="<?php esc_attr_e( 'e.g. Join Now', 'anna-baylis' ); ?>">
+						</p>
+						<p>
+							<label style="display:block;margin-bottom:4px;font-weight:600;"><?php esc_html_e( 'Button URL', 'anna-baylis' ); ?></label>
+							<input type="text" class="large-text" name="anna_content_oasis_page[choose_plan_items][<?php echo esc_attr( $index ); ?>][btn_url]" value="<?php echo esc_attr( $plan['btn_url'] ?? '' ); ?>" placeholder="https://">
+						</p>
 					</div>
 				<?php endforeach; ?>
 			</td>

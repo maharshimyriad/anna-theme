@@ -85,6 +85,13 @@ $plans = isset( $oasis['choose_plan_items'] ) && is_array( $oasis['choose_plan_i
 								<?php endforeach; ?>
 							</ul>
 						<?php endif; ?>
+
+						<?php if ( ! empty( $plan['btn_text'] ) && ! empty( $plan['btn_url'] ) ) : ?>
+							<a href="<?php echo esc_url( $plan['btn_url'] ); ?>"
+								class="anna-btn anna-oasis-page-plan__btn<?php echo $featured ? ' anna-btn--secondary' : ' anna-btn--primary'; ?>">
+								<?php echo esc_html( $plan['btn_text'] ); ?>
+							</a>
+						<?php endif; ?>
 					</article>
 				<?php endforeach; ?>
 			</div>
