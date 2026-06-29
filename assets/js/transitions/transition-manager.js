@@ -48,8 +48,10 @@
     try {
       var a = new URL(anchor.href, window.location.href);
       if (a.origin !== window.location.origin) return false;
-      // Skip if same path+query (only a hash difference)
-      if (a.pathname === window.location.pathname && a.search === window.location.search) return false;
+      // Skip if same path+query (only a hash difference) — normalize trailing slash
+      var destPath = a.pathname.replace(/\/$/, '') || '/';
+      var currPath = window.location.pathname.replace(/\/$/, '') || '/';
+      if (destPath === currPath && a.search === window.location.search) return false;
     } catch (e) { return false; }
 
     return true;
@@ -295,20 +297,36 @@
     // Scroll reveal (IntersectionObserver)
     reinitScrollReveal();
 
-    // Header: close open dropdowns, update active state
+    // Close any open dropdowns first
     document.querySelectorAll('.anna-nav__item--has-children.is-open').forEach(function (item) {
       item.classList.remove('is-open');
       var link = item.querySelector('.anna-nav__link--parent');
       if (link) link.setAttribute('aria-expanded', 'false');
     });
-    var currentPath = window.location.pathname;
-    document.querySelectorAll('.anna-nav__link, .anna-mobile-nav__link').forEach(function (link) {
+
+    // Header: close open dropdowns, update active state
+    // WordPress uses current-menu-item on <li> and anna-nav__item--active via the walker.
+    // We replicate that by matching the current pathname against each nav link href.
+    document.querySelectorAll('.anna-nav__item--active, .current-menu-item, .current-menu-parent, .current-menu-ancestor').forEach(function (el) {
+      el.classList.remove('anna-nav__item--active', 'current-menu-item', 'current-menu-parent', 'current-menu-ancestor');
+      var link = el.querySelector('.anna-nav__link');
+      if (link) {
+        link.removeAttribute('aria-current');
+      }
+    });
+
+    var currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+
+    document.querySelectorAll('.anna-nav__item, .anna-mobile-nav li').forEach(function (li) {
+      var link = li.querySelector('a');
+      if (!link || !link.href) return;
       try {
-        var lp = new URL(link.href, window.location.href).pathname;
-        var active = lp === currentPath || (lp !== '/' && currentPath.indexOf(lp) === 0);
-        link.classList.toggle('is-active', active);
-        var li = link.closest('li');
-        if (li) li.classList.toggle('current-menu-item', active);
+        var linkPath = new URL(link.href, window.location.href).pathname.replace(/\/$/, '') || '/';
+        var isActive = linkPath === currentPath;
+        if (isActive) {
+          li.classList.add('anna-nav__item--active', 'current-menu-item');
+          link.setAttribute('aria-current', 'page');
+        }
       } catch (e) {}
     });
 
