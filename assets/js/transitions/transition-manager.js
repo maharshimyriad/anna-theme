@@ -85,10 +85,20 @@
 
   /* ─── Animation (Web Animations API — no GSAP dependency) ────────────── */
   function animateBlocks(enter) {
+    // Cancel any running animations on each block before starting new ones.
+    // This prevents fill:'forwards' from the enter animation conflicting with exit.
+    blocks.forEach(function (b) {
+      b.getAnimations().forEach(function (a) { a.cancel(); });
+    });
+
     var from = enter ? 'translateY(100%)' : 'translateY(0%)';
     var to   = enter ? 'translateY(0%)'   : 'translateY(-100%)';
 
     return Promise.all(blocks.map(function (block, i) {
+      // Set the start position explicitly as an inline style so the
+      // cancelled prior animation doesn't leave a stale committed value.
+      block.style.transform = from;
+
       return block.animate(
         [{ transform: from }, { transform: to }],
         {
@@ -104,7 +114,7 @@
   /* ─── Re-park blocks after exit ──────────────────────────────────────── */
   function resetBlocks() {
     blocks.forEach(function (b) {
-      // Clear Web Animations API committed styles
+      // Cancel committed fill so inline style takes over cleanly
       b.getAnimations().forEach(function (a) { a.cancel(); });
       b.style.transform = 'translateY(100%)';
     });
@@ -210,8 +220,9 @@
     // Animate blocks out
     await animateBlocks(false);
 
-    // Reset blocks back below viewport for next use
-    resetBlocks();
+    // Reset blocks back below viewport — defer one frame so the last
+    // block's exit paint completes before we cancel its fill.
+    requestAnimationFrame(function () { resetBlocks(); });
 
     document.body.style.pointerEvents = '';
     document.body.classList.remove('is-transitioning');
