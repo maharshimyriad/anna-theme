@@ -18,7 +18,7 @@ if ( empty( $oasis ) ) {
 $plans = isset( $oasis['choose_plan_items'] ) && is_array( $oasis['choose_plan_items'] ) ? $oasis['choose_plan_items'] : array();
 ?>
 
-<section class="anna-oasis-page-section anna-oasis-page-choose">
+<section id="anna-oasis-page-choose" class="anna-oasis-page-section anna-oasis-page-choose">
 	<div class="anna-container anna-container--max">
 		<header class="anna-oasis-page-choose__header anna-reveal">
 			<?php if ( ! empty( $oasis['choose_eyebrow'] ) ) : ?>
