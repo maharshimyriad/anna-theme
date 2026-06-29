@@ -22,7 +22,7 @@
   var BLOCK_COUNT     = 8;
   var ENTER_DURATION  = 650;   // ms per block (Web Animations API)
   var EXIT_DURATION   = 650;
-  var STAGGER_DELAY   = 60;    // ms between each block
+  var STAGGER_DELAY   = 40;    // ms between each block — tight enough to avoid visible gaps
   var EASE            = 'cubic-bezier(.77,0,.18,1)';
   var DEBUG           = false;
 

@@ -10,16 +10,21 @@
   inset: 0;
   z-index: 99999;
   display: flex;
-  pointer-events: none;   /* JS sets this via pointerEvents on body, not here */
-  will-change: auto;
+  pointer-events: none;
+  overflow: hidden;          /* clip any subpixel bleed */
 }
 
 .transition-column {
-  flex: 1;
+  /* Each column is slightly wider than its equal share so neighbours
+     overlap by 1px — eliminates visible seams during staggered animation */
+  flex: 1 0 calc(12.5% + 1px);
   height: 100%;
-  background-color: #007063;   /* overridden by JS */
-  transform: translateY(100%); /* parked below viewport */
+  background-color: #007063;
+  transform: translateY(100%);
   will-change: transform;
+  /* Remove any default margin/gap that flex might introduce */
+  margin: 0;
+  padding: 0;
 }
 
 /* Screen-reader announcer — visually hidden */
@@ -33,7 +38,7 @@
   border: 0;
 }
 
-/* Reduced motion: hide columns, transitions still work via JS */
+/* Reduced motion: hide columns */
 @media (prefers-reduced-motion: reduce) {
   .transition-column {
     display: none;
