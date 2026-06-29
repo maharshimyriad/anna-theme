@@ -140,6 +140,49 @@
     });
   }
 
+  /* ─── CSS injection ──────────────────────────────────────────────────── */
+  // Collect hrefs of all stylesheets already in the document so we never
+  // load the same file twice across navigations.
+  var loadedStyles = {};
+  (function () {
+    document.querySelectorAll('link[rel="stylesheet"]').forEach(function (el) {
+      if (el.href) loadedStyles[el.href] = true;
+    });
+  })();
+
+  /**
+   * Find <link rel="stylesheet"> tags in the fetched document that aren't
+   * already in the current page's <head> and inject them, waiting for each
+   * to load before resolving so the swap is never unstyled.
+   */
+  function injectNewStyles(fetchedDoc) {
+    var newLinks = [].slice.call(fetchedDoc.querySelectorAll('link[rel="stylesheet"]'));
+    var pending  = [];
+
+    newLinks.forEach(function (link) {
+      var href = link.href;
+      if (!href || loadedStyles[href]) return;  // already loaded
+
+      loadedStyles[href] = true;
+      log('Injecting stylesheet:', href);
+
+      var el    = document.createElement('link');
+      el.rel    = 'stylesheet';
+      el.href   = href;
+      if (link.id)    el.id    = link.id;
+      if (link.media) el.media = link.media;
+
+      pending.push(new Promise(function (resolve) {
+        el.addEventListener('load',  resolve, { once: true });
+        el.addEventListener('error', resolve, { once: true }); // don't block on 404
+      }));
+
+      document.head.appendChild(el);
+    });
+
+    return pending.length ? Promise.all(pending) : Promise.resolve();
+  }
+
   /* ─── Core navigation ─────────────────────────────────────────────────── */
   var busy = false;
 
@@ -180,6 +223,11 @@
       window.location.href = url;
       return;
     }
+
+    // Inject any page-specific stylesheets from the new page that
+    // aren't already loaded. WordPress enqueues per-page CSS conditionally
+    // so each destination may have different <link> tags in its <head>.
+    await injectNewStyles(doc);
 
     // Swap content
     var currentMain = document.getElementById(CONTENT_ID);
