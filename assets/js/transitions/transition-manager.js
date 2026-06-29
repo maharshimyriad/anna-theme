@@ -120,6 +120,8 @@
       b.getAnimations().forEach(function (a) { a.cancel(); });
       b.style.transform = 'translateY(100%)';
     });
+    // Removing is-active resets the CSS animation via the :not(.is-active) rules,
+    // so the stroke-draw plays again on the next navigation.
   }
 
 
@@ -198,6 +200,9 @@
     // Kick off fetch immediately (runs in parallel with enter animation)
     var htmlPromise = getHTML(url);
 
+    // Mark overlay active — triggers mark fade-in via CSS
+    if (overlay) overlay.classList.add('is-active');
+
     // Animate blocks in
     await animateBlocks(true);
 
@@ -267,12 +272,21 @@
     // Reinitialize theme modules
     reinitTheme();
 
+    // Signal exit — CSS fades mark out quickly before blocks leave
+    if (overlay) {
+      overlay.classList.add('is-exiting');
+      overlay.classList.remove('is-active');
+    }
+
     // Animate blocks out
     await animateBlocks(false);
 
     // Reset blocks back below viewport — defer one frame so the last
     // block's exit paint completes before we cancel its fill.
-    requestAnimationFrame(function () { resetBlocks(); });
+    requestAnimationFrame(function () {
+      resetBlocks();
+      if (overlay) overlay.classList.remove('is-exiting');
+    });
 
     document.body.style.pointerEvents = '';
     document.body.classList.remove('is-transitioning');

@@ -9,25 +9,21 @@
   position: fixed;
   inset: 0;
   z-index: 99999;
-  /* No flex — columns are absolutely positioned to avoid subpixel gaps */
   overflow: hidden;
   pointer-events: none;
 }
 
-/* Each column is absolutely positioned and 2px wider than its slot
-   so it overlaps neighbours on both sides — eliminates ALL subpixel gaps */
+/* ── Columns ───────────────────────────────────────────────────────────── */
 .transition-column {
   position: absolute;
   top: 0;
   height: 100%;
-  /* Width is slightly over 1/8 of the container to guarantee overlap */
   width: calc(12.5% + 2px);
   background-color: #007063;
   transform: translateY(100%);
   will-change: transform;
 }
 
-/* Position each column — offset by exact 12.5% slots, columns overlap by 2px */
 .transition-column:nth-child(1) { left: calc(12.5% * 0); }
 .transition-column:nth-child(2) { left: calc(12.5% * 1 - 1px); }
 .transition-column:nth-child(3) { left: calc(12.5% * 2 - 1px); }
@@ -37,7 +33,94 @@
 .transition-column:nth-child(7) { left: calc(12.5% * 6 - 1px); }
 .transition-column:nth-child(8) { left: calc(12.5% * 7 - 1px); }
 
-/* Screen-reader announcer — visually hidden */
+/* ── Brand mark container ──────────────────────────────────────────────── */
+.transition-mark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;           /* sits above the columns */
+  opacity: 0;
+  pointer-events: none;
+  /* fade in after columns have risen */
+  transition: opacity 0.35s ease 0.45s;
+}
+
+/* When the overlay is active (JS adds .is-active), reveal the mark */
+#page-transition.is-active .transition-mark {
+  opacity: 1;
+}
+
+/* When exiting (JS adds .is-exiting), fade mark out quickly */
+#page-transition.is-exiting .transition-mark {
+  opacity: 0;
+  transition: opacity 0.2s ease 0s;
+}
+
+.transition-mark__svg {
+  width: 96px;
+  height: 96px;
+}
+
+/* ── Stroke-draw animation ─────────────────────────────────────────────── */
+
+/* Outer circle — draws in */
+.tm-circle {
+  stroke-dasharray: 327;
+  stroke-dashoffset: 327;
+  animation: tm-draw 1.1s cubic-bezier(.4,0,.2,1) 0.5s forwards;
+}
+
+/* Main leaf path — dasharray = ~360 (approx perimeter) */
+.tm-leaf {
+  stroke-dasharray: 360;
+  stroke-dashoffset: 360;
+  animation: tm-draw 1.3s cubic-bezier(.4,0,.2,1) 0.6s forwards;
+}
+
+/* Left arc */
+.tm-arc {
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+  animation: tm-draw 0.8s cubic-bezier(.4,0,.2,1) 0.9s forwards;
+}
+
+/* Right arc */
+.tm-arc--2 {
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+  animation: tm-draw 0.8s cubic-bezier(.4,0,.2,1) 1.0s forwards;
+}
+
+/* Centre dot — scale in */
+.tm-dot {
+  transform: scale(0);
+  transform-origin: 60px 60px;
+  animation: tm-pop 0.4s cubic-bezier(.34,1.56,.64,1) 1.1s forwards;
+}
+
+@keyframes tm-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes tm-pop {
+  to { transform: scale(1); }
+}
+
+/* Reset animations when overlay is not active so they replay next time */
+#page-transition:not(.is-active) .tm-circle,
+#page-transition:not(.is-active) .tm-leaf,
+#page-transition:not(.is-active) .tm-arc,
+#page-transition:not(.is-active) .tm-dot {
+  animation: none;
+  stroke-dashoffset: 327; /* reset circles */
+}
+#page-transition:not(.is-active) .tm-leaf  { stroke-dashoffset: 360; }
+#page-transition:not(.is-active) .tm-arc   { stroke-dashoffset: 60; }
+#page-transition:not(.is-active) .tm-dot   { transform: scale(0); }
+
+/* ── Screen-reader announcer ───────────────────────────────────────────── */
 #page-transition-announcer {
   position: absolute;
   width: 1px;
@@ -48,9 +131,10 @@
   border: 0;
 }
 
-/* Reduced motion: hide columns */
+/* ── Reduced motion: hide columns and mark ─────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .transition-column {
+  .transition-column,
+  .transition-mark {
     display: none;
   }
 }

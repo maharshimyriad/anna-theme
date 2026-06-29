@@ -35,6 +35,27 @@ $header_classes = 'anna-header anna-header--solid';
 	<div class="transition-column"></div>
 	<div class="transition-column"></div>
 	<div class="transition-column"></div>
+
+	<!-- Centred brand mark — animates while overlay is visible -->
+	<div class="transition-mark" aria-hidden="true">
+		<svg class="transition-mark__svg" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<!-- Outer circle -->
+			<circle class="tm-circle" cx="60" cy="60" r="52" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+			<!-- Leaf / organic arc — primary shape -->
+			<path class="tm-leaf"
+				d="M60 20 C85 20, 100 40, 100 60 C100 80, 85 100, 60 100 C35 100, 20 80, 20 60 C20 40, 35 20, 60 20 Z"
+				stroke="rgba(255,255,255,0.55)" stroke-width="1.5"/>
+			<!-- Inner cross-arc — gives it depth -->
+			<path class="tm-arc"
+				d="M28 60 C28 38, 42 24, 60 24"
+				stroke="rgba(255,255,255,0.35)" stroke-width="1.2" stroke-linecap="round"/>
+			<path class="tm-arc tm-arc--2"
+				d="M92 60 C92 82, 78 96, 60 96"
+				stroke="rgba(255,255,255,0.35)" stroke-width="1.2" stroke-linecap="round"/>
+			<!-- Centre dot -->
+			<circle class="tm-dot" cx="60" cy="60" r="3" fill="rgba(255,255,255,0.7)"/>
+		</svg>
+	</div>
 </div>
 
 <div class="anna-site" id="page">
