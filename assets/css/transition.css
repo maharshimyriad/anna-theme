@@ -1,0 +1,79 @@
+/* =============================================================================
+   Page Transition System — Anna Baylis Theme
+   Premium staggered-column viewport cover
+   Compatible with prefers-reduced-motion
+   ============================================================================= */
+
+/* ── Screen-reader live region (visually hidden) ──────────────────────────── */
+.pt-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+    pointer-events: none;
+}
+
+/* ── Overlay container ────────────────────────────────────────────────────── */
+/*
+ * Fixed, full-viewport, always present in the DOM.
+ * pointer-events: none by default so it never interferes with the page.
+ * Activated via body.is-transitioning.
+ */
+#page-transition {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: stretch;
+    pointer-events: none;
+    overflow: hidden;
+    /* Isolate the stacking context to avoid bleeding z-index issues */
+    isolation: isolate;
+}
+
+/* ── Individual columns ───────────────────────────────────────────────────── */
+/*
+ * Each column starts off-screen below the viewport (translateY 100%).
+ * GSAP animates them to 0% (entrance) then -100% (exit).
+ * will-change + backface-visibility ensure GPU compositing from the start.
+ */
+.pt-col {
+    flex: 1 1 0%;
+    height: 100%;
+    background-color: var(--color-primary, #007063);
+    transform: translateY(100%);
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+/* ── Transition active body state ────────────────────────────────────────── */
+/*
+ * Applied to <body> for the full duration of a transition.
+ * Prevents scrolling, clicks, text selection, and cursor confusion.
+ */
+body.is-transitioning {
+    overflow: hidden !important;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: wait;
+}
+
+/* The overlay itself must still receive pointer-events when active */
+body.is-transitioning #page-transition {
+    pointer-events: all;
+    cursor: wait;
+}
+
+/* Persistent chrome (header, footer, mobile nav) stays inert */
+body.is-transitioning #site-header,
+body.is-transitioning #site-footer,
+body.is-transitioning #mobile-navigation {
+    pointer-events: none;
+}

@@ -25,6 +25,18 @@ $header_classes = 'anna-header anna-header--solid';
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
+<!-- Page Transition Overlay — persistent, never recreated, outside all content -->
+<div id="page-transition" aria-hidden="true" role="presentation">
+	<div class="transition-column"></div>
+	<div class="transition-column"></div>
+	<div class="transition-column"></div>
+	<div class="transition-column"></div>
+	<div class="transition-column"></div>
+	<div class="transition-column"></div>
+	<div class="transition-column"></div>
+	<div class="transition-column"></div>
+</div>
+
 <div class="anna-site" id="page">
 
 	<header class="<?php echo esc_attr( $header_classes ); ?>" id="site-header" role="banner">

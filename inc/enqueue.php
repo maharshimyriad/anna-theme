@@ -179,6 +179,14 @@ function anna_enqueue_styles()
 	}
 	anna_enqueue_scaffolded_page_styles($prev_dep);
 
+	// Page transition overlay styles — loaded on every page
+	wp_enqueue_style(
+		'anna-page-transition',
+		ANNA_CSS . '/transitions/page-transition.css',
+		array( 'anna-global' ),
+		anna_asset_version( 'assets/css/transitions/page-transition.css' )
+	);
+
 	wp_enqueue_style(
 		'anna-google-fonts',
 		'https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Mulish:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap',
@@ -335,6 +343,17 @@ function anna_enqueue_scripts()
 	if ($animations_enabled) {
 		$deps[] = 'anna-animations';
 	}
+
+	// Page transition system — loaded on every page, after GSAP
+	$transition_deps = $animations_enabled ? array( 'gsap-core' ) : array();
+	wp_enqueue_script(
+		'anna-page-transition',
+		ANNA_JS . '/transitions/transition-manager.js',
+		$transition_deps,
+		anna_asset_version( 'assets/js/transitions/transition-manager.js' ),
+		array( 'strategy' => 'defer' )
+	);
+	$deps[] = 'anna-page-transition';
 
 	wp_enqueue_script(
 		'anna-theme',

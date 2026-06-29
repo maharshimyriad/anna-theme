@@ -1,0 +1,65 @@
+/**
+ * Page Transition Overlay Styles
+ *
+ * Full-screen staggered-column overlay for premium page transitions.
+ * Works alongside GSAP — this CSS only sets the static base state.
+ *
+ * @package Anna_Baylis
+ * @since   1.0.0
+ */
+
+/* ── Overlay container ─────────────────────────────────────────────────────── */
+#page-transition {
+  position: fixed;
+  inset: 0;                           /* top/right/bottom/left: 0 */
+  z-index: 99999;
+  display: flex;
+  pointer-events: none;               /* inactive when hidden */
+  will-change: auto;
+  isolation: isolate;
+}
+
+#page-transition.is-active {
+  pointer-events: all;                /* block clicks during transition */
+}
+
+/* ── Individual columns ────────────────────────────────────────────────────── */
+.transition-column {
+  flex: 1;
+  height: 100%;
+  background-color: var(--anna-transition-color, #007063);
+  transform: translateY(100%);        /* parked below viewport */
+  will-change: transform;
+}
+
+/* ── Loading indicator (optional subtle pulse on active state) ─────────────── */
+#page-transition.is-loading .transition-column:first-child::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.04);
+  animation: anna-transition-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes anna-transition-pulse {
+  0%, 100% { opacity: 0; }
+  50%       { opacity: 1; }
+}
+
+/* ── Screen-reader live region ─────────────────────────────────────────────── */
+#page-transition-announcer {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Reduced-motion: hide columns entirely, keep ARIA ──────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .transition-column {
+    display: none;
+  }
+}
