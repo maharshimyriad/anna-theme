@@ -115,14 +115,23 @@ class Anna_Nav_Walker extends Walker_Nav_Menu {
 		}
 
 		$item_output  = isset( $args->before ) ? $args->before : '';
-		$item_output .= '<a' . $attributes . '>';
-		$item_output .= ( isset( $args->link_before ) ? $args->link_before : '' ) . apply_filters( 'the_title', $item->title, $item->ID ) . ( isset( $args->link_after ) ? $args->link_after : '' );
 
-		if ( $has_children ) {
-			$item_output .= '<span class="anna-nav__chevron" aria-hidden="true"><svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+		if ( $depth > 0 ) {
+			// Dropdown child: prepend the animated dot accent.
+			$item_output .= '<a' . $attributes . '>';
+			$item_output .= '<span class="anna-nav__dot" aria-hidden="true"></span>';
+			$item_output .= ( isset( $args->link_before ) ? $args->link_before : '' ) . apply_filters( 'the_title', $item->title, $item->ID ) . ( isset( $args->link_after ) ? $args->link_after : '' );
+			$item_output .= '</a>';
+		} else {
+			// Top-level item.
+			$item_output .= '<a' . $attributes . '>';
+			$item_output .= ( isset( $args->link_before ) ? $args->link_before : '' ) . apply_filters( 'the_title', $item->title, $item->ID ) . ( isset( $args->link_after ) ? $args->link_after : '' );
+			if ( $has_children ) {
+				$item_output .= '<span class="anna-nav__chevron" aria-hidden="true"><svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+			}
+			$item_output .= '</a>';
 		}
 
-		$item_output .= '</a>';
 		$item_output .= isset( $args->after ) ? $args->after : '';
 
 		$output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );

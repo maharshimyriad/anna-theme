@@ -2232,119 +2232,121 @@ text-shadow: none !important;
 /* ── Dropdown chevron ─────────────────────────────────────────────────────── */
 .anna-nav__chevron {
   display: inline-flex;
-  transition: transform var(--transition-base);
+  transition: transform 0.25s ease;
   color: var(--color-text-light);
   flex-shrink: 0;
 }
 
-.anna-nav__item--has-children:hover > .anna-nav__link .anna-nav__chevron,
 .anna-nav__item--has-children.is-open > .anna-nav__link .anna-nav__chevron {
   transform: rotate(180deg);
   color: var(--color-primary);
 }
 
-/* ── Dropdown menu ────────────────────────────────────────────────────────── */
-.anna-nav__dropdown {
-  position: absolute;
-  top: calc(100% + 12px);
-  left: 50%;
-  transform: translateX(-50%) translateY(10px);
-  min-width: 240px;
-  background: var(--color-white);
-  border-radius: 14px;
-  box-shadow:
-    0 4px 6px -1px rgba(0, 112, 99, 0.06),
-    0 20px 50px -8px rgba(0, 112, 99, 0.18),
-    0 0 0 1px rgba(0, 112, 99, 0.07);
-  padding: 8px;
-  list-style: none;
-  opacity: 0;
-  pointer-events: none;
-  transition:
-    opacity 0.22s ease,
-    transform 0.22s ease;
-  z-index: var(--z-dropdown);
-  will-change: transform, opacity;
-  overflow: hidden;
-}
+/* ── Dropdown panel ───────────────────────────────────────────────────────── */
 
-/* Arrow pointer */
-.anna-nav__dropdown::before {
+/*
+ * The invisible "bridge" fills the gap between the nav link and the panel
+ * so the mouse never loses the hover target while crossing the space.
+ */
+.anna-nav__item--has-children > .anna-nav__link::before {
   content: '';
   position: absolute;
-  top: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 12px;
-  height: 12px;
-  background: var(--color-white);
-  border-left: 1px solid rgba(0, 112, 99, 0.07);
-  border-top: 1px solid rgba(0, 112, 99, 0.07);
-  rotate: 45deg;
-  border-radius: 2px 0 0 0;
+  bottom: -16px;
+  left: 0;
+  right: 0;
+  height: 16px;
+  z-index: calc(var(--z-dropdown) - 1);
 }
 
-.anna-nav__item--has-children:hover > .anna-nav__dropdown,
+.anna-nav__dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  min-width: 220px;
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 112, 99, 0.10);
+  box-shadow:
+    0 0 0 1px rgba(0,112,99,0.05),
+    0 8px 16px -4px rgba(0,0,0,0.08),
+    0 24px 48px -8px rgba(0,112,99,0.14);
+  padding: 6px;
+  list-style: none;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition:
+    opacity  0.20s ease,
+    transform 0.20s ease,
+    visibility 0s linear 0.20s;
+  z-index: var(--z-dropdown);
+  will-change: transform, opacity;
+}
+
 .anna-nav__item--has-children.is-open > .anna-nav__dropdown {
   opacity: 1;
   pointer-events: auto;
+  visibility: visible;
   transform: translateX(-50%) translateY(0);
+  transition:
+    opacity  0.20s ease,
+    transform 0.20s ease,
+    visibility 0s linear 0s;
 }
 
-/* Each dropdown link row */
-.anna-nav__dropdown .anna-nav__item {
+.anna-nav__dropdown > li {
   position: static;
+  list-style: none;
 }
 
 .anna-nav__dropdown .anna-nav__link {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   width: 100%;
-  padding: 10px 14px;
+  padding: 9px 13px;
   border-radius: 10px;
-  font-size: 0.88rem;
-  font-weight: var(--font-weight-medium);
+  font-size: 0.875rem;
+  font-weight: 500;
   color: var(--color-heading);
   text-decoration: none;
-  transition:
-    background 0.15s ease,
-    color 0.15s ease,
-    transform 0.15s ease;
   white-space: nowrap;
+  line-height: 1.4;
+  transition:
+    background 0.14s ease,
+    color      0.14s ease;
 }
 
-.anna-nav__dropdown .anna-nav__link::after {
-  display: none;
-}
-
-.anna-nav__dropdown .anna-nav__link:hover {
-  background: var(--color-bg-soft);
-  color: var(--color-primary);
-  transform: translateX(3px);
-}
-
-/* Arrow indicator on hover */
+.anna-nav__dropdown .anna-nav__link::after,
 .anna-nav__dropdown .anna-nav__link::before {
-  content: '';
-  display: inline-block;
-  width: 5px;
-  height: 5px;
-  border-right: 1.5px solid currentColor;
-  border-top: 1.5px solid currentColor;
-  transform: rotate(45deg) scale(0);
-  transition: transform 0.15s ease;
+  display: none;
+  content: none;
+}
+
+.anna-nav__dropdown .anna-nav__link:hover,
+.anna-nav__dropdown li.current-menu-item > .anna-nav__link {
+  background: rgba(0,112,99,0.07);
+  color: var(--color-primary);
+}
+
+.anna-nav__dropdown .anna-nav__link .anna-nav__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(0,112,99,0.25);
   flex-shrink: 0;
-  opacity: 0.6;
+  transition: background 0.14s ease, transform 0.14s ease;
 }
 
-.anna-nav__dropdown .anna-nav__link:hover::before {
-  transform: rotate(45deg) scale(1);
+.anna-nav__dropdown .anna-nav__link:hover .anna-nav__dot {
+  background: var(--color-primary);
+  transform: scale(1.3);
 }
 
-/* Divider between items */
-.anna-nav__dropdown li + li {
-  border-top: 1px solid rgba(0, 112, 99, 0.06);
+.anna-nav__dropdown > li + li {
+  border-top: 1px solid rgba(0,112,99,0.06);
 }
 
 /* ── Transparent header nav colors ───────────────────────────────────────────*/

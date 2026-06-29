@@ -37,44 +37,89 @@
   });
 
   /**
-   * Dropdown keyboard navigation.
+   * Desktop dropdown — hover-intent with close delay so the gap
+   * between the trigger and panel never accidentally closes it.
+   * Keyboard (Enter / Space / Escape / Tab) also works.
    */
-  document.querySelectorAll('.anna-nav__item--has-children').forEach(function (item) {
-    var link     = item.querySelector('.anna-nav__link--parent');
-    var dropdown = item.querySelector('.anna-nav__dropdown');
-    if (!link || !dropdown) return;
+  (function () {
+    var CLOSE_DELAY = 180; // ms — enough to cross the gap, not sluggish
 
-    // Toggle on Enter/Space
-    link.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        var expanded = link.getAttribute('aria-expanded') === 'true';
-        link.setAttribute('aria-expanded', !expanded);
-        item.classList.toggle('is-open');
+    document.querySelectorAll('.anna-nav__item--has-children').forEach(function (item) {
+      var link     = item.querySelector('.anna-nav__link--parent');
+      var dropdown = item.querySelector('.anna-nav__dropdown');
+      if (!link || !dropdown) return;
 
-        if (!expanded) {
-          var firstChild = dropdown.querySelector('a');
-          if (firstChild) firstChild.focus();
-        }
+      var closeTimer = null;
+
+      function openDropdown() {
+        clearTimeout(closeTimer);
+        // Close any other open dropdowns first.
+        document.querySelectorAll('.anna-nav__item--has-children.is-open').forEach(function (other) {
+          if (other !== item) {
+            other.classList.remove('is-open');
+            var otherLink = other.querySelector('.anna-nav__link--parent');
+            if (otherLink) otherLink.setAttribute('aria-expanded', 'false');
+          }
+        });
+        item.classList.add('is-open');
+        link.setAttribute('aria-expanded', 'true');
       }
 
-      if (e.key === 'Escape') {
-        link.setAttribute('aria-expanded', 'false');
-        item.classList.remove('is-open');
-        link.focus();
-      }
-    });
-
-    // Close dropdown when leaving with Tab.
-    item.addEventListener('focusout', function (e) {
-      setTimeout(function () {
-        if (!item.contains(document.activeElement)) {
-          link.setAttribute('aria-expanded', 'false');
+      function scheduleClose() {
+        closeTimer = setTimeout(function () {
           item.classList.remove('is-open');
+          link.setAttribute('aria-expanded', 'false');
+        }, CLOSE_DELAY);
+      }
+
+      // Mouse enter on the whole item (trigger + panel).
+      item.addEventListener('mouseenter', openDropdown);
+      item.addEventListener('mouseleave', scheduleClose);
+
+      // Cancel close if mouse re-enters the panel.
+      dropdown.addEventListener('mouseenter', function () { clearTimeout(closeTimer); });
+      dropdown.addEventListener('mouseleave', scheduleClose);
+
+      // ── Keyboard ──────────────────────────────────────────────────────
+      link.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          var isOpen = item.classList.contains('is-open');
+          if (isOpen) {
+            item.classList.remove('is-open');
+            link.setAttribute('aria-expanded', 'false');
+          } else {
+            openDropdown();
+            var firstChild = dropdown.querySelector('a');
+            if (firstChild) firstChild.focus();
+          }
         }
-      }, 50);
+        if (e.key === 'Escape') {
+          item.classList.remove('is-open');
+          link.setAttribute('aria-expanded', 'false');
+          link.focus();
+        }
+      });
+
+      // Close on Tab-away.
+      item.addEventListener('focusout', function () {
+        setTimeout(function () {
+          if (!item.contains(document.activeElement)) {
+            item.classList.remove('is-open');
+            link.setAttribute('aria-expanded', 'false');
+          }
+        }, 50);
+      });
+
+      // Close when clicking outside.
+      document.addEventListener('click', function (e) {
+        if (!item.contains(e.target)) {
+          item.classList.remove('is-open');
+          link.setAttribute('aria-expanded', 'false');
+        }
+      });
     });
-  });
+  })();
 
   /**
    * Open all "Book a Discovery Call" links in a new tab.
