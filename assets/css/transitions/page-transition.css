@@ -9,23 +9,33 @@
   position: fixed;
   inset: 0;
   z-index: 99999;
-  display: flex;
+  /* No flex — columns are absolutely positioned to avoid subpixel gaps */
+  overflow: hidden;
   pointer-events: none;
-  overflow: hidden;          /* clip any subpixel bleed */
 }
 
+/* Each column is absolutely positioned and 2px wider than its slot
+   so it overlaps neighbours on both sides — eliminates ALL subpixel gaps */
 .transition-column {
-  /* Each column is slightly wider than its equal share so neighbours
-     overlap by 1px — eliminates visible seams during staggered animation */
-  flex: 1 0 calc(12.5% + 1px);
+  position: absolute;
+  top: 0;
   height: 100%;
+  /* Width is slightly over 1/8 of the container to guarantee overlap */
+  width: calc(12.5% + 2px);
   background-color: #007063;
   transform: translateY(100%);
   will-change: transform;
-  /* Remove any default margin/gap that flex might introduce */
-  margin: 0;
-  padding: 0;
 }
+
+/* Position each column — offset by exact 12.5% slots, columns overlap by 2px */
+.transition-column:nth-child(1) { left: calc(12.5% * 0); }
+.transition-column:nth-child(2) { left: calc(12.5% * 1 - 1px); }
+.transition-column:nth-child(3) { left: calc(12.5% * 2 - 1px); }
+.transition-column:nth-child(4) { left: calc(12.5% * 3 - 1px); }
+.transition-column:nth-child(5) { left: calc(12.5% * 4 - 1px); }
+.transition-column:nth-child(6) { left: calc(12.5% * 5 - 1px); }
+.transition-column:nth-child(7) { left: calc(12.5% * 6 - 1px); }
+.transition-column:nth-child(8) { left: calc(12.5% * 7 - 1px); }
 
 /* Screen-reader announcer — visually hidden */
 #page-transition-announcer {
