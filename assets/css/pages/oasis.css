@@ -660,9 +660,30 @@
   text-decoration: none;
   transition: var(--btn-transition);
   cursor: pointer;
+  /* Allow <br> line breaks and style the second line smaller */
+  line-height: 1.35;
 }
 
-/* Standard card: primary style (green bg, white text) */
+/* Second line inside the button (after <br>) — smaller, lighter weight */
+.anna-oasis-page-plan__btn br + * ,
+.anna-oasis-page-plan__btn br {
+  display: block;
+}
+
+/* Style text that follows a <br> as a subtitle line */
+.anna-oasis-page-plan__btn::after {
+  display: block;
+}
+
+/* Use :has() where supported, fallback is fine — the <br> alone works */
+.anna-oasis-page-plan__btn br ~ * {
+  font-size: 0.78em;
+  font-weight: 400;
+  opacity: 0.85;
+  letter-spacing: 0;
+  margin-top: 0.1em;
+}
+
 .anna-oasis-page-plan__btn.anna-btn--primary {
   background: var(--color-primary);
   border: 2px solid var(--color-primary);

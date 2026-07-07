@@ -293,7 +293,7 @@ function anna_normalize_oasis_plan_items( $items ) {
 			'badge'        => sanitize_text_field( $row['badge'] ?? '' ),
 			'featured'     => ! empty( $row['featured'] ) ? 1 : 0,
 			'features'     => $features,
-			'btn_text'     => sanitize_text_field( $row['btn_text'] ?? '' ),
+			'btn_text'     => wp_kses( $row['btn_text'] ?? '', array( 'br' => array() ) ),
 			'btn_url'      => esc_url_raw( $row['btn_url'] ?? '' ),
 		);
 	}
