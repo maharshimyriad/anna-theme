@@ -87,9 +87,13 @@ $plans = isset( $oasis['choose_plan_items'] ) && is_array( $oasis['choose_plan_i
 						<?php endif; ?>
 
 						<?php if ( ! empty( $plan['btn_text'] ) && ! empty( $plan['btn_url'] ) ) : ?>
+							<?php $btn_sub = trim( (string) ( $plan['btn_sub_text'] ?? '' ) ); ?>
 							<a href="<?php echo esc_url( $plan['btn_url'] ); ?>"
-								class="anna-btn anna-oasis-page-plan__btn<?php echo $featured ? ' anna-btn--secondary' : ' anna-btn--primary'; ?>">
-								<?php echo wp_kses( $plan['btn_text'], array( 'br' => array() ) ); ?>
+								class="anna-btn anna-oasis-page-plan__btn<?php echo $featured ? ' anna-btn--secondary' : ' anna-btn--primary'; ?><?php echo $btn_sub ? ' anna-oasis-page-plan__btn--has-sub' : ''; ?>">
+								<span class="anna-oasis-page-plan__btn-main"><?php echo esc_html( $plan['btn_text'] ); ?></span>
+								<?php if ( $btn_sub ) : ?>
+									<span class="anna-oasis-page-plan__btn-sub"><?php echo esc_html( $btn_sub ); ?></span>
+								<?php endif; ?>
 							</a>
 						<?php endif; ?>
 					</article>

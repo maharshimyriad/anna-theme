@@ -648,7 +648,10 @@
 
 /* ── Plan card button ──────────────────────────────────────────────────── */
 .anna-oasis-page-plan__btn {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
   margin-top: var(--space-6);
   width: 100%;
   text-align: center;
@@ -660,30 +663,47 @@
   text-decoration: none;
   transition: var(--btn-transition);
   cursor: pointer;
-  /* Allow <br> line breaks and style the second line smaller */
-  line-height: 1.35;
+  white-space: nowrap;          /* one line on desktop */
+  flex-wrap: nowrap;
 }
 
-/* Second line inside the button (after <br>) — smaller, lighter weight */
-.anna-oasis-page-plan__btn br + * ,
-.anna-oasis-page-plan__btn br {
-  display: block;
+/* Main label — always shown */
+.anna-oasis-page-plan__btn-main {
+  flex-shrink: 0;
 }
 
-/* Style text that follows a <br> as a subtitle line */
-.anna-oasis-page-plan__btn::after {
-  display: block;
+/* Sub-text — separator + text, inline on desktop */
+.anna-oasis-page-plan__btn-sub {
+  flex-shrink: 0;
+  opacity: 0.78;
+  font-size: 0.82em;
+  font-weight: var(--font-weight-regular, 400);
 }
 
-/* Use :has() where supported, fallback is fine — the <br> alone works */
-.anna-oasis-page-plan__btn br ~ * {
-  font-size: 0.78em;
-  font-weight: 400;
-  opacity: 0.85;
-  letter-spacing: 0;
-  margin-top: 0.1em;
+/* Separator dot between main and sub on desktop */
+.anna-oasis-page-plan__btn--has-sub .anna-oasis-page-plan__btn-sub::before {
+  content: '·';
+  margin-right: 0.4em;
 }
 
+/* Below 1024px: stack to two lines */
+@media (max-width: 1024px) {
+  .anna-oasis-page-plan__btn--has-sub {
+    flex-direction: column;
+    gap: 0.15em;
+    white-space: normal;
+  }
+
+  .anna-oasis-page-plan__btn--has-sub .anna-oasis-page-plan__btn-sub::before {
+    display: none;   /* remove separator dot on two-line layout */
+  }
+
+  .anna-oasis-page-plan__btn-sub {
+    font-size: 0.78em;
+  }
+}
+
+/* Standard card: primary style (green bg, white text) */
 .anna-oasis-page-plan__btn.anna-btn--primary {
   background: var(--color-primary);
   border: 2px solid var(--color-primary);

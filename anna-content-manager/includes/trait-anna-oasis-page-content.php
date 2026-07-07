@@ -334,8 +334,12 @@ trait Anna_Oasis_Page_Content {
 						?></textarea></p>
 						<p>
 							<label style="display:block;margin-bottom:4px;font-weight:600;"><?php esc_html_e( 'Button Text', 'anna-baylis' ); ?></label>
-							<textarea class="regular-text" rows="2" name="anna_content_oasis_page[choose_plan_items][<?php echo esc_attr( $index ); ?>][btn_text]" placeholder="<?php esc_attr_e( 'e.g. Join Now', 'anna-baylis' ); ?>"><?php echo esc_textarea( $plan['btn_text'] ?? '' ); ?></textarea>
-							<p class="description"><?php esc_html_e( 'You can use <br> for a line break inside the button, e.g. Join The Garden<br>7 Day Free Trial', 'anna-baylis' ); ?></p>
+							<input type="text" class="regular-text" name="anna_content_oasis_page[choose_plan_items][<?php echo esc_attr( $index ); ?>][btn_text]" value="<?php echo esc_attr( $plan['btn_text'] ?? '' ); ?>" placeholder="<?php esc_attr_e( 'e.g. Join Now', 'anna-baylis' ); ?>">
+						</p>
+						<p>
+							<label style="display:block;margin-bottom:4px;font-weight:600;"><?php esc_html_e( 'Button Sub-text', 'anna-baylis' ); ?></label>
+							<input type="text" class="regular-text" name="anna_content_oasis_page[choose_plan_items][<?php echo esc_attr( $index ); ?>][btn_sub_text]" value="<?php echo esc_attr( $plan['btn_sub_text'] ?? '' ); ?>" placeholder="<?php esc_attr_e( 'e.g. 7 day free trial', 'anna-baylis' ); ?>">
+							<span class="description" style="display:block;margin-top:4px;"><?php esc_html_e( 'Optional. Shown on one line on desktop, wraps to a second line below 1024px.', 'anna-baylis' ); ?></span>
 						</p>
 						<p>
 							<label style="display:block;margin-bottom:4px;font-weight:600;"><?php esc_html_e( 'Button URL', 'anna-baylis' ); ?></label>
