@@ -391,7 +391,7 @@ a.anna-contact-page-info__value:hover {
 }
 
 /* Form-level error summary */
-.anna-contact-page-form .nf-form-errors.nf-error-field-errors {
+.anna-contact-page-form .nf-error-msg.nf-error-field-errors {
     background: #fef2f2 !important;
     border-radius: var(--radius-sm) !important;
     color: #991b1b !important;
