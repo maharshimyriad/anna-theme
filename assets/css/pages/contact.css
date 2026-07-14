@@ -396,6 +396,7 @@ a.anna-contact-page-info__value:hover {
     border-radius: var(--radius-sm) !important;
     color: #991b1b !important;
     font-size: var(--text-sm) !important;
+    padding: 10px;
 }
 
 .anna-contact-page-form .nf-form-errors:empty {
