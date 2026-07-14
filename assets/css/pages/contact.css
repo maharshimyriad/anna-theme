@@ -224,67 +224,6 @@ a.anna-contact-page-info__value:hover {
     line-height: 1.25;
 }
 
-.anna-contact-page-form__form {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-5);
-}
-
-.anna-contact-page-form__field {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-}
-
-.anna-contact-page-form__label {
-    font-size: var(--text-sm);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-heading);
-    letter-spacing: 0.01em;
-}
-
-.anna-contact-page-form__input,
-.anna-contact-page-form__textarea {
-    width: 100%;
-    padding: var(--space-3-5) var(--space-4);
-    border: 1.5px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    background: var(--color-white);
-    color: var(--color-heading);
-    font-family: var(--font-body);
-    font-size: var(--text-base);
-    line-height: 1.5;
-    transition:
-        border-color var(--transition-fast),
-        box-shadow var(--transition-fast);
-    outline: none;
-    box-sizing: border-box;
-}
-
-.anna-contact-page-form__input::placeholder,
-.anna-contact-page-form__textarea::placeholder {
-    color: var(--color-text-light);
-}
-
-.anna-contact-page-form__input:focus,
-.anna-contact-page-form__textarea:focus {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(0, 112, 99, 0.12);
-}
-
-.anna-contact-page-form__textarea {
-    resize: vertical;
-    min-height: 9rem;
-}
-
-.anna-contact-page-form__submit {
-    width: 100%;
-    justify-content: center;
-    margin-top: var(--space-2);
-    padding: var(--space-4) var(--space-8);
-    font-size: var(--text-base);
-}
-
 .anna-contact-page-form__note {
     margin: var(--space-4) 0 0;
     font-size: var(--text-sm);
@@ -298,32 +237,57 @@ a.anna-contact-page-info__value:hover {
     font-weight: var(--font-weight-semibold);
 }
 
-/* ── WPForms overrides ──────────────────────────────────────────────────── */
+/* ── Ninja Forms overrides ──────────────────────────────────────────────── */
 
-/* Wrapper reset */
-.anna-contact-page-form .wpforms-form {
+/* Outer wrapper reset */
+.anna-contact-page-form .nf-form-cont,
+.anna-contact-page-form .nf-form-wrap,
+.anna-contact-page-form .ninja-forms-form-wrap {
     padding: 0 !important;
     margin: 0 !important;
     background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
-/* Field container — vertical stack with consistent gap */
-.anna-contact-page-form .wpforms-field-container {
+/* Hide form title — the theme already renders a heading above */
+.anna-contact-page-form .nf-form-title {
+    display: none !important;
+}
+
+/* "Fields marked with * are required" notice */
+.anna-contact-page-form .nf-form-fields-required {
+    font-size: var(--text-xs) !important;
+    color: var(--color-text-muted) !important;
+    margin-bottom: var(--space-4) !important;
+}
+
+/* Field content area — vertical stack */
+.anna-contact-page-form .nf-form-content {
     display: flex !important;
     flex-direction: column !important;
     gap: var(--space-5) !important;
+}
+
+.anna-contact-page-form nf-fields-wrap {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: var(--space-5) !important;
+}
+
+/* Each field row */
+.anna-contact-page-form .nf-field-container {
     margin: 0 !important;
     padding: 0 !important;
 }
 
-/* Each field row */
-.anna-contact-page-form .wpforms-field {
+.anna-contact-page-form .field-wrap {
     margin: 0 !important;
     padding: 0 !important;
 }
 
 /* Labels */
-.anna-contact-page-form .wpforms-field-label {
+.anna-contact-page-form .nf-field-label label {
     display: block !important;
     font-family: var(--font-body) !important;
     font-size: var(--text-sm) !important;
@@ -333,15 +297,15 @@ a.anna-contact-page-info__value:hover {
     margin-bottom: var(--space-2) !important;
 }
 
-/* Hide the required asterisk label — it's already handled by aria */
-.anna-contact-page-form .wpforms-required-label {
+/* Required asterisk */
+.anna-contact-page-form .ninja-forms-req-symbol {
     color: var(--color-primary) !important;
-    font-size: 0.9em !important;
+    margin-left: 0.15em !important;
 }
 
-/* Text, email inputs */
-.anna-contact-page-form .wpforms-field input[type="text"],
-.anna-contact-page-form .wpforms-field input[type="email"] {
+/* Text + email inputs */
+.anna-contact-page-form .nf-field-element input[type="text"],
+.anna-contact-page-form .nf-field-element input[type="email"] {
     width: 100% !important;
     padding: var(--space-3-5) var(--space-4) !important;
     border: 1.5px solid #e5e7eb !important;
@@ -360,21 +324,21 @@ a.anna-contact-page-info__value:hover {
         box-shadow var(--transition-fast) !important;
 }
 
-.anna-contact-page-form .wpforms-field input[type="text"]:focus,
-.anna-contact-page-form .wpforms-field input[type="email"]:focus {
+.anna-contact-page-form .nf-field-element input[type="text"]:focus,
+.anna-contact-page-form .nf-field-element input[type="email"]:focus {
     border-color: var(--color-primary) !important;
     box-shadow: 0 0 0 3px rgba(0, 112, 99, 0.12) !important;
     outline: none !important;
     background: #ffffff !important;
 }
 
-.anna-contact-page-form .wpforms-field input[type="text"]::placeholder,
-.anna-contact-page-form .wpforms-field input[type="email"]::placeholder {
+.anna-contact-page-form .nf-field-element input[type="text"]::placeholder,
+.anna-contact-page-form .nf-field-element input[type="email"]::placeholder {
     color: var(--color-text-light) !important;
 }
 
 /* Textarea */
-.anna-contact-page-form .wpforms-field textarea {
+.anna-contact-page-form .nf-field-element textarea {
     width: 100% !important;
     padding: var(--space-3-5) var(--space-4) !important;
     border: 1.5px solid #e5e7eb !important;
@@ -394,41 +358,40 @@ a.anna-contact-page-info__value:hover {
         box-shadow var(--transition-fast) !important;
 }
 
-.anna-contact-page-form .wpforms-field textarea:focus {
+.anna-contact-page-form .nf-field-element textarea:focus {
     border-color: var(--color-primary) !important;
     box-shadow: 0 0 0 3px rgba(0, 112, 99, 0.12) !important;
     outline: none !important;
     background: #ffffff !important;
 }
 
-.anna-contact-page-form .wpforms-field textarea::placeholder {
+.anna-contact-page-form .nf-field-element textarea::placeholder {
     color: var(--color-text-light) !important;
 }
 
-/* Hide the WPForms honeypot fields completely */
-.anna-contact-page-form .altEmail_container,
-.anna-contact-page-form .wpa_hidden_field,
-.anna-contact-page-form .wpforms-field[style*="position: absolute"] {
-    display: none !important;
-    visibility: hidden !important;
+/* Error state on inputs */
+.anna-contact-page-form .nf-fail input,
+.anna-contact-page-form .nf-fail textarea,
+.anna-contact-page-form .nf-error input,
+.anna-contact-page-form .nf-error textarea {
+    border-color: #fca5a5 !important;
+    box-shadow: 0 0 0 3px rgba(252, 165, 165, 0.2) !important;
 }
 
-/* Validation error messages */
-.anna-contact-page-form .wpforms-error {
+/* Per-field error messages */
+.anna-contact-page-form .nf-error-msg {
     font-size: var(--text-xs) !important;
     color: #991b1b !important;
     margin-top: var(--space-1) !important;
     display: block !important;
 }
 
-.anna-contact-page-form .wpforms-field input.wpforms-error,
-.anna-contact-page-form .wpforms-field textarea.wpforms-error {
-    border-color: #fca5a5 !important;
-    box-shadow: 0 0 0 3px rgba(252, 165, 165, 0.2) !important;
+.anna-contact-page-form .nf-error-wrap {
+    min-height: 0 !important;
 }
 
-.anna-contact-page-form .wpforms-error-container,
-.anna-contact-page-form .wpforms-error-container-anchor {
+/* Form-level error summary */
+.anna-contact-page-form .nf-form-errors {
     background: #fef2f2 !important;
     border: 1px solid #fca5a5 !important;
     border-radius: var(--radius-sm) !important;
@@ -438,14 +401,17 @@ a.anna-contact-page-info__value:hover {
     font-size: var(--text-sm) !important;
 }
 
-/* Submit container */
-.anna-contact-page-form .wpforms-submit-container {
-    margin-top: var(--space-5) !important;
-    padding: 0 !important;
+.anna-contact-page-form .nf-form-errors:empty {
+    display: none !important;
+}
+
+/* Submit field spacing */
+.anna-contact-page-form .submit-container {
+    margin-top: var(--space-2) !important;
 }
 
 /* Submit button */
-.anna-contact-page-form .wpforms-submit {
+.anna-contact-page-form .nf-field-element input[type="submit"] {
     display: block !important;
     width: 100% !important;
     padding: var(--space-4) var(--space-8) !important;
@@ -459,29 +425,34 @@ a.anna-contact-page-info__value:hover {
     letter-spacing: 0.02em !important;
     cursor: pointer !important;
     text-align: center !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
     transition: background var(--transition-fast) !important;
 }
 
-.anna-contact-page-form .wpforms-submit:hover {
+.anna-contact-page-form .nf-field-element input[type="submit"]:hover {
     background: var(--color-primary-dark) !important;
 }
 
-.anna-contact-page-form .wpforms-submit:disabled,
-.anna-contact-page-form .wpforms-submit[disabled] {
+.anna-contact-page-form .nf-field-element input[type="submit"]:disabled,
+.anna-contact-page-form .nf-field-element input[type="submit"][aria-disabled="true"] {
     opacity: 0.7 !important;
     cursor: not-allowed !important;
 }
 
-/* Spinner */
-.anna-contact-page-form .wpforms-submit-spinner {
-    display: none;
-    vertical-align: middle;
-    margin-left: var(--space-2);
+/* Hide honeypot + spam fields */
+.anna-contact-page-form .nf-form-hp,
+.anna-contact-page-form .altEmail_container,
+.anna-contact-page-form .wpa_hidden_field,
+.anna-contact-page-form .wpa-test-msg {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
 }
 
-/* Confirmation message */
-.anna-contact-page-form .wpforms-confirmation-container,
-.anna-contact-page-form .wpforms-confirmation-container-full {
+/* Response / confirmation message */
+.anna-contact-page-form .nf-response-msg {
     padding: var(--space-5) var(--space-6) !important;
     background: #ecfdf5 !important;
     border: 1px solid #6ee7b7 !important;
@@ -489,6 +460,13 @@ a.anna-contact-page-info__value:hover {
     color: #065f46 !important;
     font-size: var(--text-sm) !important;
     font-weight: var(--font-weight-medium) !important;
+}
+
+.anna-contact-page-form .nf-response-msg:empty {
+    display: none !important;
+    padding: 0 !important;
+    border: none !important;
+    background: none !important;
 }
 
 /* ── Responsive ──────────────────────────────────────────────────────────── */
