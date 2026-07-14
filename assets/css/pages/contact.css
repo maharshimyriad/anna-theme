@@ -394,9 +394,10 @@ a.anna-contact-page-info__value:hover {
 .anna-contact-page-form .nf-error-msg.nf-error-field-errors {
     background: #fef2f2 !important;
     border-radius: var(--radius-sm) !important;
+    padding: var(--space-4) var(--space-5) !important;
+    margin-bottom: var(--space-6) !important;
     color: #991b1b !important;
     font-size: var(--text-sm) !important;
-    padding: 10px;
 }
 
 .anna-contact-page-form .nf-form-errors:empty {
