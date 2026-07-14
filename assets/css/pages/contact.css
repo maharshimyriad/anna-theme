@@ -216,7 +216,7 @@ a.anna-contact-page-info__value:hover {
 }
 
 .anna-contact-page-form__heading {
-    margin: 0 0 var(--space-8);
+    margin: 0 0 var(--space-2-5);
     color: var(--color-primary);
     font-family: var(--font-heading);
     font-size: clamp(1.35rem, 2vw, 1.65rem);
