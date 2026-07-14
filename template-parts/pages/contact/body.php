@@ -19,7 +19,7 @@ $email = $contact["info_email"] ?? anna_get_option("contact_email", "info@annaba
 $phone = $contact["info_phone"] ?? anna_get_option("contact_phone", "");
 $address = $contact["info_address"] ?? anna_get_option("contact_address", "");
 $hours = $contact["info_hours"] ?? anna_get_option("contact_hours", "");
-$form_shortcode = trim((string) ($contact["form_shortcode"] ?? '[gravityform id="2" title="false"]'));
+$form_shortcode = trim((string) ($contact["form_shortcode"] ?? '[wpforms id="6668"]'));
 ?>
 
 <section class="anna-contact-page-body">
